@@ -14,6 +14,5 @@ export function getUserInfo(params) {
   return Vue.prototype.axios.get("/api/Common/GetBaseUserInfo", { params });
 }
 export function saveInfo(params, data) {
-  console.log(data);
   return Vue.prototype.axios.post("/api/Comment/SaveHardSolution?" + qs.stringify(params), data);
 }

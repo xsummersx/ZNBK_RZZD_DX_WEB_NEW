@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-11-24 09:50:11
- * @LastEditTime: 2021-11-29 15:00:18
+ * @LastEditTime: 2021-11-29 15:16:39
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\main.js
@@ -22,6 +22,8 @@ import $ from "jquery";
 Vue.prototype.$ = $;
 Vue.prototype.$global_Ops = global_Ops; //滚动条
 Vue.config.productionTip = false;
+//token失效后基础平台地址=>>error页面
+Vue.prototype.$baseUrl = "http://172.16.41.237";
 //tab标签页名字
 Vue.directive("title", {
   inserted: function (el) {
