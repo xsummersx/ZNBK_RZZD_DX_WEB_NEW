@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-11-24 09:50:11
- * @LastEditTime: 2021-11-29 10:16:34
+ * @LastEditTime: 2021-11-29 15:00:18
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\main.js
@@ -13,9 +13,14 @@ import store from "./store";
 //按需引入element.JS
 import "./utils/element.js";
 import "element-ui/lib/theme-chalk/index.css";
+//滚动条样式
+import global_Ops from "./utils/scrollops";
 //引入Http请求
 import "./utils/request.js";
-
+//引入JQ，因为知识点课件的启动需要用到
+import $ from "jquery";
+Vue.prototype.$ = $;
+Vue.prototype.$global_Ops = global_Ops; //滚动条
 Vue.config.productionTip = false;
 //tab标签页名字
 Vue.directive("title", {

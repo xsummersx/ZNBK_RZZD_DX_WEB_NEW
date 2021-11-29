@@ -1,0 +1,51 @@
+// 公共的按钮颜色
+@mixin orangeLinear {
+  background-image: linear-gradient(90deg, #eb5300 0%, #f27800 100%);
+}
+
+@mixin orangeLinearHover {
+  background-image: linear-gradient(90deg, #eb5800 0%, #f29400 100%);
+}
+
+@mixin orangeLinearClick {
+  background-image: linear-gradient(90deg, #eb6300 0%, #f29f00 100%);
+}
+@mixin orangeShadow {
+  box-shadow: 0px 4px 8px 0px rgba(235, 83, 0, 0.4);
+}
+@mixin blueLinear {
+  background-image: linear-gradient(90deg, #0d6cfb 0%, #00baff 100%);
+}
+
+@mixin blueLinearHover {
+  background-image: linear-gradient(90deg, #0d7dfb 0%, #00baff 100%);
+}
+
+@mixin blueLinearClick {
+  background-image: linear-gradient(90deg, #008bed 0%, #00c0e9 100%);
+}
+@mixin blueShadow {
+  box-shadow: 0px 4px 8px 0px rgba(13, 108, 251, 0.4);
+}
+@mixin grayLinear {
+  background-image: linear-gradient(-90deg, #cccccc 0%, #aaaaaa 100%);
+}
+@mixin greenLinear {
+  background-image: linear-gradient(-90deg, #31be2d 0%, #10a10d 100%);
+}
+@mixin greenLinearHover {
+  background-image: linear-gradient(-90deg, #26b723 0%, #038e00 100%);
+}
+@mixin greenLinearActive {
+  background-image: linear-gradient(-90deg, #04ad00 0%, #038500 100%);
+}
+@mixin orange {
+  color: #ff6600;
+}
+
+@mixin blue {
+  color: #009cff;
+}
+@mixin gray333 {
+  color: #333;
+}

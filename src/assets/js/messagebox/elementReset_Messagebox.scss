@@ -163,7 +163,7 @@
   color: #05c9f4;
   box-shadow: 0 5px 10px rgba(15, 193, 252, 0.3);
   float: right;
-  margin-left: 10px;
+  margin-right: 13px;
 }
 .el-message-box__btns > .el-button--default:hover {
   border: #2bbaff 1px solid;
@@ -199,3 +199,61 @@
   color: #fff;
 }
 //==========弹框部分的样式重置==========//
+//大弹框的样式
+.MessageBig {
+  height: 210px !important;
+}
+.MessageBig .el-message-box__header {
+  padding-top: 42px;
+}
+.MessageBig .el-message-box__container .el-message-box__message {
+  //中图标文字间距问题
+  padding-left: 0px;
+}
+.MessageBig .el-message-box__title {
+  display: block;
+  text-align: center;
+}
+.MessageBig .el-message-box__title span {
+  display: block;
+  width: 100%;
+  font-size: 18px;
+  color: "#333";
+  margin-top: 12px;
+}
+//图标
+.MessageBig .el-message-box__status.el-icon-error {
+  //中等打叉图标
+  width: 54px;
+  height: 49px;
+  margin-top: 3px;
+  background: url(./errorBig.png) no-repeat center center;
+}
+.MessageBig .el-message-box__status.el-icon-success {
+  //中等打钩图标
+  width: 54px;
+  height: 49px;
+  margin-top: 3px;
+  background: url(./greenBig.png) no-repeat center center;
+}
+.MessageBig .el-message-box__status.el-icon-info {
+  //中等问号图标
+  width: 54px;
+  height: 49px;
+  margin-top: 3px;
+  background: url(./orangeBig.png) no-repeat center center;
+}
+.MessageBig .el-message-box__status.el-icon-warning {
+  //中等叹号图标
+  width: 54px;
+  height: 49px;
+  margin-top: 3px;
+  background: url(./blueBig.png) no-repeat center center;
+}
+.MessageBig .el-message-box__content {
+  padding: 0px 15px 12px 15px !important;
+}
+.MessageBig .el-message-box__container .el-message-box__message p {
+  font-size: 14px !important;
+  color: #999;
+}

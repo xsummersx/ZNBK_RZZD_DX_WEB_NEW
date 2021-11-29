@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-11-24 09:50:11
- * @LastEditTime: 2021-11-29 10:48:09
+ * @LastEditTime: 2021-11-29 15:03:48
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\router\index.js
@@ -11,11 +11,23 @@ import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
 const routes = [
+  /*=====测试使用======*/
   {
     path: "/test",
     name: "test",
-    component: () => import("../views/test.vue"),
+    component: () => import("../views/test/test.vue"),
   },
+  {
+    path: "/Dialog",
+    name: "Dialog",
+    component: () => import("../views/test/Dialog.vue"),
+  },
+  {
+    path: "/Messagebox",
+    name: "Messagebox",
+    component: () => import("../views/test/Messagebox.vue"),
+  },
+  /*=====测试使用======*/
   {
     path: "/home",
     name: "home",

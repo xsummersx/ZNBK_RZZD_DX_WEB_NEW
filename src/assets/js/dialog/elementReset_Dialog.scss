@@ -1,0 +1,126 @@
+//==========弹窗部分的样式重置==========//
+.el-dialog {
+  display: flex;
+  flex-direction: column;
+  margin: 0 !important;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /*height:600px;*/
+  max-height: calc(100% - 30px);
+  max-width: calc(100% - 30px);
+}
+
+.el-dialog .el-dialog__body {
+  padding: 0;
+  flex: 1;
+  overflow: auto;
+}
+//重写头部为蓝色
+.el-dialog__header {
+  padding-top: 10px;
+  background: -webkit-linear-gradient(left, #003cbd, #0085ff);
+  background: -o-linear-gradient(right, #003cbd, #0085ff);
+  background: -moz-linear-gradient(right, #003cbd, #0085ff);
+  /* Firefox 3.6 - 15 */
+  background: linear-gradient(to right, #003cbd, #0085ff);
+  // filter: progid: DXImageTransform.Microsoft.Gradient(gradientType=0, startColorStr=#00a1ff, endColorStr=#05e4f8);
+  /*IE 6 7 8*/
+}
+
+.el-dialog__title {
+  font-size: 16px;
+  color: #fff;
+}
+
+//弹框的关闭按钮
+.el-dialog__headerbtn {
+  top: 10px;
+  right: 10px;
+}
+.el-dialog__headerbtn .el-dialog__close {
+  color: #fff;
+  opacity: 0.7;
+  font-size: 22px !important;
+}
+
+.el-dialog__headerbtn:hover .el-dialog__close {
+  opacity: 1;
+  color: #fff;
+  animation: rotateCss 0.2s linear;
+  -webkit-animation: rotateCss 0.2s linear;
+}
+//关闭按钮动画效果
+@keyframes rotateCss {
+  from {
+    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+  }
+}
+.diaBottom {
+  width: 720px;
+  height: 60px;
+  background: #e0f2ff;
+  //取消按钮
+  .diaBtnCancal {
+    float: right;
+    margin-right: 12px;
+    margin-top: 12px;
+    width: 72px;
+    height: 32px;
+    line-height: 32px;
+    border-radius: 16px;
+    text-align: center;
+    cursor: pointer;
+    color: #51b7fa;
+    @include blueShadow;
+    border: solid 1px #64baf7;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    -ms-border-radius: 16px;
+    -o-border-radius: 16px;
+    background: #fff;
+  }
+  .diaBtnCancal:hover {
+    background: #eaf7ff;
+  }
+  .diaBtnCancal:active {
+    background: #d9f0ff;
+  }
+  //确定按钮
+  .diaBtn {
+    float: right;
+    margin-right: 12px;
+    margin-top: 12px;
+    width: 74px;
+    height: 34px;
+    line-height: 34px;
+    border-radius: 17px;
+    cursor: pointer;
+    text-align: center;
+    color: #fff;
+    @include blueLinear;
+    @include blueShadow;
+    -webkit-border-radius: 17px;
+    -moz-border-radius: 17px;
+    -ms-border-radius: 17px;
+    -o-border-radius: 17px;
+  }
+  .diaBtn:hover {
+    @include blueLinearHover;
+  }
+  .diaBtn:active {
+    @include blueLinearClick;
+  }
+}
