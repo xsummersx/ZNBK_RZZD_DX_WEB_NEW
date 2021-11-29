@@ -1,29 +1,55 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-
-Vue.use(VueRouter)
+/*
+ * @Author: your name
+ * @Date: 2021-11-24 09:50:11
+ * @LastEditTime: 2021-11-29 10:48:09
+ * @LastEditors: Please set LastEditors
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @FilePath: \znbk_rzzd_zx_web_new\src\router\index.js
+ */
+import Vue from "vue";
+import VueRouter from "vue-router";
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
+    path: "/test",
+    name: "test",
+    component: () => import("../views/test.vue"),
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
-]
+    path: "/home",
+    name: "home",
+    component: () => import("../views/home.vue"), //教育局RZZD
+    meta: { title: "大数据认知质量评估" },
+    children: [
+      {
+        path: "/home/SchoolRZZD",
+        name: "SchoolRZZD",
+        component: () => import("../views/educationRZZD.vue"), //教育局领导
+      },
+      {
+        path: "/home/SchoolRZZD",
+        name: "SchoolRZZD",
+        component: () => import("../views/schoolRZZD.vue"), //学校校领导
+      },
+      {
+        path: "/home/SchoolRZZD",
+        name: "SchoolRZZD",
+        component: () => import("../views/gradeRZZD.vue"), //年级组长
+      },
+      {
+        path: "/home/SchoolRZZD",
+        name: "SchoolRZZD",
+        component: () => import("../views/teacherRZZD.vue"), //学校校领导
+      },
+    ],
+  },
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "hash",
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;

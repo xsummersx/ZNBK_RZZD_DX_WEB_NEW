@@ -1,0 +1,201 @@
+//==========弹框部分的样式重置==========//
+//询问的弹框头部关闭按钮
+.el-message-box {
+  width: 400px !important;
+  height: 180px !important;
+  border: none;
+  border-radius: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+}
+.el-message-box__headerbtn {
+  top: 10px;
+  right: 10px;
+}
+.el-message-box__headerbtn .el-message-box__close {
+  opacity: 0.7;
+  font-size: 22px !important;
+}
+.el-message-box__headerbtn:hover .el-message-box__close {
+  opacity: 1;
+  animation: rotateCss 0.2s linear;
+  -webkit-animation: rotateCss 0.2s linear;
+}
+//关闭按钮的动画
+@keyframes rotateCss {
+  from {
+    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+  }
+}
+//询问的弹框
+.el-message {
+  top: 45% !important;
+  min-width: 200px;
+  padding: 12px 15px 12px 5px;
+  background: #fff;
+  border: none;
+  box-shadow: 0px 0px 16px 0px rgba(3, 0, 0, 0.16);
+  border-radius: 0px;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  -ms-border-radius: 0px;
+  -o-border-radius: 0px;
+  display: flex;
+  justify-content: center;
+}
+
+.el-message__content {
+  font-size: 14px;
+  color: #333 !important;
+}
+//弹框的四个图标
+.el-message__icon {
+  margin-right: 5px !important;
+}
+.el-icon-error:before,
+.el-icon-success:before,
+.el-icon-info:before,
+.el-icon-warning:before {
+  //去掉文字图标
+  content: "";
+}
+.el-message .el-icon-error {
+  //小的打叉图标
+  width: 40px;
+  height: 35px;
+  margin-top: 4px;
+  background: url(./errorSmall.png) no-repeat center center;
+}
+.el-message-box__container .el-icon-error {
+  //中等打叉图标
+  width: 46px;
+  height: 41px;
+  margin-top: 3px;
+  background: url(./errorMiddle.png) no-repeat center center;
+}
+
+.el-message .el-icon-success {
+  //小的打钩图标
+  width: 40px;
+  height: 35px;
+  margin-top: 4px;
+  background: url(./greenSmall.png) no-repeat center center;
+}
+.el-message-box__container .el-icon-success {
+  //中等打钩图标
+  width: 46px;
+  height: 41px;
+  margin-top: 3px;
+  background: url(./greenMiddle.png) no-repeat center center;
+}
+.el-message-box__container .el-icon-info {
+  //中等问号图标
+  width: 46px;
+  height: 41px;
+  margin-top: 3px;
+  background: url(./orangeMiddle.png) no-repeat center center;
+}
+.el-message .el-icon-warning {
+  //小的叹号图标
+  width: 40px;
+  height: 35px;
+  margin-top: 4px;
+  background: url(./blueSmall.png) no-repeat center center;
+}
+.el-message-box__container .el-icon-warning {
+  //中等叹号图标
+  width: 46px;
+  height: 41px;
+  margin-top: 3px;
+  background: url(./blueMiddle.png) no-repeat center center;
+}
+.el-message-box__container .el-message-box__message {
+  //中图标文字间距问题
+  padding-left: 46px;
+}
+.el-message-box__container .el-message-box__message p {
+  font-size: 16px !important;
+}
+.el-message-box__content {
+  padding: 32px 15px !important;
+  text-align: center;
+}
+.el-message-box__content {
+  .el-message-box__container {
+    .el-message-box__message {
+      display: inline-block;
+    }
+  }
+}
+
+//弹框的按钮设置
+.el-message-box__btns {
+  margin-bottom: 10px;
+  text-align: center;
+  padding-top: 10px;
+  width: 256px;
+  margin: 0 auto;
+}
+//取消按钮的样式
+.el-message-box__btns > .el-button--default {
+  width: 108px;
+  height: 32px;
+  border: #05c9f4 1px solid;
+  border-radius: 16px;
+  -webkit-border-radius: 16px;
+  -moz-border-radius: 16px;
+  -ms-border-radius: 16px;
+  -o-border-radius: 16px;
+  background: #fff;
+  color: #05c9f4;
+  box-shadow: 0 5px 10px rgba(15, 193, 252, 0.3);
+  float: right;
+  margin-left: 10px;
+}
+.el-message-box__btns > .el-button--default:hover {
+  border: #2bbaff 1px solid;
+  color: #2bbaff;
+  background: #f1faff;
+}
+.el-button--text {
+  color: #15b4f7;
+}
+.el-date-editor .el-range__close-icon {
+  line-height: 26px !important;
+}
+//确定按钮的样式
+.el-button--primary {
+  background: -webkit-linear-gradient(left, #0fc1fc, #1da4fe) !important;
+  background: -o-linear-gradient(right, #0fc1fc, #1da4fe) !important;
+  background: -moz-linear-gradient(right, #0fc1fc, #1da4fe) !important;
+  background: linear-gradient(to right, #0fc1fc, #1da4fe) !important;
+  border: none !important;
+  border-radius: 17px !important;
+  padding: 10px 20px !important;
+  margin-left: 0px !important;
+}
+
+.el-button--primary:hover {
+  background: -webkit-linear-gradient(left, #32ccff, #3ab0ff) !important;
+  background: -o-linear-gradient(right, #32ccff, #3ab0ff) !important;
+  background: -moz-linear-gradient(right, #32ccff, #3ab0ff) !important;
+  background: linear-gradient(to right, #32ccff, #3ab0ff) !important;
+  border: none !important;
+}
+.el-button--primary span {
+  color: #fff;
+}
+//==========弹框部分的样式重置==========//
