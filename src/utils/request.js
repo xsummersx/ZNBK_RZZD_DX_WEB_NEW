@@ -12,6 +12,7 @@ import Vue from "vue";
 //elementUI自定义样式
 import "./../assets/js/messagebox/elementReset_Messagebox.scss";
 const Axios = axios.create({
+  baseURL: process.env.VUE_APP_BASE_API,
   timeout: 1000 * 60 * 5, //超时时间5分钟
 });
 Vue.prototype.axios = Axios;
