@@ -20,7 +20,7 @@ export default {
     };
   },
   created() {
-      //请求getUserInfo
+    //请求getUserInfo
   },
 };
 </script>
