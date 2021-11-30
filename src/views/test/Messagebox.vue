@@ -1,10 +1,10 @@
 <!--
- * @Author: your name
+ * @Author: 吴涛
  * @Date: 2021-08-09 15:25:56
- * @LastEditTime: 2021-09-27 15:16:45
+ * @LastEditTime: 2021-11-30 13:58:50
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
- * @FilePath: \lancooui\src\components\HelloWorld.vue
+ * @FilePath: 测试文件，提示语例子
 -->
 <template>
   <div>

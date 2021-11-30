@@ -1,0 +1,135 @@
+body,
+button,
+dd,
+dl,
+dt,
+fieldset,
+form,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+input,
+legend,
+li,
+ol,
+p,
+pre,
+td,
+textarea,
+th,
+ul {
+  margin: 0;
+  padding: 0;
+}
+body,
+form,
+li,
+p,
+ul {
+  list-style: none;
+}
+body,
+button,
+input,
+select,
+textarea {
+  font-size: 14px;
+  color: #fff;
+  font-family: "Microsoft YaHei", "PingFang SC", arial, "Hiragino Sans GB", "Hiragino Sans GB W3";
+}
+div,
+input,
+li,
+ul {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  -webkit-box-sizing: border-box;
+  /* Safari */
+  outline: none;
+}
+button {
+  border: 0 transparent;
+  outline: none;
+  cursor: pointer;
+}
+
+.float-l {
+  float: left;
+}
+
+.float-r {
+  float: right;
+}
+
+.clearfix:after {
+  /*伪元素是行内元素 正常浏览器清除浮动方法*/
+  content: "";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+.clearfix {
+  *zoom: 1;
+  /*ie6清除浮动的方式 *号只有IE6-IE7执行，其他浏览器不执行*/
+}
+input {
+  font-size: 14px;
+}
+input::-webkit-input-placeholder {
+  color: #eee;
+}
+
+input:-moz-placeholder {
+  color: #eee;
+}
+
+input::-moz-placeholder {
+  color: #eee;
+}
+
+input:-ms-input-placeholder {
+  color: #eee;
+}
+
+input::-webkit-input-placeholder:focus {
+  color: #fff;
+}
+
+input:-moz-placeholder:focus {
+  color: #fff;
+}
+
+input::-moz-placeholder:focus {
+  color: #fff;
+}
+
+input:-ms-input-placeholder:focus {
+  color: #fff;
+}
+input:hover {
+  color: #fff;
+  background-color: rba(229, 238, 247, 0.15);
+}
+input:focus {
+  color: #fff;
+  background-color: rba(229, 238, 247, 0.15);
+}
+@font-face {
+  font-family: "Oswald";
+  src: url("../font/Oswald.eot");
+  src: url("../font/Oswald.eot?#iefix") format("embedded-opentype"), url("../font/Oswald.woff") format("woff"), url("../font/Oswald.ttf") format("truetype"),
+    url("../font/Oswald.svg#NeuesBauenDemo") format("svg");
+}
+@font-face {
+  font-family: "blankFont";
+  src: url("../font/blank.eot");
+  src: url("../font/blank.eot?#iefix") format("embedded-opentype"), url("../font/blank.woff") format("woff"), url("../font/blank.ttf") format("truetype"),
+    url("../font/blank.svg#NeuesBauenDemo") format("svg");
+}

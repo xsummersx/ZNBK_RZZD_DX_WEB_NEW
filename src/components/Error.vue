@@ -1,8 +1,8 @@
 <!--
- * @Description: 错误界面
- * @Author: 姚泽毅
+ * @Description: 错误界面，所有登录失效都要跳转到该页面，在拦截器那边已做好路由跳转
+ * @Author: 吴涛 负责
  * @Date: 2021-09-05 11:11:29
- * @LastEditTime: 2021-09-22 21:02:59
+ * @LastEditTime: 2021-11-30 13:55:43
 -->
 <template>
   <div class="error">

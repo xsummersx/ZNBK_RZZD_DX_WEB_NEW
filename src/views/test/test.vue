@@ -1,16 +1,16 @@
 <!--
- * @Author: 柳欢
+ * @Author: 吴涛
  * @Date: 2021-07-30 14:36:43
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-11-29 14:56:38
- * @Description: 
+ * @LastEditTime: 2021-11-30 13:59:10
+ * @Description: 测试文件，调用接口例子 
 -->
 <template>
   <div></div>
 </template>
 <script>
-import { getUserInfo } from "./../../api/head/getUserInfo.js";
-import { saveInfo } from "./../../api/head/getUserInfo.js";
+import { getUserInfo } from "./../../api/head/test.js";
+import { saveInfo } from "./../../api/head/test.js";
 export default {
   data() {
     return {};

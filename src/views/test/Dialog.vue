@@ -1,10 +1,10 @@
 <!--
- * @Author: your name
+ * @Author: 吴涛
  * @Date: 2021-08-09 16:11:24
- * @LastEditTime: 2021-11-29 15:11:23
+ * @LastEditTime: 2021-11-30 13:58:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
- * @FilePath: \lancooui\src\components\Dialog.vue
+ * @FilePath: 测试文件，弹窗例子
 -->
 <template>
   <div>
