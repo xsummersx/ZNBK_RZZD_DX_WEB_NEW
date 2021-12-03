@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-08-09 16:11:24
- * @LastEditTime: 2021-11-30 13:58:41
+ * @LastEditTime: 2021-12-03 11:55:13
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: 测试文件，弹窗例子
@@ -11,10 +11,10 @@
     <el-button type="text" @click="dialogVisible = true">点击打开弹窗</el-button>
     <el-dialog title="添加疑难知识点" :visible.sync="dialogVisible" :close-on-click-modal="false" width="720px" top="0vh">
       <div>
-        <div>此处为内容</div>
+        <div style="height: 400px">此处为内容</div>
         <div class="diaBottom">
-          <div class="diaBtn">确定</div>
           <div class="diaBtnCancal">取消</div>
+          <div class="diaBtn">确定</div>
         </div>
       </div>
     </el-dialog>
