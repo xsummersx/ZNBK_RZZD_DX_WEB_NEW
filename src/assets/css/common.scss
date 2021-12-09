@@ -1,0 +1,52 @@
+.right-small-box {
+	display: inline-block;
+	width: 620px;
+	height: 260px;
+	background-color: rgba(255, 255, 255, 0.05);
+	border-radius: 4px;
+	margin-top: 30px;
+	padding: 18px 20px 0 30px;
+}
+.box-title {
+	.title {
+		font-size: 16px;
+		color: #ffffff;
+		font-weight: bold;
+	}
+	.title::before {
+		content: "";
+		display: inline-block;
+		width: 6px;
+		height: 6px;
+		margin-right: 4px;
+		background-color: #ffffff;
+		position: relative;
+		top: -3px;
+		border-radius: 100%;
+		-webkit-border-radius: 100%;
+		-moz-border-radius: 100%;
+		-ms-border-radius: 100%;
+		-o-border-radius: 100%;
+	}
+	.check-icon {
+		cursor: pointer;
+		font-size: 14px;
+		color: rgba(255, 255, 255, 0.8);
+		i {
+			display: inline-block;
+			width: 17px;
+			height: 18px;
+			margin-right: 4px;
+			vertical-align: middle;
+			background: url("../img/teacher/查看_默认.png") center center no-repeat;
+		}
+	}
+	.check-icon:hover {
+		color: rgb(255, 255, 255);
+		i {
+			width: 17px;
+			height: 18px;
+			background: url("../img/teacher/查看_悬停.png") center center no-repeat;
+		}
+	}
+}

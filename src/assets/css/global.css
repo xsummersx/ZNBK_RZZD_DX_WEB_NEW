@@ -122,14 +122,26 @@ input:focus {
   background-color: rba(229, 238, 247, 0.15);
 }
 @font-face {
-  font-family: "Oswald";
-  src: url("../font/Oswald.eot");
-  src: url("../font/Oswald.eot?#iefix") format("embedded-opentype"), url("../font/Oswald.woff") format("woff"), url("../font/Oswald.ttf") format("truetype"),
-    url("../font/Oswald.svg#NeuesBauenDemo") format("svg");
+  font-family: "youshebiaotihei";
+  src: url("../Fonts/youshebiaotihei.eot");
+  src: url("../Fonts/youshebiaotihei.eot?#iefix") format("embedded-opentype"),
+    url("../Fonts/youshebiaotihei.woff") format("woff"), url("../Fonts/youshebiaotihei.ttf") format("truetype"),
+    url("../Fonts/youshebiaotihei.svg#NeuesBauenDemo") format("svg");
 }
 @font-face {
-  font-family: "blankFont";
-  src: url("../font/blank.eot");
-  src: url("../font/blank.eot?#iefix") format("embedded-opentype"), url("../font/blank.woff") format("woff"), url("../font/blank.ttf") format("truetype"),
-    url("../font/blank.svg#NeuesBauenDemo") format("svg");
+  font-family: "Oswald";
+  src: url("../Fonts/Oswald.eot");
+  src: url("../Fonts/Oswald.eot?#iefix") format("embedded-opentype"), url("../Fonts/Oswald.woff") format("woff"),
+    url("../Fonts/Oswald.ttf") format("truetype"), url("../Fonts/Oswald.svg#NeuesBauenDemo") format("svg");
+}
+@font-face {
+  font-family: "ArialMT";
+  src: url("../Fonts/Arial_1.ttf") format("truetype");
+}
+@font-face {
+  font-family: "numberFont";
+  src: url("../Fonts/youshebiaotihei.eot");
+  src: url("../Fonts/youshebiaotihei.eot?#iefix") format("embedded-opentype"),
+    url("../Fonts/youshebiaotihei.woff") format("woff"), url("../Fonts/youshebiaotihei.ttf") format("truetype"),
+    url("../Fonts/youshebiaotihei.svg#NeuesBauenDemo") format("svg");
 }
