@@ -1,7 +1,7 @@
 /*
  * @Author: 共同负责
  * @Date: 2021-11-24 09:50:11
- * @LastEditTime: 2021-11-30 13:56:20
+ * @LastEditTime: 2021-12-01 09:15:39
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 路由
@@ -41,7 +41,7 @@ const routes = [
     meta: { title: "大数据认知质量评估" },
     children: [
       {
-        path: "/home/SchoolRZZD",
+        path: "/home/educationRZZD",
         name: "SchoolRZZD",
         component: () => import("../views/educationRZZD.vue"), //教育局领导
       },
@@ -51,12 +51,12 @@ const routes = [
         component: () => import("../views/schoolRZZD.vue"), //学校校领导
       },
       {
-        path: "/home/SchoolRZZD",
+        path: "/home/gradeRZZD",
         name: "SchoolRZZD",
         component: () => import("../views/gradeRZZD.vue"), //年级组长
       },
       {
-        path: "/home/SchoolRZZD",
+        path: "/home/teacherRZZD",
         name: "SchoolRZZD",
         component: () => import("../views/teacherRZZD.vue"), //学校校领导
       },
