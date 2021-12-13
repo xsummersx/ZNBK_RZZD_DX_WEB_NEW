@@ -17,7 +17,7 @@
         width: 630px;
         .ZsdAreaBox {
           position: absolute;
-          top: 86px;
+          top: 80px;
           left: 80px;
           span {
             color: #fffc00;
@@ -280,6 +280,13 @@
             vertical-align: middle;
             display: none;
           }
+        }
+        .markWord{
+          width: 12px;
+	        height: 12px;
+          display: inline-block;
+          background: url(../img/head/分辨率提示.png) center center no-repeat;
+
         }
       }
     }

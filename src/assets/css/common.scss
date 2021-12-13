@@ -50,3 +50,88 @@
 		}
 	}
 }
+.grayBox {
+	color: rgba(153, 155, 160, 0.8);
+	background-image: Radial-gradient(
+		rgba(153, 155, 160, 0.2) 0%,
+		rgba(153, 155, 160, 0.2) 50%,
+		rgba(153, 155, 160, 0.9) 100%
+	);
+}
+.redBox {
+	color: #ff8080;
+	background-image: Radial-gradient(
+		rgba(251, 131, 131, 0.2) 0%,
+		rgba(251, 131, 131, 0.2) 50%,
+		rgba(251, 131, 131, 0.9) 100%
+	);
+}
+.greenBox {
+	color: #60ff60;
+	background-image: Radial-gradient(rgba(2, 102, 0, 0.2) 0%, rgba(2, 102, 0, 0.2) 50%, rgba(2, 102, 0, 0.9) 100%);
+}
+.blueBox {
+	color: #00c6ff;
+	background-image: Radial-gradient(
+		rgba(12, 92, 238, 0.2) 0%,
+		rgba(12, 92, 238, 0.2) 50%,
+		rgba(12, 92, 238, 0.9) 100%
+	);
+}
+
+.stuInput {
+	width: 240px;
+	height: 28px;
+	background-color: rgba(229, 238, 247, 0.15);
+	border-radius: 2px;
+	padding: 8px 47px 8px 11px;
+	border: transparent;
+	color: #6994f0;
+}
+.searchIcon {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	background: url("../img/common/searchIcon.png") center center no-repeat;
+	position: absolute;
+	right: 200px;
+	top: 7px;
+	cursor: pointer;
+}
+.searchIcon:hover {
+	background: url("../img/common/searchIcon_h.png") center center no-repeat;
+}
+.splitLine {
+	display: inline-block;
+	width: 1px;
+	height: 26px;
+	background-image: linear-gradient(0deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0.3) 100%);
+	opacity: 0.3;
+	margin: 0 12px;
+}
+
+.exportScore {
+	width: 110px;
+	height: 28px;
+    background: url("../../assets/img/grade/btn.png") -0px -28px no-repeat;
+	border-radius: 4px;
+	text-align: center;
+	line-height: 28px;
+	cursor: pointer;
+	margin-right: 56px;
+	font-size: 14px;
+	.exportIcon {
+	  display: inline-block;
+	  width: 14px;
+	  height: 14px;
+	background: url("../img/common/exportIcon.png") center center no-repeat;
+	  position: relative;
+	  top: 2px;
+	}
+  }
+  .exportScore:hover{
+    background: url("../../assets/img/grade/btn.png") -0px -56px no-repeat;
+  }
+  .exportScore:active{
+    background: url("../../assets/img/grade/btn.png") -0px -0px no-repeat;
+  }

@@ -1,7 +1,7 @@
 <!--
  * @Author: 主页面
  * @Date: 2021-11-29 09:20:26
- * @LastEditTime: 2021-12-09 10:15:57
+ * @LastEditTime: 2021-12-10 11:36:55
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 主页面，柳欢
@@ -90,6 +90,9 @@
                 </div></span
               >
             </div>
+            <div class="ZsdAreaBox">
+              <i></i>最佳分辨率 1920 * 1080; 按F11键可全屏
+            </div>
           </div>
         </div>
         <router-view v-if="openView"></router-view>
@@ -109,9 +112,9 @@ export default {
       openView: true, //是否开启主页面内容
       UserInfo: {},
       resInfo: {},
-      classContShow:false,
+      classContShow: false,
 
-      className:""
+      className: "",
     };
   },
   created() {
@@ -137,3 +140,25 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.rightHead {
+  position: relative;
+  .ZsdAreaBox {
+    line-height: 20px;
+    position: absolute;
+    top: 80px;
+    right: 60px;
+    width: 280px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    i {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      background: url("../assets/img/head/分辨率提示.png") center center
+        no-repeat;
+        margin-right: 5px;
+    }
+  }
+}
+</style>
