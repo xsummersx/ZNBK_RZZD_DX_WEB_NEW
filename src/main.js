@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-11-24 09:50:11
- * @LastEditTime: 2021-12-09 10:41:13
+ * @LastEditTime: 2021-12-10 16:05:40
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\main.js
@@ -13,6 +13,8 @@ import store from "./store";
 import "../src/assets/css/home.scss";
 import "../src/assets/css/global.css";
 import "../src/assets/css/common.scss";
+import "../src/assets/css/elementReset.css";
+import optionObj from "./assets/js/ChartsOption/chartsOption";
 //按需引入element.JS
 import "./utils/element.js";
 import "element-ui/lib/theme-chalk/index.css";
@@ -25,6 +27,7 @@ import $ from "jquery";
 Vue.prototype.$ = $;
 Vue.prototype.$global_Ops = global_Ops; //滚动条
 Vue.config.productionTip = false;
+Vue.prototype.$optionObj = optionObj;
 //token失效后基础平台地址=>>error页面
 Vue.prototype.$baseUrl = "http://172.16.41.237";
 //tab标签页名字

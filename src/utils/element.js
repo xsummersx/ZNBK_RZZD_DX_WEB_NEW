@@ -2,7 +2,7 @@
  * @Author: 吴涛
  * @Date: 2021-06-03 14:54:19
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-11-30 13:58:00
+ * @LastEditTime: 2021-12-10 15:42:52
  * @Description: 按需引入elementUI
  */
 import Vue from "vue";
@@ -11,6 +11,7 @@ import { Loading } from "element-ui";
 import { Drawer } from "element-ui";
 import { Pagination } from "element-ui";
 import { Table } from "element-ui";
+import { TableColumn } from 'element-ui'
 import { Select } from "element-ui";
 import { Option } from "element-ui";
 import { Input } from "element-ui";
@@ -30,6 +31,7 @@ Vue.use(Loading);
 Vue.use(Drawer);
 Vue.use(Pagination);
 Vue.use(Table);
+Vue.use(TableColumn)
 Vue.use(Select);
 Vue.use(Option);
 Vue.use(Input);
