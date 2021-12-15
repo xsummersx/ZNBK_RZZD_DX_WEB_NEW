@@ -11,42 +11,11 @@
     <span class="title">认知平均分</span>
     <div class="main" v-if="userType === 'edu'">
       <div class="left">
-        <div class="svg">
-          <svg viewBox="0 0 100 100">
-            <path
-              d="
-        M 50 50
-        m 0 47
-        a 47 47 0 1 1 0 -94
-        a 47 47 0 1 1 0 94
-        "
-              stroke="#555"
-              stroke-width="2"
-              fill="none"
-            ></path>
-            <path
-              d="
-        M 50 50
-        m 0 47
-        a 47 47 0 1 1 0 -94
-        a 47 47 0 1 1 0 94
-        "
-              stroke="orange"
-              fill="none"
-              stroke-linecap="round"
-              stroke-width="6"
-              style="
-                stroke-dasharray: 220px, 295px;
-                stroke-dashoffset: -36.9137px;
-                transition: stroke-dasharray 0.6s ease 0s, stroke 0.6s ease 0s;
-              "
-            ></path>
-          </svg>
-          <div class="text">
-            <span><span class="number">5419</span>分</span>
-            <br />
-            <span>总分:10000分</span>
-          </div>
+        <div id="echart" style="width: 100%; height: 100%"></div>
+        <div class="text">
+          <span><span class="number">5419</span>分</span>
+          <br />
+          <span>总分:10000分</span>
         </div>
       </div>
       <div class="middle" :class="level"></div>
@@ -61,42 +30,11 @@
       <div class="leader">
         <span class="textColor">全校平均认知分</span>
         <div class="left">
-          <div class="svg">
-            <svg viewBox="0 0 100 100">
-              <path
-                d="
-        M 50 50
-        m 0 47
-        a 47 47 0 1 1 0 -94
-        a 47 47 0 1 1 0 94
-        "
-                stroke="#ddd"
-                stroke-width="2"
-                fill="none"
-              ></path>
-              <path
-                d="
-        M 50 50
-        m 0 47
-        a 47 47 0 1 1 0 -94
-        a 47 47 0 1 1 0 94
-        "
-                stroke="orange"
-                fill="none"
-                stroke-linecap="round"
-                stroke-width="6"
-                style="
-                  stroke-dasharray: 220px, 295px;
-                  stroke-dashoffset: -36.9137px;
-                  transition: stroke-dasharray 0.6s ease 0s, stroke 0.6s ease 0s;
-                "
-              ></path>
-            </svg>
-            <div class="text">
-              <span><span class="number">5419</span>分</span>
-              <br />
-              <span>总分:10000分</span>
-            </div>
+          <div id="echart" style="width: 100%; height: 100%"></div>
+          <div class="text">
+            <span><span class="number">5419</span>分</span>
+            <br />
+            <span>总分:10000分</span>
           </div>
         </div>
         <div class="compare">
@@ -153,6 +91,8 @@
 </template>
 
 <script>
+// import { GetGradeCognitiveIndex } from "@/api/eduSchool/left.js";
+
 export default {
   data() {
     return {
@@ -160,6 +100,97 @@ export default {
       level: "A",
       userType: "leader",
     };
+  },
+  mounted() {
+    this.chart();
+  },
+  methods: {
+    init() {
+      // let data;
+      // GetGradeCognitiveIndex(data).then((res) => {
+      //   this.info = res.Data;
+      // });
+    },
+    chart() {
+      let chartDom = document.getElementById("echart");
+      let myChart = this.$echarts.init(chartDom);
+      let option;
+      option = {
+        polar: {
+          radius: ["74%", "88%"],
+          center: ["50%", "50%"],
+        },
+        angleAxis: {
+          max: 100,
+          startAngle: 210,
+          show: false,
+        },
+        radiusAxis: {
+          type: "category",
+          show: false,
+          axisLabel: {
+            show: false,
+          },
+          axisLine: {
+            show: false,
+          },
+          axisTick: {
+            show: false,
+          },
+        },
+        series: [
+          {
+            name: "",
+            type: "bar",
+            roundCap: true,
+            barWidth: 95,
+            z: 10,
+            itemStyle: {
+              normal: {
+                color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 0.5, [
+                  {
+                    offset: 0.5,
+                    color: "#ffd572",
+                  },
+                  {
+                    offset: 1,
+                    color: "#ff8a01",
+                  },
+                ]),
+                shadowColor: "rgba(0, 0, 0, 0.2)", //设置折线阴影
+                shadowBlur: 8,
+                shadowOffsetY: -3,
+                shadowOffsetX: -3,
+              },
+            },
+            data: [(100 * 2) / 3],
+            coordinateSystem: "polar",
+          },
+          {
+            type: "pie",
+            name: "内层细圆环",
+            radius: ["84%", "78%"],
+            hoverAnimation: false,
+            clockWise: true,
+            itemStyle: {
+              normal: {
+                color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  {
+                    offset: 1,
+                    color: "#7f8c8d",
+                  },
+                ]),
+              },
+            },
+            label: {
+              show: false,
+            },
+            data: [100],
+          },
+        ],
+      };
+      myChart.setOption(option);
+    },
   },
 };
 </script>
@@ -188,7 +219,7 @@ export default {
   display: flex;
   display: -webkit-flex;
   flex-direction: row;
-  margin: 30px 0 10px 0;
+  margin: 10px 0 10px 0;
   justify-content: space-around;
   .left {
     display: flex;
@@ -196,18 +227,13 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 128px;
-    height: 122px;
-    // margin-right: -32px;
-    // background: url(~@/assets/img/teacher/总量表达.png) center center no-repeat;
-    .svg {
+    width: 140px;
+    height: 140px;
+    .text {
+      position: absolute;
+      margin-top: -10px;
       width: 100%;
-      .text {
-        position: absolute;
-        margin-top: -108px;
-        width: 128px;
-        text-align: center;
-      }
+      text-align: center;
     }
     .number {
       font-size: 32px;

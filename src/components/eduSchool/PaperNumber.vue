@@ -64,11 +64,24 @@
 </template>
 
 <script>
+// import { GetGradeLeaderPaperNum } from "@/api/eduSchool/left.js";
+
 export default {
   data() {
     return {
       userType: "leader",
+      // 接口返回数据
+      info: {
+      },
     };
+  },
+  methods: {
+    // init() {
+    //   let data;
+    //   GetGradeLeaderPaperNum(data).then((res) => {
+    //     this.info = res.Data;
+    //   });
+    // },
   },
 };
 </script>

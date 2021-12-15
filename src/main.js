@@ -15,6 +15,8 @@ import "../src/assets/css/global.css";
 import "../src/assets/css/common.scss";
 import "../src/assets/css/elementReset.css";
 import optionObj from "./assets/js/ChartsOption/chartsOption";
+//echarts
+import * as echarts from "echarts";
 //按需引入element.JS
 import "./utils/element.js";
 import "element-ui/lib/theme-chalk/index.css";
@@ -28,6 +30,8 @@ Vue.prototype.$ = $;
 Vue.prototype.$global_Ops = global_Ops; //滚动条
 Vue.config.productionTip = false;
 Vue.prototype.$optionObj = optionObj;
+//echarts
+Vue.prototype.$echarts = echarts;
 //token失效后基础平台地址=>>error页面
 Vue.prototype.$baseUrl = "http://172.16.41.237";
 //tab标签页名字

@@ -103,12 +103,22 @@
 </template>
 
 <script>
+// import { GetGradeLeaderPredictedScore } from "@/api/eduSchool/left.js";
+
 export default {
   data() {
     return {
       status: "up",
       userType: "leader",
     };
+  },
+  methods: {
+    // init() {
+    //   let data;
+    //   GetGradeLeaderPredictedScore(data).then((res) => {
+    //     this.info = res.Data;
+    //   });
+    // },
   },
 };
 </script>

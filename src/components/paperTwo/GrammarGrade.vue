@@ -8,22 +8,185 @@
 -->
 <template>
   <div class="right-small-box">
-      
-      <div class="box-title clearfix">
-        <span class="float-l title">语法认知</span>
-        <span  class="float-r check-icon"><i></i>薄弱语法诊断</span>
-      </div>
-      <div id="grammerCharts"></div>
+    <div class="box-title clearfix">
+      <span class="float-l title">语法认知</span>
+      <span class="float-r check-icon"><i></i>薄弱语法诊断</span>
+    </div>
+    <div id="grammerCharts"></div>
   </div>
 </template>
 
 <script>
+
 export default {
+  created() {
+    // function()
+    //   .then((res) => {
+    //     this.info = res.Data;
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+  },
+  data() {
+    return {
+      gramOption: {
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            lineStyle: {
+              color: {
+                type: "linear",
+                x: 0,
+                y: 0,
+                x2: 0,
+                y2: 1,
+                colorStops: [
+                  {
+                    offset: 0,
+                    color: "rgba(126,199,255,0)", // 0% 处的颜色
+                  },
+                  {
+                    offset: 0.5,
+                    color: "rgba(126,199,255,1)", // 100% 处的颜色
+                  },
+                  {
+                    offset: 1,
+                    color: "rgba(126,199,255,0)", // 100% 处的颜色
+                  },
+                ],
+                global: false, // 缺省为 false
+              },
+            },
+          },
+        },
+        grid: {
+          left: "2%",
+          right: "50",
+          bottom: "10",
+          top: "16%",
+          containLabel: true,
+        },
+        xAxis: {
+          type: "category",
+          data: [
+            "高中一班",
+            "高中二班",
+            "高中三班",
+            "高中四班",
+            "高中五班",
+            "高中一班",
+            "高中一班",
+            "高中一班",
+          ],
+          axisLine: {
+            lineStyle: {
+              color: "rgba(224,231,255,0.3)",
+              width: "1",
+            },
+          },
+          axisTick: { show: false },
+          axisLabel: {
+            textStyle: {
+              color: "#ffffff",
+            },
+          },
+        },
+
+        yAxis: [
+          {
+            type: "value",
+            name: "答对率(%)",
+            nameTextStyle: {
+              color: "#a2afcc",
+              fontSize: 12,
+            },
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: "rgba(128,151,177,0.3)",
+                type: "dotted",
+              },
+            },
+            splitNumber: 4,
+            interval: 25,
+            max: 100,
+            position: "left",
+            axisLine: {
+              show: true,
+              lineStyle: {
+                color: "#e0e7ff",
+                opacity: "0.3",
+              },
+            },
+            axisLabel: {
+              show: true,
+              formatter: "{value}", //右侧Y轴文字显示
+              textStyle: {
+                color: "#a2afcc",
+              },
+            },
+          },
+        ],
+        series: [
+          {
+            name: "答对率",
+            cursor: "default",
+            type: "line",
+            barWidth: "16px",
+            showAllSymbol: true,
+            symbolSize: 0,
+            itemStyle: {
+              normal: {
+                color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  {
+                    offset: 0,
+                    color: "#009cff",
+                  },
+                  {
+                    offset: 1,
+                    color: "#009cff",
+                  },
+                ]),
+              },
+            },
+            areaStyle: {
+              //区域填充样式
+              normal: {
+                //线性渐变，前4个参数分别是x0,y0,x2,y2(范围0~1);相当于图形包围盒中的百分比。如果最后一个参数是‘true’，则该四个值是绝对像素位置。
+                color: new this.$echarts.graphic.LinearGradient(
+                  0,
+                  0,
+                  0,
+                  1,
+                  [
+                    {
+                      offset: 0,
+                      color: "rgba(3,163,233,.8)",
+                    },
+                    {
+                      offset: 1,
+                      color: "rgba(25,163,223, 0)",
+                    },
+                  ],
+                  false
+                ),
+                shadowColor: "rgba(25,163,223, 0.5)", //阴影颜色
+                shadowBlur: 20, //shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
+              },
+            },
+            data: [40, 40, 30, 30, 30, 40, 40, 40, 30],
+          },
+        ],
+      },
+    };
+  },
+
   mounted() {
     this.drawLine();
   },
   methods: {
-    
     drawLine() {
       // let xData2 = [];
       // let seriesData2 = [];
@@ -42,7 +205,7 @@ export default {
       let TypeInfoAvgScore = 66;
       var echarts = require("echarts");
       var grammerCharts = echarts.init(document.getElementById("grammerCharts"));
-      grammerCharts.setOption(this.$optionObj.gramOption);
+      grammerCharts.setOption(this.gramOption);
       grammerCharts.setOption({
         dataZoom: [
           {
@@ -74,7 +237,7 @@ export default {
                 barBorderRadius: [2, 2, 0, 0],
               },
             },
-            
+
             markLine: {
               silent: "true",
               symbol: "none",
@@ -82,7 +245,7 @@ export default {
                 show: true,
                 position: "end",
                 fontSize: 12,
-                color:"#00ffdd",
+                color: "#00ffdd",
                 formatter: "{a|平均答对率}{b|" + TypeInfoAvgScore + "%}",
                 rich: {
                   a: {
@@ -140,13 +303,12 @@ export default {
       });
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
-#grammerCharts{
+#grammerCharts {
   width: 580px;
   height: 220px;
-
 }
 </style>
