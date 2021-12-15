@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-12-13 14:28:53
- * @LastEditTime: 2021-12-13 15:11:40
+ * @LastEditTime: 2021-12-14 15:31:48
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\components\common\studentBox.vue
@@ -17,10 +17,26 @@
         v-for="(item, index) in stulist"
         :key="index"
       >
-        <span class="stu-rank">{{ item.stuRank }}</span>
-        <span class="stu-name">{{ item.stuName }}</span
-        ><br />
-        <span class="stu-paperNum">{{ item.stuPaperNum }}<span>份</span></span>
+        <span
+          :class="
+            item.stuRank == 1
+              ? 'rank1'
+              : item.stuRank == 2
+              ? 'rank2'
+              : item.stuRank == 3
+              ? 'rank3'
+              : 'stu-rank'
+          "
+          class="float-l"
+          >{{ item.stuRank > 3 ? item.stuRank : "" }}</span
+        >
+        <span class="float-l" style="text-align: left">
+          <span class="stu-name">{{ item.stuName }}</span
+          ><br />
+          <span class="stu-paperNum"
+            >{{ item.stuPaperNum }}<span>份</span></span
+          >
+        </span>
       </div>
     </div>
   </div>
@@ -40,7 +56,7 @@ export default {
   width: 380px;
   height: 90px;
   padding: 13px 18px;
-  background: url("../../assets/img/teacher/重点关注学生BG.png") center center
+  background: url("~@/assets/img/teacher/重点关注学生BG.png") center center
     no-repeat;
   .box-title {
     font-family: YouSheBiaoTiHei;
@@ -60,17 +76,36 @@ export default {
         display: inline-block;
         width: 20px;
         height: 20px;
-        line-height: 1.5;
+        line-height: 20px;
         border-radius: 100%;
         font-size: 12px;
         color: #666666;
         margin-right: 5px;
-        background-image: linear-gradient(180deg, #dbdbdb 0%, #bababa 100%);
-          vertical-align: middle;
+        background: url("~@/assets/img/grade/其他名次BG.png") center center
+          no-repeat;
+        vertical-align: middle;
+      }
+      .rank1,
+      .rank2,
+      .rank3 {
+        display: inline-block;
+        width: 22px;
+        height: 29px;
+        margin-right: 5px;
+        background: url("~@/assets/img/grade/第一名.png") center center
+          no-repeat;
+      }
+      .rank2{
+        background: url("~@/assets/img/grade/第二名.png") center center
+          no-repeat;
+      }
+      .rank3{
+        background: url("~@/assets/img/grade/第三名.png") center center
+          no-repeat;
       }
       .stu-name {
         font-size: 14px;
-          vertical-align: middle;
+        vertical-align: middle;
         color: #ffffff;
       }
       .stu-paperNum {
@@ -79,8 +114,8 @@ export default {
         font-family: "ArialMT";
         font-size: 18px;
         margin-top: 5px;
-        margin-left: 13px;
         display: inline-block;
+        letter-spacing: 0;
         span {
           font-size: 12px;
           font-family: "MicrosoftYaHei";

@@ -1,7 +1,7 @@
 <!--
  * @Author: 柳欢
  * @Date: 2021-12-13 16:15:01
- * @LastEditTime: 2021-12-13 16:53:45
+ * @LastEditTime: 2021-12-14 08:56:28
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\components\gradeTeacher\GradeAnswer.vue
@@ -124,147 +124,7 @@ export default {
   padding: 16px 24px 0 0;
   overflow: hidden;
 }
-.timeText {
-  width: 96px;
-  height: 250px;
-  color: #a2afcc;
-  font-size: 14px;
-  text-align: center;
-  .timeItem {
-    margin: 22px 0;
-    cursor: pointer;
-  }
-  .active-timeItem {
-    position: relative;
-    color: #00bbff;
-  }
-  .normal-timeItem {
-    color: #a2afcc;
-    position: relative;
-  }
-  .normal-timeItem::after {
-    content: "";
-    width: 9px;
-    height: 9px;
-    border: solid 1px #a2afcc;
-    border-radius: 100%;
-    position: absolute;
-    top: 12px;
-    right: -6px;
-    display: inline-block;
-  }
-  .active-timeItem::after {
-    content: "";
-    width: 30px;
-    height: 40px;
-    position: absolute;
-    top: -5px;
-    right: -15px;
-    display: inline-block;
-    background: url("../../assets/img/teacher/选中.png") center center no-repeat;
-  }
-}
-.timeLine {
-  width: 1px;
-  height: 250px;
-  background-image: linear-gradient(
-    rgba(255, 255, 255, 0.1),
-    rgba(255, 255, 255, 0.3),
-    rgba(255, 255, 255, 0.1)
-  );
-}
-.paperText {
-  width: 60px;
-  height: 250px;
-  margin-left: 13px;
-  .paperItem {
-    width: 46px;
-    height: 50px;
-    line-height: 65px;
-    font-family: "Oswald";
-    background: url("../../assets/img/teacher/试卷_未选.png") center center
-      no-repeat;
-    margin: 10px auto;
-    text-align: center;
-    cursor: pointer;
-    color: #0078ff;
-    font-size: 16px;
-  }
-  .active-paperItem {
-    background: url("../../assets/img/teacher/试卷_选中.png") center center
-      no-repeat;
-    position: relative;
-  }
-  .normal-paperItem {
-    position: relative;
-  }
-  .normal-paperItem::after {
-    content: "";
-  }
-  .active-paperItem::after {
-    content: "";
-    width: 30px;
-    height: 40px;
-    position: absolute;
-    top: 6px;
-    right: -30px;
-    display: inline-block;
-    background: url("../../assets/img/teacher/选中.png") center center no-repeat;
-  }
-}
-.right-btn {
-  height: 18px;
-  .paper-name {
-    font-weight: bold;
-    font-size: 14px;
-    font-stretch: normal;
-    letter-spacing: 0px;
-    color: #ffffff;
-  }
-  .paper-line {
-    display: inline-block;
-    width: 1px;
-    height: 20px;
-    background-image: linear-gradient(
-      0deg,
-      #ffffff 0%,
-      #ffffff 50%,
-      #ffffff 100%
-    );
-    opacity: 0.3;
-  }
-  .paper-line {
-    display: inline-block;
-    width: 1px;
-    height: 20px;
-    background-image: linear-gradient(
-      0deg,
-      rgba(255, 255, 255, 0.3) 0%,
-      rgba(255, 255, 255, 1) 50%,
-      rgba(255, 255, 255, 0.3) 100%
-    );
-    margin: 0 10px;
-  }
-  .paper-checkBtn {
-    height: 18px;
-    font-family: MicrosoftYaHei;
-    font-size: 14px;
-    cursor: pointer;
-    color: rgba(255, 255, 255, 0.8);
-    padding-left: 20px;
-    background: url("../../assets/img/teacher/查看_默认.png") center left
-      no-repeat;
-  }
-  .paper-analyse:hover {
-    color: rgba(255, 255, 255, 1);
-    background: url("../../assets/img/teacher/查看_悬停.png") center left
-      no-repeat;
-  }
-}
-#responseCharts {
-  width: 1050px;
-  height: 210px;
-}
+
 .rightOption {
   .checkPaper {
     background: url("../../assets/img/grade/btn.png") -0px -140px no-repeat;

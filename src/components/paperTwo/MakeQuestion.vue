@@ -1,7 +1,7 @@
 <!--
  * @Author: 柳欢
  * @Date: 2021-11-30 14:58:43
- * @LastEditTime: 2021-12-10 08:45:52
+ * @LastEditTime: 2021-12-15 15:25:55
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 年级组长，教师，做题特点
@@ -11,7 +11,7 @@
       
       <div class="box-title clearfix">
         <span class="float-l title">各题型正误统计图</span>
-        <span  class="float-r check-icon"><i></i>学生做题特点对比分析</span>
+        <span @click="dialog(1)" class="float-r check-icon"><i></i>学生做题特点对比分析</span>
       </div>
       <div class="legend" v-show="showData">
         <span class="maxScore" v-show="maxTypeName"
@@ -22,7 +22,12 @@
         >
       </div>
       <div id="questionCharts"></div>
-      
+      <el-dialog title="对比分析" :visible.sync="dialogVisible" :close-on-click-modal="false" width="1000px" top="0vh">
+        <div>
+          <QuestionDiolog v-if="dialogIndex==1"></QuestionDiolog>
+          <StuReport v-else></StuReport>
+        </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -39,8 +44,14 @@ export default {
       showData: false,
       maxTypeName: "",
       minTypeName: "",
+      dialogVisible: false, //默认隐藏弹框
+      dialogIndex:1,//弹窗，学生成绩单，
       
     }
+  },
+  components: {
+    QuestionDiolog: () => import("../../views/dialog/QuestionDiolog.vue"),
+    StuReport: () => import("../../views/dialog/StuReport.vue"),
   },
   created() {
     
@@ -84,6 +95,10 @@ export default {
   },
   methods: {
     
+    dialog(i){
+      this.dialogVisible = true;
+      this.dialogIndex = i;
+    },
     //统计图最大标注
     markPontMax() {
       let xAxisData = [];
@@ -278,7 +293,10 @@ export default {
   },
 }
 </script>
-
+<style lang="scss">
+@import "../../assets/js/dialog/colorGlobal.scss";
+@import "../../assets/js/dialog/elementReset_Dialog.scss";
+</style>
 <style lang="scss" scoped>
 .right-Long-Box{
     display: inline-block;

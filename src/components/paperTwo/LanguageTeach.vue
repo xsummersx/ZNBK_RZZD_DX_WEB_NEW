@@ -1,7 +1,7 @@
 <!--
  * @Author: 汤宇昕
  * @Date: 2021-11-30 14:58:43
- * @LastEditTime: 2021-12-10 11:40:16
+ * @LastEditTime: 2021-12-14 08:41:12
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教师，语言能力
@@ -13,7 +13,7 @@
       <span class="float-r check-icon"><i></i>班级语言能力对比分析</span>
     </div>
     <div class="main">
-      <div class="left">
+      <!-- <div class="left">
         <div class="yd">
           <span class="result bad">较差</span>
           <span class="textSize-12 color">阅读能力</span>
@@ -36,36 +36,38 @@
           <span class="result good">较好</span>
           <span class="textSize-14 color">口语能力</span>
         </div>
-    <div>
-      <div class="listenAbility" :class="classToName(lanResInfo.TL)">
-        <div class="abilityLV">
-          {{ numToString(lanResInfo.TL) }}
+      </div> -->
+      <div>
+        <div class="listenAbility" :class="classToName(lanResInfo.TL)">
+          <div class="abilityLV">
+            {{ numToString(lanResInfo.TL) }}
+          </div>
+          <div class="ability">听力能力</div>
         </div>
-        <div  class="ability">听力能力</div>
-      </div>
-      <div class="readAbility" :class="classToName(lanResInfo.YD)">
-        <div class="abilityLV">
-          {{ numToString(lanResInfo.YD) }}
+        <div class="readAbility" :class="classToName(lanResInfo.YD)">
+          <div class="abilityLV">
+            {{ numToString(lanResInfo.YD) }}
+          </div>
+          <div class="ability">阅读能力</div>
         </div>
-        <div  class="ability">阅读能力</div>
-      </div>
-      <div class="speakAbility" :class="classToName(lanResInfo.KY)">
-        <div class="abilityLV">
-          {{ numToString(lanResInfo.KY) }}
+        <div class="speakAbility" :class="classToName(lanResInfo.KY)">
+          <div class="abilityLV">
+            {{ numToString(lanResInfo.KY) }}
+          </div>
+          <div class="ability">口语能力</div>
         </div>
-        <div  class="ability">口语能力</div>
-      </div>
-      <div class="writeAbility" :class="classToName(lanResInfo.XZ)">
-        <div class="abilityLV">
-          {{ numToString(lanResInfo.XZ) }}
+        <div class="writeAbility" :class="classToName(lanResInfo.XZ)">
+          <div class="abilityLV">
+            {{ numToString(lanResInfo.XZ) }}
+          </div>
+          <div class="ability">写作能力</div>
         </div>
-        <div  class="ability">写作能力</div>
-      </div>
-      <div class="allAbility" :class="classToName(lanResInfo.ZH)">
-        <div class="abilityLV">
-          {{ numToString(lanResInfo.ZH) }}
+        <div class="allAbility" :class="classToName(lanResInfo.ZH)">
+          <div class="abilityLV">
+            {{ numToString(lanResInfo.ZH) }}
+          </div>
+          <div class="ability">综合能力</div>
         </div>
-        <div class="ability">综合能力</div>
       </div>
     </div>
   </div>
@@ -90,7 +92,7 @@ export default {
       },
     };
   },
-      
+
   created() {
     let params = {
       SchoolID: "S4-000020-9AB3",
@@ -103,8 +105,7 @@ export default {
       this.lanResInfo = res.Data;
     });
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     // 数字转为字符串
     numToString(i) {
@@ -159,9 +160,9 @@ export default {
   .abilityLV {
     font-size: 16px;
   }
-  .ability{
+  .ability {
     font-size: 12px;
-    color: rgba(255,255,255,0.7);
+    color: rgba(255, 255, 255, 0.7);
   }
 }
 .color {
@@ -267,8 +268,8 @@ export default {
   height: 88px;
   top: 116px;
   left: 162px;
-  .ability{
-  font-size: 14px;
+  .ability {
+    font-size: 14px;
   }
 }
 .readAbility {
@@ -289,7 +290,7 @@ export default {
   .abilityLV {
     font-size: 22px;
   }
-  .ability{
+  .ability {
     font-size: 14px;
   }
 }
@@ -311,5 +312,4 @@ export default {
     font-weight: bold;
   }
 }
-
 </style>

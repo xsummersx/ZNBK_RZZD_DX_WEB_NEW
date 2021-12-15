@@ -1,7 +1,7 @@
 <!--
  * @Author: 柳欢
  * @Date: 2021-11-29 09:29:43
- * @LastEditTime: 2021-12-13 17:04:50
+ * @LastEditTime: 2021-12-14 15:38:28
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 柳欢负责=》年级组长框架  gradeRZZD
@@ -9,24 +9,28 @@
 <template>
   <div class="clearfix">
     <div class="left-Content float-l">
-        <PaperNumber></PaperNumber>
-        <CognitiveScore></CognitiveScore>
-        <PredictedGrades></PredictedGrades>
+      <PaperNumber></PaperNumber>
+      <CognitiveScore></CognitiveScore>
+      <PredictedGrades></PredictedGrades>
     </div>
-    <div class="right-Content float-r"  :class="switchToShow?'right-Content1':'right-Content2'">
+    <div
+      class="right-Content float-r"
+      :class="switchToShow ? 'right-Content1' : 'right-Content2'"
+    >
       <div class="switchTab">
-        <span @click="switchTo()">班级教学管理</span>
-        <span @click="switchTo()">班级认知详情</span>
+        <span @click="switchTo()">年级教学管理</span>
+        <span @click="switchTo()">年级认知详情</span>
       </div>
       <div v-show="!switchToShow">
-      <VocabularyGrade class="float-l"></VocabularyGrade>
-      <GrammarGrade class="float-l"></GrammarGrade>
-      <MakeQuestion class="float-l"></MakeQuestion>
-      <LanguageGrade class="float-l"></LanguageGrade>
-      <StudyGrade class="float-l"></StudyGrade>
+        <VocabularyGrade class="float-l"></VocabularyGrade>
+        <GrammarGrade class="float-l"></GrammarGrade>
+        <MakeQuestion class="float-l"></MakeQuestion>
+        <LanguageGrade class="float-l"></LanguageGrade>
+        <StudyGrade class="float-l"></StudyGrade>
       </div>
       <div v-show="switchToShow">
-        <TeachTop></TeachTop>
+        <GradeTop></GradeTop>
+        <GradeCompare></GradeCompare>
         <GradeAnswer></GradeAnswer>
       </div>
     </div>
@@ -37,24 +41,27 @@
 export default {
   data() {
     return {
-      switchToShow:true,
-    }
+      switchToShow: true,
+    };
   },
   methods: {
-    switchTo(){
+    switchTo() {
       this.switchToShow = !this.switchToShow;
     },
   },
   components: {
     PaperNumber: () => import("../components/gradeTeacher/PaperNumber.vue"),
-    CognitiveScore: () => import("../components/gradeTeacher/CognitiveScore.vue"),
-    PredictedGrades: () => import("../components/gradeTeacher/PredictedGrades.vue"),
+    CognitiveScore: () =>
+      import("../components/gradeTeacher/CognitiveScore.vue"),
+    PredictedGrades: () =>
+      import("../components/gradeTeacher/PredictedGrades.vue"),
     VocabularyGrade: () => import("../components/paperTwo/VocabularyGrade.vue"),
     GrammarGrade: () => import("../components/paperTwo/GrammarGrade.vue"),
     MakeQuestion: () => import("../components/paperTwo/MakeQuestion.vue"),
     LanguageGrade: () => import("../components/paperTwo/LanguageGrade.vue"),
     StudyGrade: () => import("../components/paperTwo/StudyGrade.vue"),
-    TeachTop: () => import("../components/gradeTeacher/TeachTop.vue"),
+    GradeTop: () => import("../components/gradeTeacher/GradeTop.vue"),
+    GradeCompare: () => import("../components/gradeTeacher/GradeCompare.vue"),
     GradeAnswer: () => import("../components/gradeTeacher/GradeAnswer.vue"),
   },
 };
@@ -62,22 +69,20 @@ export default {
 
 <style lang="scss" scoped>
 .left-Content {
-  width: 400px;height: 934px
+  width: 400px;
+  height: 934px;
 }
 .right-Content {
-  width: 1350px;height: 934px;padding:0 40px 20px;
-  background: url("../assets/img/teacher/右侧BG.png") -0px -934px
-    no-repeat;
+  width: 1350px;
+  height: 934px;
+  padding: 0 40px 20px;
+  background: url("../assets/img/teacher/右侧BG.png") -0px -934px no-repeat;
 }
-.right-Content1{
-  background: url("../assets/img/teacher/右侧BG.png") -0px -0px
-    no-repeat;
-
+.right-Content1 {
+  background: url("../assets/img/teacher/右侧BG.png") -0px -0px no-repeat;
 }
-.right-Content2{
-  background: url("../assets/img/teacher/右侧BG.png") -0px -934px
-    no-repeat;
-  
+.right-Content2 {
+  background: url("../assets/img/teacher/右侧BG.png") -0px -934px no-repeat;
 }
 .switchTab {
   height: 44px;
@@ -86,8 +91,10 @@ export default {
   font-size: 24px;
   color: #ffffff;
   text-align: center;
-  span{
-    width: 200px;display: inline-block;cursor: pointer;
+  span {
+    width: 200px;
+    display: inline-block;
+    cursor: pointer;
   }
 }
 </style>

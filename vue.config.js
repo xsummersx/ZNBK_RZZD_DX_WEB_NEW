@@ -1,11 +1,12 @@
 /*
  * @Author: your name
  * @Date: 2020-12-03 15:31:36
- * @LastEditTime: 2021-12-09 14:56:16
+ * @LastEditTime: 2021-12-14 11:43:22
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \znbk_zntfd_zx_web\vue.config.js
  */
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin"); // 引入插件
 const webpack = require("webpack");
 const path = require("path"); //引入path模块
 function resolve(dir) {
@@ -21,9 +22,29 @@ module.exports = {
 				"windows.jQuery": "jquery",
 			}),
 		],
+		optimization: {
+			minimizer: [
+				new UglifyJsPlugin({
+					uglifyOptions: {
+						compress: {
+							warnings: false,
+							drop_console: true, //console
+							drop_debugger: false,
+							pure_funcs: ["console.log"] //移除console
+						}
+					}
+				})
+			]
+		}
 	},
 	chainWebpack: (config) => {
 		config.resolve.alias.set("@", resolve("./src"));
+		config.resolve.alias
+			.set("@", resolve("src"))
+			.set("assets", resolve("src/assets"))
+			.set("components", resolve("src/components"))
+			.set("base", resolve("baseConfig"))
+			.set("public", resolve("public"));
 	},
 	productionSourceMap: false,
 	publicPath: "./",
