@@ -12,7 +12,7 @@
     <div class="main">
       <div class="left">
         <span
-          ><span class="number">{{ info.ClassTotalPaperCount }}</span
+          ><span class="number">{{ count }}</span
           >份</span
         >
         <span>总量</span>
@@ -31,20 +31,23 @@
       <span class="bottomTitle" v-if="userType === 'teacher'"
         >学生排行榜<span class="top2">TOP2</span></span
       >
-      <div class="content">
+      <div class="content" v-if="userType === 'teacher'">
         <span>·{{ theFirst.StuName + " " + theFirst.PaperCount }}份</span>
         <span>·{{ theSecond.StuName + " " + theSecond.PaperCount }}份</span>
+      </div>
+      <div class="content" v-else>
+        <span>·{{ theFirst.CourseClassName + " " + theFirst.ClassPaperCount }}份</span>
+        <span>·{{ theSecond.CourseClassName + " " + theSecond.ClassPaperCount }}份</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { GetClassPaperNum } from "@/api/gradeTeacher/teacher.js";
+import { GetClassPaperNum, GetGradeLeaderPaperNum } from "@/api/gradeTeacher/left.js";
 export default {
   data() {
     return {
-      // status: "down",
       userType: "teacher",
       info: {
         ClassTotalPaperCount: 500,
@@ -70,7 +73,6 @@ export default {
             ClassRank: 3,
             GradeRank: 3,
           },
-
           {
             Index: 13,
             StuID: "1201055",
@@ -86,16 +88,37 @@ export default {
     };
   },
   created() {
-    this.info.StuPaperCountList.sort((a, b) => {
-      return b.PaperCount - a.PaperCount;
-    });
+    if (this.userType === "teacher") {
+      this.info.StuPaperCountList.sort((a, b) => {
+        return b.PaperCount - a.PaperCount;
+      });
+    } else {
+      this.info.ClassList.sort((a, b) => {
+        return b.ClassPaperCount - a.ClassPaperCount;
+      });
+    }
   },
   computed: {
+    count: function () {
+      if (this.userType === "teacher") {
+        return this.info.ClassTotalPaperCount;
+      } else {
+        return this.info.AvgCountPaperInClassAcc;
+      }
+    },
     theFirst: function () {
-      return this.info.StuPaperCountList[0];
+      if (this.userType === "teacher") {
+        return this.info.StuPaperCountList[0];
+      } else {
+        return this.info.ClassList[0];
+      }
     },
     theSecond: function () {
-      return this.info.StuPaperCountList[1];
+      if (this.userType === "teacher") {
+        return this.info.StuPaperCountList[1];
+      } else {
+        return this.info.ClassList[1];
+      }
     },
     comparedData: function () {
       if (this.info.ChangePaperCount < 0) {
@@ -122,9 +145,17 @@ export default {
   methods: {
     init() {
       let data;
-      GetClassPaperNum(data).then((res) => {
-        this.info = res.Data;
-      });
+      if (this.userType === "teacher") {
+        // 教师
+        GetClassPaperNum(data).then((res) => {
+          this.info = res.Data;
+        });
+      } else {
+        // 年级组长
+        GetGradeLeaderPaperNum(data).then((res) => {
+          this.info = res.Data;
+        });
+      }
     },
   },
 };

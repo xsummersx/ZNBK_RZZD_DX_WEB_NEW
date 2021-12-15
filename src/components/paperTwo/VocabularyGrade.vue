@@ -18,14 +18,160 @@
 
 <script>
 export default {
+  created() {
+    // function()
+    //   .then((res) => {
+    //     this.info = res.Data;
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+  },
   data() {
-    return {};
+    return {
+      vocabOption: {
+        tooltip: {
+          trigger: "item",
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: "shadow", // 默认为直线，可选为：'line' | 'shadow'
+          },
+        },
+        grid: {
+          left: "2%",
+          right: "50",
+          bottom: "10",
+          top: "16%",
+          containLabel: true,
+        },
+        xAxis: {
+          type: "category",
+          data: [
+            "高中一班",
+            "高中二班",
+            "高中三班",
+            "高中四班",
+            "高中五班",
+            "高中六班",
+            "高中七班",
+            "高中八班",
+          ],
+          axisLine: {
+            lineStyle: {
+              color: "rgba(224,231,255,0.3)",
+              width: "2",
+            },
+          },
+          axisTick: { show: false },
+          axisLabel: {
+            textStyle: {
+              color: "#ffffff",
+            },
+          },
+        },
+
+        yAxis: [
+          {
+            type: "value",
+            axisLine: {
+              show: false,
+              lineStyle: {
+                color: "#cdd5e2",
+              },
+            },
+            splitLine: {
+              show: false,
+            },
+            axisLabel: {
+              show: false,
+              textStyle: {
+                color: "#666666",
+              },
+            },
+          },
+          {
+            type: "value",
+            name: "",
+            nameTextStyle: {
+              color: "#666666",
+            },
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: "rgba(128,151,177,0.3)",
+                type: "dotted",
+              },
+            },
+            splitNumber: 4,
+            interval: 25,
+            max: 100,
+            position: "right",
+            axisLine: {
+              lineStyle: {
+                color: "#cdd5e2",
+              },
+            },
+            axisLabel: {
+              show: false,
+              formatter: "{value} %", //右侧Y轴文字显示
+              textStyle: {
+                color: "#666666",
+              },
+            },
+          },
+        ],
+        series: [
+          {
+            name: "平均掌握量",
+            type: "bar",
+            barWidth: "16px",
+            itemStyle: {
+              normal: {
+                color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  {
+                    offset: 0,
+                    color: "#00ccff",
+                  },
+                  {
+                    offset: 1,
+                    color: "#003aff",
+                  },
+                ]),
+                barBorderRadius: [2, 2, 0, 0],
+              },
+            },
+            data: [400, 400, 300, 300, 300, 400, 400, 400, 300],
+          },
+          {
+            name: "平均答对率",
+            type: "bar",
+            barWidth: "16px",
+            yAxisIndex: 1, //使用的 y 轴的 index，在单个图表实例中存在多个 y轴的时候有用
+            itemStyle: {
+              normal: {
+                color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  {
+                    offset: 0,
+                    color: "#009880",
+                  },
+                  {
+                    offset: 1,
+                    color: "#37eed6",
+                  },
+                ]),
+                barBorderRadius: [2, 2, 0, 0],
+              },
+            },
+            data: [44, 55, 11, 22, 88, 44, 66, 77, 55],
+          },
+        ],
+      },
+    };
   },
   mounted() {
     this.drawLine();
   },
   methods: {
-    
     //统计图最小标注
     markPontMin() {
       let xAxisData = [];
@@ -44,9 +190,7 @@ export default {
         if (bol) {
           let obj = {};
           obj.xAxis = legend[i];
-          obj.yAxis = (
-            this.resInfo.TypeInfoList[i].TypeScoreRate * 100
-          ).toFixed(2);
+          obj.yAxis = (this.resInfo.TypeInfoList[i].TypeScoreRate * 100).toFixed(2);
           markMinData.push(obj);
         }
       }
@@ -68,9 +212,8 @@ export default {
       // }
       let barData = [44, 55, 11, 22, 88, 44, 66, 77, 55];
       let TypeInfoAvgScore = 66;
-      var echarts = require("echarts");
-      var vocabCharts = echarts.init(document.getElementById("vocabCharts"));
-      vocabCharts.setOption(this.$optionObj.vocabOption);
+      var vocabCharts = this.$echarts.init(document.getElementById("vocabCharts"));
+      vocabCharts.setOption(this.vocabOption);
       vocabCharts.setOption({
         dataZoom: [
           {
@@ -79,7 +222,7 @@ export default {
             height: 15,
             xAxisIndex: [0],
             start: 1,
-            end: (5 / barData.length) * 100,
+            // end: (5 / barData.length) * 100,
             zoomOnMouseWheel: false,
           },
         ],
@@ -90,7 +233,7 @@ export default {
             barWidth: "16px",
             itemStyle: {
               normal: {
-                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
                   {
                     offset: 0,
                     color: "#00ccff",
@@ -103,7 +246,7 @@ export default {
                 barBorderRadius: [2, 2, 0, 0],
               },
             },
-            
+
             markLine: {
               silent: "true",
               symbol: "none",
@@ -111,7 +254,7 @@ export default {
                 show: true,
                 position: "end",
                 fontSize: 12,
-                color:"#00ccff",
+                color: "#00ccff",
                 formatter: "{a|平均掌握量}{b|" + TypeInfoAvgScore + "个}",
                 rich: {
                   a: {
@@ -172,7 +315,7 @@ export default {
             yAxisIndex: 1, //使用的 y 轴的 index，在单个图表实例中存在多个 y轴的时候有用
             itemStyle: {
               normal: {
-                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
                   {
                     offset: 0,
                     color: "#009880",
@@ -192,7 +335,7 @@ export default {
                 show: true,
                 position: "end",
                 fontSize: 12,
-                color:"#00ffdd",
+                color: "#00ffdd",
                 formatter: "{a|平均答对率}{b|" + TypeInfoAvgScore + "%}",
                 rich: {
                   a: {

@@ -15,7 +15,7 @@
           <div class="fu-inner">
             <div class="fu-percent percent">
               <span
-                ><span class="number">{{ info.ClassAvgScore }}</span
+                ><span class="number">{{ score }}</span
                 >分</span
               >
               <br />
@@ -49,7 +49,10 @@
 </template>
 
 <script>
-import { GetClassPredictedScore } from "@/api/gradeTeacher/teacher.js";
+import {
+  GetClassPredictedScore,
+  GetGradeLeaderPredictedScore,
+} from "@/api/gradeTeacher/left.js";
 
 export default {
   data() {
@@ -90,11 +93,24 @@ export default {
     };
   },
   created() {
-    this.info.StuScoreList.sort((a, b) => {
-      return b.PredictedScore - a.PredictedScore;
-    });
+    if (this.userType === "teacher") {
+      this.info.StuScoreList.sort((a, b) => {
+        return b.PredictedScore - a.PredictedScore;
+      });
+    } else {
+      this.info.ClassList.sort((a, b) => {
+        return b.ClassAvgScore - a.ClassAvgScore;
+      });
+    }
   },
   computed: {
+    score: function () {
+      if (this.userType === "teacher") {
+        return this.info.ClassAvgScore;
+      } else {
+        return this.info.GradeAvgScore;
+      }
+    },
     theFirst: function () {
       return this.info.StuScoreList[0];
     },
@@ -131,9 +147,17 @@ export default {
     },
     init() {
       let data;
-      GetClassPredictedScore(data).then((res) => {
-        this.info = res.Data;
-      });
+      if (this.userType === "teacher") {
+        // 教师
+        GetClassPredictedScore(data).then((res) => {
+          this.info = res.Data;
+        });
+      } else {
+        // 年级组长
+        GetGradeLeaderPredictedScore(data).then((res) => {
+          this.info = res.Data;
+        });
+      }
     },
   },
 };
