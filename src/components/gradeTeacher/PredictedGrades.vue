@@ -40,9 +40,13 @@
       <span class="bottomTitle" v-if="userType === 'teacher'"
         >学生排行榜<span class="top2">TOP2</span></span
       >
-      <div class="content">
+      <div class="content" v-if="userType === 'teacher'">
         <span>·{{ theFirst.StudentName + " " + theFirst.PredictedScore }}分</span>
         <span>·{{ theSecond.StudentName + " " + theSecond.PredictedScore }}分</span>
+      </div>
+      <div class="content" v-else>
+        <span>·{{ theFirst.CourseClassName + " " + theFirst.ClassAvgScore }}分</span>
+        <span>·{{ theSecond.CourseClassName + " " + theSecond.ClassAvgScore }}分</span>
       </div>
     </div>
   </div>
@@ -112,10 +116,18 @@ export default {
       }
     },
     theFirst: function () {
-      return this.info.StuScoreList[0];
+      if (this.userType === "teacher") {
+        return this.info.StuScoreList[0];
+      } else {
+        return this.info.ClassList[0];
+      }
     },
     theSecond: function () {
-      return this.info.StuScoreList[1];
+      if (this.userType === "teacher") {
+        return this.info.StuScoreList[1];
+      } else {
+        return this.info.ClassList[1];
+      }
     },
     comparedData: function () {
       if (this.info.ChangeScore < 0) {
@@ -134,9 +146,15 @@ export default {
   },
   // watch: {
   //   info: function () {
-  //     this.info.StuScoreList.sort((a, b) => {
-  //       return b.PredictedScore - a.PredictedScore;
-  //     });
+  //     if (this.userType === "teacher") {
+  //   this.info.StuScoreList.sort((a, b) => {
+  //     return b.PredictedScore - a.PredictedScore;
+  //   });
+  // } else {
+  //   this.info.ClassList.sort((a, b) => {
+  //     return b.ClassAvgScore - a.ClassAvgScore;
+  //   });
+  // }
   //   },
   // },
   methods: {

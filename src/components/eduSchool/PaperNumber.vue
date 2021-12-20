@@ -7,25 +7,25 @@
  * @FilePath: 教育局、学校校长=》累计试卷作答份数，图0，图1
 -->
 <template>
-  <div class="back" :class="userType === 'leader' ? 'height-leader' : 'none'">
+  <div class="back" :class="userType === 7 ? 'height-leader' : 'none'">
     <span class="title">累计作答试卷</span>
-    <div class="paper" v-if="userType === 'edu'">
+    <div class="paper" v-if="userType === 8">
       <!-- <div class="paperBg"> -->
       <span><span class="number">950</span>份</span>
       <span class="nextNumber">平均试卷量</span>
       <!-- </div> -->
     </div>
-    <div class="main" v-if="userType === 'leader'">
+    <div class="main" v-if="userType === 7">
       <div class="left">
         <span><span class="number">1560</span>份</span>
-        <span>总量</span>
+        <span class="textColor">总量</span>
       </div>
       <div class="right">
         <span class="quantity">2326<span class="char">份</span></span>
-        <span>全区平均量</span>
+        <span class="textColor">全区平均量</span>
       </div>
     </div>
-    <div class="bottom" v-if="userType === 'edu'">
+    <div class="bottom" v-if="userType === 8">
       <!-- 全区排行榜 -->
       <div class="bottomItem">
         <span class="bottomTitle icon1">全区排行榜<span class="top2">TOP2</span></span>
@@ -43,7 +43,7 @@
         </div>
       </div>
     </div>
-    <div class="bottom-leader" v-if="userType === 'leader'">
+    <div class="bottom-leader" v-if="userType === 7">
       <!-- 本校区排名 -->
       <div class="bottomItem">
         <span class="bottomTitle">本校区排名</span>
@@ -56,7 +56,7 @@
         <span class="bottomTitle">全区第一名学校</span>
         <div class="content">
           <span class="schoolName">浙师大附属嘉善实验中学</span>
-          <span class="schoolScore textColor">140分</span>
+          <span class="schoolScore numberColor">140分</span>
         </div>
       </div>
     </div>
@@ -69,7 +69,9 @@
 export default {
   data() {
     return {
-      userType: "leader",
+      // 8:教育局
+      // 7:校领导
+      userType: 8,
       // 接口返回数据
       info: {
       },
@@ -87,6 +89,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.numberColor {
+  color: #a2afcc;
+}
+.textColor {
+  color: #fff;
+  opacity: 0.8;
+}
 .back {
   display: flex;
   display: -webkit-flex;
@@ -215,6 +224,7 @@ export default {
   display: flex;
   display: -webkit-flex;
   width: 94%;
+  margin-top:10px;
   justify-content: space-around;
   .bottomItem {
     display: flex;
