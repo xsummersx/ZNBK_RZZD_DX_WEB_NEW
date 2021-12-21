@@ -10,7 +10,9 @@
   <div class="right-small-box">
     <div class="box-title clearfix">
       <span class="float-l title">语言能力</span>
-      <span class="float-r check-icon"><i></i>班级语言能力对比分析</span>
+      <span class="float-r check-icon" @click="openDialog"
+        ><i></i>班级语言能力对比分析</span
+      >
     </div>
     <div class="main">
       <div class="listenAbility" :class="classToName(lanResInfo.TL)">
@@ -44,6 +46,15 @@
         <div class="ability">综合能力</div>
       </div>
     </div>
+    <el-dialog
+      title="班级语言能力对比分析"
+      :visible.sync="dialogVisible"
+      :close-on-click-modal="false"
+      width="1000px"
+      top="0vh"
+    >
+      <LanDialog />
+    </el-dialog>
   </div>
 </template>
 
@@ -59,7 +70,11 @@ export default {
         YD: 1,
         TL: 2,
       },
+      dialogVisible: false,
     };
+  },
+  components: {
+    LanDialog: () => import("./dialog/LanDialog.vue"),
   },
   created() {
     let params = {
@@ -75,6 +90,9 @@ export default {
   },
   mounted() {},
   methods: {
+    openDialog() {
+      this.dialogVisible = true;
+    },
     // 数字转为字符串
     numToString(i) {
       switch (i) {

@@ -7,9 +7,9 @@
  * @FilePath: 教育局、学校校长=》认知平均分，图0，图1
 -->
 <template>
-  <div class="left-Content-Box">
+  <div class="left-Content-Box" :style="boxHeight">
     <span class="title">认知平均分</span>
-    <div class="main" v-if="userType === 'edu'">
+    <div class="main" v-if="userType === 8">
       <div class="left">
         <div id="echart" style="width: 100%; height: 100%"></div>
         <div class="text">
@@ -26,10 +26,10 @@
         <span>较上周</span>
       </div>
     </div>
-    <div class="main" v-if="userType === 'leader'">
+    <div class="main" v-if="userType === 7">
       <div class="leader">
         <span class="textColor">全校平均认知分</span>
-        <div class="left">
+        <div class="left1">
           <div id="echart" style="width: 100%; height: 100%"></div>
           <div class="text">
             <span><span class="number">5419</span>分</span>
@@ -52,7 +52,7 @@
         <span class="textColor">全区平均认知分</span>
       </div>
     </div>
-    <div class="bottom" v-if="userType === 'edu'">
+    <div class="bottom" v-if="userType === 8">
       <!-- 全区排行榜 -->
       <div class="bottomItem">
         <span class="bottomTitle icon1">全区排行榜<span class="top2">TOP2</span></span>
@@ -70,7 +70,7 @@
         </div>
       </div>
     </div>
-    <div class="bottom-leader" v-if="userType === 'leader'">
+    <div class="bottom-leader" v-if="userType === 7">
       <!-- 本校区排名 -->
       <div class="bottomItem">
         <span class="bottomTitle">本校区排名</span>
@@ -83,7 +83,7 @@
         <span class="bottomTitle">全区第一名学校</span>
         <div class="content">
           <span class="schoolName">浙师大附属嘉善实验中学</span>
-          <span class="schoolScore textColor">9095分</span>
+          <span class="schoolScore numberColor">9095分</span>
         </div>
       </div>
     </div>
@@ -98,8 +98,20 @@ export default {
     return {
       status: "up",
       level: "A",
-      userType: "leader",
+      // 8:教育局
+      // 7:校领导
+      userType: 8,
     };
+  },
+  computed: {
+      boxHeight: function() { 
+        if(this.userType === 7){
+          return "height: 308px"
+        }
+        else{
+          return "height: 298px"
+        }
+      }
   },
   mounted() {
     this.chart();
@@ -196,8 +208,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.textColor {
+.numberColor {
   color: #a2afcc;
+}
+.textColor {
+  color: #fff;
+  opacity: 0.8;
 }
 .left-Content-Box {
   display: flex;
@@ -206,8 +222,9 @@ export default {
   align-items: center;
   margin: 20px 0;
   width: 400px;
-  height: 308px;
+  // height: 308px;
   background: url(~@/assets/img/teacher/认知平均分_bg.png) center center no-repeat;
+  background-size: 100% 100%;
   .title {
     margin-top: 6px;
     font-family: YouSheBiaoTiHei;
@@ -219,7 +236,7 @@ export default {
   display: flex;
   display: -webkit-flex;
   flex-direction: row;
-  margin: 10px 0 10px 0;
+  margin: 15px 0 0 0;
   justify-content: space-around;
   .left {
     display: flex;
@@ -229,6 +246,27 @@ export default {
     align-items: center;
     width: 140px;
     height: 140px;
+    margin-right: -28px;
+    .text {
+      position: absolute;
+      margin-top: -10px;
+      width: 100%;
+      text-align: center;
+    }
+    .number {
+      font-size: 32px;
+      font-family: Oswald;
+    }
+  }
+  .left1 {
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 140px;
+    height: 140px;
+    // margin-right: -25px;
     .text {
       position: absolute;
       margin-top: -10px;
@@ -292,6 +330,8 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 140px;
+    margin-right: -10px;
     .compare {
       .icon {
         height: 22px;
@@ -312,6 +352,7 @@ export default {
     align-items: center;
     width: 162px;
     height: 142px;
+    margin-left: -32px;
     background: url(~@/assets/img/eduSchool/全区平均统计.png) center center no-repeat;
     .score {
       font-size: 24px;

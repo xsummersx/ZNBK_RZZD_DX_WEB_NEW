@@ -14,7 +14,7 @@
         <div id="echart" style="width: 100%; height: 100%"></div>
         <div class="text">
           <span
-            ><span class="number">{{ info.ClassAvgIndex }}</span
+            ><span class="number">{{ avgIndex }}</span
             >分</span
           >
           <br />
@@ -36,9 +36,13 @@
       <span class="bottomTitle" v-if="userType === 'teacher'"
         >学生排行榜<span class="top2">TOP2</span></span
       >
-      <div class="content">
+      <div class="content" v-if="userType === 'teacher'">
         <span>·{{ theFirst.StudentName + " " + theFirst.CurrentIndex }}分</span>
         <span>·{{ theSecond.StudentName + " " + theSecond.CurrentIndex }}分</span>
+      </div>
+      <div class="content" v-else>
+        <span>·{{ theFirst.CourseClassName + " " + theFirst.ClassAvgIndex }}分</span>
+        <span>·{{ theSecond.CourseClassName + " " + theSecond.ClassAvgIndex }}分</span>
       </div>
     </div>
     <div class="foot">
@@ -91,11 +95,26 @@ export default {
     };
   },
   computed: {
+    avgIndex: function () {
+      if (this.userType === "teacher") {
+        return this.info.ClassAvgIndex;
+      } else {
+        return this.info.GradeAvgIndex;
+      }
+    },
     theFirst: function () {
-      return this.info.StuIndexList[0];
+      if (this.userType === "teacher") {
+        return this.info.StuIndexList[0];
+      } else {
+        return this.info.ClassList[0];
+      }
     },
     theSecond: function () {
-      return this.info.StuIndexList[1];
+      if (this.userType === "teacher") {
+        return this.info.StuIndexList[1];
+      } else {
+        return this.info.ClassList[1];
+      }
     },
     compareData: function () {
       if (this.info.ChangeIndex < 0) {
@@ -115,9 +134,15 @@ export default {
 
   watch: {
     info: function () {
-      this.info.StuIndexList.sort((a, b) => {
-        return b.CurrentIndex - a.CurrentIndex;
-      });
+      if (this.userType === "teacher") {
+        this.info.StuIndexList.sort((a, b) => {
+          return b.CurrentIndex - a.CurrentIndex;
+        });
+      } else {
+        this.info.StuIndexList.sort((a, b) => {
+          return b.ClassAvgIndex - a.ClassAvgIndex;
+        });
+      }
     },
   },
   mounted() {
