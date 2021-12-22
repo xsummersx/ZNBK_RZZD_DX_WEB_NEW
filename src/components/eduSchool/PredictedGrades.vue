@@ -7,9 +7,9 @@
  * @FilePath: 教育局、学校校长=》高考预估成绩，图0，图1
 -->
 <template>
-  <div class="left-Content-Box">
+  <div class="left-Content-Box" :style="boxHeight">
     <span class="title">高考预估成绩</span>
-    <div class="main" v-if="userType === 'edu'">
+    <div class="main" v-if="userType === 8">
       <div class="left">
         <div class="fu-progress">
           <div class="fu-inner">
@@ -32,7 +32,7 @@
         <span>较上周</span>
       </div>
     </div>
-    <div class="main" v-if="userType === 'leader'">
+    <div class="main" v-if="userType === 7">
       <div class="leader">
         <span class="textColor">全校平均预估成绩</span>
         <div class="left">
@@ -64,7 +64,7 @@
         <span class="textColor">全区平均预估成绩</span>
       </div>
     </div>
-    <div class="bottom" v-if="userType === 'edu'">
+    <div class="bottom" v-if="userType === 8">
       <!-- 全区排行榜 -->
       <div class="bottomItem">
         <span class="bottomTitle icon1">全区排行榜<span class="top2">TOP2</span></span>
@@ -82,7 +82,7 @@
         </div>
       </div>
     </div>
-    <div class="bottom-leader" v-if="userType === 'leader'">
+    <div class="bottom-leader" v-if="userType === 7">
       <!-- 本校区排名 -->
       <div class="bottomItem">
         <span class="bottomTitle">本校区排名</span>
@@ -95,7 +95,7 @@
         <span class="bottomTitle">全区第一名学校</span>
         <div class="content">
           <span class="schoolName">浙师大附属嘉善实验中学</span>
-          <span class="schoolScore textColor">140分</span>
+          <span class="schoolScore numberColor">140分</span>
         </div>
       </div>
     </div>
@@ -109,8 +109,22 @@ export default {
   data() {
     return {
       status: "up",
-      userType: "leader",
+      // 8:教育局
+      // 7:校领导
+      userType: 8,
+      // boxHeight: "height: 298px"
     };
+  },
+  computed: {
+      boxHeight: function() { 
+        if(this.userType === 7){
+          return "height: 308px"
+        }
+        else{
+          return "height: 298px"
+        }
+      }
+
   },
   methods: {
     // init() {
@@ -124,8 +138,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.textColor {
+.numberColor {
   color: #a2afcc;
+}
+.textColor {
+  color: #fff;
+  opacity: 0.8;
 }
 .left-Content-Box {
   display: flex;
@@ -134,8 +152,9 @@ export default {
   align-items: center;
   margin: 20px 0;
   width: 400px;
-  height: 308px;
+  // height: 308px;
   background: url(~@/assets/img/teacher/认知平均分_bg.png) center center no-repeat;
+  background-size: 100% 100%;
   .title {
     margin-top: 6px;
     font-family: YouSheBiaoTiHei;
@@ -151,7 +170,7 @@ export default {
   display: flex;
   display: -webkit-flex;
   flex-direction: row;
-  margin: 30px 0 10px;
+  margin: 30px 0 5px;
   justify-content: space-around;
   .left {
     display: flex;
@@ -190,6 +209,7 @@ export default {
     font-size: 12px;
   }
   .leader {
+    margin-top: -15px;
     display: -webkit-flex;
     display: flex;
     flex-direction: column;
@@ -198,8 +218,8 @@ export default {
       .icon {
         height: 22px;
         width: 37px;
-        left: 130px;
-        bottom: 135px;
+        left: 125px;
+        bottom: 145px;
         background: url(~@/assets/img/eduSchool/VS.png) center center no-repeat;
         position: absolute;
       }
@@ -276,6 +296,7 @@ export default {
   display: flex;
   display: -webkit-flex;
   width: 94%;
+  margin-top:10px;
   justify-content: space-around;
   .bottomItem {
     display: flex;
