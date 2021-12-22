@@ -1,7 +1,7 @@
 /*
  * @Author: 共同负责
  * @Date: 2021-11-24 09:50:11
- * @LastEditTime: 2021-12-01 09:15:39
+ * @LastEditTime: 2021-12-16 14:51:46
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 路由
@@ -42,7 +42,7 @@ const routes = [
     children: [
       {
         path: "/home/educationRZZD",
-        name: "SchoolRZZD",
+        name: "educationRZZD",
         component: () => import("../views/educationRZZD.vue"), //教育局领导
       },
       {
@@ -52,12 +52,12 @@ const routes = [
       },
       {
         path: "/home/gradeRZZD",
-        name: "SchoolRZZD",
+        name: "gradeRZZD",
         component: () => import("../views/gradeRZZD.vue"), //年级组长
       },
       {
         path: "/home/teacherRZZD",
-        name: "SchoolRZZD",
+        name: "teacherRZZD",
         component: () => import("../views/teacherRZZD.vue"), //学校校领导
       },
     ],

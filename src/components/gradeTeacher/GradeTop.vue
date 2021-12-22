@@ -10,38 +10,103 @@
   <div>
     <ArrowTitle titleStr="重点关注班级"></ArrowTitle>
     <div class="clearfix">
-    <StudentBox class="float-l one-box" :stulist='stulist' titleStr="作答试卷较少班级"></StudentBox>
-    <StudentBox class="float-l" :stulist='stulist' titleStr="认知成绩较差班级"></StudentBox>
-    <StudentBox class="float-l three-box" :stulist='stulist' titleStr="退步较大班级"></StudentBox>
+      <StudentBox
+        class="float-l one-box"
+        :stulist="propList1"
+        arrIndex="1"
+        titleStr="作答试卷较少班级"
+      ></StudentBox>
+      <StudentBox
+        class="float-l"
+        :stulist="propList2"
+        arrIndex="2"
+        titleStr="认知成绩较差班级"
+      ></StudentBox>
+      <StudentBox
+        class="float-l three-box"
+        :stulist="propList3"
+        arrIndex="3"
+        titleStr="退步较大班级"
+      ></StudentBox>
     </div>
-    <div>
-    </div>
+    <div></div>
   </div>
 </template>
 
 <script>
+import { GetGradeSpecialFocusClass_V3 } from "@/api/gradeTeacher/right";
 export default {
   data() {
     return {
-      stulist:[
-        {stuRank:2,stuName:"张三三",stuPaperNum:10},
-        {stuRank:1,stuName:"张三三",stuPaperNum:10},
-        {stuRank:4,stuName:"张三三",stuPaperNum:10}
-      ]
-    }
+      resInfo: {},
+      propList1: [],
+      propList2: [],
+      propList3: [],
+    };
   },
   components: {
     ArrowTitle: () => import("../common/ArrowTitle.vue"),
     StudentBox: () => import("../common/StudentBox.vue"),
   },
+  mounted() {
+    let params = {
+      SchoolID: this.$store.state.SchoolID,
+      CourseClassID: this.$store.state.CourseClassID,
+      TID: this.$store.state.TID,
+      Token: this.$store.state.Token,
+      GlobalGrade: this.$store.state.GlobalGrade,
+      ZsdArea: this.$store.state.ZsdArea,
+    };
+    GetGradeSpecialFocusClass_V3(params).then((res) => {
+      console.log(res);
+      this.resInfo = res.Data;
+      this.changeToSame(this.resInfo.PaperList, 1);
+      this.changeToSame(this.resInfo.IndexList, 2);
+      this.changeToSame(this.resInfo.IndexList, 3);
+    });
+  },
+  created() {},
+  methods: {
+    changeToSame(arr, index) {
+      for (let i = 0; i < arr.length; i++) {
+        var arrObj = {
+          Rank: "",
+          Name: "",
+          Num: "",
+        };
+        if (index == 1) {
+          arrObj = {
+            Rank: arr[i].Rank,
+            Name: arr[i].CourseClassName,
+            Num: arr[i].ClassPaperCount,
+          };
+          this.propList1.push(arrObj);
+        } else if (index == 2) {
+          arrObj = {
+            Rank: arr[i].Rank,
+            Name: arr[i].CourseClassName,
+            Num: arr[i].ClassAvgIndex,
+          };
+          this.propList2.push(arrObj);
+        } else {
+          arrObj = {
+            Rank: arr[i].Rank,
+            Name: arr[i].CourseClassName,
+            Num: arr[i].ChangeRank,
+          };
+          this.propList3.push(arrObj);
+        }
+      }
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-.one-box{
+.one-box {
   margin: 0 25px 0 40px;
 }
-.three-box{
+.three-box {
   margin: 0 40px 0 25px;
 }
 </style>

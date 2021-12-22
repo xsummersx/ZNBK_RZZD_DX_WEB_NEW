@@ -43,6 +43,8 @@ textarea {
 }
 div,
 input,
+table,
+tr,th,td,
 li,
 ul {
   box-sizing: border-box;

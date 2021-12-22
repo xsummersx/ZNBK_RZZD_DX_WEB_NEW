@@ -8,36 +8,43 @@
 -->
 <template>
   <div class="right-Long-Box">
-      
-      <div class="box-title clearfix">
-        <span class="float-l title">各题型正误统计图</span>
-        <span @click="dialog(1)" class="float-r check-icon"><i></i>学生做题特点对比分析</span>
+    <div class="box-title clearfix">
+      <span class="float-l title">各题型正误统计图</span>
+      <span @click="dialog(1)" class="float-r check-icon"
+        ><i></i>学生做题特点对比分析</span
+      >
+    </div>
+    <div class="legend" v-show="showData">
+      <span class="maxScore" v-show="maxTypeName"
+        >正确率最高题型: <span>{{ maxTypeName }}</span></span
+      >
+      <span class="minScore" v-show="minTypeName"
+        >正确率最低题型: <span>{{ minTypeName }}</span></span
+      >
+    </div>
+    <div id="questionCharts"></div>
+    <el-dialog
+      title="对比分析"
+      :visible.sync="dialogVisible"
+      :close-on-click-modal="false"
+      width="1000px"
+      top="0vh"
+    >
+      <div>
+        <QuestionDiolog v-if="dialogIndex == 1"></QuestionDiolog>
+        <StuReport v-else></StuReport>
       </div>
-      <div class="legend" v-show="showData">
-        <span class="maxScore" v-show="maxTypeName"
-          >正确率最高题型: <span>{{ maxTypeName }}</span></span
-        >
-        <span class="minScore" v-show="minTypeName"
-          >正确率最低题型: <span>{{ minTypeName }}</span></span
-        >
-      </div>
-      <div id="questionCharts"></div>
-      <el-dialog title="对比分析" :visible.sync="dialogVisible" :close-on-click-modal="false" width="1000px" top="0vh">
-        <div>
-          <QuestionDiolog v-if="dialogIndex==1"></QuestionDiolog>
-          <StuReport v-else></StuReport>
-        </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { GetClassExerciseTrait } from "../../api/paperTwo/question";
+import { GetGradeExerciseTrait_V3 } from "../../api/paperTwo/gradeQuestion";
+import { GetClassExerciseTrait_V3 } from "../../api/paperTwo/gradeQuestion";
 export default {
   data() {
     return {
       resInfo: {
-        
         TypeInfoList: [],
         PaperCorrectRateList: [],
       },
@@ -45,57 +52,90 @@ export default {
       maxTypeName: "",
       minTypeName: "",
       dialogVisible: false, //默认隐藏弹框
-      dialogIndex:1,//弹窗，学生成绩单，
-      
-    }
+      dialogIndex: 1, //弹窗，学生成绩单，
+    };
   },
   components: {
     QuestionDiolog: () => import("../../views/dialog/QuestionDiolog.vue"),
     StuReport: () => import("../../views/dialog/StuReport.vue"),
   },
-  created() {
-    
-    let params = {
-      SchoolID: "S4-000020-9AB3",
-      CourseClassID: "6A04CCDA-0598-4D6E-9A06-C7155E8BD8F5",
-      TID: "T1014003",
-      GlobalGrade: "K12",
-      StageNo: "C",
-      PageNum: -1,
-      Token: "f6aafd16-6fc1-442e-89f3-3becac457b3c",
-    };
-    GetClassExerciseTrait(params).then((res) => {
-      console.log(res);
-          this.resInfo = res.Data;
-           if (this.resInfo.MaxRateGenreName.length > 2) {
-            this.maxTypeName =
-              this.resInfo.MaxRateGenreName[0] +
-              "、" +
-              this.resInfo.MaxRateGenreName[1] +
-              "等";
-          } else {
-            this.maxTypeName = this.resInfo.MaxRateGenreName.join("、");
-          }
-          if (this.resInfo.MinRateGenreName.length > 2) {
-            this.minTypeName =
-              this.resInfo.MinRateGenreName[0] +
-              "、" +
-              this.resInfo.MinRateGenreName[1] +
-              "等";
-          } else {
-            this.minTypeName = this.resInfo.MinRateGenreName.join("、");
-          }
-          this.drawLine();
-          this.showData = true;
-
-    });
-  },
+  created() {},
   mounted() {
-    
+    console.log(this.$route.name);
+    if (this.$route.name == "gradeRZZD") {
+      this.GetGradeExerciseTrait_V3();
+    } else if (this.$route.name == "teacherRZZD") {
+      this.GetClassExerciseTrait_V3();
+    }
   },
   methods: {
-    
-    dialog(i){
+    // 年级组长
+    GetGradeExerciseTrait_V3() {
+      let params = {
+        Token: this.$store.state.Token,
+        TID: this.$store.state.TID,
+        SchoolID: this.$store.state.SchoolID,
+        GlobalGrade: this.$store.state.GlobalGrade,
+        StageNo: this.$store.state.StageNo,
+      };
+      GetGradeExerciseTrait_V3(params).then((res) => {
+        this.resInfo = res.Data;
+        if (this.resInfo.MaxRateGenreName.length > 2) {
+          this.maxTypeName =
+            this.resInfo.MaxRateGenreName[0] +
+            "、" +
+            this.resInfo.MaxRateGenreName[1] +
+            "等";
+        } else {
+          this.maxTypeName = this.resInfo.MaxRateGenreName.join("、");
+        }
+        if (this.resInfo.MinRateGenreName.length > 2) {
+          this.minTypeName =
+            this.resInfo.MinRateGenreName[0] +
+            "、" +
+            this.resInfo.MinRateGenreName[1] +
+            "等";
+        } else {
+          this.minTypeName = this.resInfo.MinRateGenreName.join("、");
+        }
+        this.drawLine();
+        this.showData = true;
+      });
+    },
+    // 教师
+    GetClassExerciseTrait_V3() {
+      let params = {
+        Token: this.$store.state.Token,
+        TID: this.$store.state.TID,
+        SchoolID: this.$store.state.SchoolID,
+        CourseClassID: this.$store.state.CourseClassID,
+        StageNo: this.$store.state.StageNo,
+      };
+      GetClassExerciseTrait_V3(params).then((res) => {
+        this.resInfo = res.Data;
+        if (this.resInfo.MaxRateGenreName.length > 2) {
+          this.maxTypeName =
+            this.resInfo.MaxRateGenreName[0] +
+            "、" +
+            this.resInfo.MaxRateGenreName[1] +
+            "等";
+        } else {
+          this.maxTypeName = this.resInfo.MaxRateGenreName.join("、");
+        }
+        if (this.resInfo.MinRateGenreName.length > 2) {
+          this.minTypeName =
+            this.resInfo.MinRateGenreName[0] +
+            "、" +
+            this.resInfo.MinRateGenreName[1] +
+            "等";
+        } else {
+          this.minTypeName = this.resInfo.MinRateGenreName.join("、");
+        }
+        this.drawLine();
+        this.showData = true;
+      });
+    },
+    dialog(i) {
       this.dialogVisible = true;
       this.dialogIndex = i;
     },
@@ -117,9 +157,7 @@ export default {
         if (bol) {
           let obj = {};
           obj.xAxis = legend[i];
-          obj.yAxis = (
-            this.resInfo.TypeInfoList[i].TypeScoreRate * 100
-          ).toFixed(2);
+          obj.yAxis = (this.resInfo.TypeInfoList[i].TypeScoreRate * 100).toFixed(2);
           markMaxData.push(obj);
         }
       }
@@ -143,9 +181,7 @@ export default {
         if (bol) {
           let obj = {};
           obj.xAxis = legend[i];
-          obj.yAxis = (
-            this.resInfo.TypeInfoList[i].TypeScoreRate * 100
-          ).toFixed(2);
+          obj.yAxis = (this.resInfo.TypeInfoList[i].TypeScoreRate * 100).toFixed(2);
           markMinData.push(obj);
         }
       }
@@ -166,20 +202,14 @@ export default {
         });
         if (bol) {
           MAX.push(100.01);
-          seriesData2.push(
-            (that.resInfo.TypeInfoList[i].TypeScoreRate * 100).toFixed(2)
-          );
+          seriesData2.push((that.resInfo.TypeInfoList[i].TypeScoreRate * 100).toFixed(2));
         } else {
           MAX.push(100);
-          seriesData2.push(
-            (that.resInfo.TypeInfoList[i].TypeScoreRate * 100).toFixed(2)
-          );
+          seriesData2.push((that.resInfo.TypeInfoList[i].TypeScoreRate * 100).toFixed(2));
         }
       }
       var echarts = require("echarts");
-      var questionCharts = echarts.init(
-        document.getElementById("questionCharts")
-      );
+      var questionCharts = echarts.init(document.getElementById("questionCharts"));
       questionCharts.setOption(this.$optionObj.questionOptionTwo);
       questionCharts.setOption({
         xAxis: {
@@ -244,7 +274,7 @@ export default {
             // },
             markPoint: {
               symbol:
-              "image://data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAALCAYAAABGbhwYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTM4IDc5LjE1OTgyNCwgMjAxNi8wOS8xNC0wMTowOTowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTcgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkI0RDg3OTYxNTgwMTExRUM4MDMxRUZDMUVCRjFGRDU3IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOkI0RDg3OTYyNTgwMTExRUM4MDMxRUZDMUVCRjFGRDU3Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6QjREODc5NUY1ODAxMTFFQzgwMzFFRkMxRUJGMUZENTciIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6QjREODc5NjA1ODAxMTFFQzgwMzFFRkMxRUJGMUZENTciLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz42oWljAAAAp0lEQVR42mJk+H+XAQpCgTgHiI2h/DNAPBWIV4M4jECFjEB6FhCnMGAHc4A4DaQwAciYz4AfJDEBiVwkAZA7HKH4LpJ4FkihFpJAFxAfgOIuJHEdkMLXSAKWYHdDsCWS+GuQG6cDGRlIgldgpiCJTQcpVIRKcuHwyDeY1feBOA+Pj0Fy95mgnLlAXAHE/5EU/IeKzYUFOLJuP6hvQZ4pBeJNMAmAAAMAo6snWyk96pQAAAAASUVORK5CYII=",
+                "image://data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAALCAYAAABGbhwYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTM4IDc5LjE1OTgyNCwgMjAxNi8wOS8xNC0wMTowOTowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTcgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkI0RDg3OTYxNTgwMTExRUM4MDMxRUZDMUVCRjFGRDU3IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOkI0RDg3OTYyNTgwMTExRUM4MDMxRUZDMUVCRjFGRDU3Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6QjREODc5NUY1ODAxMTFFQzgwMzFFRkMxRUJGMUZENTciIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6QjREODc5NjA1ODAxMTFFQzgwMzFFRkMxRUJGMUZENTciLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz42oWljAAAAp0lEQVR42mJk+H+XAQpCgTgHiI2h/DNAPBWIV4M4jECFjEB6FhCnMGAHc4A4DaQwAciYz4AfJDEBiVwkAZA7HKH4LpJ4FkihFpJAFxAfgOIuJHEdkMLXSAKWYHdDsCWS+GuQG6cDGRlIgldgpiCJTQcpVIRKcuHwyDeY1feBOA+Pj0Fy95mgnLlAXAHE/5EU/IeKzYUFOLJuP6hvQZ4pBeJNMAmAAAMAo6snWyk96pQAAAAASUVORK5CYII=",
               symbolSize: [10, 10],
               symbolOffset: [0, -15], //偏移位置
               cursor: "default",
@@ -291,48 +321,47 @@ export default {
       });
     },
   },
-}
+};
 </script>
 <style lang="scss">
 @import "../../assets/js/dialog/colorGlobal.scss";
 @import "../../assets/js/dialog/elementReset_Dialog.scss";
 </style>
 <style lang="scss" scoped>
-.right-Long-Box{
-    display: inline-block;
-    width: 1270px;
-	height: 260px;
-	background-color: rgba(255,255,255,0.05);
-	border-radius: 4px 0px 4px 4px;
-	margin-top: 30px;
-	padding: 18px 20px 0 30px;
+.right-Long-Box {
+  display: inline-block;
+  width: 1270px;
+  height: 260px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 4px 0px 4px 4px;
+  margin-top: 30px;
+  padding: 18px 20px 0 30px;
 }
-#questionCharts{
-  width: 1220px;height: 205px;
+#questionCharts {
+  width: 1220px;
+  height: 205px;
 }
 
-  .legend {
-    margin: 0 auto;
-    text-align: center;
-    color: #e0e0e0;
-    font-size: 12px;
-    .maxScore {
-      display: inline-block;
-      margin-right: 45px;
-      background: url("../../assets/img/teacher/最高最好标识.png") center left
-        no-repeat;
-      padding-left: 14px;
-      span {
-        color: #99ff50;
-      }
-    }
-    .minScore {
-      background: url("../../assets/img/teacher/最低最弱标识.png") center left
-        no-repeat;
-      padding-left: 14px;
-      span {
-        color: #ff8080;
-      }
+.legend {
+  margin: 0 auto;
+  text-align: center;
+  color: #e0e0e0;
+  font-size: 12px;
+  .maxScore {
+    display: inline-block;
+    margin-right: 45px;
+    background: url("../../assets/img/teacher/最高最好标识.png") center left no-repeat;
+    padding-left: 14px;
+    span {
+      color: #99ff50;
     }
   }
+  .minScore {
+    background: url("../../assets/img/teacher/最低最弱标识.png") center left no-repeat;
+    padding-left: 14px;
+    span {
+      color: #ff8080;
+    }
+  }
+}
 </style>

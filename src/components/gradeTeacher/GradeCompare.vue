@@ -14,33 +14,55 @@
 </template>
 
 <script>
+import { GetGradeClassCongnitiveTrastAnalysis_V3 } from "@/api/gradeTeacher/right";
 export default {
   data() {
-    return {};
+    return {
+      resInfo: {},
+    };
   },
-  mounted() {
-    this.drawLine();
+  created() {
+    let params = {
+      Token: this.$store.state.Token,
+      TID: this.$store.state.TID,
+      ProvinceID: this.$store.state.ProvinceID,
+      CityID: this.$store.state.CityID,
+      CountyID: this.$store.state.CountyID,
+      GlobalGrade: this.$store.state.GlobalGrade,
+      SchoolID: this.$store.state.SchoolID,
+      ZsdArea: this.$store.state.ZsdArea,
+    };
+    GetGradeClassCongnitiveTrastAnalysis_V3(params).then((res) => {
+      this.resInfo = res.Data;
+      this.drawLine();
+    });
   },
+  mounted() {},
   components: {
     ArrowTitle: () => import("../common/ArrowTitle.vue"),
   },
   methods: {
     drawLine() {
-      let xDate = [
-        "高三(2)班",
-        "高三(2)班",
-        "高三(2)班",
-        "高三(2)班",
-        "高三(2)班",
-      ];
-      let paper = [100, 111, 240, 50, 60];
-      let score = [88, 64, 66, 70, 90];
-      let score2 = [8888, 4444, 6666, 7421, 1111];
-      let score3 = [100, 85, 66, 44, 15];
+      // let xDate = ["高三(2)班", "高三(2)班", "高三(2)班", "高三(2)班", "高三(2)班"];
+      // let paper = [100, 111, 240, 50, 60];
+      // let score = [88, 64, 66, 70, 90];
+      // let score2 = [8888, 4444, 6666, 7421, 1111];
+      // let score3 = [100, 85, 66, 44, 15];
+
+      let xDate = [];
+      let paper = [];
+      let score = [];
+      let score2 = [];
+      let score3 = [];
+      for (let i = 0; i < this.resInfo.length; i++) {
+        xDate.push(this.resInfo[i].CourseClassName);
+        paper.push(this.resInfo[i].FinishedPaperNum);
+        score.push((this.resInfo[i].AvgRate * 100).toFixed());
+        score2.push(this.resInfo[i].AvgIndex);
+        score3.push(this.resInfo[i].AvgScore);
+      }
       var echarts = require("echarts");
-      var compareCharts = echarts.init(
-        document.getElementById("compareCharts")
-      );
+      var compareCharts = echarts.init(document.getElementById("compareCharts"));
       compareCharts.setOption(this.$optionObj.compareOption);
       compareCharts.setOption({
         tooltip: {
@@ -138,7 +160,6 @@ export default {
   height: 120px;
   padding-left: 20px;
   padding-right: 25px;
-  background: url("../../assets/img/grade/柱状图弹窗BG.png") center center
-    no-repeat;
+  background: url("../../assets/img/grade/柱状图弹窗BG.png") center center no-repeat;
 }
 </style>
