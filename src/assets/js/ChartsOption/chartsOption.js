@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-12-09 14:11:40
- * @LastEditTime: 2021-12-15 16:16:56
+ * @LastEditTime: 2021-12-22 14:56:55
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\assets\js\ChartsOption\option.js
@@ -216,26 +216,26 @@ var questionOptionTwo = {
         }
         ]) : new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
           offset: 0,
-          // color: '#61e400'
-          color: 'rgba(0,240,255)'
+          color: '#37eed6'
+          // color: 'rgba(0,240,255)'
 
         },
         {
           offset: 1,
-          // color: '#389500'
-          color: 'rgba(0,240,255,0.5)'
+          color: '#009880'
+          // color: 'rgba(0,240,255,0.5)'
         }
         ])
         // 柱状图顶部颜色
         var color1 = api.value(1) > 100 ? '#ff7676' : new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
           offset: 0,
-          // color: '#95fb4c'
-          color: 'rgba(0,240,255)'
+          color: '#00ffdd'
+          // color: 'rgba(0,240,255)'
         },
         {
           offset: 1,
-          // color: '#95fb4c'
-          color: 'rgba(0,240,255)'
+          color: '#00ffdd'
+          // color: 'rgba(0,240,255)'
         }
         ])
         // 柱状图右侧颜色
@@ -249,13 +249,13 @@ var questionOptionTwo = {
         }
         ]) : new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
           offset: 0,
-          // color: '#53c400'
-          color: 'rgba(0,240,255)'
+          color: '#31d6c0'
+          // color: 'rgba(0,240,255)'
         },
         {
           offset: 1,
-          // color: '#2e7a00'
-          color: 'rgba(0,240,255,0.2)'
+          color: '#007562'
+          // color: 'rgba(0,240,255,0.2)'
         }
         ])
         return {
@@ -379,8 +379,8 @@ var learnOption = {
   },
   grid: {
     top: '50',
-    left: '30',
-    right: '30',
+    left: '50',
+    right: '50',
     bottom: '15%',
   },
   xAxis: [{
@@ -747,7 +747,7 @@ var responseOption = {
   xAxis: {
     name: '试卷\n得分',
     type: 'category',
-    data: ['0~40分', '40~60分', '60~80分', '80~120分', '120~150分'],
+    data: [],
     axisLine: {
       lineStyle: {
         color: 'rgba(224,231,255,0.3)',
@@ -901,7 +901,7 @@ var responseOption = {
           },
         },
       },
-      data: [40, 70, 100, 80, 60, 90],
+      data: [],
     },
   ],
 }
@@ -1144,7 +1144,52 @@ var compareOption = {
         },
       },
       splitLine: {
+        show: false,
+        lineStyle: {
+          type: 'dotted',
+          color: 'rgba(128,151,177,0.76)'
+
+        },
+      },
+      axisLabel: {
+        show: false,
+        color: '#FFFFFF',
+      }
+    },
+    {
+      show: true,
+      axisLine: {
+        show: false,
+        lineStyle: {
+          color: 'rgba(255,255,255,0.2)'
+        },
+      },
+      max:100,
+      splitNumber: 4,
+      interval: 25,
+      splitLine: {
         show: true,
+        lineStyle: {
+          type: 'dotted',
+          color: 'rgba(128,151,177,0.30)'
+
+        },
+      },
+      axisLabel: {
+        show: false,
+        color: '#FFFFFF',
+      }
+    },
+    {
+      show: true,
+      axisLine: {
+        show: false,
+        lineStyle: {
+          color: 'rgba(255,255,255,0.2)'
+        },
+      },
+      splitLine: {
+        show: false,
         lineStyle: {
           type: 'dotted',
           color: 'rgba(128,151,177,0.76)'
@@ -1165,49 +1210,7 @@ var compareOption = {
         },
       },
       splitLine: {
-        show: true,
-        lineStyle: {
-          type: 'dotted',
-          color: 'rgba(128,151,177,0.76)'
-
-        },
-      },
-      axisLabel: {
         show: false,
-        color: '#FFFFFF',
-      }
-    },
-    {
-      show: true,
-      axisLine: {
-        show: false,
-        lineStyle: {
-          color: 'rgba(255,255,255,0.2)'
-        },
-      },
-      splitLine: {
-        show: true,
-        lineStyle: {
-          type: 'dotted',
-          color: 'rgba(128,151,177,0.76)'
-
-        },
-      },
-      axisLabel: {
-        show: false,
-        color: '#FFFFFF',
-      }
-    },
-    {
-      show: true,
-      axisLine: {
-        show: false,
-        lineStyle: {
-          color: 'rgba(255,255,255,0.2)'
-        },
-      },
-      splitLine: {
-        show: true,
         lineStyle: {
           type: 'dotted',
           color: 'rgba(128,151,177,0.76)'
@@ -1313,11 +1316,11 @@ var compareOption = {
         // 柱状图左侧颜色
         var color = new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
           offset: 0,
-          color: '#009880'
+          color: '#37eed6'
         },
         {
           offset: 1,
-          color: '#37eed6'
+          color: '#009880'
         }
         ])
         // 柱状图顶部颜色
@@ -1335,12 +1338,12 @@ var compareOption = {
         // 柱状图右侧颜色
         var color2 = new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
           offset: 0,
-          color: '#007562'
+          color: '#31d6c0'
           // color: 'rgba(0,240,255)'
         },
         {
           offset: 1,
-          color: '#31d6c0'
+          color: '#007562'
           // color: 'rgba(0,240,255,0.2)'
         }
         ])
@@ -1397,11 +1400,11 @@ var compareOption = {
         // 柱状图左侧颜色
         var color = new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
           offset: 0,
-          color: '#cf5c00'
+          color: '#ffbb39'
         },
         {
           offset: 1,
-          color: '#ffbb39'
+          color: '#cf5c00'
         }
         ])
         // 柱状图顶部颜色
@@ -1419,12 +1422,12 @@ var compareOption = {
         // 柱状图右侧颜色
         var color2 = new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
           offset: 0,
-          color: '#ca5600'
+          color: '#ee9b27'
           // color: 'rgba(0,240,255)'
         },
         {
           offset: 1,
-          color: '#ee9b27'
+          color: '#ca5600'
           // color: 'rgba(0,240,255,0.2)'
         }
         ])

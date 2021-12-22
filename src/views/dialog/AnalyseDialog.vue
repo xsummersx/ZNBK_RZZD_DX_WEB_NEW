@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-12-14 09:39:57
- * @LastEditTime: 2021-12-14 13:38:06
+ * @LastEditTime: 2021-12-20 09:02:03
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\views\dialog\AnalyseDialog.vue
@@ -103,6 +103,25 @@ export default {
         return {
             StuCount:8
         }
+    },
+    methods: {
+      
+    handleSizeChange(val) {
+      // 改变每页显示的条数
+      if (this.$route.query.str == "gradeLeader") {
+        this.PageSize2 = val;
+      }
+      this.PageSize = val;
+      // 注意：在改变每页显示的条数时，要将页码显示到第一页
+      this.currentPage = 1;
+    },
+    // 显示第几页
+    handleCurrentChange(val) {
+      // 改变默认的页数
+      this.currentPage = val;
+      this.emptyText = "加载中...";
+      // this.showList = [];
+    },
     },
 };
 </script>

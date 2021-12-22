@@ -8,33 +8,30 @@
 -->
 <template>
   <div class="students-box">
-    <div class="box-title">
-      {{ titleStr }}<span class="small-title">TOP3</span>
-    </div>
+    <div class="box-title">{{ titleStr }}<span class="small-title">TOP3</span></div>
     <div class="clearfix">
-      <div
-        class="float-l stu-box"
-        v-for="(item, index) in stulist"
-        :key="index"
-      >
+      <div class="float-l stu-box" v-for="(item, index) in stulist" :key="index">
         <span
           :class="
-            item.stuRank == 1
+            item.Rank == 1
               ? 'rank1'
-              : item.stuRank == 2
+              : item.Rank == 2
               ? 'rank2'
-              : item.stuRank == 3
+              : item.Rank == 3
               ? 'rank3'
               : 'stu-rank'
           "
           class="float-l"
-          >{{ item.stuRank > 3 ? item.stuRank : "" }}</span
+          >{{ item.Rank > 3 ? item.Rank : "" }}</span
         >
         <span class="float-l" style="text-align: left">
-          <span class="stu-name">{{ item.stuName }}</span
+          <span class="stu-name">{{ item.Name }}</span
           ><br />
-          <span class="stu-paperNum"
-            >{{ item.stuPaperNum }}<span>份</span></span
+          <span
+            class="stu-paperNum"
+            :class="arrIndex == 3 ? (item.Num >= 0 ? 'greenNum' : 'redNum') : ''"
+            >{{ item.Num }}<span v-if="arrIndex == 1">份</span
+            ><span v-else-if="arrIndex == 2">分</span><span v-else>名</span></span
           >
         </span>
       </div>
@@ -47,6 +44,10 @@ export default {
   props: {
     titleStr: String,
     stulist: Array,
+    arrIndex: String,
+  },
+  mounted() {
+    console.log(this.index);
   },
 };
 </script>
@@ -56,8 +57,7 @@ export default {
   width: 380px;
   height: 90px;
   padding: 13px 18px;
-  background: url("~@/assets/img/teacher/重点关注学生BG.png") center center
-    no-repeat;
+  background: url("~@/assets/img/teacher/重点关注学生BG.png") center center no-repeat;
   .box-title {
     font-family: YouSheBiaoTiHei;
     font-size: 16px;
@@ -81,8 +81,7 @@ export default {
         font-size: 12px;
         color: #666666;
         margin-right: 5px;
-        background: url("~@/assets/img/grade/其他名次BG.png") center center
-          no-repeat;
+        background: url("~@/assets/img/grade/其他名次BG.png") center center no-repeat;
         vertical-align: middle;
       }
       .rank1,
@@ -92,16 +91,13 @@ export default {
         width: 22px;
         height: 29px;
         margin-right: 5px;
-        background: url("~@/assets/img/grade/第一名.png") center center
-          no-repeat;
+        background: url("~@/assets/img/grade/第一名.png") center center no-repeat;
       }
-      .rank2{
-        background: url("~@/assets/img/grade/第二名.png") center center
-          no-repeat;
+      .rank2 {
+        background: url("~@/assets/img/grade/第二名.png") center center no-repeat;
       }
-      .rank3{
-        background: url("~@/assets/img/grade/第三名.png") center center
-          no-repeat;
+      .rank3 {
+        background: url("~@/assets/img/grade/第三名.png") center center no-repeat;
       }
       .stu-name {
         font-size: 14px;
@@ -121,6 +117,16 @@ export default {
           font-family: "MicrosoftYaHei";
           vertical-align: middle;
         }
+      }
+      .greenNum {
+        color: springgreen;
+        padding-left: 10px;
+        background: url("../../assets/img/common/升.png") center left no-repeat;
+      }
+      .redNum {
+        color: #ff8080;
+        padding-left: 10px;
+        background: url("../../assets/img/common/升.png") center left no-repeat;
       }
     }
   }
