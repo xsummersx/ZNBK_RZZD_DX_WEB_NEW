@@ -46,9 +46,7 @@ export default {
     stulist: Array,
     arrIndex: String,
   },
-  mounted() {
-    console.log(this.index);
-  },
+  mounted() {},
 };
 </script>
 

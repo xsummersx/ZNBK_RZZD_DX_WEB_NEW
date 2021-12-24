@@ -128,7 +128,7 @@ export default {
   methods: {
     GetGradePublishedPaperDaily_V3(PaperID, i) {
       let params = {
-        Token: this.$store.state.Token,
+        token: this.$store.state.token,
         TID: this.$store.state.TID,
         SchoolID: this.$store.state.SchoolID,
         GlobalGrade: this.$store.state.GlobalGrade,

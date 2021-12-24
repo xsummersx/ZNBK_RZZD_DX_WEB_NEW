@@ -96,11 +96,11 @@ export default {
     // this.getUserInfo();
     //请求getUserInfo
     // let params = {
-    //   Token: this.$route.query.token,
+    //   token: this.$route.query.token,
     //   UserID: "T1014003",
     // };
     // let params1 = {
-    //   Token: this.$route.query.token,
+    //   token: this.$route.query.token,
     //   CourseClassID: "6A04CCDA-0598-4D6E-9A06-C7155E8BD8F5",
     //   SchoolID: this.$store.state.UserInfo.SchoolID,
     //   GlobalGrade: "K12",
@@ -110,7 +110,7 @@ export default {
     //   this.$store.commit("updateUserData", this.UserInfo);
     // });
     // params1 = {
-    //   Token: this.$route.query.token,
+    //   token: this.$route.query.token,
     //   CourseClassID: "6A04CCDA-0598-4D6E-9A06-C7155E8BD8F5",
     //   SchoolID: this.$store.state.UserInfo.SchoolID,
     //   GlobalGrade: "K12",
@@ -182,7 +182,7 @@ export default {
           this.resInfo = res.Data;
           this.className = this.resInfo.CurrName;
           if (this.resInfo.SwitchInfoList.length == 0) {
-            // let Token = this.$route.query.token;
+            // let token = this.$route.query.token;
             this.$znbkLayer.znbkConfirmWithNoButton(
               "当前账号无班级信息，请联系管理员进行设置",
               "确定",

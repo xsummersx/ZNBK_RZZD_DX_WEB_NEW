@@ -50,7 +50,7 @@ export default {
   },
   mounted() {
     let params = {
-      Token: this.$store.state.Token,
+      token: this.$store.state.token,
       TID: this.$store.state.TID,
       CourseClassID: this.$store.state.CourseClassID,
       SchoolID: this.$store.state.SchoolID,
@@ -59,7 +59,6 @@ export default {
       StageNo: this.$store.state.StageNo,
     };
     GetClassSpecialFocusStudents_V3(params).then((res) => {
-      console.log(res);
       this.resInfo = res.Data;
       this.changeToSame(this.resInfo.PaperList, 1);
       this.changeToSame(this.resInfo.IndexList, 2);
