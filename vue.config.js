@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-03 15:31:36
- * @LastEditTime: 2021-12-23 09:00:24
+ * @LastEditTime: 2021-12-24 14:37:50
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \znbk_zntfd_zx_web\vue.config.js
@@ -26,8 +26,8 @@ module.exports = {
       minimizer: [
         new UglifyJsPlugin({
           uglifyOptions: {
-            compress: {
               warnings: false,
+              compress: {
               drop_console: true, //console
               drop_debugger: false,
               pure_funcs: ["console.log"], //移除console
@@ -48,7 +48,7 @@ module.exports = {
   },
   productionSourceMap: false,
   publicPath: "./",
-  outputDir: "Web", // 输出文件目录,
+  // outputDir: "Web", // 输出文件目录,
   devServer: {
     host: "localhost",
     port: 8080,
