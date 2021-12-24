@@ -100,7 +100,10 @@
 </template>
 
 <script>
-// import { GetClassGrammer } from "@/api/paperTwo/question.js";
+import {
+	GetClassGrammer,
+	GetClassGrammerList,
+} from "@/api/paperTwo/question.js";
 import "echarts-gl";
 export default {
 	data() {
@@ -216,30 +219,24 @@ export default {
 					{
 						MasteredConclusion: 1,
 						StuCount: 10,
-						StuCountProportion: 0.1,
+						StuCountProportion: 0.17,
 					},
 					{
 						MasteredConclusion: 2,
 						StuCount: 35,
-						StuCountProportion: 0.2,
+						StuCountProportion: 0.58,
 					},
 					{
 						MasteredConclusion: 3,
 						StuCount: 15,
-						StuCountProportion: 0.4,
+						StuCountProportion: 0.25,
 					},
 				],
 			},
 		};
 	},
 	created() {
-		// GetClassGrammer()
-		//   .then((res) => {
-		//     this.info = res.Data;
-		//   })
-		//   .catch((err) => {
-		//     console.log(err);
-		//   });
+		// this.init();
 	},
 	computed: {
 		optionData: function () {
@@ -248,8 +245,8 @@ export default {
 				if (+item.MasteredConclusion === 2) {
 					arr.push({
 						name: "掌握一般",
-						value: item.StuCount,
-						ratio: item.StuCountProportion * 100,
+						value: item.StuCountProportion * 100,
+						count: item.StuCount,
 						itemStyle: {
 							color: "#0cce07",
 						},
@@ -257,8 +254,8 @@ export default {
 				} else if (+item.MasteredConclusion === 3) {
 					arr.push({
 						name: "掌握较好",
-						value: item.StuCount,
-						ratio: item.StuCountProportion * 100,
+						value: item.StuCountProportion * 100,
+						count: item.StuCount,
 						itemStyle: {
 							color: "#00ccff",
 						},
@@ -266,8 +263,8 @@ export default {
 				} else {
 					arr.push({
 						name: "掌握较差",
-						value: item.StuCount,
-						ratio: item.StuCountProportion * 100,
+						value: item.StuCountProportion * 100,
+						count: item.StuCount,
 						itemStyle: {
 							color: "#ff8080",
 						},
@@ -278,10 +275,17 @@ export default {
 		},
 	},
 	mounted() {
-		this.init();
+		this.drawInit();
 	},
 	methods: {
+		// 初始化
 		init() {
+			GetClassGrammer({ ...this.$store.state }).then((res) => {
+				this.info = res.Data;
+				this.drawInit();
+			});
+		},
+		drawInit() {
 			//构建3d饼状图
 			let myChart = this.$echarts.init(document.getElementById("charts"));
 			// 传入数据生成 option
@@ -368,9 +372,11 @@ export default {
 								params.seriesName
 							}<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:${
 								params.color
-							};"></span>${
+							};"></span><span style="font-weight: bold">${this.getCount(
+								params.seriesName
+							)}</span>人 (${
 								option.series[params.seriesIndex].pieData.value
-							}人 (${this.getPercent(params.seriesName)}%)`;
+							}%)`;
 						}
 					},
 				},
@@ -488,8 +494,8 @@ export default {
 				this.openDialog(params.seriesName);
 			});
 		},
-		getPercent(d) {
-			return this.optionData.filter((item) => item.name === d)[0].ratio;
+		getCount(d) {
+			return this.optionData.filter((item) => item.name === d)[0].count;
 		},
 		openDialog(n) {
 			if (n === "掌握较好") {
@@ -503,7 +509,7 @@ export default {
 				this.currentType = 1;
 			}
 			this.dialogVisible = true;
-			this.getStuList(1)
+			this.getStuList(1);
 		},
 		handleSizeChange(val) {
 			// 改变每页显示的条数
@@ -525,22 +531,22 @@ export default {
 		// 获取学校名单
 		getStuList(PageNum) {
 			let params = {
-				SchoolID: "S4-000020-9AB3",
-				CourseClassID: "6A04CCDA-0598-4D6E-9A06-C7155E8BD8F5",
-				TID: "T1014003",
-				Token: "02020590-babb-43b7-81b2-64ed8a94d848",
-				ZsdArea: "C",
+				// SchoolID: "S4-000020-9AB3",
+				// CourseClassID: "6A04CCDA-0598-4D6E-9A06-C7155E8BD8F5",
+				// TID: "T1014003",
+				// Token: "02020590-babb-43b7-81b2-64ed8a94d848",
+				// ZsdArea: "C",
+				...this.$store.state,
 				MasterType: this.currentType,
 				PageNum: PageNum,
 				PageSize: this.PageSize,
 			};
-			console.log(params);
-			// GetClassGrammer(params)
-			// 	.then((res) => {
-			// 		this.tableData = res.Data.StuGrammerList;
-			// 		this.pageCount = res.Data.PageCount;
-			// 		this.emptyText = "暂无数据";
-			// 	})
+			// console.log(params);
+			GetClassGrammerList(params).then((res) => {
+				this.tableData = res.Data.StuGrammerList;
+				this.pageCount = res.Data.PageCount;
+				this.emptyText = "暂无数据";
+			});
 			// setTimeout(() => {
 			// 		this.emptyText = "暂无数据";
 			// }, 1500);
