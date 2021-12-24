@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:27:26
- * @LastEditTime: 2021-12-24 10:47:49
+ * @LastEditTime: 2021-12-24 16:12:30
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》地图，图0
@@ -13,7 +13,7 @@
 </template>
 <script>
 import { getMapJson } from "@/api/eduSchool/right.js";
-import { get_A, get_B, get_C, get_D, get_E, get_F, mapBG0 } from "@/api/eduSchool/imgPo.js";
+import { get_A, get_B, get_C, get_D, get_E, get_F, mapBG0, activeBG } from "@/api/eduSchool/imgPo.js";
 export default {
   name: "Map",
   data() {
@@ -101,31 +101,52 @@ export default {
                 itemStyle: {
                   normal: {
                     opacity: 1, // 透明度
-                    borderColor: "#fff", // 省份界线颜色
-                    borderWidth: 3, // 省份界线的宽度
-                    areaColor: "red", // 整个省份的颜色
+                    borderColor: "#18ff00", // 省份界线颜色
+                    borderWidth: 4, // 省份界线的宽度
+                    areaColor: {
+                      image: activeBG(),
+                      repeat: "repeat",
+                    }, //"#045323", // 整个省份的颜色
+                    shadowColor: "rgba(0,0,0,0.5)",
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowOffsetY: 0,
+                  },
+                  emphasis: {
+                    borderColor: "#18ff00", // 省份界线颜色
+                    borderWidth: 4, // 省份界线的宽度
+                    areaColor: {
+                      image: activeBG(),
+                      repeat: "repeat",
+                    }, //"#045323", // 整个省份的颜色
                   },
                 },
               },
             ],
             itemStyle: {
               normal: {
-                areaColor: "#001668",
-                shadowColor: "#0068bc",
-                shadowBlur: 3,
-                shadowOffsetX: 0,
-                shadowOffsetY: 3,
-                borderColor: "#001668",
-                borderWidth: 3,
+                areaColor: "transparent",
+                borderWidth: 0,
+                shadowColor: "rgba(10,76,139,1)",
+                shadowOffsetY: 0,
+                shadowBlur: 60,
               },
               emphasis: {
-                areaColor: "red",
+                borderWidth: 0,
+                areaColor: "transparent",
+              },
+            },
+            label: {
+              normal: {
+                show: false,
+              },
+              emphasis: {
+                show: false,
               },
             },
           },
           series: [
             {
-              zlevel: 2,
               name: "散点",
               type: "scatter",
               coordinateSystem: "geo",
@@ -138,7 +159,7 @@ export default {
             //   data: quyuData,
             // },
             {
-              zlevel: 2,
+              zlevel: 0,
               type: "map",
               selectedMode: false, //默认关闭选中状态
               //data: quyuData,
@@ -169,10 +190,10 @@ export default {
                   // areaColor: function (value, params) {
                   //   console.log(value, params);
                   // }, //"#0643a5", //0634a1
-                  shadowColor: "rgba(0, 0, 0, 0.5)",
-                  shadowBlur: 0,
-                  shadowOffsetX: 0,
-                  shadowOffsetY: 1,
+                  // shadowColor: "#001568",
+                  // shadowBlur: 0,
+                  // shadowOffsetX: 0,
+                  // shadowOffsetY: 3,
                   label: {
                     show: true,
                   },
@@ -190,7 +211,6 @@ export default {
             },
             // gif动画
             {
-              zlevel: 2,
               tooltip: {
                 show: false,
               },
@@ -298,12 +318,12 @@ export default {
             },
             //地域图标
             {
+              zlevel: 2,
               type: "scatter",
               coordinateSystem: "geo",
               itemStyle: {
                 color: "#fff",
               },
-              zlevel: 2,
               symbol: function (value, params) {
                 if (params.data.datas == "A") {
                   return get_A();
