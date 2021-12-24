@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:28:29
- * @LastEditTime: 2021-12-20 14:22:15
+ * @LastEditTime: 2021-12-21 17:10:06
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》学校&班级认知情况对比分析，图0，图1
@@ -113,6 +113,26 @@ export default {
                 color: "#a2afcc",
               },
             },
+          },
+        ],
+        dataZoom: [
+          {
+            type: "slider",
+            show: false,
+            height: 30,
+            xAxisIndex: [0],
+            bottom: 40,
+            start: 0,
+            end: 100,
+          },
+          {
+            type: "inside",
+            show: true,
+            zoomLock: true, //禁用鼠标滚轮
+            height: 15,
+            xAxisIndex: [0],
+            start: 1,
+            end: 100,
           },
         ],
         series: [
