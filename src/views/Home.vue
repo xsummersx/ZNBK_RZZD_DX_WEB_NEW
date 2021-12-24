@@ -1,7 +1,11 @@
 <!--
  * @Author: 主页面
  * @Date: 2021-11-29 09:20:26
- * @LastEditTime: 2021-12-24 11:41:11
+<<<<<<< HEAD
+ * @LastEditTime: 2021-12-24 16:16:51
+=======
+ * @LastEditTime: 2021-12-24 11:18:47
+>>>>>>> 139670bd8a28b8b0bde651804591f973ca6ea9c1
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 主页面，柳欢
@@ -20,6 +24,7 @@
             <div>
               <span
                 :class="
+<<<<<<< HEAD
                   UserInfo.UserType == 8
                     ? 'eduProduct'
                     : UserInfo.UserType == 7
@@ -27,12 +32,14 @@
                     : $store.state.StageNo == 'C'
                     ? 'highProduct'
                     : 'middleProduct'
+=======
+                  UserInfo.UserType == 8 ? 'eduProduct' : UserInfo.UserType == 7 ? 'schoolProduct' : UserInfo.StageNo == 'C' ? 'highProduct' : 'middleProduct'
+>>>>>>> 139670bd8a28b8b0bde651804591f973ca6ea9c1
                 "
               ></span>
             </div>
             <div class="ZsdAreaBox">
-              该报告依据大数据分析的<span @click="switchArea()"
-                >{{ UserInfo.StageNo == "B" ? "中" : "高" }}考测试谱</span
+              该报告依据大数据分析的<span @click="switchArea()">{{ UserInfo.StageNo == "B" ? "中" : "高" }}考测试谱</span
               >，通过数字化评估学生历次学习轨迹分析得来。
             </div>
           </div>
@@ -41,29 +48,17 @@
             <div class="userInfo" style="float: right">
               <span class="questionIcon"></span>
               <span class="lineIcon"></span>
-              <img
-                class="teacherHead"
-                :src="UserInfo.PhotoPath"
-                @click="toUserInfo()"
-                alt=""
-              />
+              <img class="teacherHead" :src="UserInfo.PhotoPath" @click="toUserInfo()" alt="" />
               <span class="teacherName" @click="toUserInfo()">
                 {{ UserInfo.UserName }}
               </span>
               <span
-                :class="
-                  UserInfo.UserType == 8
-                    ? 'eduIcon'
-                    : UserInfo.UserType == 7
-                    ? 'schoolIcon'
-                    : UserInfo.UserType == 12
-                    ? 'gradeLeader'
-                    : 'teacherIcon'
-                "
+                :class="UserInfo.UserType == 8 ? 'eduIcon' : UserInfo.UserType == 7 ? 'schoolIcon' : UserInfo.UserType == 12 ? 'gradeLeader' : 'teacherIcon'"
               ></span>
               <span class="exitIcon" @click="exit()"></span>
             </div>
             <div class="RZZDName">
+<<<<<<< HEAD
               <i
                 :class="
                   UserInfo.UserType == 12 ? 'scholIcon' : 'checkClassIcon'
@@ -78,6 +73,12 @@
                 UserInfo.CourseClassName ? UserInfo.CourseClassName : className
               }}</span>
               <span v-if="UserInfo.UserType != 12" class="switchIcon">
+=======
+              <i class="checkClassIcon"></i>
+              <span class="className className1">{{ UserInfo.SchoolName }}</span>
+              <span class="className">{{ UserInfo.CourseClassName ? UserInfo.CourseClassName : className }}</span>
+              <span class="switchIcon">
+>>>>>>> 139670bd8a28b8b0bde651804591f973ca6ea9c1
                 <div v-if="classContShow" class="classContent">
                   <div class="dotTitle">切换班级</div>
                   <ul style="height: 100px" class="clearfix">
@@ -103,18 +104,12 @@
             </div>
           </div>
         </div>
-        <router-view v-if="openView"></router-view>
+        <router-view></router-view>
       </div>
       <div class="bottomfont float-l">蓝鸽科技 版权所有</div>
       <!-- <div id="move"></div> -->
     </div>
-    <el-dialog
-      title="高考测试知识谱"
-      :visible.sync="dialogVisible"
-      :close-on-click-modal="false"
-      width="820px"
-      top="0vh"
-    >
+    <el-dialog title="高考测试知识谱" :visible.sync="dialogVisible" :close-on-click-modal="false" width="820px" top="0vh">
       <div>
         <SpectrumDiolog></SpectrumDiolog>
       </div>
@@ -241,21 +236,13 @@ export default {
         this.openView = true;
         if (this.resInfo.SwitchInfoList.length == 0) {
           // let token = this.$route.query.token;
-          this.$znbkLayer.znbkConfirmWithNoButton(
-            "当前账号无班级信息，请联系管理员进行设置",
-            "确定",
-            () => {
-              window.close();
-            }
-          );
+          this.$znbkLayer.znbkConfirmWithNoButton("当前账号无班级信息，请联系管理员进行设置", "确定", () => {
+            window.close();
+          });
         } else if (this.resInfo.StuCount == 0) {
-          this.$znbkLayer.znbkConfirmWithNoButton(
-            "当前班级未创建学生账号，请联系管理员进行设置",
-            "确定",
-            () => {
-              window.close();
-            }
-          );
+          this.$znbkLayer.znbkConfirmWithNoButton("当前班级未创建学生账号，请联系管理员进行设置", "确定", () => {
+            window.close();
+          });
         } else {
           for (let i = 0; i < this.resInfo.SwitchInfoList.length; i++) {
             if (this.resInfo.SwitchInfoList[i].Name == this.className) {
