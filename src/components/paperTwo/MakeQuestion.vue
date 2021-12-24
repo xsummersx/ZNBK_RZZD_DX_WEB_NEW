@@ -61,7 +61,6 @@ export default {
   },
   created() {},
   mounted() {
-    console.log(this.$route.name);
     if (this.$route.name == "gradeRZZD") {
       this.GetGradeExerciseTrait_V3();
     } else if (this.$route.name == "teacherRZZD") {
@@ -72,7 +71,7 @@ export default {
     // 年级组长
     GetGradeExerciseTrait_V3() {
       let params = {
-        Token: this.$store.state.Token,
+        token: this.$store.state.token,
         TID: this.$store.state.TID,
         SchoolID: this.$store.state.SchoolID,
         GlobalGrade: this.$store.state.GlobalGrade,
@@ -105,7 +104,7 @@ export default {
     // 教师
     GetClassExerciseTrait_V3() {
       let params = {
-        Token: this.$store.state.Token,
+        token: this.$store.state.token,
         TID: this.$store.state.TID,
         SchoolID: this.$store.state.SchoolID,
         CourseClassID: this.$store.state.CourseClassID,

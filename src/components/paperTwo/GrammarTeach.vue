@@ -528,7 +528,7 @@ export default {
 				SchoolID: "S4-000020-9AB3",
 				CourseClassID: "6A04CCDA-0598-4D6E-9A06-C7155E8BD8F5",
 				TID: "T1014003",
-				Token: "02020590-babb-43b7-81b2-64ed8a94d848",
+				token: "02020590-babb-43b7-81b2-64ed8a94d848",
 				ZsdArea: "C",
 				MasterType: this.currentType,
 				PageNum: PageNum,

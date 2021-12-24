@@ -309,7 +309,7 @@ export default {
     // 班级下学生认知成绩单
     GetClassScoreReport_V3() {
       let params = {
-        Token: this.$store.state.token,
+        token: this.$store.state.token,
         TID: this.$store.state.TID,
         StageNo: this.$store.state.StageNo,
         SchoolID: this.$store.state.SchoolID,
@@ -340,6 +340,9 @@ export default {
       // 改变默认的页数
       this.currentPage = val;
       this.emptyText = "加载中...";
+    },
+    GetScoreReport() {
+      console.log(1);
     },
     // 搜索学生
     searchStu() {

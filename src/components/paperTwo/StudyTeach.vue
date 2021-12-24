@@ -184,7 +184,7 @@ export default {
   methods: {
     GetClassStudyFeature_V3() {
       let params = {
-        Token: this.$store.state.Token,
+        token: this.$store.state.token,
         TID: this.$store.state.TID,
         SchoolID: this.$store.state.SchoolID,
         GlobalGrade: this.$store.state.GlobalGrade,

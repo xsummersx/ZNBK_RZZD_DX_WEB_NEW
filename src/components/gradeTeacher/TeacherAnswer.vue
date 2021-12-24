@@ -116,7 +116,7 @@ export default {
   methods: {
     GetPublishedPaperDaily_V3(PaperID, i) {
       let params = {
-        Token: this.$store.state.Token,
+        token: this.$store.state.token,
         TID: this.$store.state.TID,
         CourseClassID: this.$store.state.CourseClassID,
         SchoolID: this.$store.state.SchoolID,
@@ -159,7 +159,6 @@ export default {
           days = "星期日";
           break;
       }
-      console.log(days);
       return days;
     },
     // 转换年月日

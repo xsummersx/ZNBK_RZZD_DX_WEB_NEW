@@ -77,9 +77,7 @@
                       <li
                         class="float-l classItem"
                         @click="chooseClass(i)"
-                        :class="
-                          chooseClassIndex == i ? 'activeClass' : 'normalClass'
-                        "
+                        :class="chooseClassIndex == i ? 'activeClass' : 'normalClass'"
                         v-for="(item, i) in resInfo.SwitchInfoList"
                         :key="i"
                       >
@@ -90,9 +88,7 @@
                 </div></span
               >
             </div>
-            <div class="ZsdAreaBox">
-              <i></i>最佳分辨率 1920 * 1080; 按F11键可全屏
-            </div>
+            <div class="ZsdAreaBox"><i></i>最佳分辨率 1920 * 1080; 按F11键可全屏</div>
           </div>
         </div>
         <router-view v-if="openView"></router-view>
@@ -103,13 +99,13 @@
   </div>
 </template>
 <script>
-// import { getUserInfo } from "../api/head/test";
+import { getUserInfo } from "../api/head/test";
 // import { GetClassHeadDetailInfo } from "../api/head/test";
 export default {
   name: "home",
   data() {
     return {
-      openView: true, //是否开启主页面内容
+      openView: false, //是否开启主页面内容
       UserInfo: {},
       resInfo: {},
       classContShow: false,
@@ -120,7 +116,7 @@ export default {
   created() {
     //请求getUserInfo
     // let params = {
-    //   Token: "4e6bc131-3cb5-4ef1-850b-236a2b80fc48",
+    //   token: "4e6bc131-3cb5-4ef1-850b-236a2b80fc48",
     //   UserID: "T1014003",
     // };
     // let params1 = {
@@ -137,6 +133,36 @@ export default {
     //   console.log(res);
     //   this.resInfo = res.data.Data;
     // });
+  },
+  mounted() {
+    this.getUserInfo();
+  },
+  methods: {
+    getUserInfo() {
+      let params = {
+        token: this.$store.state.token,
+      };
+      getUserInfo(params).then((res) => {
+        this.UserInfo = res.Data;
+        // this.propObject.CountyID = resInfo.CountyID;
+        // this.propObject.ProvinceID = resInfo.ProvinceID;
+        // this.propObject.CityID = resInfo.CityID;
+        // this.propObject.SchoolID = resInfo.SchoolID;
+        // this.propObject.UserID = resInfo.UserID;
+        // this.propObject.TID = resInfo.UserID;
+        // this.propObject.GlobalGrade = resInfo.GlobalGrade;
+        // this.propObject.StageNo =
+        //   resInfo.GlobalGrade.substring(1) > 9 ? "C" : "B";
+        this.$store.commit("updateUserData", this.UserInfo);
+        this.$store.commit("updateCountyID", this.UserInfo.CountyID);
+        this.$store.commit("updateProvinceID", this.UserInfo.ProvinceID);
+        this.$store.commit("updateCityID", this.UserInfo.CityID);
+        this.$store.commit("updateTID", this.UserInfo.UserID);
+        this.$store.commit("updateGlobalGrade", this.UserInfo.GlobalGrade);
+        console.log(this.$store.state.UserInfo);
+        this.openView = true;
+      });
+    },
   },
 };
 </script>
@@ -155,9 +181,8 @@ export default {
       display: inline-block;
       width: 12px;
       height: 12px;
-      background: url("../assets/img/head/分辨率提示.png") center center
-        no-repeat;
-        margin-right: 5px;
+      background: url("../assets/img/head/分辨率提示.png") center center no-repeat;
+      margin-right: 5px;
     }
   }
 }

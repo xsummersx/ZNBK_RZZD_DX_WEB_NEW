@@ -53,7 +53,7 @@ export default {
       SchoolID: this.$store.state.SchoolID,
       CourseClassID: this.$store.state.CourseClassID,
       TID: this.$store.state.TID,
-      Token: this.$store.state.Token,
+      token: this.$store.state.token,
       GlobalGrade: this.$store.state.GlobalGrade,
       ZsdArea: this.$store.state.ZsdArea,
     };

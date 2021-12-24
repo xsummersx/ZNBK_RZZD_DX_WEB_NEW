@@ -23,7 +23,7 @@ export default {
   },
   created() {
     let params = {
-      Token: this.$store.state.Token,
+      token: this.$store.state.token,
       TID: this.$store.state.TID,
       ProvinceID: this.$store.state.ProvinceID,
       CityID: this.$store.state.CityID,
