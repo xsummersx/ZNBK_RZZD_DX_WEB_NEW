@@ -17,11 +17,19 @@
 				<div class="masteredCount">
 					<span>词汇平均掌握量</span>
 					<br />
-					<span class="count"> <span class="number">{{info.MasteredCount}}</span>个 </span>
+					<span class="count">
+						<span class="number">{{ info.MasteredCount }}</span
+						>个
+					</span>
 				</div>
 				<div class="scoreRate">
 					<span>词汇平均答对率</span>
-					<span class="rate"><span class="number">{{(info.VocabularyScoreRate*100).toFixed(2)}}</span>%</span>
+					<span class="rate"
+						><span class="number">{{
+							(info.VocabularyScoreRate * 100).toFixed(2)
+						}}</span
+						>%</span
+					>
 				</div>
 			</div>
 			<div class="right">
@@ -99,7 +107,10 @@
 </template>
 
 <script>
-// import { GetClassVocabulary } from "@/api/paperTwo/question.js";
+import {
+	GetClassVocabulary,
+	GetClassVocaConclusionDetail,
+} from "@/api/paperTwo/question.js";
 import "echarts-gl";
 export default {
 	data() {
@@ -217,12 +228,17 @@ export default {
 		},
 	},
 	mounted() {
-		this.$nextTick(() => {
-			this.init();
-		});
+		this.drawInit();
 	},
 	methods: {
+		// 初始化
 		init() {
+			GetClassVocabulary({ ...this.$store.state }).then((res) => {
+				this.info = res.Data;
+				this.drawInit();
+			});
+		},
+		drawInit() {
 			//构建3d饼状图
 			let myChart = this.$echarts.init(document.getElementById("pieChart"));
 			// 传入数据生成 option
@@ -310,7 +326,9 @@ export default {
 								params.seriesName
 							}<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:${
 								params.color
-							};"></span>${this.getCount(params.seriesName)}人 (${
+							};"></span><span style="font-weight: bold">${this.getCount(
+								params.seriesName
+							)}</span>人 (${
 								option.series[params.seriesIndex].pieData.value
 							}%)`;
 						}
@@ -432,7 +450,7 @@ export default {
 		getCount(d) {
 			return this.optionData.filter((item) => item.name === d)[0].count;
 		},
-		
+
 		openDialog(n) {
 			if (n === "掌握较好") {
 				this.dialogTitle = "词汇掌握较好学生名单";
@@ -448,35 +466,36 @@ export default {
 				this.currentType = 1;
 			}
 			this.dialogVisible = true;
-			this.getStuList(1)
+			this.getStuList(1);
 		},
 		// 显示第几页
 		handleCurrentChange(val) {
 			// 改变默认的页数
+			this.getStuList(val);
 			this.currentPage = val;
 			this.emptyText = "加载中...";
 		},
 		// 获取学校名单
 		getStuList(PageNum) {
 			let params = {
-				SchoolID: "S4-000020-9AB3",
-				CourseClassID: "6A04CCDA-0598-4D6E-9A06-C7155E8BD8F5",
-				TID: "T1014003",
-				Token: "02020590-babb-43b7-81b2-64ed8a94d848",
-				ZsdArea: "C",
+				// SchoolID: "S4-000020-9AB3",
+				// CourseClassID: "6A04CCDA-0598-4D6E-9A06-C7155E8BD8F5",
+				// TID: "T1014003",
+				// Token: "02020590-babb-43b7-81b2-64ed8a94d848",
+				// ZsdArea: "C",
+				...this.$store.state,
 				MasterType: this.currentType,
 				PageNum: PageNum,
 				PageSize: this.PageSize,
 			};
-			console.log(params);
-			// GetClassVocabulary(params)
-			// 	.then((res) => {
-			// 		this.tableData = res.Data.StuGrammerList;
-			// 		this.pageCount = res.Data.PageCount;
-			// 		this.emptyText = "暂无数据";
-			// 	})
+			// console.log(params);
+			GetClassVocaConclusionDetail(params).then((res) => {
+				this.tableData = res.Data.StuVocaList;
+				this.pageCount = res.Data.PageCount;
+				this.emptyText = "暂无数据";
+			});
 			// setTimeout(() => {
-			// 		this.emptyText = "暂无数据";
+			// 	this.emptyText = "暂无数据";
 			// }, 1500);
 		},
 	},

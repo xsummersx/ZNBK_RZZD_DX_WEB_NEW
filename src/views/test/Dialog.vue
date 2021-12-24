@@ -9,7 +9,13 @@
 <template>
   <div>
     <el-button type="text" @click="dialogVisible = true">点击打开弹窗</el-button>
-    <el-dialog title="添加疑难知识点" :visible.sync="dialogVisible" :close-on-click-modal="false" width="720px" top="0vh">
+    <el-dialog
+      title="添加疑难知识点"
+      :visible.sync="dialogVisible"
+      :close-on-click-modal="false"
+      width="720px"
+      top="0vh"
+    >
       <div>
         <div style="height: 400px">此处为内容</div>
         <div class="diaBottom">
@@ -18,16 +24,24 @@
         </div>
       </div>
     </el-dialog>
-    <div style="width: 500px; height: 400px">
-      <vuescroll :ops="$global_Ops.ops">
-        <div style="width: 450px; height: 2000px; background: linear-gradient(#e66465, #9198e5)"></div>
-      </vuescroll>
+    <div style="width: 460px; height: 400px">
+      <!-- <vuescroll :ops="$global_Ops.ops"> -->
+      <el-scrollbar style="height: 100%">
+        <div
+          style="
+            width: 450px;
+            height: 2000px;
+            background: linear-gradient(#e66465, #9198e5);
+          "
+        ></div>
+      </el-scrollbar>
+      <!-- </vuescroll> -->
     </div>
   </div>
 </template>
 <script>
 //按需引入组件，需要用到的地方引入vuescroll组件
-import vuescroll from "vuescroll";
+// import vuescroll from "vuescroll";
 export default {
   name: "",
   data() {
@@ -35,12 +49,15 @@ export default {
       dialogVisible: false, //默认隐藏弹框
     };
   },
-  components: {
-    vuescroll,
-  },
+  // components: {
+  //   vuescroll,
+  // },
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import "../../assets/js/dialog/colorGlobal.scss";
 @import "../../assets/js/dialog/elementReset_Dialog.scss";
+::v-deep .el-scrollbar__wrap {
+  overflow-x: hidden;
+}
 </style>

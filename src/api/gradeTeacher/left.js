@@ -37,9 +37,9 @@ export function GetClassPredictedScore(data){
 
 // 年级组长端
 // 累计作答试卷
-export function GetGradeLeaderPaperNum(data){
+export function GetGradePaperNum(data){
     return request({
-        url:"/api/GradeLeaderRZZD/GetGradeLeaderPaperNum_V3",
+        url:"/api/GradeLeaderRZZD/GetGradePaperNum_V3",
         method:"GET",
         params:{
             ...data
@@ -59,9 +59,9 @@ export function GetGradeCognitiveIndex(data){
 }
 
 // 高考预估成绩
-export function GetGradeLeaderPredictedScore(data){
+export function GetGradePredictedScore(data){
     return request({
-        url:"/api/GradeLeaderRZZD/GetGradeLeaderPredictedScore_V3",
+        url:"/api/GradeLeaderRZZD/GetGradePredictedScore_V3",
         method:"GET",
         params:{
             ...data

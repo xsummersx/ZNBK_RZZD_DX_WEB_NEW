@@ -40,6 +40,7 @@
         <div class="abilityLV">
           {{ numToString(lanResInfo.ZH) }}
         </div>
+        <div class="ability">综合能力</div>
       </div>
     </div>
   </div>
@@ -62,10 +63,7 @@ export default {
 
   created() {
     let params = {
-      SchoolID: "S4-000020-9AB3",
-      CourseClassID: "6A04CCDA-0598-4D6E-9A06-C7155E8BD8F5",
-      TID: "T1014003",
-      Token: "02020590-babb-43b7-81b2-64ed8a94d848",
+      ...this.$store.state
     };
     GetClassLanguage(params).then((res) => {
       console.log(res);
