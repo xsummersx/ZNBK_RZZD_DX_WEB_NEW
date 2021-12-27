@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:27:26
- * @LastEditTime: 2021-12-24 16:12:30
+ * @LastEditTime: 2021-12-24 17:08:02
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》地图，图0
@@ -84,6 +84,13 @@ export default {
           //     color: ["#0643a5", "#0634a1"], // 蓝绿#0643a5", //0634a1
           //   },
           // },
+          tooltip: {
+            show: false,
+            formatter: function (params) {
+              console.log(params);
+              return "学校";
+            },
+          },
           geo: {
             show: true,
             map: "bd",
@@ -187,13 +194,10 @@ export default {
                     image: mapBG0(),
                     repeat: "repeat",
                   },
-                  // areaColor: function (value, params) {
-                  //   console.log(value, params);
-                  // }, //"#0643a5", //0634a1
-                  // shadowColor: "#001568",
-                  // shadowBlur: 0,
-                  // shadowOffsetX: 0,
-                  // shadowOffsetY: 3,
+                  shadowColor: "#23074d",
+                  shadowBlur: 30,
+                  shadowOffsetX: -2,
+                  shadowOffsetY: 5,
                   label: {
                     show: true,
                   },

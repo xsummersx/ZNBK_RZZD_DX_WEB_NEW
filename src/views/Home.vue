@@ -1,11 +1,7 @@
 <!--
  * @Author: 主页面
  * @Date: 2021-11-29 09:20:26
-<<<<<<< HEAD
- * @LastEditTime: 2021-12-24 16:16:51
-=======
- * @LastEditTime: 2021-12-24 11:18:47
->>>>>>> 139670bd8a28b8b0bde651804591f973ca6ea9c1
+ * @LastEditTime: 2021-12-24 16:19:31
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 主页面，柳欢
@@ -24,17 +20,7 @@
             <div>
               <span
                 :class="
-<<<<<<< HEAD
-                  UserInfo.UserType == 8
-                    ? 'eduProduct'
-                    : UserInfo.UserType == 7
-                    ? 'schoolProduct'
-                    : $store.state.StageNo == 'C'
-                    ? 'highProduct'
-                    : 'middleProduct'
-=======
                   UserInfo.UserType == 8 ? 'eduProduct' : UserInfo.UserType == 7 ? 'schoolProduct' : UserInfo.StageNo == 'C' ? 'highProduct' : 'middleProduct'
->>>>>>> 139670bd8a28b8b0bde651804591f973ca6ea9c1
                 "
               ></span>
             </div>
@@ -58,27 +44,10 @@
               <span class="exitIcon" @click="exit()"></span>
             </div>
             <div class="RZZDName">
-<<<<<<< HEAD
-              <i
-                :class="
-                  UserInfo.UserType == 12 ? 'scholIcon' : 'checkClassIcon'
-                "
-              ></i>
-              <span
-                v-if="UserInfo.UserType == 12"
-                class="className className1"
-                >{{ UserInfo.SchoolName }}</span
-              >
-              <span v-if="UserInfo.UserType != 12" class="className">{{
-                UserInfo.CourseClassName ? UserInfo.CourseClassName : className
-              }}</span>
-              <span v-if="UserInfo.UserType != 12" class="switchIcon">
-=======
               <i class="checkClassIcon"></i>
               <span class="className className1">{{ UserInfo.SchoolName }}</span>
               <span class="className">{{ UserInfo.CourseClassName ? UserInfo.CourseClassName : className }}</span>
               <span class="switchIcon">
->>>>>>> 139670bd8a28b8b0bde651804591f973ca6ea9c1
                 <div v-if="classContShow" class="classContent">
                   <div class="dotTitle">切换班级</div>
                   <ul style="height: 100px" class="clearfix">
@@ -86,9 +55,7 @@
                       <li
                         class="float-l classItem"
                         @click="chooseClass(i)"
-                        :class="
-                          chooseClassIndex == i ? 'activeClass' : 'normalClass'
-                        "
+                        :class="chooseClassIndex == i ? 'activeClass' : 'normalClass'"
                         v-for="(item, i) in resInfo.SwitchInfoList"
                         :key="i"
                       >
@@ -99,9 +66,7 @@
                 </div></span
               >
             </div>
-            <div class="ZsdAreaBox">
-              <i></i>最佳分辨率 1920 * 1080; 按F11键可全屏
-            </div>
+            <div class="ZsdAreaBox"><i></i>最佳分辨率 1920 * 1080; 按F11键可全屏</div>
           </div>
         </div>
         <router-view></router-view>
@@ -165,10 +130,7 @@ export default {
       let thisClassName = e.target.className;
       if (thisClassName == "className" || thisClassName == "switchIcon") {
         this.classContShow = !this.classContShow;
-      } else if (
-        thisClassName != "className" ||
-        thisClassName != "switchIcon"
-      ) {
+      } else if (thisClassName != "className" || thisClassName != "switchIcon") {
         if (thisClassName == "float-l classItem activeClass") {
           this.classContShow = true;
         } else {
@@ -189,10 +151,7 @@ export default {
         this.$store.commit("updateProvinceID", this.UserInfo.ProvinceID);
         this.$store.commit("updateCityID", this.UserInfo.CityID);
         this.$store.commit("updateSchoolID", this.UserInfo.SchoolID);
-        this.$store.commit(
-          "updateCourseClassID",
-          this.$route.query.CourseClassID
-        );
+        this.$store.commit("updateCourseClassID", this.$route.query.CourseClassID);
         this.$store.commit("updateUserID", this.UserInfo.UserID);
         this.$store.commit("updateTID", this.UserInfo.UserID);
         this.$store.commit("updateGlobalGrade", this.UserInfo.GlobalGrade);
@@ -201,10 +160,10 @@ export default {
           this.GetGradeLeaderDetailInfo(1);
         } else if (this.$route.name == "teacherRZZD") {
           this.GetClassHeadDetailInfo();
-        }else if (this.$route.name == "educationRZZD") {
+        } else if (this.$route.name == "educationRZZD") {
           this.GetDirectorHeadDetailInfo();
-        }else if (this.$route.name == "schoolRZZD") {
-          this.GetSchoolHeadDetailInfo(this.UserInfo.SchoolID,0);
+        } else if (this.$route.name == "schoolRZZD") {
+          this.GetSchoolHeadDetailInfo(this.UserInfo.SchoolID, 0);
         }
       });
     },
@@ -327,9 +286,9 @@ export default {
         }
       });
     },
-    
+
     // 获取学校头部信息
-    GetSchoolHeadDetailInfo(SchoolID,i) {
+    GetSchoolHeadDetailInfo(SchoolID, i) {
       this.openView = false;
       SchoolID = this.$store.state.SchoolID ? this.$store.state.SchoolID : SchoolID;
       let GlobalGrade = "";
@@ -378,10 +337,7 @@ export default {
           for (let i = 0; i < this.resInfo.SwitchInfoList.length; i++) {
             if (this.resInfo.SwitchInfoList[i].Name == this.className) {
               this.chooseClassIndex = i;
-              this.$store.commit(
-                "updateGlobalGrade",
-                this.resInfo.SwitchInfoList[i].ID
-              );
+              this.$store.commit("updateGlobalGrade", this.resInfo.SwitchInfoList[i].ID);
               if (this.resInfo.SwitchInfoList[i].ID.substr(1) < 10) {
                 this.$store.commit("updateStageNo", "B");
               } else {
@@ -441,10 +397,7 @@ export default {
           for (let i = 0; i < this.resInfo.SwitchInfoList.length; i++) {
             if (this.resInfo.SwitchInfoList[i].Name == this.className) {
               this.chooseClassIndex = i;
-              this.$store.commit(
-                "updateGlobalGrade",
-                this.resInfo.SwitchInfoList[i].ID
-              );
+              this.$store.commit("updateGlobalGrade", this.resInfo.SwitchInfoList[i].ID);
 
               // this.propObject.GlobalGrade = this.resInfo.SwitchInfoList[i].ID;
               if (this.resInfo.SwitchInfoList[i].ID.substr(1) < 10) {
@@ -538,10 +491,7 @@ export default {
         token: this.$route.query.token,
       };
       GetSubSystemInfo(params).then((res) => {
-        let url =
-          res.Data.BaseSysID +
-          "usermgr/personalmgr/default.aspx?lg_tk=" +
-          this.$route.query.token;
+        let url = res.Data.BaseSysID + "usermgr/personalmgr/default.aspx?lg_tk=" + this.$route.query.token;
         window.open(url, "_blank");
       });
     },
@@ -563,8 +513,7 @@ export default {
       display: inline-block;
       width: 12px;
       height: 12px;
-      background: url("../assets/img/head/分辨率提示.png") center center
-        no-repeat;
+      background: url("../assets/img/head/分辨率提示.png") center center no-repeat;
       margin-right: 5px;
     }
   }
