@@ -17,15 +17,10 @@
 </template>
 
 <script>
+import { GetGradeVocabulary } from "@/api/paperTwo/question";
 export default {
 	created() {
-		// function()
-		//   .then((res) => {
-		//     this.info = res.Data;
-		//   })
-		//   .catch((err) => {
-		//     console.log(err);
-		//   });
+		this.init();
 	},
 	data() {
 		return {
@@ -35,6 +30,11 @@ export default {
 					axisPointer: {
 						// 坐标轴指示器，坐标轴触发有效
 						type: "shadow", // 默认为直线，可选为：'line' | 'shadow'
+					},
+					formatter: (params) => {
+						// console.log(params);
+						return `${params[0].axisValue}<br/>${params[0].marker} ${params[0].seriesName}：<span style="font-weight: bold">${params[0].value}</span>个
+            <br/>${params[1].marker} ${params[1].seriesName}：<span style="font-weight: bold">${params[1].value}</span>%<br/>`;
 					},
 				},
 				grid: {
@@ -167,37 +167,49 @@ export default {
 						ClassMasterCount: 4191,
 						VocabularyScoreRate: 0.734067142,
 					},
-          {
+					{
 						CourseClassID: "499B60B2-D4E8-4135-BE7D-F9DF32403A5B",
 						CourseClassName: "初三(3)班",
 						ClassMasterCount: 3668,
 						VocabularyScoreRate: 0.6359223,
 					},
-          {
+					{
 						CourseClassID: "499B60B2-D4E8-4135-BE7D-F9DF32403A5",
 						CourseClassName: "初三(4)班",
 						ClassMasterCount: 6600,
 						VocabularyScoreRate: 0.23592,
 					},
-          {
+					{
 						CourseClassID: "499B60B2-D4E8-4135-BE7D-F9DF32403A",
 						CourseClassName: "初三(5)班",
+						ClassMasterCount: 5668,
+						VocabularyScoreRate: 0.2359223,
+					},
+					{
+						CourseClassID: "499B60B2-D4E8-4135-BE7D-F9DF32403A",
+						CourseClassName: "初三(6)班",
 						ClassMasterCount: 1668,
-						VocabularyScoreRate: 0.9359223,
+						VocabularyScoreRate: 0.3359223,
 					},
 				],
 			},
+			// 词汇量最低
+			minCountData: [],
+			// 答对率最低
+			minRateData: [],
 		};
 	},
 	mounted() {
-		this.drawLine();
+		// this.drawLine();
 	},
 	computed: {
 		avgScore: function () {
 			return this.info.MasteredCount;
+			// return 5000;
 		},
 		avgRate: function () {
 			return (this.info.VocabularyScoreRate * 100).toFixed(2);
+			// return 36;
 		},
 		xdata: function () {
 			return this.info.ClassList.map((item) => item.CourseClassName);
@@ -224,17 +236,59 @@ export default {
 			);
 			// return [44, 55, 11, 22, 88, 44, 66, 77, 55];
 		},
-    countMax: function () {
-      return 6600;
-    }
+		// 词汇总量
+		countMax: function () {
+			return this.info.VocabularyTotalCount;
+			// return 10000;
+		},
+		distance: function () {
+			return (this.avgScore / this.countMax) * 100 - this.avgRate;
+		},
+		firstPaddingA: function () {
+			if (-14 < this.distance && this.distance < 0) {
+				return [0, 0, -25, -70];
+			} else {
+				return [0, 0, 20, -70];
+			}
+		},
+		firstPaddingB: function () {
+			if (-14 < this.distance && this.distance < 0) {
+				return [0, 0, -25, 0];
+			} else {
+				return [-20, 0, 0, 0];
+			}
+		},
+		secondPaddingA: function () {
+			if (0 <= this.distance && this.distance < 14) {
+				return [0, 0, -25, -70];
+			} else {
+				return [0, 0, 20, -70];
+			}
+		},
+		secondPaddingB: function () {
+			if (0 <= this.distance && this.distance < 14) {
+				return [0, 0, -25, 0];
+			} else {
+				return [-20, 0, 0, 0];
+			}
+		},
 	},
 	methods: {
 		drawLine() {
-			var vocabCharts = this.$echarts.init(
+			let vocabCharts = this.$echarts.init(
 				document.getElementById("vocabCharts")
 			);
 			vocabCharts.setOption(this.vocabOption);
 			vocabCharts.setOption({
+				dataZoom: [
+					{
+						type: "inside",
+						show: false,
+						xAxisIndex: [0],
+						start: 0,
+						end: (5 / this.xdata.length) * 100,
+					},
+				],
 				xAxis: {
 					data: this.xdata,
 				},
@@ -269,13 +323,16 @@ export default {
 										color: "#69dffd",
 										fontSize: 12,
 										fontFamily: "MicrosoftYaHei",
+										// height: "20px",
+										// width: "20px",
+										// backgroundColor: "rgba(39,46,56,0.5)",
 										opacity: 1,
-										padding: [5, 0, 20, -70],
+										padding: this.firstPaddingA,
 									},
 									b: {
 										fontSize: 14,
 										color: "#00ccff",
-										padding: [-15, 0, 0, 0],
+										padding: this.firstPaddingB,
 									},
 								},
 							},
@@ -293,6 +350,26 @@ export default {
 									},
 								},
 							],
+						},
+						markPoint: {
+							symbol:
+								"image://data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAALCAYAAABGbhwYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTM4IDc5LjE1OTgyNCwgMjAxNi8wOS8xNC0wMTowOTowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTcgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkE2RjFEQjc2NTgwMTExRUM5RTFCRTIzRDAyOUYzNTYzIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOkE2RjFEQjc3NTgwMTExRUM5RTFCRTIzRDAyOUYzNTYzIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6QTZGMURCNzQ1ODAxMTFFQzlFMUJFMjNEMDI5RjM1NjMiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6QTZGMURCNzU1ODAxMTFFQzlFMUJFMjNEMDI5RjM1NjMiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz49eoCiAAAAs0lEQVR42mL8UtPMAAWhQJwDxMZQ/hkgngrEq0EcJiBmBOLZQLwKiO2AmBuK7aFiIDlGFiARD8QpDLgBSO4YyMRcJMG7QOwIxXeRxLNACrWQBLqA+AAUdyGJ64AUvkYSsIS6mRHKhoHXIIVbkQQSgPgSFCcgiW9hglrxDdkaKIYBkFw3SOF9IM7D42uQ3H0mKGcuEFcA8X8kBf+hYiA5BhYkiU4gvg51CsgzpUC8CSYJEGAAT/cjWt241fUAAAAASUVORK5CYII=",
+							symbolSize: [10, 10],
+							symbolOffset: [0, -10], //偏移位置
+							cursor: "default",
+							itemStyle: {
+								color: "red",
+							},
+							emphasis: {
+								label: {
+									show: false,
+									color: "transparent",
+								},
+							},
+							label: {
+								show: false,
+							},
+							data: this.minCountData,
 						},
 					},
 					{
@@ -319,12 +396,12 @@ export default {
 										fontSize: 12,
 										fontFamily: "MicrosoftYaHei",
 										opacity: 1,
-										padding: [5, 0, 20, -70],
+										padding: this.secondPaddingA,
 									},
 									b: {
 										fontSize: 14,
 										color: "#00ffdd",
-										padding: [-15, 0, 0, 0],
+										padding: this.secondPaddingB,
 									},
 								},
 							},
@@ -343,8 +420,46 @@ export default {
 								},
 							],
 						},
+						markPoint: {
+							symbol:
+								"image://data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAALCAYAAABGbhwYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTM4IDc5LjE1OTgyNCwgMjAxNi8wOS8xNC0wMTowOTowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTcgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkE2RjFEQjc2NTgwMTExRUM5RTFCRTIzRDAyOUYzNTYzIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOkE2RjFEQjc3NTgwMTExRUM5RTFCRTIzRDAyOUYzNTYzIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6QTZGMURCNzQ1ODAxMTFFQzlFMUJFMjNEMDI5RjM1NjMiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6QTZGMURCNzU1ODAxMTFFQzlFMUJFMjNEMDI5RjM1NjMiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz49eoCiAAAAs0lEQVR42mL8UtPMAAWhQJwDxMZQ/hkgngrEq0EcJiBmBOLZQLwKiO2AmBuK7aFiIDlGFiARD8QpDLgBSO4YyMRcJMG7QOwIxXeRxLNACrWQBLqA+AAUdyGJ64AUvkYSsIS6mRHKhoHXIIVbkQQSgPgSFCcgiW9hglrxDdkaKIYBkFw3SOF9IM7D42uQ3H0mKGcuEFcA8X8kBf+hYiA5BhYkiU4gvg51CsgzpUC8CSYJEGAAT/cjWt241fUAAAAASUVORK5CYII=",
+							symbolSize: [10, 10],
+							symbolOffset: [0, -10], //偏移位置
+							cursor: "default",
+							itemStyle: {
+								color: "red",
+							},
+							emphasis: {
+								label: {
+									show: false,
+									color: "transparent",
+								},
+							},
+							label: {
+								show: false,
+							},
+							data: this.minRateData,
+						},
 					},
 				],
+			});
+		},
+		init() {
+			GetGradeVocabulary({ ...this.$store.state }).then((res) => {
+				this.info = res.Data;
+				this.minCountData = res.Data.MinCountList.map((item) => {
+					return {
+						xAxis: item.CourseClassName,
+						yAxis: item.ClassMasterCount,
+					};
+				});
+				this.minRateData = res.Data.MinRateList.map((item) => {
+					return {
+						xAxis: item.CourseClassName,
+						yAxis: (item.VocabularyScoreRate * 100).toFixed(2),
+					};
+				});
+				this.drawLine();
 			});
 		},
 	},

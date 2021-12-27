@@ -21,7 +21,7 @@ export function GetClassExerciseTrait(params) {
 // 教师端语言能力
 export function GetClassLanguage(data) {
 	return request({
-		url: "/api/TeacherRZZD/GetClassLanguage",
+		url: "/api/TeacherRZZD/GetClassLanguage_V3",
 		method: "GET",
 		params: {
 			...data,
@@ -72,15 +72,15 @@ export function GetClassVocaConclusionDetail(data) {
 }
 
 //  年级组长端词汇认知对比分析
-export function GetGradeLeaderVocabulary(data) {
+export function GetGradeVocabulary(data) {
 	return request({
-		url: "/api/GradeLeaderRZZD/GetGradeLeaderVocabulary_V3",
+		url: "/api/GradeLeaderRZZD/GetGradeVocabulary_V3",
 		method: "GET",
 		params: data,
 	});
 }
 
-//  年级组长端词汇认知对比分析
+//  年级组长端语法认知对比分析
 export function GetGradeGrammerCompare(data) {
 	return request({
 		url: "/api/GradeLeaderRZZD/GetGradeGrammerCompare_V3",

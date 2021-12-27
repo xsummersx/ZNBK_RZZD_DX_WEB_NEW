@@ -1,7 +1,7 @@
 <!--
  * @Author: 主页面
  * @Date: 2021-11-29 09:20:26
- * @LastEditTime: 2021-12-24 16:19:31
+ * @LastEditTime: 2021-12-27 08:52:51
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 主页面，柳欢
@@ -20,7 +20,13 @@
             <div>
               <span
                 :class="
-                  UserInfo.UserType == 8 ? 'eduProduct' : UserInfo.UserType == 7 ? 'schoolProduct' : UserInfo.StageNo == 'C' ? 'highProduct' : 'middleProduct'
+                  UserInfo.UserType == 8
+                    ? 'eduProduct'
+                    : UserInfo.UserType == 7
+                    ? 'schoolProduct'
+                    : $store.state.StageNo == 'C'
+                    ? 'highProduct'
+                    : 'middleProduct'
                 "
               ></span>
             </div>
@@ -44,10 +50,10 @@
               <span class="exitIcon" @click="exit()"></span>
             </div>
             <div class="RZZDName">
-              <i class="checkClassIcon"></i>
-              <span class="className className1">{{ UserInfo.SchoolName }}</span>
-              <span class="className">{{ UserInfo.CourseClassName ? UserInfo.CourseClassName : className }}</span>
-              <span class="switchIcon">
+              <i :class="UserInfo.UserType == 12 ? 'scholIcon' : 'checkClassIcon'"></i>
+              <span v-if="UserInfo.UserType == 12" class="className className1">{{ UserInfo.SchoolName }}</span>
+              <span v-if="UserInfo.UserType != 12" class="className">{{ UserInfo.CourseClassName ? UserInfo.CourseClassName : className }}</span>
+              <span v-if="UserInfo.UserType != 12" class="switchIcon">
                 <div v-if="classContShow" class="classContent">
                   <div class="dotTitle">切换班级</div>
                   <ul style="height: 100px" class="clearfix">
