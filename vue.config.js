@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-03 15:31:36
- * @LastEditTime: 2021-12-24 10:53:31
+ * @LastEditTime: 2021-12-27 09:40:14
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \znbk_zntfd_zx_web\vue.config.js
@@ -26,8 +26,8 @@ module.exports = {
       minimizer: [
         new UglifyJsPlugin({
           uglifyOptions: {
-              warnings: false,
-              compress: {
+            warnings: false,
+            compress: {
               drop_console: true, //console
               drop_debugger: false,
               pure_funcs: ["console.log"], //移除console
