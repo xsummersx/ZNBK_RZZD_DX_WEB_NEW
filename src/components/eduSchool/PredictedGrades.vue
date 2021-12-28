@@ -14,20 +14,21 @@
 				<div class="progress">
 					<div class="inner">
 						<div class="fuPercent percent">
-							<span><span class="number">108</span>分</span>
+							<span
+								><span class="number">{{ info.AreaAvgScore }}</span
+								>分</span
+							>
 							<br />
-							<span>满分:150分</span>
+							<span>满分:{{ info.FullScore }}分</span>
 						</div>
 						<div class="water"></div>
 						<div class="glare"></div>
 					</div>
 				</div>
-				<!-- <span><span class="number">180</span>分</span>
-        <span>满分:150分</span> -->
 			</div>
 			<div class="right">
 				<span class="quantity" :class="status === 'up' ? 'up' : 'down'"
-					>5<span class="char">分</span></span
+					>{{ comparedData }}<span class="char">分</span></span
 				>
 				<span>较上周</span>
 			</div>
@@ -39,87 +40,103 @@
 					<div class="progress">
 						<div class="inner">
 							<div class="fuPercent percent">
-								<span><span class="number">108</span>分</span>
+								<span
+									><span class="number">{{ info.SchoolAvgScore }}</span
+									>分</span
+								>
 								<br />
-								<span>满分:150分</span>
+								<span>满分:{{ info.FullScore }}分</span>
 							</div>
 							<div class="water"></div>
 							<div class="glare"></div>
 						</div>
 					</div>
-					<!-- <span><span class="number">180</span>分</span>
-          <span>满分:150分</span> -->
 				</div>
 				<div class="compare">
 					<i class="icon"></i>
 					<span>较上周 </span>
 					<span class="quantity" :class="status === 'up' ? 'up' : 'down'"
-						>5<span class="char">分</span></span
+						>{{ comparedData }}<span class="char">分</span></span
 					>
 				</div>
 			</div>
-
 			<div class="right-leader">
-				<span class="score">148<span class="char">分</span></span>
+				<span class="score"
+					>{{ info.AreaAvgScore }}<span class="char">分</span></span
+				>
 				<span class="textColor">全区平均预估成绩</span>
 			</div>
 		</div>
-		<div class="bottom" v-if="$route.name === 'educationRZZD'">
-			<!-- 全区排行榜 -->
-			<div class="bottomItem">
-				<span class="bottomTitle icon1"
-					>全区排行榜<span class="top2">TOP2</span></span
-				>
-				<div class="content">
-					<span title="嘉兴市实验中学">· 嘉兴市实验中学</span>
-					<span title="南湖实验中学">· 南湖实验中学</span>
-				</div>
-			</div>
-			<!-- 重点关注 -->
-			<div class="bottomItem">
-				<span class="bottomTitle icon2"
-					>全区重点关注<span class="top2">TOP2</span></span
-				>
-				<div class="content">
-					<span title="海盐中学">· 海盐中学</span>
-					<span title="浙师大附属嘉善实验中学">· 浙师大附属嘉善实验中学</span>
-				</div>
-			</div>
-		</div>
-		<div class="bottom-leader" v-if="$route.name === 'schoolRZZD'">
-			<!-- 本校区排名 -->
-			<div class="bottomItem">
-				<span class="bottomTitle">本校区排名</span>
-				<div class="content">
-					<span class="rank">第二名</span>
-				</div>
-			</div>
-			<!-- 全区第一名学校 -->
-			<div class="bottomItem">
-				<span class="bottomTitle">全区第一名学校</span>
-				<div class="content">
-					<span class="schoolName" title="浙师大附属嘉善实验中学"
-						>浙师大附属嘉善实验中学</span
-					>
-					<span class="schoolScore numberColor">140分</span>
-				</div>
-			</div>
-		</div>
+		<Top
+			v-if="$route.name === 'educationRZZD'"
+			:SchoolList="info.SchoolList"
+			:FocusSchoolList="info.FocusSchoolList"
+		/>
+		<RankAndFirst
+			v-if="$route.name === 'schoolRZZD'"
+			:MySchoolRank="info.MySchoolRank"
+			:FirstSchool="info.FirstSchool"
+			:FirstScore="info.FirstScore"
+			:isScore="true"
+		/>
 	</div>
 </template>
 
 <script>
-import { GetGradeLeaderPredictedScore } from "@/api/eduSchool/left.js";
+import {
+	GetSchoolPredicted,
+	GetAreaPredictedScore,
+} from "@/api/eduSchool/left.js";
 
 export default {
 	data() {
 		return {
-			status: "up",
-			// 8:教育局
-			// 7:校领导
-			userType: 8,
-			// boxHeight: "height: 298px"
+			info: {
+				// 全区平均
+				AreaAvgScore: 107,
+				// 学校平均
+				SchoolAvgScore: 107,
+				// 较上周
+				ChangeScore: 10,
+				// 满分
+				FullScore: 150,
+				// 排名第一
+				FirstSchool: "蓝鸽高中",
+				// 第一分数
+				FirstScore: 150,
+				// 本校排名
+				MySchoolRank: 20,
+				// 排行榜
+				SchoolList: [
+					{
+						SchoolID: "",
+						SchoolName: "蓝鸽高中",
+						SchoolRank: 1,
+					},
+					{
+						SchoolID: "",
+						SchoolName: "蓝鸽高中",
+						SchoolRank: 1,
+					},
+				],
+				// 重点关注
+				FocusSchoolList: [
+					{
+						SchoolID: "",
+						SchoolName: "蓝鸽高中",
+						SchoolRank: 1,
+					},
+					{
+						SchoolID: "",
+						SchoolName: "蓝鸽高中",
+						SchoolRank: 1,
+					},
+				],
+			},
 		};
+	},
+	created() {
+		this.init();
 	},
 	computed: {
 		boxHeight: function () {
@@ -129,13 +146,38 @@ export default {
 				return "height: 298px";
 			}
 		},
+		comparedData: function () {
+			if (this.info.ChangeScore < 0) {
+				return Math.abs(this.info.ChangeScore);
+			} else {
+				return this.info.ChangeScore;
+			}
+		},
+		status: function () {
+			if (this.info.ChangeScore < 0) {
+				return "down";
+			} else {
+				return "up";
+			}
+		},
+	},
+	components: {
+		RankAndFirst: () => import("../common/RankAndFirst.vue"),
+		Top: () => import("../common/Top.vue"),
 	},
 	methods: {
 		init() {
-			let data;
-			GetGradeLeaderPredictedScore(data).then((res) => {
-				this.info = res.Data;
-			});
+			let data = { ...this.$store.state };
+
+			if (this.$route.name === "educationRZZD") {
+				GetAreaPredictedScore(data).then((res) => {
+					this.info = res.Data;
+				});
+			} else {
+				GetSchoolPredicted(data).then((res) => {
+					this.info = res.Data;
+				});
+			}
 		},
 	},
 };
@@ -250,112 +292,6 @@ export default {
 			//   margin-bottom: 5px;
 			font-family: Oswald;
 		}
-	}
-}
-
-.bottom {
-	display: flex;
-	display: -webkit-flex;
-	width: 94%;
-	justify-content: space-around;
-	.bottomItem {
-		display: flex;
-		display: -webkit-flex;
-		flex-direction: column;
-		width: 180px;
-		height: 90px;
-		border-radius: 4px;
-		background-image: linear-gradient(
-			to right,
-			rgba(255, 255, 255, 0.1),
-			rgba(255, 255, 255, 0)
-		);
-		.content {
-			display: flex;
-			display: -webkit-flex;
-			flex-direction: column;
-			margin: 0 0 0 25px;
-			span {
-				width: 150px;
-				height: 20px;
-				overflow: hidden;
-				white-space: nowrap;
-				text-overflow: ellipsis;
-			}
-		}
-	}
-	.bottomTitle {
-		margin: 10px 0 10px 10px;
-		padding-left: 20px;
-		font-size: 16px;
-		font-family: YouSheBiaoTiHei;
-		color: #00aaff;
-		.top2 {
-			font-size: 12px;
-			color: #0088cc;
-		}
-	}
-	.icon1 {
-		background: url(~@/assets/img/eduSchool/排行榜.png) 0px center no-repeat;
-	}
-	.icon2 {
-		background: url(~@/assets/img/eduSchool/重点关注.png) 0px center no-repeat;
-	}
-}
-.bottom-leader {
-	display: flex;
-	display: -webkit-flex;
-	width: 94%;
-	margin-top: 10px;
-	justify-content: space-around;
-	.bottomItem {
-		display: flex;
-		display: -webkit-flex;
-		flex-direction: column;
-		width: 180px;
-		height: 60px;
-		border-radius: 4px;
-		background-image: linear-gradient(
-			to right,
-			rgba(255, 255, 255, 0.1),
-			rgba(255, 255, 255, 0)
-		);
-		.content {
-			display: flex;
-			display: -webkit-flex;
-			margin: 0 0 0 15px;
-			span {
-				width: 150px;
-				height: 20px;
-				overflow: hidden;
-				white-space: nowrap;
-				text-overflow: ellipsis;
-				font-family: YouSheBiaoTiHei;
-				font-size: 18px;
-				line-height: 28px;
-			}
-			.rank {
-				height: 28px;
-				background: url(~@/assets/img/eduSchool/第二名.png) 0px center no-repeat;
-				padding-left: 30px;
-				line-height: 28px;
-			}
-			//   .schoolName {
-			//   }
-			.schoolScore {
-				width: 50px;
-				font-size: 12px;
-				font-family: MicrosoftYaHei;
-			}
-		}
-	}
-	.bottomTitle {
-		margin: 3px 0 5px 0;
-		padding-left: 15px;
-		font-size: 16px;
-		font-family: YouSheBiaoTiHei;
-		color: #00aaff;
-		background: url(~@/assets/img/teacher/标题小标签.png) 0px center no-repeat;
 	}
 }
 @keyframes spin {

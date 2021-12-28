@@ -15,88 +15,118 @@
 		<div class="paper" v-if="$route.name === 'educationRZZD'">
 			<div id="eduChart" style="width: 122px; height: 122px"></div>
 			<div class="text">
-				<span><span class="number">950</span>份</span>
+				<span
+					><span class="number">{{ info.AreaAvgCount }}</span
+					>份</span
+				>
 				<br />
 				<span class="nextNumber">平均试卷量</span>
 			</div>
 		</div>
 		<div class="main" v-if="$route.name === 'schoolRZZD'">
 			<div class="left">
-				<span><span class="number">1560</span>份</span>
+				<span
+					><span class="number">{{ info.SchoolCount }}</span
+					>份</span
+				>
 				<span class="textColor">总量</span>
 			</div>
 			<div class="right">
-				<span class="quantity">2326<span class="char">份</span></span>
+				<span class="quantity"
+					>{{ info.AreaAvgPaper }}<span class="char">份</span></span
+				>
 				<span class="textColor">全区平均量</span>
 			</div>
 		</div>
-		<div class="bottom" v-if="$route.name === 'educationRZZD'">
-			<!-- 全区排行榜 -->
-			<div class="bottomItem">
-				<span class="bottomTitle icon1"
-					>全区排行榜<span class="top2">TOP2</span></span
-				>
-				<div class="content">
-					<span title="嘉兴市实验中学">· 嘉兴市实验中学</span>
-					<span title="南湖实验中学">· 南湖实验中学</span>
-				</div>
-			</div>
-			<!-- 重点关注 -->
-			<div class="bottomItem">
-				<span class="bottomTitle icon2"
-					>全区重点关注<span class="top2">TOP2</span></span
-				>
-				<div class="content">
-					<span title="海盐中学">· 海盐中学</span>
-					<span title="浙师大附属嘉善实验中学">· 浙师大附属嘉善实验中学</span>
-				</div>
-			</div>
-		</div>
-		<div class="bottom-leader" v-if="$route.name === 'schoolRZZD'">
-			<!-- 本校区排名 -->
-			<div class="bottomItem">
-				<span class="bottomTitle">本校区排名</span>
-				<div class="content">
-					<span class="rank">第二名</span>
-				</div>
-			</div>
-			<!-- 全区第一名学校 -->
-			<div class="bottomItem">
-				<span class="bottomTitle">全区第一名学校</span>
-				<div class="content">
-					<span class="schoolName" title="浙师大附属嘉善实验中学"
-						>浙师大附属嘉善实验中学</span
-					>
-					<span class="schoolScore numberColor">140分</span>
-				</div>
-			</div>
-		</div>
+		<Top
+			v-if="$route.name === 'educationRZZD'"
+			:SchoolList="info.SchoolList"
+			:FocusSchoolList="info.FocusSchoolList"
+		/>
+		<RankAndFirst
+			v-if="$route.name === 'schoolRZZD'"
+			:MySchoolRank="info.MySchoolRank"
+			:FirstSchool="info.FirstSchool"
+			:FirstScore="info.FirstScore"
+			:isScore="false"
+		/>
 	</div>
 </template>
 
 <script>
-// import { GetGradeLeaderPaperNum } from "@/api/eduSchool/left.js";
+import { GetSchoolPaperNum, GetAreaPaperNum } from "@/api/eduSchool/left.js";
 
 export default {
 	data() {
 		return {
-			// 8:教育局
-			// 7:校领导
-			userType: 8,
 			// 接口返回数据
-			info: {},
+			info: {
+				// 学校作答总量
+				SchoolCount: 17,
+				// 全区平均
+				AreaAvgPaper: 17,
+				// 排名第一学校
+				FirstSchool: "蓝鸽高中",
+				// 本校区排名
+				MySchoolRank: 100,
+				// 排名第一份数
+				FirstScore: 56,
+				// 教育局显示总量
+				AreaAvgCount: 8,
+				// 排行榜
+				SchoolList: [
+					{
+						SchoolID: "S4-000020-9AB3",
+						SchoolName: "蓝鸽高中",
+						SchoolRank: 1,
+					},
+					{
+						SchoolID: "S4-000020-9AB3",
+						SchoolName: "蓝鸽高中",
+						SchoolRank: 1,
+					},
+				],
+				// 重点关注
+				FocusSchoolList: [
+					{
+						SchoolID: "S4-000020-9AB3",
+						SchoolName: "蓝鸽高中",
+						SchoolRank: 1,
+					},
+					{
+						SchoolID: "S4-000020-9AB3",
+						SchoolName: "蓝鸽高中",
+						SchoolRank: 1,
+					},
+				],
+			},
 		};
 	},
+	created() {
+		this.init();
+	},
+	components: {
+		RankAndFirst: () => import("../common/RankAndFirst.vue"),
+		Top: () => import("../common/Top.vue"),
+	},
 	mounted() {
-		this.chart();
+		if (this.$route.name === "educationRZZD") {
+			this.chart();
+		}
 	},
 	methods: {
-		// init() {
-		//   let data;
-		//   GetGradeLeaderPaperNum(data).then((res) => {
-		//     this.info = res.Data;
-		//   });
-		// },
+		init() {
+			let data = { ...this.$store.state };
+			if (this.$route.name === "educationRZZD") {
+				GetAreaPaperNum(data).then((res) => {
+					this.info = res.Data;
+				});
+			} else {
+				GetSchoolPaperNum(data).then((res) => {
+					this.info = res.Data;
+				});
+			}
+		},
 		chart() {
 			let chartDom = document.getElementById("eduChart");
 			let myChart = this.$echarts.init(chartDom);
@@ -280,111 +310,6 @@ export default {
 		.char {
 			font-size: 12px;
 		}
-	}
-}
-.bottom {
-	display: flex;
-	display: -webkit-flex;
-	width: 94%;
-	justify-content: space-around;
-	.bottomItem {
-		display: flex;
-		display: -webkit-flex;
-		flex-direction: column;
-		width: 180px;
-		height: 90px;
-		border-radius: 4px;
-		background-image: linear-gradient(
-			to right,
-			rgba(255, 255, 255, 0.1),
-			rgba(255, 255, 255, 0)
-		);
-		.content {
-			display: flex;
-			display: -webkit-flex;
-			flex-direction: column;
-			margin: 0 0 0 25px;
-			span {
-				width: 150px;
-				height: 20px;
-				overflow: hidden;
-				white-space: nowrap;
-				text-overflow: ellipsis;
-			}
-		}
-	}
-	.bottomTitle {
-		margin: 10px 0 10px 10px;
-		padding-left: 20px;
-		font-size: 16px;
-		font-family: YouSheBiaoTiHei;
-		color: #00aaff;
-		.top2 {
-			font-size: 12px;
-			color: #0088cc;
-		}
-	}
-	.icon1 {
-		background: url(~@/assets/img/eduSchool/排行榜.png) 0px center no-repeat;
-	}
-	.icon2 {
-		background: url(~@/assets/img/eduSchool/重点关注.png) 0px center no-repeat;
-	}
-}
-.bottom-leader {
-	display: flex;
-	display: -webkit-flex;
-	width: 94%;
-	margin-top: 10px;
-	justify-content: space-around;
-	.bottomItem {
-		display: flex;
-		display: -webkit-flex;
-		flex-direction: column;
-		width: 180px;
-		height: 60px;
-		border-radius: 4px;
-		background-image: linear-gradient(
-			to right,
-			rgba(255, 255, 255, 0.1),
-			rgba(255, 255, 255, 0)
-		);
-		.content {
-			display: flex;
-			display: -webkit-flex;
-			margin: 0 0 0 15px;
-			span {
-				width: 150px;
-				height: 20px;
-				overflow: hidden;
-				white-space: nowrap;
-				text-overflow: ellipsis;
-				font-family: YouSheBiaoTiHei;
-				font-size: 18px;
-				line-height: 28px;
-			}
-			.rank {
-				height: 28px;
-				background: url(~@/assets/img/eduSchool/第二名.png) 0px center no-repeat;
-				padding-left: 30px;
-				line-height: 28px;
-			}
-			//   .schoolName {
-			//   }
-			.schoolScore {
-				width: 50px;
-				font-size: 12px;
-				font-family: MicrosoftYaHei;
-			}
-		}
-	}
-	.bottomTitle {
-		margin: 3px 0 5px 0;
-		padding-left: 15px;
-		font-size: 16px;
-		font-family: YouSheBiaoTiHei;
-		color: #00aaff;
-		background: url(~@/assets/img/teacher/标题小标签.png) 0px center no-repeat;
 	}
 }
 </style>

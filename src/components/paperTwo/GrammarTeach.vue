@@ -108,9 +108,12 @@ import "echarts-gl";
 export default {
 	data() {
 		return {
+			// 掌握类型全部-1，较好3，一般2，较差1
 			currentType: -1,
+			// dialog标题
 			dialogTitle: "学生名单",
 			dialogVisible: false,
+			// 空数据时显示
 			emptyText: "暂无数据",
 			// 分页数
 			pageCount: 1,
@@ -119,6 +122,7 @@ export default {
 			currentPage: 1,
 			// 每页显示的数量
 			PageSize: 9,
+			// 表格数据
 			tableData: [
 				{
 					Index: 1,
@@ -219,17 +223,17 @@ export default {
 					{
 						MasteredConclusion: 1,
 						StuCount: 10,
-						StuCountProportion: 0.17,
+						StuCountProportion: 0.20,
 					},
 					{
 						MasteredConclusion: 2,
 						StuCount: 35,
-						StuCountProportion: 0.58,
+						StuCountProportion: 0.32,
 					},
 					{
 						MasteredConclusion: 3,
 						StuCount: 15,
-						StuCountProportion: 0.25,
+						StuCountProportion: 0.48,
 					},
 				],
 			},
@@ -375,7 +379,7 @@ export default {
 							};"></span><span style="font-weight: bold">${this.getCount(
 								params.seriesName
 							)}</span>人 (${
-								option.series[params.seriesIndex].pieData.value
+								option.series[params.seriesIndex].pieData.value.toFixed(2)
 							}%)`;
 						}
 					},
