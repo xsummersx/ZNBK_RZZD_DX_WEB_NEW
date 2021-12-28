@@ -17,12 +17,7 @@
 				>
 				<span>总量</span>
 			</div>
-			<div class="right">
-				<span class="quantity" :class="status === 'up' ? 'up' : 'down'"
-					>{{ comparedData }}<span class="char">份</span></span
-				>
-				<span>较上周</span>
-			</div>
+			<CompareLastWeek :ChangeScore="info.ChangePaperCount"/>
 		</div>
 		<div class="bottom">
 			<span class="bottomTitle" v-if="$route.name === 'gradeRZZD'"
@@ -114,24 +109,13 @@ export default {
 				],
 				AvgCountPaperInClassAcc: 0,
 			},
-			// count: 0,
-			// theFirst: {},
-			// theSecond: {},
-			// comparedData: 0,
-			// status: "up",
 		};
 	},
 	created() {
-		// if (this.$route.name === "teacherRZZD") {
-		// 	this.info.StuPaperCountList.sort((a, b) => {
-		// 		return b.PaperCount - a.PaperCount;
-		// 	});
-		// } else {
-		// 	this.info.ClassList.sort((a, b) => {
-		// 		return b.ClassPaperCount - a.ClassPaperCount;
-		// 	});
-		// }
 		this.init();
+	},
+	components: {
+		CompareLastWeek: () => import("../common/CompareLastWeek.vue")
 	},
 	computed: {
 		isTeacher: function () {
@@ -158,28 +142,7 @@ export default {
 				return this.info.ClassList[1];
 			}
 		},
-		comparedData: function () {
-			if (this.info.ChangePaperCount < 0) {
-				return Math.abs(this.info.ChangePaperCount);
-			} else {
-				return this.info.ChangePaperCount;
-			}
-		},
-		status: function () {
-			if (this.info.ChangePaperCount < 0) {
-				return "down";
-			} else {
-				return "up";
-			}
-		},
 	},
-	// watch: {
-	//   info: function () {
-	//     this.info.StuPaperCountList.sort((a, b) => {
-	//       return b.PaperCount - a.PaperCount;
-	//     });
-	//   },
-	// },
 	methods: {
 		init() {
 			let data = { ...this.$store.state };
@@ -187,39 +150,12 @@ export default {
 				// 教师
 				GetClassPaperNum(data).then((res) => {
 					this.info = res.Data;
-					this.info.StuPaperCountList.sort((a, b) => {
-						return b.PaperCount - a.PaperCount;
-					});
 				});
 			} else {
 				// 年级组长
 				GetGradePaperNum(data).then((res) => {
 					this.info = res.Data;
-					this.info.ClassList.sort((a, b) => {
-						return b.ClassPaperCount - a.ClassPaperCount;
-					});
 				});
-			}
-		},
-		calculate() {
-			if (this.$route.name === "teacherRZZD") {
-				this.count = this.info.ClassTotalPaperCount;
-				this.firstList = this.info.StuPaperCountList[0];
-				this.secondList = this.info.StuPaperCountList[1];
-			} else if (this.$route.name === "gradeRZZD") {
-				this.count = this.info.AvgCountPaperInClassAcc;
-				this.firstList = this.info.ClassList[0];
-				this.secondList = this.info.ClassList[1];
-			}
-			if (this.info.ChangePaperCount < 0) {
-				this.comparedData = Math.abs(this.info.ChangePaperCount);
-			} else {
-				this.comparedData = this.info.ChangePaperCount;
-			}
-			if (this.info.ChangePaperCount < 0) {
-				this.status = "down";
-			} else {
-				this.status = "up";
 			}
 		},
 	},
@@ -262,34 +198,6 @@ export default {
 		.number {
 			font-size: 32px;
 			font-family: Oswald;
-		}
-	}
-	.right {
-		display: flex;
-		display: -webkit-flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		width: 128px;
-		height: 122px;
-		background: url(~@/assets/img/teacher/较上周底座.png) center center
-			no-repeat;
-		.quantity {
-			padding-left: 12px;
-			font-size: 18px;
-			margin-bottom: 5px;
-			font-family: ArialMT;
-		}
-		.up {
-			background: url(~@/assets/img/teacher/升.png) 0px center no-repeat;
-			color: #60ff60;
-		}
-		.down {
-			background: url(~@/assets/img/teacher/降.png) 0px center no-repeat;
-			color: #ff0000;
-		}
-		.char {
-			font-size: 12px;
 		}
 	}
 }

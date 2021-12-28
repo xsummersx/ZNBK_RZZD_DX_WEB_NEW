@@ -10,25 +10,9 @@
 	<div class="left-Content-Box">
 		<span class="title">认知平均分</span>
 		<div class="main">
-			<div class="left">
-				<div class="circleWhite"></div>
-				<div id="echart" style="width: 100%; height: 100%"></div>
-				<div class="text">
-					<span
-						><span class="number">{{ avgIndex }}</span
-						>分</span
-					>
-					<br />
-					<span>总分:{{ info.FullIndex }}分</span>
-				</div>
-			</div>
+			<Ring :FullIndex="info.FullIndex" :avgIndex="avgIndex" />
 			<div class="middle" :class="info.CognitiveGradeName"></div>
-			<div class="right">
-				<span class="quantity" :class="status === 'up' ? 'up' : 'down'"
-					>{{ compareData }}<span class="char">分</span></span
-				>
-				<span>较上周</span>
-			</div>
+			<CompareLastWeek :ChangeScore="info.ChangeIndex" />
 		</div>
 		<div class="bottom">
 			<span class="bottomTitle" v-if="$route.name === 'gradeRZZD'"
@@ -139,40 +123,15 @@ export default {
 				return this.info.ClassList[1];
 			}
 		},
-		compareData: function () {
-			if (this.info.ChangeIndex < 0) {
-				return Math.abs(this.info.ChangeIndex);
-			} else {
-				return this.info.ChangeIndex;
-			}
-		},
-		status: function () {
-			if (this.info.ChangeIndex < 0) {
-				return "down";
-			} else {
-				return "up";
-			}
-		},
 	},
 	created() {
 		this.init();
 	},
-	watch: {
-		info: function () {
-			if (this.$route.name === "teacherRZZD") {
-				this.info.StuIndexList.sort((a, b) => {
-					return b.CurrentIndex - a.CurrentIndex;
-				});
-			} else {
-				this.info.ClassList.sort((a, b) => {
-					return b.ClassAvgIndex - a.ClassAvgIndex;
-				});
-			}
-		},
+	components: {
+		CompareLastWeek: () => import("../common/CompareLastWeek.vue"),
+		Ring: () => import("../common/Ring.vue"),
 	},
-	mounted() {
-		this.chart();
-	},
+	mounted() {},
 	methods: {
 		init() {
 			let data = { ...this.$store.state };
@@ -187,86 +146,6 @@ export default {
 					this.info = res.Data;
 				});
 			}
-		},
-		chart() {
-			let chartDom = document.getElementById("echart");
-			let myChart = this.$echarts.init(chartDom);
-			let option;
-			option = {
-				polar: {
-					radius: ["74%", "88%"],
-					center: ["50%", "50%"],
-				},
-				angleAxis: {
-					max: 100,
-					startAngle: 210,
-					show: false,
-				},
-				radiusAxis: {
-					type: "category",
-					show: false,
-					axisLabel: {
-						show: false,
-					},
-					axisLine: {
-						show: false,
-					},
-					axisTick: {
-						show: false,
-					},
-				},
-				series: [
-					{
-						name: "",
-						type: "bar",
-						roundCap: true,
-						barWidth: 95,
-						z: 10,
-						itemStyle: {
-							normal: {
-								color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 0.5, [
-									{
-										offset: 0.5,
-										color: "#ffd572",
-									},
-									{
-										offset: 1,
-										color: "#ff8a01",
-									},
-								]),
-								shadowColor: "rgba(0, 0, 0, 0.2)", //设置折线阴影
-								shadowBlur: 8,
-								shadowOffsetY: -3,
-								shadowOffsetX: -3,
-							},
-						},
-						data: [(100 * 2) / 3],
-						coordinateSystem: "polar",
-					},
-					{
-						type: "pie",
-						name: "内层细圆环",
-						radius: ["84%", "78%"],
-						hoverAnimation: false,
-						clockWise: true,
-						itemStyle: {
-							normal: {
-								color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
-									{
-										offset: 1,
-										color: "#7f8c8d",
-									},
-								]),
-							},
-						},
-						label: {
-							show: false,
-						},
-						data: [100],
-					},
-				],
-			};
-			myChart.setOption(option);
 		},
 	},
 };
@@ -296,27 +175,6 @@ export default {
 	flex-direction: row;
 	margin: 20px 0 0 0;
 	justify-content: space-around;
-	.left {
-		display: flex;
-		display: -webkit-flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		width: 140px;
-		height: 140px;
-		margin-right: -32px;
-		position: relative;
-		.number {
-			font-size: 32px;
-			font-family: Oswald;
-		}
-		.text {
-			width: 100%;
-			position: absolute;
-			margin-top: -10px;
-			text-align: center;
-		}
-	}
 	.middle {
 		width: 64px;
 		margin-top: -90px;
@@ -337,33 +195,7 @@ export default {
 		background: url(~@/assets/img/teacher/小E+.png) center center no-repeat;
 	}
 	.right {
-		display: flex;
-		display: -webkit-flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		width: 128px;
-		height: 122px;
 		margin-left: -32px;
-		background: url(~@/assets/img/teacher/较上周底座.png) center center
-			no-repeat;
-		.quantity {
-			padding-left: 12px;
-			font-size: 18px;
-			margin-bottom: 5px;
-			font-family: ArialMT;
-		}
-		.up {
-			background: url(~@/assets/img/teacher/升.png) 0px center no-repeat;
-			color: #60ff60;
-		}
-		.down {
-			background: url(~@/assets/img/teacher/降.png) 0px center no-repeat;
-			color: #ff0000;
-		}
-		.char {
-			font-size: 12px;
-		}
 	}
 }
 .bottom {
@@ -423,15 +255,5 @@ export default {
 		width: 2px;
 		background: url(~@/assets/img/teacher/分界线.png) 0px center no-repeat;
 	}
-}
-.circleWhite {
-	left: 115px;
-	top: 95px;
-	width: 7px;
-	height: 6px;
-	background-color: #f5f7fb;
-	border-radius: 100%;
-	position: absolute;
-	z-index: 111;
 }
 </style>

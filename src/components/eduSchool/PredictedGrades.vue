@@ -10,22 +10,7 @@
 	<div class="left-Content-Box" :style="boxHeight">
 		<span class="title">高考预估成绩</span>
 		<div class="main" v-if="$route.name === 'educationRZZD'">
-			<div class="left">
-				<div class="progress">
-					<div class="inner">
-						<div class="fuPercent percent">
-							<span
-								><span class="number">{{ info.AreaAvgScore }}</span
-								>分</span
-							>
-							<br />
-							<span>满分:{{ info.FullScore }}分</span>
-						</div>
-						<div class="water"></div>
-						<div class="glare"></div>
-					</div>
-				</div>
-			</div>
+			<Polo :FullScore="info.FullScore" :score="info.AreaAvgScore" />
 			<div class="right">
 				<span class="quantity" :class="status === 'up' ? 'up' : 'down'"
 					>{{ comparedData }}<span class="char">分</span></span
@@ -36,22 +21,7 @@
 		<div class="main" v-if="$route.name === 'schoolRZZD'">
 			<div class="leader">
 				<span class="textColor">全校平均预估成绩</span>
-				<div class="left">
-					<div class="progress">
-						<div class="inner">
-							<div class="fuPercent percent">
-								<span
-									><span class="number">{{ info.SchoolAvgScore }}</span
-									>分</span
-								>
-								<br />
-								<span>满分:{{ info.FullScore }}分</span>
-							</div>
-							<div class="water"></div>
-							<div class="glare"></div>
-						</div>
-					</div>
-				</div>
+				<Polo :FullScore="info.FullScore" :score="info.SchoolAvgScore" />
 				<div class="compare">
 					<i class="icon"></i>
 					<span>较上周 </span>
@@ -164,6 +134,7 @@ export default {
 	components: {
 		RankAndFirst: () => import("../common/RankAndFirst.vue"),
 		Top: () => import("../common/Top.vue"),
+		Polo: () => import("../common/Polo.vue"),
 	},
 	methods: {
 		init() {
@@ -219,15 +190,6 @@ export default {
 	flex-direction: row;
 	margin: 30px 0 5px;
 	justify-content: space-around;
-	.left {
-		display: flex;
-		display: -webkit-flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		width: 128px;
-		height: 122px;
-	}
 	.right {
 		display: flex;
 		display: -webkit-flex;
@@ -291,77 +253,6 @@ export default {
 			font-size: 24px;
 			//   margin-bottom: 5px;
 			font-family: Oswald;
-		}
-	}
-}
-@keyframes spin {
-	from {
-		transform: rotate(0deg);
-	}
-
-	to {
-		transform: rotate(360deg);
-	}
-}
-.progress {
-	position: relative;
-	width: 114px;
-	height: 114px;
-	border: 5px solid rgba(65, 205, 62, 0.4);
-	border-radius: 50% !important;
-	.inner {
-		position: absolute;
-		overflow: hidden;
-		z-index: 2;
-		width: 114px;
-		height: 114px;
-		top: -5px;
-		left: -5px;
-		border-radius: 50% !important;
-
-		.water {
-			position: absolute;
-			z-index: 1;
-			background: rgba(45, 184, 42, 1);
-			width: 200%;
-			height: 200%;
-
-			transform: translateZ(0);
-			-webkit-transform: translateZ(0);
-
-			transition: all 1s ease !important;
-			-webkit-transition: all 1s ease !important;
-
-			top: 50%;
-			left: -50%;
-			border: 1px solid transparent;
-			border-radius: 40% !important;
-			animation-duration: 10s;
-			animation-name: spin;
-			animation-iteration-count: infinite;
-			animation-timing-function: linear;
-		}
-
-		.glare {
-			position: absolute;
-			top: -120%;
-			left: -120%;
-			z-index: 5;
-			width: 200%;
-			height: 200%;
-			transform: rotate(45deg);
-			background: #ffffff;
-			background: rgba(255, 255, 255, 0.2);
-			border-radius: 50%;
-		}
-
-		.fuPercent {
-			position: absolute;
-			top: 20px;
-			width: 100%;
-			height: 100%;
-			z-index: 99;
-			text-align: center;
 		}
 	}
 }

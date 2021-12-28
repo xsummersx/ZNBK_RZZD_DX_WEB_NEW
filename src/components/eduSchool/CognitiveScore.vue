@@ -10,18 +10,7 @@
 	<div class="left-Content-Box" :style="boxHeight">
 		<span class="title">认知平均分</span>
 		<div class="main" v-if="$route.name === 'educationRZZD'">
-			<div class="left">
-				<div class="circleWhite"></div>
-				<div id="echart" style="width: 100%; height: 100%"></div>
-				<div class="text">
-					<span
-						><span class="number">{{ info.AreaAvgIndex }}</span
-						>分</span
-					>
-					<br />
-					<span>总分:{{ info.FullIndex }}分</span>
-				</div>
-			</div>
+			<Ring :FullIndex="info.FullIndex" :avgIndex="info.AreaAvgIndex" />
 			<div class="middle" :class="info.CognitiveGradeName"></div>
 			<div class="right">
 				<span class="quantity" :class="status === 'up' ? 'up' : 'down'"
@@ -33,18 +22,11 @@
 		<div class="main" v-if="$route.name === 'schoolRZZD'">
 			<div class="leader">
 				<span class="textColor">全校平均认知分</span>
-				<div class="left1">
-					<div class="circleWhite"></div>
-					<div id="echart" style="width: 100%; height: 100%"></div>
-					<div class="text">
-						<span
-							><span class="number">{{ info.SchoolAvgIndex }}</span
-							>分</span
-						>
-						<br />
-						<span>总分:{{ info.FullIndex }}分</span>
-					</div>
-				</div>
+				<Ring
+					:FullIndex="info.FullIndex"
+					:avgIndex="info.SchoolAvgIndex"
+					:isMR="false"
+				/>
 				<div class="compare">
 					<i class="icon"></i>
 					<span>较上周 </span>
@@ -138,6 +120,7 @@ export default {
 	components: {
 		RankAndFirst: () => import("../common/RankAndFirst.vue"),
 		Top: () => import("../common/Top.vue"),
+		Ring: () => import("../common/Ring.vue"),
 	},
 	computed: {
 		boxHeight: function () {
@@ -162,9 +145,7 @@ export default {
 			}
 		},
 	},
-	mounted() {
-		this.chart();
-	},
+	mounted() {},
 	methods: {
 		init() {
 			let data = { ...this.$store.state };
@@ -177,86 +158,6 @@ export default {
 					this.info = res.Data;
 				});
 			}
-		},
-		chart() {
-			let chartDom = document.getElementById("echart");
-			let myChart = this.$echarts.init(chartDom);
-			let option;
-			option = {
-				polar: {
-					radius: ["74%", "88%"],
-					center: ["50%", "50%"],
-				},
-				angleAxis: {
-					max: 100,
-					startAngle: 210,
-					show: false,
-				},
-				radiusAxis: {
-					type: "category",
-					show: false,
-					axisLabel: {
-						show: false,
-					},
-					axisLine: {
-						show: false,
-					},
-					axisTick: {
-						show: false,
-					},
-				},
-				series: [
-					{
-						name: "",
-						type: "bar",
-						roundCap: true,
-						barWidth: 95,
-						z: 10,
-						itemStyle: {
-							normal: {
-								color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 0.5, [
-									{
-										offset: 0.5,
-										color: "#ffd572",
-									},
-									{
-										offset: 1,
-										color: "#ff8a01",
-									},
-								]),
-								shadowColor: "rgba(0, 0, 0, 0.2)", //设置折线阴影
-								shadowBlur: 8,
-								shadowOffsetY: -3,
-								shadowOffsetX: -3,
-							},
-						},
-						data: [(100 * 2) / 3],
-						coordinateSystem: "polar",
-					},
-					{
-						type: "pie",
-						name: "内层细圆环",
-						radius: ["84%", "78%"],
-						hoverAnimation: false,
-						clockWise: true,
-						itemStyle: {
-							normal: {
-								color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
-									{
-										offset: 1,
-										color: "#7f8c8d",
-									},
-								]),
-							},
-						},
-						label: {
-							show: false,
-						},
-						data: [100],
-					},
-				],
-			};
-			myChart.setOption(option);
 		},
 	},
 };
@@ -294,48 +195,6 @@ export default {
 	flex-direction: row;
 	margin: 15px 0 -10px 0;
 	justify-content: space-around;
-	.left {
-		display: flex;
-		display: -webkit-flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		width: 140px;
-		height: 140px;
-		margin-right: -28px;
-		position: relative;
-		.text {
-			position: absolute;
-			margin-top: -10px;
-			width: 100%;
-			text-align: center;
-		}
-		.number {
-			font-size: 32px;
-			font-family: Oswald;
-		}
-	}
-	.left1 {
-		display: flex;
-		display: -webkit-flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		width: 140px;
-		height: 140px;
-		// margin-right: -25px;
-		position: relative;
-		.text {
-			position: absolute;
-			margin-top: -10px;
-			width: 100%;
-			text-align: center;
-		}
-		.number {
-			font-size: 32px;
-			font-family: Oswald;
-		}
-	}
 	.middle {
 		width: 64px;
 		margin-top: -90px;
@@ -429,15 +288,5 @@ export default {
 	width: 94%;
 	justify-content: space-around;
 	margin: 10px 0 0 0;
-}
-.circleWhite {
-	left: 115px;
-	top: 95px;
-	width: 7px;
-	height: 6px;
-	background-color: #f5f7fb;
-	border-radius: 100%;
-	position: absolute;
-	z-index: 111;
 }
 </style>
