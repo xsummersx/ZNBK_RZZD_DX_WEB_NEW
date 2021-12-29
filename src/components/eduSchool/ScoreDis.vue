@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:30:34
- * @LastEditTime: 2021-12-21 09:01:40
+ * @LastEditTime: 2021-12-29 09:07:40
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》认知成绩分布
@@ -9,78 +9,141 @@
 <template>
   <div class="Dis">
     <div class="title">认知成绩分布</div>
-    <div class="button">
-      <span @click="checkButton(0)" :class="{ active: activeSpan == 0 }">学校</span>
-      <span @click="checkButton(1)" v-show="false" :class="{ active: activeSpan == 1 }">班级</span>
-      <span @click="checkButton(2)" :class="{ active: activeSpan == 2 }">学生</span>
-    </div>
-    <div class="tu">
-      <div class="tu_Back"></div>
-      <div class="Aline"></div>
-      <div class="Bline"></div>
-      <div class="Cline"></div>
-      <div class="Dline"></div>
-      <div class="Eline"></div>
-      <div class="Acont">
-        <span class="Text">
-          <span class="TextDeng Acolor">A<sup>+</sup></span>
-          <span class="Acolor"> <b class="big">1</b>{{ getText }}</span>
-        </span>
-        <span class="Text">
-          <span class="norColor">占比<b class="big">20</b>%,</span>
-          <span class="Acolor"><span>↑</span><span>↓</span>20%</span>
-        </span>
+    <template v-if="true">
+      <div class="button">
+        <span @click="checkButton(0)" v-show="$route.name == 'educationRZZD'" :class="{ active: activeSpan == 0 }">学校</span>
+        <span @click="checkButton(1)" v-show="$route.name == 'schoolRZZD'" :class="{ active: activeSpan == 1 }">班级</span>
+        <span @click="checkButton(2)" :class="{ active: activeSpan == 2 }">学生</span>
       </div>
-      <div class="Bcont">
-        <span class="Text">
-          <span class="TextDeng Bcolor">B<sup>+</sup></span>
-          <span class="Bcolor"> <b class="big">1</b>{{ getText }}</span>
-        </span>
-        <span class="Text">
-          <span class="norColor">占比<b class="big">20</b>%,</span>
-          <span class="Bcolor"><span>↑</span><span>↓</span>20%</span>
-        </span>
+      <div class="tu">
+        <div class="tu_Back"></div>
+        <div class="Aline"></div>
+        <div class="Bline"></div>
+        <div class="Cline"></div>
+        <div class="Dline"></div>
+        <div class="Eline"></div>
+        <div class="Acont">
+          <span class="Text">
+            <span class="TextDeng Acolor">A<sup>+</sup></span>
+            <span class="Acolor">
+              <b class="big">{{ List[0].LevelCount }}</b
+              >{{ getText }}</span
+            >
+          </span>
+          <span class="Text">
+            <span class="norColor"
+              >占比<b class="big">{{ List[0].LevelRation | toPercent(2) }}</b
+              >%,</span
+            >
+            <span class="Acolor">
+              <span v-if="List[0].TrastRation >= 0">↑</span>
+              <span v-if="List[0].TrastRation < 0">↓</span>
+              {{ List[0].TrastRation | toPercent(0) }}%
+            </span>
+          </span>
+        </div>
+        <div class="Bcont">
+          <span class="Text">
+            <span class="TextDeng Bcolor">B<sup>+</sup></span>
+            <span class="Bcolor">
+              <b class="big">{{ List[0].LevelCount }}</b
+              >{{ getText }}</span
+            >
+          </span>
+          <span class="Text">
+            <span class="norColor"
+              >占比<b class="big">{{ List[1].LevelRation | toPercent(2) }}</b
+              >%,</span
+            >
+            <span class="Bcolor">
+              <span v-if="List[1].TrastRation >= 0">↑</span>
+              <span v-if="List[1].TrastRation < 0">↓</span>
+              {{ List[1].TrastRation | toPercent(0) }}%
+            </span>
+          </span>
+        </div>
+        <div class="Ccont">
+          <span class="Text">
+            <span class="TextDeng Ccolor">C<sup>+</sup></span>
+            <span class="Ccolor">
+              <b class="big">{{ List[2].LevelCount }}</b
+              >{{ getText }}</span
+            >
+          </span>
+          <span class="Text">
+            <span class="norColor"
+              >占比<b class="big">{{ List[2].LevelRation | toPercent(2) }}</b
+              >%,</span
+            >
+            <span class="Ccolor">
+              <span v-if="List[2].TrastRation >= 0">↑</span>
+              <span v-if="List[2].TrastRation < 0">↓</span>
+              {{ List[2].TrastRation | toPercent(0) }}%
+            </span>
+          </span>
+        </div>
+        <div class="Dcont">
+          <span class="Text">
+            <span class="TextDeng Dcolor">D<sup>+</sup></span>
+            <span class="Dcolor">
+              <b class="big">{{ List[3].LevelCount }}</b
+              >{{ getText }}</span
+            >
+          </span>
+          <span class="Text">
+            <span class="norColor"
+              >占比<b class="big">{{ List[3].LevelRation | toPercent(2) }}</b
+              >%,</span
+            >
+            <span class="Dcolor">
+              <span v-if="List[3].TrastRation >= 0">↑</span>
+              <span v-if="List[3].TrastRation < 0">↓</span>
+              {{ List[3].TrastRation | toPercent(0) }}%
+            </span>
+          </span>
+        </div>
+        <div class="Econt">
+          <span class="Text">
+            <span class="TextDeng Ecolor">E<sup>+</sup></span>
+            <span class="Ecolor">
+              <b class="big">{{ List[4].LevelCount }}</b
+              >{{ getText }}</span
+            >
+          </span>
+          <span class="Text">
+            <span class="norColor"
+              >占比<b class="big">{{ List[4].LevelRation | toPercent(2) }}</b
+              >%,</span
+            >
+            <span class="Ecolor">
+              <span v-if="List[4].TrastRation >= 0">↑</span>
+              <span v-if="List[4].TrastRation < 0">↓</span>
+              {{ List[4].TrastRation | toPercent(0) }}%
+            </span>
+          </span>
+        </div>
       </div>
-      <div class="Ccont">
-        <span class="Text">
-          <span class="TextDeng Ccolor">C<sup>+</sup></span>
-          <span class="Ccolor"> <b class="big">1</b>{{ getText }}</span>
-        </span>
-        <span class="Text">
-          <span class="norColor">占比<b class="big">20</b>%,</span>
-          <span class="Ccolor"><span>↑</span><span>↓</span>20%</span>
-        </span>
-      </div>
-      <div class="Dcont">
-        <span class="Text">
-          <span class="TextDeng Dcolor">D<sup>+</sup></span>
-          <span class="Dcolor"> <b class="big">1</b>{{ getText }}</span>
-        </span>
-        <span class="Text">
-          <span class="norColor">占比<b class="big">20</b>%,</span>
-          <span class="Dcolor"><span>↑</span><span>↓</span>20%</span>
-        </span>
-      </div>
-      <div class="Econt">
-        <span class="Text">
-          <span class="TextDeng Ecolor">E<sup>+</sup></span>
-          <span class="Ecolor"> <b class="big">1</b>{{ getText }}</span>
-        </span>
-        <span class="Text">
-          <span class="norColor">占比<b class="big">20</b>%,</span>
-          <span class="Ecolor"><span>↑</span><span>↓</span>20%</span>
-        </span>
-      </div>
-    </div>
+    </template>
+    <EduNoData v-if="false" noDataType="1" style="margin-top: 120px"></EduNoData>
   </div>
 </template>
 <script>
+import { GetArea } from "@/api/eduSchool/right.js";
+import { GetAreaSchool } from "@/api/eduSchool/right.js";
+import EduNoData from "./eduNoData";
 export default {
   name: "ScoreDis",
   data() {
     return {
       activeSpan: 0, //0-学校，1-班级，2-学生
+      List: [],
+      showData: true, //是否有数据
     };
+  },
+  created() {
+    if (this.$route.name == "schoolRZZD") {
+      this.activeSpan = 1;
+    }
   },
   computed: {
     getText: function () {
@@ -95,11 +158,59 @@ export default {
       }
     },
   },
-  mounted() {},
+  components: {
+    EduNoData,
+  },
+  mounted() {
+    this.getInfo(this.$route.name, "class");
+  },
   methods: {
     //切换按钮
     checkButton(n) {
       this.activeSpan = n;
+      if (n == 2) {
+        this.getInfo(this.$route.name, "student");
+      } else {
+        this.getInfo(this.$route.name, "class");
+      }
+    },
+    //请求接口
+    getInfo(name, type) {
+      let params = {
+        Token: this.$store.state.token,
+        TID: this.$store.state.TID,
+        GlobalGrade: this.$store.state.GlobalGrade,
+        ZsdArea: this.$store.state.ZsdArea,
+        StageNo: this.$store.state.StageNo,
+        SwitchType: "", //传student显示学生认知成绩分布图，传其他显示学校认知成绩分布图
+      };
+      if (name == "educationRZZD") {
+        params.ProvinceID = this.$store.state.ProvinceID;
+        params.CityID = this.$store.state.CityID;
+        params.CountyID = this.$store.state.CountyID;
+        params.SwitchType = type;
+        GetArea(params).then((res) => {
+          if (res.Code == 1) {
+            if (res.Data.IndexTable.length > 0) {
+              this.List = res.Data.IndexTable;
+            } else {
+              this.showData = false;
+            }
+          }
+        });
+      } else if (name == "schoolRZZD") {
+        params.SchoolID = this.$store.state.SchoolID;
+        params.SwitchType = type;
+        GetAreaSchool(params).then((res) => {
+          if (res.Code == 1) {
+            if (res.Data.IndexTable.length > 0) {
+              this.List = res.Data.IndexTable;
+            } else {
+              this.showData = false;
+            }
+          }
+        });
+      }
     },
   },
 };
@@ -205,7 +316,7 @@ export default {
     margin-right: 5px;
   }
   .big {
-    font-size: 16px;
+    font-size: 13px;
     font-weight: normal;
   }
   .Acolor {
@@ -230,7 +341,7 @@ export default {
   }
   .Bcont {
     position: absolute;
-    left: 285px;
+    right: 23px;
     top: 20px;
     text-align: right;
   }
@@ -241,13 +352,13 @@ export default {
   }
   .Dcont {
     position: absolute;
-    left: 282px;
+    right: 30px;
     top: 93px;
     text-align: right;
   }
   .Econt {
     position: absolute;
-    left: 276px;
+    right: 33px;
     top: 226px;
     text-align: right;
   }
