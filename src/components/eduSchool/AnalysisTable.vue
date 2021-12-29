@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:29:29
- * @LastEditTime: 2021-12-22 15:52:58
+ * @LastEditTime: 2021-12-28 11:21:03
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 学校校长=》认知情况详情，图1
@@ -9,24 +9,27 @@
 <template>
   <div class="anaBox">
     <div class="title"><span class="titText">班级认知情况对比分析</span></div>
-    <div id="tableCharts"></div>
+    <div id="tableCharts" v-if="true"></div>
+    <EduNoData v-if="false" noDataType="4" style="margin-top: 170px; margin-bottom: 170px"></EduNoData>
     <div class="title">
       <span class="titText">认知情况详情</span>
-      <div class="exportScore float-r" style="margin-right: 0px">
-        <span class="exportIcon"></span>
-        导出成绩单
-      </div>
-      <div class="btnline"></div>
-      <div class="inputBox">
-        <input class="float-r stuInput" type="text" placeholder="请输入班级名称搜索..." v-model="ClassSearchText" v-on:keyup.enter="searchStu()" />
-        <span class="searchIcon" style="right: 146px" @click="searchStu()"></span>
-      </div>
-      <div class="inputBox">
-        <input class="float-r stuInput" type="text" placeholder="请输入学生姓名搜索..." v-model="ClassSearchText" v-on:keyup.enter="searchStu()" />
-        <span class="searchIcon" style="right: 146px" @click="searchStu()"></span>
-      </div>
+      <template v-if="true">
+        <div class="exportScore float-r" style="margin-right: 0px">
+          <span class="exportIcon"></span>
+          导出成绩单
+        </div>
+        <div class="btnline"></div>
+        <div class="inputBox">
+          <input class="float-r stuInput" type="text" placeholder="请输入班级名称搜索..." v-model="ClassSearchText" v-on:keyup.enter="searchStu()" />
+          <span class="searchIcon" style="right: 146px" @click="searchStu()"></span>
+        </div>
+        <div class="inputBox">
+          <input class="float-r stuInput" type="text" placeholder="请输入学生姓名搜索..." v-model="ClassSearchText" v-on:keyup.enter="searchStu()" />
+          <span class="searchIcon" style="right: 146px" @click="searchStu()"></span>
+        </div>
+      </template>
     </div>
-    <div class="cont">
+    <div class="cont" v-if="true">
       <el-table :empty-text="emptyText" :data="showList" height="280" style="width: 100%; height: 305px" class="bueatyScroll">
         <el-table-column prop="Index" label="序号" width="53">
           <template slot-scope="scope">
@@ -130,9 +133,11 @@
         </el-pagination>
       </div>
     </div>
+    <EduNoData v-if="false" noDataType="3" style="margin-top: 100px"></EduNoData>
   </div>
 </template>
 <script>
+import EduNoData from "./eduNoData";
 export default {
   name: "AnalysisTable",
   data() {
@@ -162,6 +167,9 @@ export default {
       // 默认每页显示的条数（可修改）
       PageSize: 5,
     };
+  },
+  components: {
+    EduNoData,
   },
   mounted() {
     this.drawBar();

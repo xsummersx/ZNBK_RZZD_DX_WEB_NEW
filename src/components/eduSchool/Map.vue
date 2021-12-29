@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:27:26
- * @LastEditTime: 2021-12-24 16:12:30
+ * @LastEditTime: 2021-12-29 09:54:32
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》地图，图0
@@ -9,6 +9,8 @@
 <template>
   <div class="map">
     <div id="mapID"></div>
+    <div class="legend"></div>
+    <!-- <div class="btnText"><span class="text">学校认知情况</span><i class="btnIcon"></i></div> -->
   </div>
 </template>
 <script>
@@ -23,31 +25,41 @@ export default {
     this.drawMap();
   },
   methods: {
+    //跳转学校点击事件
+    SchoolClick(id) {
+      console.log(id);
+    },
+    //统计图绘制
     drawMap() {
+      console.log(this.$store.state);
       let params = {
-        Token: "533ddc22-aca3-4e74-b157-d50a8bb2cba2",
-        TID: "T1201004",
-        ProvinceID: "330000",
-        CityID: "330400",
-        CountyID: "330402",
-        GlobalGrade: "K12",
-        StageNo: "C",
-        ZsdArea: "C",
+        Token: this.$store.state.token,
+        TID: this.$store.state.TID,
+        ProvinceID: this.$store.state.ProvinceID,
+        CityID: this.$store.state.CityID,
+        CountyID: this.$store.state.CountyID,
+        GlobalGrade: this.$store.state.GlobalGrade,
+        StageNo: this.$store.state.StageNo,
+        ZsdArea: this.$store.state.ZsdArea,
       };
-      //需要采用echarts4.9版本
-      //var imgBack = "";
+
       getMapJson(params).then((res) => {
-        console.log(res);
         let mapDate = [];
         res.Data.SchoolList.map((item) => {
           mapDate.push({
+            SchoolID: item.SchoolID,
             name: item.SchoolName,
             value: [item.Longitude, item.Latitude],
             datas: item.CognitiveGradeName,
+            CurrentIndex: item.CurrentIndex, //认知指数
+            PredictedScore: item.PredictedScore, //预估成绩
+            PaperScoreRate: (item.PaperScoreRate * 100).toFixed(0), //已作答试卷平均得分率
+            AnsweredPaperNum: item.AnsweredPaperNum, //累计作答试卷份数
           });
         });
         res.Data.OtherSchoolList.map((item) => {
           mapDate.push({
+            SchoolID: item.SchoolID,
             name: item.SchoolName,
             value: [item.Longitude, item.Latitude],
             datas: "F",
@@ -55,22 +67,21 @@ export default {
         });
         // let quyuData = [];
         // res.Data.MapResources.features.map((item) => {
-        //   quyuData.push({ name: item.properties.name, value: 50 });
+        //   quyuData.push({ name: item.properties.name, tipData: 50 });
         // });
         let echarts = require("echarts");
         let mapEchart = echarts.init(document.getElementById("mapID"));
-
         echarts.registerMap("bd", res.Data.MapResources);
-        let only = {
-          type: "FeatureCollection",
-          features: [],
-        };
-        res.Data.MapResources.features.map((item, index) => {
-          if (index > 0) {
-            only.features.push(item);
-          }
-        });
-        echarts.registerMap("only", only);
+        // let only = {
+        //   type: "FeatureCollection",
+        //   features: [],
+        // };
+        // res.Data.MapResources.features.map((item, index) => {
+        //   if (index > 0) {
+        //     only.features.push(item);
+        //   }
+        // });
+        // echarts.registerMap("only", only);
         let option = {
           // visualMap: {
           //   show: true,
@@ -84,6 +95,74 @@ export default {
           //     color: ["#0643a5", "#0634a1"], // 蓝绿#0643a5", //0634a1
           //   },
           // },
+          //tooltip: {
+          //show: true,
+          // formatter: function (params) {
+          //   console.log(params);
+          //   return "<div style='color:red'>学校</div>";
+          // },
+          //},
+          tooltip: {
+            zlevel: 100,
+            show: true,
+            triggerOn: "mousemove",
+            enterable: true,
+            trigger: "item",
+            alwaysShowContent: true,
+            position: "right",
+            renderMode: "html",
+            // position: function (point, params, dom, rect, size) {
+            //   console.log(point, params, dom, rect, size);
+            //   return [rect];
+            // },
+            backgroundColor: "transparent", //让geo的点击实现为空白
+            textStyle: {
+              //让geo的点击实现为空白
+              color: "transparent",
+            },
+            borderWidth: 0, //让geo的点击实现为空白
+            shadowBlur: 0, //让geo的点击实现为空白
+            shadowColor: "transparent", //让geo的点击实现为空白
+            // hideDelay:10000,
+            // formatter: function (params) {
+            //   console.log(params);
+            //   if (params) {
+            //     option.tooltip.show = true;
+            //     var info = '<div class="tipBG">学校</div>';
+            //     return info;
+            //   }
+            //   //   return "<div style='color:red'>学校</div>";
+            // },
+            formatter: function (params) {
+              console.log(params);
+              let url = "http://www.baidu.com";
+              let divTop =
+                '<div class="toolTipTop"><span class="toolTipTitle" title="' +
+                params.data.name +
+                '">' +
+                params.data.name +
+                '</span><i class="toolTipIcon" title="点击跳转该学校认知质量大数据报告" onclick="javascript:window.open(\'' +
+                url +
+                "')\"></i></div>";
+              let divNone = '<div class="toolTipTop"><span class="toolTipTitle" title="' + params.data.name + '">' + params.data.name + "</span></div>";
+              let divList =
+                '<div class="toolTipItem"><span class="toolTipTitleContLeft">累计作答试卷</span><span class="toolTipTitleContRight">' +
+                params.data.AnsweredPaperNum +
+                '份</span></div><div class="toolTipItem"><span class="toolTipTitleContLeft">平均正确率</span><span class="toolTipTitleContRight">' +
+                params.data.PaperScoreRate +
+                '%</span></div><div class="toolTipItem"><span class="toolTipTitleContLeft">认知平均分</span><span class="toolTipTitleContRight">' +
+                params.data.CurrentIndex +
+                '分</span></div><div class="toolTipItem"><span class="toolTipTitleContLeft">高考成绩预估</span><span class="toolTipTitleContRight">' +
+                params.data.PredictedScore +
+                "分</span></div>";
+
+              if (params.data.datas != "F") {
+                return '<div class="toolTip' + params.data.datas + 'BG">' + divTop + divList + "</div>";
+              } else {
+                return '<div class="toolTip' + params.data.datas + 'BG">' + divNone + "</div>";
+              }
+            },
+          },
           geo: {
             show: true,
             map: "bd",
@@ -187,13 +266,10 @@ export default {
                     image: mapBG0(),
                     repeat: "repeat",
                   },
-                  // areaColor: function (value, params) {
-                  //   console.log(value, params);
-                  // }, //"#0643a5", //0634a1
-                  // shadowColor: "#001568",
-                  // shadowBlur: 0,
-                  // shadowOffsetX: 0,
-                  // shadowOffsetY: 3,
+                  shadowColor: "#23074d",
+                  shadowBlur: 30,
+                  shadowOffsetX: -2,
+                  shadowOffsetY: 5,
                   label: {
                     show: true,
                   },
@@ -207,7 +283,7 @@ export default {
                 },
               },
               zoom: 1.1,
-              map: "only",
+              map: "bd",
             },
             // gif动画
             {
@@ -318,7 +394,7 @@ export default {
             },
             //地域图标
             {
-              zlevel: 2,
+              zlevel: 100,
               type: "scatter",
               coordinateSystem: "geo",
               itemStyle: {
@@ -347,6 +423,11 @@ export default {
           ],
         };
         mapEchart.setOption(option);
+
+        // mapEchart.on("click", function (params) {
+        //   //点击事件
+        //   console.log(params);
+        // });
       });
     },
   },
@@ -357,9 +438,192 @@ export default {
   width: 940px;
   height: 636px;
   margin: 0 10px;
+  position: relative;
 }
 #mapID {
   width: 940px;
   height: 620px;
+}
+.legend {
+  width: 34px;
+  height: 92px;
+  background: url(~@/assets/img/eduSchool/legend.png) no-repeat center center;
+  position: absolute;
+  left: 58px;
+  top: 28px;
+}
+.btnText {
+  position: absolute;
+  width: 100px;
+  height: 20px;
+  right: 30px;
+  top: 28px;
+  cursor: pointer;
+  .text {
+    line-height: 20px;
+    float: left;
+    color: #fff;
+    opacity: 0.8;
+  }
+  .btnIcon {
+    float: left;
+    width: 8px;
+    height: 8px;
+    margin-left: 4px;
+    margin-top: 6px;
+    background: url(~@/assets/img/eduSchool/下一页详情_默认.png) no-repeat center center;
+  }
+}
+.btnText:hover {
+  .text {
+    opacity: 1;
+  }
+  .btnIcon {
+    background: url(~@/assets/img/eduSchool/下一页详情_悬停.png) no-repeat center center;
+  }
+}
+</style>
+<style>
+.toolTipABG {
+  width: 220px;
+  height: 240px;
+  background: url(~@/assets/img/eduSchool/ABG.png) no-repeat center center;
+  color: #fff;
+  position: relative;
+}
+.toolTipABG::after {
+  width: 34px;
+  height: 12px;
+  background: url(~@/assets/img/eduSchool/LINEA.png) no-repeat center right;
+  content: "";
+  position: absolute;
+  left: -17px;
+  top: 48%;
+}
+.toolTipBBG {
+  width: 220px;
+  height: 240px;
+  background: url(~@/assets/img/eduSchool/BBG.png) no-repeat center center;
+  color: #fff;
+  position: relative;
+}
+.toolTipBBG::after {
+  width: 34px;
+  height: 12px;
+  background: url(~@/assets/img/eduSchool/LINEB.png) no-repeat center right;
+  content: "";
+  position: absolute;
+  left: -17px;
+  top: 48%;
+}
+.toolTipCBG {
+  width: 220px;
+  height: 240px;
+  background: url(~@/assets/img/eduSchool/CBG.png) no-repeat center center;
+  color: #fff;
+  position: relative;
+}
+.toolTipCBG::after {
+  width: 34px;
+  height: 12px;
+  background: url(~@/assets/img/eduSchool/LINEC.png) no-repeat center right;
+  content: "";
+  position: absolute;
+  left: -17px;
+  top: 48%;
+}
+.toolTipDBG {
+  width: 220px;
+  height: 240px;
+  background: url(~@/assets/img/eduSchool/DBG.png) no-repeat center center;
+  color: #fff;
+  position: relative;
+}
+.toolTipDBG::after {
+  width: 34px;
+  height: 12px;
+  background: url(~@/assets/img/eduSchool/LINED.png) no-repeat center right;
+  content: "";
+  position: absolute;
+  left: -17px;
+  top: 48%;
+}
+.toolTipEBG {
+  width: 220px;
+  height: 240px;
+  background: url(~@/assets/img/eduSchool/EBG.png) no-repeat center center;
+  color: #fff;
+  position: relative;
+}
+.toolTipEBG::after {
+  width: 34px;
+  height: 12px;
+  background: url(~@/assets/img/eduSchool/LINEE.png) no-repeat center right;
+  content: "";
+  position: absolute;
+  left: -17px;
+  top: 48%;
+}
+.toolTipFBG {
+  width: 200px;
+  height: 54px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  border-radius: 6px;
+}
+.toolTipFBG::after {
+  width: 27px;
+  height: 12px;
+  background: url(~@/assets/img/eduSchool/LINEF.png) no-repeat center right;
+  content: "";
+  position: absolute;
+  left: -10px;
+  top: 40%;
+}
+.toolTipTop {
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.toolTipTitle {
+  width: 145px;
+  height: 50px;
+  line-height: 58px;
+  color: #fff;
+  font-size: 14px;
+  float: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-left: 28px;
+}
+.toolTipIcon {
+  float: right;
+  width: 18px;
+  height: 18px;
+  margin-right: 20px;
+  margin-top: 20px;
+  background: url(~@/assets/img/eduSchool/查看_默认.png) no-repeat center center;
+  position: relative;
+  cursor: pointer;
+}
+.toolTipIcon:hover {
+  background: url(~@/assets/img/eduSchool/查看_悬停.png) no-repeat center center;
+}
+.toolTipItem {
+  overflow: hidden;
+  width: 170px;
+  height: 32px;
+  line-height: 32px;
+  margin-left: 28px;
+  float: left;
+}
+.toolTipTitleContLeft {
+  float: left;
+  width: 90px;
+}
+.toolTipTitleContRight {
+  text-align: right;
+  width: 75px;
+  float: left;
 }
 </style>
