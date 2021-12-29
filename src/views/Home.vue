@@ -1,7 +1,7 @@
 <!--
  * @Author: 主页面
  * @Date: 2021-11-29 09:20:26
- * @LastEditTime: 2021-12-27 08:52:51
+ * @LastEditTime: 2021-12-28 10:24:45
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 主页面，柳欢
@@ -31,7 +31,8 @@
               ></span>
             </div>
             <div class="ZsdAreaBox">
-              该报告依据大数据分析的<span @click="switchArea()">{{ UserInfo.StageNo == "B" ? "中" : "高" }}考测试谱</span
+              该报告依据大数据分析的<span @click="switchArea()"
+                >{{ UserInfo.StageNo == "B" ? "中" : "高" }}考测试谱</span
               >，通过数字化评估学生历次学习轨迹分析得来。
             </div>
           </div>
@@ -40,19 +41,36 @@
             <div class="userInfo" style="float: right">
               <span class="questionIcon"></span>
               <span class="lineIcon"></span>
-              <img class="teacherHead" :src="UserInfo.PhotoPath" @click="toUserInfo()" alt="" />
+              <img
+                class="teacherHead"
+                :src="UserInfo.PhotoPath"
+                @click="toUserInfo()"
+                alt=""
+              />
               <span class="teacherName" @click="toUserInfo()">
                 {{ UserInfo.UserName }}
               </span>
               <span
-                :class="UserInfo.UserType == 8 ? 'eduIcon' : UserInfo.UserType == 7 ? 'schoolIcon' : UserInfo.UserType == 12 ? 'gradeLeader' : 'teacherIcon'"
+                :class="
+                  UserInfo.UserType == 8
+                    ? 'eduIcon'
+                    : UserInfo.UserType == 7
+                    ? 'schoolIcon'
+                    : UserInfo.UserType == 12
+                    ? 'gradeLeader'
+                    : 'teacherIcon'
+                "
               ></span>
               <span class="exitIcon" @click="exit()"></span>
             </div>
             <div class="RZZDName">
               <i :class="UserInfo.UserType == 12 ? 'scholIcon' : 'checkClassIcon'"></i>
-              <span v-if="UserInfo.UserType == 12" class="className className1">{{ UserInfo.SchoolName }}</span>
-              <span v-if="UserInfo.UserType != 12" class="className">{{ UserInfo.CourseClassName ? UserInfo.CourseClassName : className }}</span>
+              <span v-if="UserInfo.UserType == 12" class="className className1">{{
+                UserInfo.SchoolName
+              }}</span>
+              <span v-if="UserInfo.UserType != 12" class="className">{{
+                UserInfo.CourseClassName ? UserInfo.CourseClassName : className
+              }}</span>
               <span v-if="UserInfo.UserType != 12" class="switchIcon">
                 <div v-if="classContShow" class="classContent">
                   <div class="dotTitle">切换班级</div>
@@ -75,12 +93,18 @@
             <div class="ZsdAreaBox"><i></i>最佳分辨率 1920 * 1080; 按F11键可全屏</div>
           </div>
         </div>
-        <router-view></router-view>
+        <router-view v-if="openView"></router-view>
       </div>
       <div class="bottomfont float-l">蓝鸽科技 版权所有</div>
       <!-- <div id="move"></div> -->
     </div>
-    <el-dialog title="高考测试知识谱" :visible.sync="dialogVisible" :close-on-click-modal="false" width="820px" top="0vh">
+    <el-dialog
+      title="高考测试知识谱"
+      :visible.sync="dialogVisible"
+      :close-on-click-modal="false"
+      width="820px"
+      top="0vh"
+    >
       <div>
         <SpectrumDiolog></SpectrumDiolog>
       </div>
@@ -152,6 +176,7 @@ export default {
       };
       getUserInfo(params).then((res) => {
         this.UserInfo = res.Data;
+        this.$store.commit("updateUserData", this.UserInfo);
         this.$store.commit("updateCountyID", this.UserInfo.CountyID);
         this.$store.commit("updatetoken", this.$route.query.token);
         this.$store.commit("updateProvinceID", this.UserInfo.ProvinceID);
@@ -161,6 +186,10 @@ export default {
         this.$store.commit("updateUserID", this.UserInfo.UserID);
         this.$store.commit("updateTID", this.UserInfo.UserID);
         this.$store.commit("updateGlobalGrade", this.UserInfo.GlobalGrade);
+
+        let StageNo = "";
+        StageNo = this.UserInfo.GlobalGrade.substring(1) > 9 ? "C" : "B";
+        this.$store.commit("updateStageNo", StageNo);
         this.$store.commit("updateUserData", this.UserInfo);
         if (this.$route.name == "gradeRZZD") {
           this.GetGradeLeaderDetailInfo(1);
@@ -193,7 +222,7 @@ export default {
         token: this.$store.state.token,
         CourseClassID: this.$store.state.CourseClassID,
         SchoolID: this.$store.state.SchoolID,
-        GlobalGrade: this.$route.query.GlobalGrade,
+        GlobalGrade: this.$store.state.GlobalGrade,
       };
       GetClassHeadDetailInfo(params).then((res) => {
         this.resInfo = res.Data;
@@ -201,13 +230,21 @@ export default {
         this.openView = true;
         if (this.resInfo.SwitchInfoList.length == 0) {
           // let token = this.$route.query.token;
-          this.$znbkLayer.znbkConfirmWithNoButton("当前账号无班级信息，请联系管理员进行设置", "确定", () => {
-            window.close();
-          });
+          this.$znbkLayer.znbkConfirmWithNoButton(
+            "当前账号无班级信息，请联系管理员进行设置",
+            "确定",
+            () => {
+              window.close();
+            }
+          );
         } else if (this.resInfo.StuCount == 0) {
-          this.$znbkLayer.znbkConfirmWithNoButton("当前班级未创建学生账号，请联系管理员进行设置", "确定", () => {
-            window.close();
-          });
+          this.$znbkLayer.znbkConfirmWithNoButton(
+            "当前班级未创建学生账号，请联系管理员进行设置",
+            "确定",
+            () => {
+              window.close();
+            }
+          );
         } else {
           for (let i = 0; i < this.resInfo.SwitchInfoList.length; i++) {
             if (this.resInfo.SwitchInfoList[i].Name == this.className) {
@@ -247,49 +284,51 @@ export default {
     },
     // 获取年级头部信息
     GetGradeLeaderDetailInfo(i) {
+      this.openView = false;
       let params = {
         token: this.$route.query.token,
       };
       GetGradeLeaderDetailInfo(params).then((res) => {
         this.resInfo = res.Data;
+        this.openView = true;
         this.className = this.resInfo.CurrName;
-        if (this.resInfo.SwitchInfoList.length == 0) {
-          // let token = this.$route.query.token;
-          // this.$znbkLayer.znbkConfirmWithNoButton(
-          //   "当前账号无班级信息，请联系管理员进行设置",
-          //   "确定",
-          //   () => {
-          //     window.close();
-          //   }
-          // );
-          this.$alert("当前账号无班级信息，请联系管理员进行设置", "", {
-            confirmButtonText: "确定",
-            callback: () => {
-              // window.close();
-            },
-          });
-        } else if (this.resInfo.StuCount == 0) {
-          this.$alert("当前账号无班级信息，请联系管理员进行设置", "", {
-            confirmButtonText: "确定",
-            callback: () => {
-              // window.close();
-            },
-          });
-          // this.$znbkLayer.znbkConfirmWithNoButton(
-          //   "当前年级未创建学生账号，请联系管理员进行设置",
-          //   "确定",
-          //   () => {
-          //     window.close();
-          //   }
-          // );
-        } else {
-          for (let i = 0; i < this.resInfo.SwitchInfoList.length; i++) {
-            if (this.resInfo.SwitchInfoList[i].Name == this.className) {
-              this.chooseClassIndex = i;
-            }
+        // if (this.resInfo.SwitchInfoList.length == 0) {
+        //   // let token = this.$route.query.token;
+        //   // this.$znbkLayer.znbkConfirmWithNoButton(
+        //   //   "当前账号无班级信息，请联系管理员进行设置",
+        //   //   "确定",
+        //   //   () => {
+        //   //     window.close();
+        //   //   }
+        //   // );
+        //   this.$alert("当前账号无班级信息，请联系管理员进行设置", "", {
+        //     confirmButtonText: "确定",
+        //     callback: () => {
+        //       // window.close();
+        //     },
+        //   });
+        // } else if (this.resInfo.StuCount == 0) {
+        //   this.$alert("当前账号无班级信息，请联系管理员进行设置", "", {
+        //     confirmButtonText: "确定",
+        //     callback: () => {
+        //       // window.close();
+        //     },
+        //   });
+        //   // this.$znbkLayer.znbkConfirmWithNoButton(
+        //   //   "当前年级未创建学生账号，请联系管理员进行设置",
+        //   //   "确定",
+        //   //   () => {
+        //   //     window.close();
+        //   //   }
+        //   // );
+        // } else {
+        for (let i = 0; i < this.resInfo.SwitchInfoList.length; i++) {
+          if (this.resInfo.SwitchInfoList[i].Name == this.className) {
+            this.chooseClassIndex = i;
           }
-          this.GetSchoolInitResultString(i);
         }
+        this.GetSchoolInitResultString(i);
+        // }
       });
     },
 
@@ -497,7 +536,10 @@ export default {
         token: this.$route.query.token,
       };
       GetSubSystemInfo(params).then((res) => {
-        let url = res.Data.BaseSysID + "usermgr/personalmgr/default.aspx?lg_tk=" + this.$route.query.token;
+        let url =
+          res.Data.BaseSysID +
+          "usermgr/personalmgr/default.aspx?lg_tk=" +
+          this.$route.query.token;
         window.open(url, "_blank");
       });
     },

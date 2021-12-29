@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-12-16 15:14:38
- * @LastEditTime: 2021-12-20 08:59:46
+ * @LastEditTime: 2021-12-28 13:47:55
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\views\dialog\historyDialog.vue
@@ -18,12 +18,12 @@
           <span>全选</span>
         </div>
         <div class="float-r" style="position: relative">
+            <!-- @input="showDelateIcon2()" -->
           <input
             class="stuInput"
             type="text"
             placeholder="请输入试卷名称搜索..."
             v-model="PaperSearchText"
-            @input="showDelateIcon2()"
             v-on:keyup.enter="searchPaper()"
           />
           <span class="searchIcon" @click="searchPaper()"></span>
@@ -34,27 +34,28 @@
           <li
             class="float-l PaperLi"
             :class="item.checked ? 'checkedPaperLi' : ''"
-            v-for="(item, index) in paperList"
-            :key="item.index"
+            v-for="(item, index) in PaperList"
+            :key="item.PaperID"
             @click="checkPaper(index)"
+            :title="item.PaperName"
           >
             <span>得分率</span><br />
-            <span class="num">{{ item.scoreRate }}</span
+            <span class="num">{{ (item.PaperScoreRate*100).toFixed(0) }}</span
             >%<br />
-            <span class="paperName">{{ item.paperName }}</span>
+            <span class="paperName">{{ item.PaperName }}</span>
           </li>
         </ul>
       </div>
 
-      <div class="paginationBox" v-if="PaperNum1 > 5">
+      <div class="paginationBox" v-if="PaperCount > 5">
         <el-pagination
           class="pagination"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="currentPage"
-          :page-size="PageSize"
+          @size-change="handleSizeChange1"
+          @current-change="handleCurrentChange1"
+          :current-page="currentPage1"
+          :page-size="PageSize1"
           layout=" prev, pager, next,total,  jumper"
-          :total="PaperNum1"
+          :total="PaperCount"
         >
         </el-pagination>
       </div>
@@ -62,18 +63,18 @@
     <div class="bottomBox">
       <div class="firstLine">
         <div>
-          根据您选择的<span class="num">7</span>份试卷，系统生成如下对比分析表:
-          <span class="refreshContent">
+          根据您选择的<span class="num">{{SelectedPaperCount}}</span>份试卷，系统生成如下对比分析表:
+          <span class="refreshContent" @click="refresh()">
             <span class="refreshIcon"></span><span>更新试卷对比分析表</span>
           </span>
         </div>
-        <div class="exportPaper">
+        <div @click="GetExportGradePapersQTypeScore_V3()" class="exportPaper">
           <span class="exportIcon"></span>
           导出试卷对比分析
         </div>
       </div>
-      <div class="table">
-        <table>
+      <div class="table" v-if="showTable">
+          <table>
             <thead>
             
           <tr>
@@ -81,42 +82,38 @@
             <th>试卷名称</th>
             <th>总分</th>
             <th>年级平均得分</th>
-            <th>主观题得分</th>
-            <th v-for="(item, index) in paperList2[0].firstList" :key="index">
-              {{ item.name }}
+            <th v-for="(item, index) in SubjectiveQTypeList" :key="index">
+              {{ item.QTypeName }}
             </th>
-            <th>客观题得分</th>
-            <th v-for="(item, index) in paperList2[0].secondList" :key="index">
-              {{ item.name }}
+            <th v-for="(item, index) in ObjectiveQTypeList" :key="index">
+              {{ item.QTypeName }}
             </th>
           </tr>
             </thead>
           <tbody>
-            <tr v-for="(item, index) in paperList2" :key="index">
-              <td>{{ item.index }}</td>
-              <td>{{ item.name }}</td>
-              <td>{{ item.score }}</td>
-              <td>{{ item.gradeScore }}</td>
-              <td>{{ item.firstScore }}</td>
-              <td v-for="(item2, index2) in item.firstList" :key="index2">
-                {{ item2.score }}
+            <tr v-for="(item, index) in SelectedPaperList" :key="index">
+              <td>{{ item.Index }}</td>
+              <td>{{ item.PaperName }}</td>
+              <td>{{ item.PaperFullScore }}</td>
+              <td>{{ item.PaperAvgScore }}</td>
+              <td v-for="(item2, index2) in item.SubjectiveQTypeList" :key="index2">
+                {{ item2.QTypeAvgScore }}
               </td>
-              <td>{{ item.secondScore }}</td>
-              <td v-for="(item2, index2) in item.secondList" :key="index2">
-                {{ item2.score }}
+              <td v-for="(item2, index2) in item.ObjectiveQTypeList" :key="index2">
+                {{ item2.QTypeAvgScore }}
               </td>
             </tr>
           </tbody>
-        </table>
+        </table> 
       </div>
-      
-      <div class="paginationBox" style="margin-top:40px" v-if="PaperNum2 > 5">
+
+      <div class="paginationBox" style="margin-top: 20px" v-if="PaperNum2 > 5">
         <el-pagination
           class="pagination"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="currentPage"
-          :page-size="PageSize"
+          @size-change="handleSizeChange2"
+          @current-change="handleCurrentChange2"
+          :current-page="currentPage2"
+          :page-size="PageSize2"
           layout=" prev, pager, next,total,  jumper"
           :total="PaperNum2"
         >
@@ -127,228 +124,158 @@
 </template>
 
 <script>
+import { GetGradeReleasedPaperList_V3 } from "@/api/diolog/historyDiolog";
 export default {
   data() {
     return {
       checkPaperIndex: 0,
       checkedAll: false,
+      PaperCount:0,
       PaperSearchText: "",
-      PaperNum1: 10,
-      PaperNum5: 10,
-      currentPage: 1,
+      PaperNum1: 1,
+      PaperNum2: 1,
+      PageSize1: 16,
+      PageSize2: 5,
+      currentPage1: 1,
+      currentPage2: 1,
       // 默认每页显示的条数（可修改）
-      PageSize: 16,
-      paperList: [
-        {
-          scoreRate: 65,
-          paperName: "2021年嘉兴市实...",
-          checked: true,
-        },
-        {
-          scoreRate: 65,
-          paperName: "2021年嘉兴市实...",
-          checked: true,
-        },
-        {
-          scoreRate: 65,
-          paperName: "2021年嘉兴市实...",
-          checked: false,
-        },
-        {
-          scoreRate: 65,
-          paperName: "2021年嘉兴市实...",
-          checked: false,
-        },
-        {
-          scoreRate: 65,
-          paperName: "2021年嘉兴市实...",
-          checked: true,
-        },
-        {
-          scoreRate: 65,
-          paperName: "2021年嘉兴市实...",
-          checked: true,
-        },
-        {
-          scoreRate: 65,
-          paperName: "2021年嘉兴市实...",
-          checked: false,
-        },
-        {
-          scoreRate: 65,
-          paperName: "2021年嘉兴市实...",
-          checked: false,
-        },
-        {
-          scoreRate: 65,
-          paperName: "2021年嘉兴市实aaaaaaaa",
-          checked: false,
-        },
-        {
-          scoreRate: 65,
-          paperName: "2021年嘉兴市实...",
-          checked: false,
-        },
-        {
-          scoreRate: 65,
-          paperName: "2021年嘉兴市实...",
-          checked: false,
-        },
-      ],
-
-      paperList2: [
-        {
-          index: 1,
-          name: "2021年嘉兴实...",
-          score: 55,
-          gradeScore: 44,
-          firstScore: 77,
-          firstList: [
-            { name: "书面表达1", score: 11 },
-            { name: "书面表达2", score: 22 },
-            { name: "书面表达3", score: 33 },
-          ],
-          secondScore: 44,
-          secondList: [
-            { name: "书面表达4", score: 11 },
-            { name: "书面表达5", score: 44 },
-            { name: "书面表达6", score: 66 },
-          ],
-        },{
-          index: 1,
-          name: "2021年嘉兴实...",
-          score: 55,
-          gradeScore: 44,
-          firstScore: 77,
-          firstList: [
-            { name: "书面表达1", score: 11 },
-            { name: "书面表达2", score: 22 },
-            { name: "书面表达3", score: 33 },
-          ],
-          secondScore: 44,
-          secondList: [
-            { name: "书面表达4", score: 11 },
-            { name: "书面表达5", score: 44 },
-            { name: "书面表达6", score: 66 },
-          ],
-        },{
-          index: 1,
-          name: "2021年嘉兴实...",
-          score: 55,
-          gradeScore: 44,
-          firstScore: 77,
-          firstList: [
-            { name: "书面表达1", score: 11 },
-            { name: "书面表达2", score: 22 },
-            { name: "书面表达3", score: 33 },
-          ],
-          secondScore: 44,
-          secondList: [
-            { name: "书面表达4", score: 11 },
-            { name: "书面表达5", score: 44 },
-            { name: "书面表达6", score: 66 },
-          ],
-        },
-        {
-          index: 1,
-          name: "2021年嘉兴实...",
-          score: 55,
-          gradeScore: 44,
-          firstScore: 33,
-          firstList: [
-            { name: "书面表达7", score: 11 },
-            { name: "书面表达8", score: 34 },
-            { name: "书面表达9", score: 45 },
-          ],
-          secondScore: 87,
-          secondList: [
-            { name: "书面表达1", score: 11 },
-            { name: "书面表达2", score: 56 },
-            { name: "书面表达3", score: 234 },
-          ],
-        },
-        {
-          index: 1,
-          name: "2021年嘉兴实...",
-          score: 55,
-          gradeScore: 44,
-          firstScore: 33,
-          firstList: [
-            { name: "书面表达234", score: 1232 },
-            { name: "书面表达34", score: 23 },
-            { name: "书面表达234", score: 113 },
-          ],
-          secondScore: 46,
-          secondList: [
-            { name: "书面表达234", score: 456 },
-            { name: "书面表达234", score: 234 },
-            { name: "书面表达234", score: 3432 },
-          ],
-        },
-        {
-          index: 1,
-          name: "2021年嘉兴实...",
-          score: 55,
-          gradeScore: 44,
-          firstScore: 72,
-          firstList: [
-            { name: "书面表达123", score: 23 },
-            { name: "书面表达123", score: 2343 },
-            { name: "书面表达123", score: 143441 },
-          ],
-          secondScore: 37,
-          secondList: [
-            { name: "书面表达123", score: 1561 },
-            { name: "书面表达123", score: 34 },
-            { name: "书面表达123", score: 56 },
-          ],
-        },
-      ],
+      PaperList: [],
+      postList:[],
+      SelectedPaperCount:0,
+      showTable:false,
+      SelectedPaperList:[],
+      ObjectiveQTypeList:[],
+      SubjectiveQTypeList:[],
     };
   },
   mounted() {
-    this.PaperNum1 = this.paperList.length;
-    this.PaperNum2 = this.paperList2.length;
+    this.GetGradeReleasedPaperList_V3();
   },
   methods: {
-    checkPaper(i) {
-      this.checkPaperIndex = i;
-      this.paperList[i].checked = !this.paperList[i].checked;
-      this.checkedAll = this.paperList.every(function (item) {
-        return item.checked;
+    // 获取年级历次已发布试卷
+    GetGradeReleasedPaperList_V3(){
+      let params = {
+        token: this.$store.state.token,
+        TID: this.$store.state.TID,
+        SchoolID: this.$store.state.SchoolID,
+        GlobalGrade: this.$store.state.GlobalGrade,
+        PageNum: this.PaperNum1,
+        PageSize: this.PageSize1,
+        SearchText: this.PaperSearchText,
+      };
+       GetGradeReleasedPaperList_V3(params).then((res) => {
+        this.PaperList=[];
+          this.PaperCount = res.Data.PaperCount;
+          res.Data.PaperList.map((item) => {
+            this.PaperList.push(
+              Object.assign(item, {
+                checked: false,
+              })
+            );
+          });
       });
     },
+    // 导出
+    GetExportGradePapersQTypeScore_V3() {
+      console.log(this.PaperList);
+      for (let i = 0; i < this.PaperList.length; i++) {
+        if (this.PaperList[i].checked) {
+          this.postList.push(this.PaperList[i].PaperID)
+        }        
+      }
+      let params = {
+        token: this.$store.state.token,
+        TID: this.$store.state.TID,
+        SchoolID: this.$store.state.SchoolID,
+        GlobalGrade: this.$store.state.GlobalGrade,
+        PaperList: this.postList,
+      };
+      
+      this.axios.post("api/GradeLeaderRZZD/GetExportGradePapersQTypeScore_V3", params).then((res) => {
+        window.open(res.Data, "_self");
+        // console.log(res);
+      });
+    },
+    checkPaper(i) {
+      this.SelectedPaperCount=0;
+      this.checkPaperIndex = i;
+      this.PaperList[i].checked = !this.PaperList[i].checked;
+      this.checkedAll = this.PaperList.every(function (item) {
+        return item.checked;
+      });
+      this.PaperList.map((item) => {
+        if (item.checked) {
+          this.SelectedPaperCount++;
+        }
+      })
+    },
     checkAll() {
-      console.log(this.checkedAll);
       this.checkedAll = !this.checkedAll;
-      for (let i = 0; i < this.paperList.length; i++) {
+          this.SelectedPaperCount=this.checkedAll?this.PaperList.length:0;
+      for (let i = 0; i < this.PaperList.length; i++) {
         if (this.checkedAll) {
-          this.paperList[i].checked = true;
+          this.PaperList[i].checked = true;
         } else {
-          this.paperList[i].checked = false;
+          this.PaperList[i].checked = false;
         }
       }
     },
     searchPaper() {
-      console.log(this.PaperSearchText);
+      this.PaperNum1 = 1;
+      this.GetGradeReleasedPaperList_V3();
     },
-    handleSizeChange(val) {
+    handleSizeChange1(val) {
       // 改变每页显示的条数
-      this.PageSize = val;
+      this.PageSize1 = val;
       // 注意：在改变每页显示的条数时，要将页码显示到第一页
-      this.currentPage = 1;
+      this.currentPage1 = 1;
+    },
+    handleSizeChange2(val) {
+      // 改变每页显示的条数
+      this.PageSize2 = val;
+      // 注意：在改变每页显示的条数时，要将页码显示到第一页
+      this.currentPage2 = 1;
     },
     // 显示第几页
-    handleCurrentChange(val) {
-      // 改变默认的页数
-      this.currentPage = val;
-      // this.showList = [];
+    handleCurrentChange1(val) {
+      this.currentPage1 = val;
+      this.PaperNum1 = val;
+      this.GetGradeReleasedPaperList_V3();
     },
+    handleCurrentChange2(val) {
+      this.currentPage2 = val;
+    },
+    // 更新试卷对比
+    refresh(){
+      for (let i = 0; i < this.PaperList.length; i++) {
+        if (this.PaperList[i].checked) {
+          this.postList.push(this.PaperList[i].PaperID)
+        }        
+      }
+      let params = {
+        token: this.$store.state.token,
+        TID: this.$store.state.TID,
+        SchoolID: this.$store.state.SchoolID,
+        GlobalGrade: this.$store.state.GlobalGrade,
+        SearchText: this.PaperSearchText,
+        SelectedPageNum: this.PaperNum2,
+        SelectedPageSize: this.PageSize2,
+        PaperList: this.postList,
+      };
+      this.axios.post("api/GradeLeaderRZZD/GetGradeSelectedPaperList_V3", params).then((res) => {
+        this.SelectedPaperList = res.Data.SelectedPaperList;
+        this.PaperNum2 = this.SelectedPaperList.length;
+        this.SubjectiveQTypeList = this.SelectedPaperList[0].SubjectiveQTypeList;
+        this.ObjectiveQTypeList = this.SelectedPaperList[0].ObjectiveQTypeList;
+        this.showTable = true;
+      });
+    }
   },
 };
 </script>
 
 <style lang="scss" scoped>
+@import '../../assets/css/scroll.scss';
 .historyDialogBox {
   width: 960px;
   height: 810px;
@@ -388,6 +315,7 @@ export default {
   }
 }
 .paperBox {
+  height: 198px;
   margin-top: 25px;
   ul {
     li {
@@ -500,7 +428,7 @@ export default {
 }
 .table {
   overflow-x: scroll;
-margin-top: 10px;
+  margin-top: 10px;
   table {
     border-collapse: collapse;
     border: solid 1px rgba(255, 255, 255, 0.2);
@@ -548,6 +476,9 @@ margin-top: 10px;
     }
     td:nth-child(2) {
       color: rgba(255, 255, 255, 1);
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
     td:nth-child(3) {
       color: #51f0ff;
@@ -557,37 +488,5 @@ margin-top: 10px;
     }
   }
 }
-::-webkit-scrollbar {
-  width: 10px;
-  background: rgba(87, 166, 255, 0.2);
-  height: 10px;
-}
 
-::-webkit-scrollbar-track,
-::-webkit-scrollbar-thumb {
-  border-radius: 999px;
-  width: 10px;
-  height: 10px;
-  border: 1px solid transparent;
-}
-
-// ::-webkit-scrollbar-track {
-//   box-shadow: 1px 1px 5px rgba(55, 92, 134, 0.5) inset;
-// }
-
-::-webkit-scrollbar-thumb {
-  width: 120px;
-  min-height: 20px;
-  background: #98c8ff;
-  border-radius: 22px;
-  background-clip: content-box;
-  box-shadow: 0 0 0 5px #98c8ff inset;
-}
-
-::-webkit-scrollbar-corner {
-  background: red;
-}
-::-webkit-scrollbar-button {
-  display: none;
-}
 </style>

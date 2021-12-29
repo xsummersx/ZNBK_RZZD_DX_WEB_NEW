@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:27:26
- * @LastEditTime: 2021-12-27 15:34:58
+ * @LastEditTime: 2021-12-29 09:54:32
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》地图，图0
@@ -10,7 +10,7 @@
   <div class="map">
     <div id="mapID"></div>
     <div class="legend"></div>
-    <div class="btnText"><span class="text">学校认知情况</span><i class="btnIcon"></i></div>
+    <!-- <div class="btnText"><span class="text">学校认知情况</span><i class="btnIcon"></i></div> -->
   </div>
 </template>
 <script>
@@ -31,18 +31,19 @@ export default {
     },
     //统计图绘制
     drawMap() {
+      console.log(this.$store.state);
       let params = {
-        Token: "533ddc22-aca3-4e74-b157-d50a8bb2cba2",
-        TID: "T1201004",
-        ProvinceID: "330000",
-        CityID: "330400",
-        CountyID: "330402",
-        GlobalGrade: "K12",
-        StageNo: "C",
-        ZsdArea: "C",
+        Token: this.$store.state.token,
+        TID: this.$store.state.TID,
+        ProvinceID: this.$store.state.ProvinceID,
+        CityID: this.$store.state.CityID,
+        CountyID: this.$store.state.CountyID,
+        GlobalGrade: this.$store.state.GlobalGrade,
+        StageNo: this.$store.state.StageNo,
+        ZsdArea: this.$store.state.ZsdArea,
       };
+
       getMapJson(params).then((res) => {
-        console.log(res);
         let mapDate = [];
         res.Data.SchoolList.map((item) => {
           mapDate.push({
@@ -64,7 +65,6 @@ export default {
             datas: "F",
           });
         });
-        console.log(mapDate);
         // let quyuData = [];
         // res.Data.MapResources.features.map((item) => {
         //   quyuData.push({ name: item.properties.name, tipData: 50 });
@@ -105,11 +105,12 @@ export default {
           tooltip: {
             zlevel: 100,
             show: true,
-            triggerOn: "click",
-            enterable: false,
+            triggerOn: "mousemove",
+            enterable: true,
             trigger: "item",
             alwaysShowContent: true,
             position: "right",
+            renderMode: "html",
             // position: function (point, params, dom, rect, size) {
             //   console.log(point, params, dom, rect, size);
             //   return [rect];
@@ -134,7 +135,16 @@ export default {
             // },
             formatter: function (params) {
               console.log(params);
-              let divTop = '<div class="toolTipTop"><span class="toolTipTitle" title="' + params.data.name + '">' + params.data.name + "</span></div>";
+              let url = "http://www.baidu.com";
+              let divTop =
+                '<div class="toolTipTop"><span class="toolTipTitle" title="' +
+                params.data.name +
+                '">' +
+                params.data.name +
+                '</span><i class="toolTipIcon" title="点击跳转该学校认知质量大数据报告" onclick="javascript:window.open(\'' +
+                url +
+                "')\"></i></div>";
+              let divNone = '<div class="toolTipTop"><span class="toolTipTitle" title="' + params.data.name + '">' + params.data.name + "</span></div>";
               let divList =
                 '<div class="toolTipItem"><span class="toolTipTitleContLeft">累计作答试卷</span><span class="toolTipTitleContRight">' +
                 params.data.AnsweredPaperNum +
@@ -149,7 +159,7 @@ export default {
               if (params.data.datas != "F") {
                 return '<div class="toolTip' + params.data.datas + 'BG">' + divTop + divList + "</div>";
               } else {
-                return '<div class="toolTip' + params.data.datas + 'BG">' + divTop + "</div>";
+                return '<div class="toolTip' + params.data.datas + 'BG">' + divNone + "</div>";
               }
             },
           },
@@ -384,7 +394,7 @@ export default {
             },
             //地域图标
             {
-              zlevel: 2,
+              zlevel: 100,
               type: "scatter",
               coordinateSystem: "geo",
               itemStyle: {
@@ -555,19 +565,19 @@ export default {
   top: 48%;
 }
 .toolTipFBG {
-  width: 220px;
+  width: 200px;
   height: 54px;
   background: rgba(0, 0, 0, 0.6);
   color: #fff;
   border-radius: 6px;
 }
 .toolTipFBG::after {
-  width: 34px;
+  width: 27px;
   height: 12px;
   background: url(~@/assets/img/eduSchool/LINEF.png) no-repeat center right;
   content: "";
   position: absolute;
-  left: -17px;
+  left: -10px;
   top: 40%;
 }
 .toolTipTop {
@@ -575,7 +585,7 @@ export default {
   margin-bottom: 20px;
 }
 .toolTipTitle {
-  width: 165px;
+  width: 145px;
   height: 50px;
   line-height: 58px;
   color: #fff;
@@ -594,9 +604,9 @@ export default {
   margin-top: 20px;
   background: url(~@/assets/img/eduSchool/查看_默认.png) no-repeat center center;
   position: relative;
-  z-index: 10005;
+  cursor: pointer;
 }
-.toolTipIcon {
+.toolTipIcon:hover {
   background: url(~@/assets/img/eduSchool/查看_悬停.png) no-repeat center center;
 }
 .toolTipItem {

@@ -1,7 +1,7 @@
 <!--
  * @Author: 柳欢
  * @Date: 2021-11-30 14:51:43
- * @LastEditTime: 2021-12-14 15:50:00
+ * @LastEditTime: 2021-12-28 10:23:56
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 年级组长的重点班级，和认知对比分析
@@ -58,7 +58,6 @@ export default {
       ZsdArea: this.$store.state.ZsdArea,
     };
     GetGradeSpecialFocusClass_V3(params).then((res) => {
-      console.log(res);
       this.resInfo = res.Data;
       this.changeToSame(this.resInfo.PaperList, 1);
       this.changeToSame(this.resInfo.IndexList, 2);
@@ -68,7 +67,7 @@ export default {
   created() {},
   methods: {
     changeToSame(arr, index) {
-      for (let i = 0; i < arr.length; i++) {
+      for (let i = 0; i < 3; i++) {
         var arrObj = {
           Rank: "",
           Name: "",

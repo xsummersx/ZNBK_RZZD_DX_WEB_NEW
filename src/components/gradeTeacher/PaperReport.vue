@@ -1,7 +1,7 @@
 <!--
  * @Author: 柳欢
  * @Date: 2021-12-10 15:21:45
- * @LastEditTime: 2021-12-13 16:02:15
+ * @LastEditTime: 2021-12-28 11:25:30
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\components\gradeTeacher\PaperReport.vue
@@ -23,20 +23,14 @@
           class="float-r stuInput"
           type="text"
           placeholder="请输入班级名称搜索..."
-          v-model="ClassSearchText"
-          @input="showDelateIcon2()"
+          v-model="SearchText"
           v-on:keyup.enter="searchStu()"
         />
         <span class="searchIcon" style="right: 146px" @click="searchStu()"></span>
       </div>
     </ArrowTitle>
 
-    <el-table
-      :empty-text="emptyText"
-      :data="showList"
-      height="305"
-      style="width: 100%; height: 305px"
-    >
+    <el-table :empty-text="emptyText" :data="showList" style="width: 100%; height: 330px">
       <el-table-column prop="Index" label="序号" width="80">
         <template slot-scope="scope">
           <span class="gray">
@@ -250,7 +244,7 @@
           <span
             class="checkDetail"
             @click="
-              toStudentRZZD2(scope.row.StuID, scope.row.StuName, scope.row.CourseClassID)
+              toStudentRZZD(scope.row.StuID, scope.row.StuName, scope.row.CourseClassID)
             "
           >
             {{ scope.row.GenreName || scope.row.TypeName }}
@@ -264,8 +258,9 @@
         <div class="table-empty-block">暂无学生认知成绩单数据噢</div>
       </template>
     </el-table>
-    <div class="paginationBox" v-show="StuCount > 5">
+    <div class="paginationBox">
       <el-pagination
+        v-show="StuCount > 5"
         class="pagination"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
@@ -281,6 +276,7 @@
 
 <script>
 import { GetClassScoreReport_V3 } from "@/api/gradeTeacher/right";
+import { GetExportClassScoreReport_V3 } from "@/api/gradeTeacher/right";
 export default {
   data() {
     return {
@@ -291,12 +287,11 @@ export default {
         FullIndex: 1000,
         FullScore: 1000,
       },
-      ClassSearchText: "",
       StuCount: 0,
       // 默认显示第几页
       currentPage: 1,
       // 默认每页显示的条数（可修改）
-      PageSize: 6,
+      PageSize: 5,
       SearchText: "",
       stuList: [],
       showList: [],
@@ -324,13 +319,13 @@ export default {
         this.stuList = this.resInfo.StuReportDetailInfoList;
         this.showList = this.stuList;
         this.StuCount = this.resInfo.PageStuCount;
+        if (this.showList.length == 0) {
+          this.emptyText = "暂无数据";
+        }
       });
     },
     handleSizeChange(val) {
       // 改变每页显示的条数
-      if (this.$route.query.str == "gradeLeader") {
-        this.PageSize2 = val;
-      }
       this.PageSize = val;
       // 注意：在改变每页显示的条数时，要将页码显示到第一页
       this.currentPage = 1;
@@ -340,19 +335,59 @@ export default {
       // 改变默认的页数
       this.currentPage = val;
       this.emptyText = "加载中...";
+
+      this.GetClassScoreReport_V3();
     },
     GetScoreReport() {
-      console.log(1);
+      let params = {
+        token: this.$store.state.token,
+        TID: this.$store.state.TID,
+        StageNo: this.$store.state.StageNo,
+        SchoolID: this.$store.state.SchoolID,
+        CourseClassID: this.$store.state.CourseClassID,
+        ZsdArea: this.$store.state.ZsdArea,
+      };
+      GetExportClassScoreReport_V3(params).then((res) => {
+        window.open(res.Data, "_self");
+      });
     },
     // 搜索学生
     searchStu() {
       this.emptyText = "加载中...";
       this.currentPage = 1;
+      this.GetClassScoreReport_V3();
     },
     renderHeader(h, { column }) {
       let header = column.label.split(" ");
       return [h("p", [h("p", {}, header[0]), h("span", {}, header[1])])];
     }, // 文本分别添加到p,span标签中
+    toStudentRZZD(StuID) {
+      console.log(window);
+      let url =
+        window.location.origin +
+        window.location.pathname +
+        "#/home/studentRZZD?token=" +
+        this.$route.query.token +
+        "&SchoolID=" +
+        this.$store.state.SchoolID +
+        "&CourseClassID=" +
+        this.$store.state.CourseClassID +
+        "&TID=" +
+        this.$store.state.TID +
+        "&StuID=" +
+        StuID +
+        "&StageNo=" +
+        this.$store.state.StageNo +
+        "&GlobalGrade=" +
+        this.$store.state.GlobalGrade +
+        "&ZsdArea=" +
+        this.$store.state.ZsdArea +
+        "&CountyID=" +
+        this.$store.state.CountyID;
+      window.open(url, "_blank");
+      // let url = window.
+      console.log(1);
+    },
   },
   components: {
     ArrowTitle: () => import("../common/ArrowTitle.vue"),
@@ -437,5 +472,14 @@ export default {
 .table-empty-block {
   background: url("../../assets/img/nodata/tableNoData.png") center center no-repeat;
   padding-top: 130px;
+}
+.paginationBox {
+  margin: 10px 0 0;
+  height: 28px;
+}
+</style>
+<style>
+.schoolReport .el-table__row {
+  height: 48px;
 }
 </style>

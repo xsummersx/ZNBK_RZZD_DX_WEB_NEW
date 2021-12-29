@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:31:08
- * @LastEditTime: 2021-12-21 10:12:43
+ * @LastEditTime: 2021-12-29 10:29:47
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》认知成绩走势图，图0，图1
@@ -17,18 +17,11 @@
           <span class="top3SubText">Top3</span>
         </div>
         <ul>
-          <li>
-            <div class="itemName">·&nbsp;嘉兴一中</div>
-            <div class="itemScore0">115分</div>
+          <li v-for="(item, index) in ProgList" :key="index">
+            <div class="itemName">·&nbsp;{{ item.SchoolClassName }}</div>
+            <div class="itemScore0">{{ item.ChangeScore }}分</div>
           </li>
-          <li>
-            <div class="itemName" title="南湖实验中学高三班级">·&nbsp;南湖实验中学高三班级</div>
-            <div class="itemScore0">115分</div>
-          </li>
-          <li>
-            <div class="itemName">·&nbsp;嘉兴一中</div>
-            <div class="itemScore0">115分</div>
-          </li>
+          <li v-if="ProgList.length == 0" class="noDataIcon"></li>
         </ul>
       </div>
       <div class="TopBox">
@@ -38,54 +31,55 @@
           <span class="top3SubText">Top3</span>
         </div>
         <ul>
-          <li>
-            <div class="itemName">·&nbsp;嘉兴一中</div>
-            <div class="itemScore0">115分</div>
+          <li v-for="(item, index) in BackList" :key="index">
+            <div class="itemName">·&nbsp;{{ item.SchoolClassName }}</div>
+            <div class="itemScore0">{{ item.ChangeScore }}分</div>
           </li>
-          <li>
-            <div class="itemName" title="南湖实验中学高三班级">·&nbsp;南湖实验中学高三班级</div>
-            <div class="itemScore0">115分</div>
-          </li>
-          <li>
-            <div class="itemName">·&nbsp;嘉兴一中</div>
-            <div class="itemScore0">115分</div>
-          </li>
+          <li v-if="BackList.length == 0" class="noDataIcon"></li>
         </ul>
       </div>
     </div>
-    <div class="button">
-      <span @click="checkButton(0)" :class="{ active: activeSpan == 0 }">按月</span>
-      <span @click="checkButton(1)" :class="{ active: activeSpan == 1 }">按周</span>
-      <span @click="checkButton(2)" :class="{ active: activeSpan == 2 }">按天</span>
-    </div>
-    <div class="legend">
-      <span>
-        <i class="icon0"></i>
-        <b class="text">已作答试卷份数</b>
-      </span>
-      <span>
-        <i class="icon1"></i>
-        <b class="text">平均得分率</b>
-      </span>
-      <span>
-        <i class="icon2"></i>
-        <b class="text">高考预估成绩</b>
-      </span>
-    </div>
-    <div class="cont" id="Tre"></div>
+    <template v-if="true">
+      <div class="button">
+        <span @click="checkButton(3)" :class="{ active: activeSpan == 3 }">按月</span>
+        <span @click="checkButton(2)" :class="{ active: activeSpan == 2 }">按周</span>
+        <span @click="checkButton(1)" :class="{ active: activeSpan == 1 }">按天</span>
+      </div>
+      <div class="legend">
+        <span>
+          <i class="icon0"></i>
+          <b class="text">已作答试卷份数</b>
+        </span>
+        <span>
+          <i class="icon1"></i>
+          <b class="text">平均得分率</b>
+        </span>
+        <span>
+          <i class="icon2"></i>
+          <b class="text">高考预估成绩</b>
+        </span>
+      </div>
+      <div class="cont" id="Tre"></div>
+    </template>
+    <EduNoData v-if="false" noDataType="2" style="margin-top: 115px"></EduNoData>
   </div>
 </template>
 <script>
+import EduNoData from "./eduNoData";
+import { GetTrend } from "@/api/eduSchool/right.js";
+import { GetTrendSchool } from "@/api/eduSchool/right.js";
 export default {
   name: "ScoreTrend",
   data() {
     return {
-      activeSpan: 0, //0按月，1按周，2按天
+      activeSpan: 3, //3按月，2按周，1按天
       userType: 0, //用户身份，教育局还是校长
-      optData0: [], //已作答试卷份数
-      optData1: [], //平均得分率
-      optData2: [], //高考预估成绩
-      xAxisData: [], //X轴
+      // optData0: [], //已作答试卷份数
+      // optData1: [], //平均得分率
+      // optData2: [], //高考预估成绩
+      // xAxisData: [], //X轴
+      BackList: [], //异常班级列表
+      ProgList: [], //突出班级列表
     };
   },
   computed: {
@@ -97,310 +91,371 @@ export default {
       }
     },
   },
+  created() {
+    if (this.$route.name == "schoolRZZD") {
+      this.userType = 1;
+    } else {
+      this.userType = 0;
+    }
+  },
+  components: {
+    EduNoData,
+  },
   mounted() {
     //统计图初始化
-    this.chartData();
+    this.chartData(3, "FirstGet"); //3-按月，2-按周，1-按天==>后台的规则
   },
   methods: {
     //切换按钮
     checkButton(n) {
       this.activeSpan = n;
+      this.chartData(n, "other"); //3-按月，2-按周，1-按天==>后台的规则
     },
     //统计图初始化
-    chartData() {
+    chartData(flag, getType) {
+      let params = {
+        Token: this.$store.state.token,
+        TID: this.$store.state.TID,
+        GlobalGrade: this.$store.state.GlobalGrade,
+        ZsdArea: this.$store.state.ZsdArea,
+        PageNum: 7, //显示统计图的数量
+        Flag: flag,
+        ProgressiveNum: 3, //异常班级显示数量
+      };
+      if (this.userType == 0) {
+        params.ProvinceID = this.$store.state.ProvinceID;
+        params.CityID = this.$store.state.CityID;
+        params.CountyID = this.$store.state.CountyID;
+        //教育局
+        GetTrend(params).then((res) => {
+          console.log(res);
+          if (res.Code == 1) {
+            if (getType == "FirstGet") {
+              this.BackList = res.Data.BackwardList;
+              this.ProgList = res.Data.ProgressiveList;
+            }
+            //提取数据渲染统计图
+            this.putDataNext(res);
+          }
+        });
+      } else {
+        params.SchoolID = this.$store.state.SchoolID;
+        GetTrendSchool(params).then((res) => {
+          console.log(res);
+          if (getType == "FirstGet") {
+            this.BackList = res.Data.BackwardList;
+            this.ProgList = res.Data.ProgressiveList;
+          }
+          //提取数据渲染统计图
+          this.putDataNext(res);
+        });
+      }
+    },
+    //提取数据，并开始渲染统计图
+    putDataNext(res) {
       //统计图效果渲染
-      this.optData0 = [1000, 800, 600, 500];
-      this.optData1 = [50, 40, 60, 50];
-      this.optData2 = [20000, 3000, 10000, 2000];
-      this.xAxisData = ["1月", "2月", "3月", "4月"];
-      this.optInit();
+      let optData0 = [];
+      let optData1 = [];
+      let optData2 = [];
+      let xAxisData = [];
+      res.Data.TrajectoryChartList.map((item) => {
+        xAxisData.push(item.TimeInfo);
+        optData0.push(item.AnsweredPaperNum);
+        optData1.push((item.PaperScoreRate * 100).toFixed(0));
+        optData2.push(item.PredictedScore.toFixed(0));
+      });
+      this.optInit(optData0, optData1, optData2, xAxisData);
     },
     //统计图效果渲染
-    optInit() {
+    optInit(optData0, optData1, optData2, xAxisData) {
       let echarts = require("echarts");
       let TreChart = echarts.init(document.getElementById("Tre"));
-      let TreOption = {
-        tooltip: {
-          trigger: "axis",
-          axisPointer: {
-            // 坐标轴指示器，坐标轴触发有效
-            type: "shadow", // 默认为直线，可选为：'line' | 'shadow'
-            shadowStyle: {
-              color: "rgba(0,0,0,0.1)",
-            },
-          },
-        },
-        grid: {
-          left: "3%",
-          right: "3%",
-          bottom: "15",
-          top: "15",
-          containLabel: true,
-        },
-        xAxis: {
-          name: "",
-          type: "category",
-          data: this.xAxisData,
-          axisLine: {
-            lineStyle: {
-              color: "rgba(224,231,255,0.3)",
-              width: "1",
-            },
-          },
-          axisTick: { show: false },
-          axisLabel: {
-            interval: 0, //强制显示文字
-            textStyle: {
-              color: "#ffffff",
-            },
-            formatter: (val) => {
-              if (val.length > 6) {
-                return val.slice(0, 6) + "...";
-              } else {
-                return val;
-              }
-            },
-          },
-        },
-        yAxis: [
-          {
-            type: "value",
-            min: 0,
-            splitNumber: 5,
-            //max: this.optData0.sort((x, y) => y - x)[0],
-            splitLine: {
-              show: true,
-              lineStyle: {
-                color: "rgba(128,151,177,0.3)",
-                type: "dotted",
-              },
-            },
-            axisTick: {
-              show: false,
-            },
-            position: "left",
-            axisLine: {
-              show: false,
-              lineStyle: {
-                color: "#rgba(224,231,255,0.3)",
-              },
-            },
-            axisLabel: {
-              show: false,
-              textStyle: {
-                color: "#a2afcc",
+      //重新绘制
+      TreChart.resize();
+      TreChart.setOption(
+        {
+          tooltip: {
+            trigger: "axis",
+            axisPointer: {
+              // 坐标轴指示器，坐标轴触发有效
+              type: "shadow", // 默认为直线，可选为：'line' | 'shadow'
+              shadowStyle: {
+                color: "rgba(0,0,0,0.1)",
               },
             },
           },
-          {
-            type: "value",
-            min: 0,
-            splitNumber: 5,
-            //max: this.optData1.sort((x, y) => y - x)[0],
-            splitLine: {
-              show: false,
-              lineStyle: {
-                color: "rgba(128,151,177,0.3)",
-                type: "dotted",
-              },
-            },
-            axisTick: {
-              show: false,
-            },
-            position: "left",
-            axisLine: {
-              show: false,
-              lineStyle: {
-                color: "#rgba(224,231,255,0.3)",
-              },
-            },
-            axisLabel: {
-              show: false,
-              textStyle: {
-                color: "#a2afcc",
-              },
-            },
+          grid: {
+            left: "3%",
+            right: "3%",
+            bottom: "15",
+            top: "15",
+            containLabel: true,
           },
-          {
-            type: "value",
-            min: 0,
-            splitNumber: 5,
-            //max: this.optData2.sort((x, y) => y - x)[0],
-            splitLine: {
-              show: false,
-              lineStyle: {
-                color: "rgba(128,151,177,0.3)",
-                type: "dotted",
-              },
-            },
-            axisTick: {
-              show: false,
-            },
-            position: "left",
-            axisLine: {
-              show: false,
-              lineStyle: {
-                color: "#rgba(224,231,255,0.3)",
-              },
-            },
-            axisLabel: {
-              show: false,
-              textStyle: {
-                color: "#a2afcc",
-              },
-            },
-          },
-        ],
-        series: [
-          {
+          xAxis: {
             name: "",
-            yAxisIndex: 0,
-            type: "line",
-            barWidth: "16px",
-            color: "#00f0ff",
-            itemStyle: {
-              normal: {
-                color: function () {
-                  return new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                    {
-                      offset: 0,
-                      color: "#00f0ff",
-                    },
-                    {
-                      offset: 0.5,
-                      color: "#fff",
-                    },
-                    {
-                      offset: 1,
-                      color: "#00f0ff",
-                    },
-                  ]);
-                },
-                barBorderRadius: [4, 4, 0, 0],
+            type: "category",
+            data: xAxisData,
+            axisLine: {
+              lineStyle: {
+                color: "rgba(224,231,255,0.3)",
+                width: "1",
               },
             },
-            areaStyle: {
-              normal: {
-                color: new echarts.graphic.LinearGradient(
-                  0,
-                  0,
-                  0,
-                  1,
-                  [
-                    {
-                      offset: 0,
-                      color: "rgba(0,240,255,0.5)",
-                    },
-                    {
-                      offset: 1,
-                      color: "rgba(0,240,255,0)",
-                    },
-                  ],
-                  false
-                ),
+            axisTick: { show: false },
+            axisLabel: {
+              interval: 0, //强制显示文字
+              textStyle: {
+                color: "#ffffff",
+              },
+              formatter: (val) => {
+                if (val.length > 6) {
+                  return val.slice(0, 6) + "...";
+                } else {
+                  return val;
+                }
               },
             },
-            data: this.optData0,
           },
-          {
-            name: "",
-            type: "line",
-            yAxisIndex: 1,
-            barWidth: "16px",
-            color: "#fe8f0a",
-            itemStyle: {
-              normal: {
-                color: function () {
-                  return new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                    {
-                      offset: 0,
-                      color: "#ffd46f",
-                    },
-                    {
-                      offset: 1,
-                      color: "#fe8f0a",
-                    },
-                  ]);
+          yAxis: [
+            {
+              type: "value",
+              min: 0,
+              splitNumber: 5,
+              //max: this.optData0.sort((x, y) => y - x)[0],
+              splitLine: {
+                show: true,
+                lineStyle: {
+                  color: "rgba(128,151,177,0.3)",
+                  type: "dotted",
                 },
-                barBorderRadius: [4, 4, 0, 0],
               },
-            },
-            areaStyle: {
-              normal: {
-                color: new echarts.graphic.LinearGradient(
-                  0,
-                  0,
-                  0,
-                  1,
-                  [
-                    {
-                      offset: 0,
-                      color: "rgba(254,143,10,0.5)",
-                    },
-                    {
-                      offset: 1,
-                      color: "rgba(254,143,10,0)",
-                    },
-                  ],
-                  false
-                ),
+              axisTick: {
+                show: false,
               },
-            },
-            data: this.optData1,
-          },
-          {
-            name: "",
-            type: "line",
-            yAxisIndex: 2,
-            barWidth: "16px",
-            color: "#4fe74c",
-            itemStyle: {
-              normal: {
-                color: function () {
-                  return new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                    {
-                      offset: 0,
-                      color: "#00f0ff",
-                    },
-                    {
-                      offset: 0.5,
-                      color: "#ffffff",
-                    },
-                    {
-                      offset: 1,
-                      color: "#00f0ff",
-                    },
-                  ]);
+              position: "left",
+              axisLine: {
+                show: false,
+                lineStyle: {
+                  color: "#rgba(224,231,255,0.3)",
                 },
-                barBorderRadius: [4, 4, 0, 0],
+              },
+              axisLabel: {
+                show: false,
+                textStyle: {
+                  color: "#a2afcc",
+                },
               },
             },
-            areaStyle: {
-              normal: {
-                color: new echarts.graphic.LinearGradient(
-                  0,
-                  0,
-                  0,
-                  1,
-                  [
-                    {
-                      offset: 0,
-                      color: "rgba(79,231,76,0.5)",
-                    },
-                    {
-                      offset: 1,
-                      color: "rgba(79,231,76,0)",
-                    },
-                  ],
-                  false
-                ),
+            {
+              type: "value",
+              min: 0,
+              splitNumber: 5,
+              //max: this.optData1.sort((x, y) => y - x)[0],
+              splitLine: {
+                show: false,
+                lineStyle: {
+                  color: "rgba(128,151,177,0.3)",
+                  type: "dotted",
+                },
+              },
+              axisTick: {
+                show: false,
+              },
+              position: "left",
+              axisLine: {
+                show: false,
+                lineStyle: {
+                  color: "#rgba(224,231,255,0.3)",
+                },
+              },
+              axisLabel: {
+                show: false,
+                textStyle: {
+                  color: "#a2afcc",
+                },
               },
             },
-            data: this.optData2,
-          },
-        ],
-      };
-      TreChart.setOption(TreOption);
+            {
+              type: "value",
+              min: 0,
+              splitNumber: 5,
+              //max: this.optData2.sort((x, y) => y - x)[0],
+              splitLine: {
+                show: false,
+                lineStyle: {
+                  color: "rgba(128,151,177,0.3)",
+                  type: "dotted",
+                },
+              },
+              axisTick: {
+                show: false,
+              },
+              position: "left",
+              axisLine: {
+                show: false,
+                lineStyle: {
+                  color: "#rgba(224,231,255,0.3)",
+                },
+              },
+              axisLabel: {
+                show: false,
+                textStyle: {
+                  color: "#a2afcc",
+                },
+              },
+            },
+          ],
+          series: [
+            {
+              name: "已作答试卷份数（份）",
+              yAxisIndex: 0,
+              type: "line",
+              barWidth: "16px",
+              color: "#00f0ff",
+              itemStyle: {
+                normal: {
+                  color: function () {
+                    return new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                      {
+                        offset: 0,
+                        color: "#00f0ff",
+                      },
+                      {
+                        offset: 0.5,
+                        color: "#fff",
+                      },
+                      {
+                        offset: 1,
+                        color: "#00f0ff",
+                      },
+                    ]);
+                  },
+                  barBorderRadius: [4, 4, 0, 0],
+                },
+              },
+              areaStyle: {
+                normal: {
+                  color: new echarts.graphic.LinearGradient(
+                    0,
+                    0,
+                    0,
+                    1,
+                    [
+                      {
+                        offset: 0,
+                        color: "rgba(0,240,255,0.5)",
+                      },
+                      {
+                        offset: 1,
+                        color: "rgba(0,240,255,0)",
+                      },
+                    ],
+                    false
+                  ),
+                },
+              },
+              data: optData0,
+            },
+            {
+              name: "平均得分率（%）",
+              type: "line",
+              yAxisIndex: 1,
+              barWidth: "16px",
+              color: "#fe8f0a",
+              itemStyle: {
+                normal: {
+                  color: function () {
+                    return new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                      {
+                        offset: 0,
+                        color: "#ffd46f",
+                      },
+                      {
+                        offset: 1,
+                        color: "#fe8f0a",
+                      },
+                    ]);
+                  },
+                  barBorderRadius: [4, 4, 0, 0],
+                },
+              },
+              areaStyle: {
+                normal: {
+                  color: new echarts.graphic.LinearGradient(
+                    0,
+                    0,
+                    0,
+                    1,
+                    [
+                      {
+                        offset: 0,
+                        color: "rgba(254,143,10,0.5)",
+                      },
+                      {
+                        offset: 1,
+                        color: "rgba(254,143,10,0)",
+                      },
+                    ],
+                    false
+                  ),
+                },
+              },
+              data: optData1,
+            },
+            {
+              name: "高考预估成绩（分）",
+              type: "line",
+              yAxisIndex: 2,
+              barWidth: "16px",
+              color: "#4fe74c",
+              itemStyle: {
+                normal: {
+                  color: function () {
+                    return new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                      {
+                        offset: 0,
+                        color: "#4fe74c",
+                      },
+                      {
+                        offset: 0.5,
+                        color: "#ffffff",
+                      },
+                      {
+                        offset: 1,
+                        color: "#4fe74c",
+                      },
+                    ]);
+                  },
+                  barBorderRadius: [4, 4, 0, 0],
+                },
+              },
+              areaStyle: {
+                normal: {
+                  color: new echarts.graphic.LinearGradient(
+                    0,
+                    0,
+                    0,
+                    1,
+                    [
+                      {
+                        offset: 0,
+                        color: "rgba(79,231,76,0.5)",
+                      },
+                      {
+                        offset: 1,
+                        color: "rgba(79,231,76,0)",
+                      },
+                    ],
+                    false
+                  ),
+                },
+              },
+              data: optData2,
+            },
+          ],
+        },
+        true
+      );
     },
   },
 };
@@ -412,12 +467,11 @@ export default {
   margin-left: 10px;
   margin-top: 10px;
   background: url(~@/assets/img/eduSchool/认知成绩走势_bg.png) center center no-repeat;
-  overflow: hidden;
 }
 .title {
   font-family: "YouSheBiaoTiHei";
   font-size: 24px;
-  margin-top: 7px;
+  padding-top: 7px;
   text-align: center;
 }
 .top {
@@ -556,5 +610,12 @@ export default {
 .cont {
   width: 400px;
   height: 240px;
+}
+.noDataIcon {
+  width: 100%;
+  height: 64px;
+  text-align: center;
+  margin-top: 25px;
+  background: url(~@/assets/img/eduSchool/nodata.png) no-repeat center center;
 }
 </style>

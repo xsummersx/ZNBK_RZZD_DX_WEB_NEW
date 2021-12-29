@@ -1,49 +1,62 @@
 <!--
  * @Author: your name
- * @Date: 2021-12-14 13:56:07
- * @LastEditTime: 2021-12-28 14:06:17
- * @LastEditors: Please set LastEditors
+ * @Date: 2021-12-29 09:31:22
+ * @LastEditTime: 2021-12-29 09:31:22
+ * @LastEditors: your name
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- * @FilePath: \znbk_rzzd_zx_web_new\src\views\dialog\StuReport.vue
+ * @FilePath: \znbk_rzzd_zx_web_new\src\views\dialog\TeachScore.vue
 -->
 <template>
   <div class="bottom-box">
     <div class="clearfix">
-      <div @click="ExportReport()" class="exportBtn float-r">
+      <div
+        @click="GetExportGradePaperQtypeClassCompareList_V3()"
+        class="exportBtn float-r"
+      >
         <span class="exportIcon"></span>
-        导出学生成绩单
+        导出班级成绩对比分析
       </div>
     </div>
-    <div class="table">
+    <div class="table" v-if="StuCount != 0">
       <table>
         <thead>
           <tr>
             <th>序号</th>
-            <th>姓名</th>
             <th>班级</th>
-            <th>总分</th>
-            <th>年级排名</th>
+            <th>试卷得分</th>
             <th>班级排名</th>
             <th class="oneTH" v-for="(item, index) in ObjectiveQTypeList" :key="index">
               <div class="oneTH1">{{ item.QTypeName }}</div>
               <div class="oneTH2">
-                <span class="oneSpan1">得分率</span
-                ><span class="oneSpan2">年级排名/班级排名</span>
+                <span class="oneSpan1">得分率</span><span class="oneSpan2">排名</span>
               </div>
             </th>
-            <th v-for="(item, index) in SubjectiveQTypeList" :key="index">
-              {{ item.QTypeName }}
+            <th class="oneTH" v-for="(item, index) in SubjectiveQTypeList" :key="index">
+              <div class="oneTH1">{{ item.QTypeName }}</div>
+              <div class="oneTH2">
+                <span class="oneSpan1">得分率</span><span class="oneSpan2">排名</span>
+              </div>
             </th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(item, index) in showList" :key="index">
             <td>{{ item.Index }}</td>
-            <td>{{ item.StuName }}</td>
             <td>{{ item.CourseClassName }}</td>
-            <td>{{ item.StuPaperScore }}</td>
-            <td>{{ item.GradeRank }}</td>
-            <td>{{ item.ClassRank }}</td>
+            <td>{{ item.PaperAvgScore }}</td>
+            <td
+              :class="
+                item.GradeRank == 1
+                  ? 'rank1'
+                  : item.GradeRank == 2
+                  ? 'rank2'
+                  : item.GradeRank == 3
+                  ? 'rank3'
+                  : 'stu-rank'
+              "
+            >
+              {{ item.GradeRank > 3 ? item.GradeRank : "" }}
+            </td>
             <td
               class="borderTD"
               v-for="(item2, index2) in item.ObjectiveQTypeList"
@@ -52,17 +65,17 @@
               <span class="oneSpan1">{{
                 (item2.PaperScoreRate * 100).toFixed() + "%"
               }}</span>
-              <span class="oneSpan2">{{
-                item2.QTypeClassRank + "/" + item2.QTypeGradeRank
-              }}</span>
+              <span class="oneSpan2">{{ item2.QTypeGradeRank }}</span>
             </td>
-            <td v-for="(item2, index2) in item.SubjectiveQTypeList" :key="index2">
+            <td
+              class="borderTD"
+              v-for="(item2, index2) in item.SubjectiveQTypeList"
+              :key="index2"
+            >
               <span class="oneSpan1">{{
                 (item2.PaperScoreRate * 100).toFixed() + "%"
               }}</span>
-              <span class="oneSpan2">{{
-                item2.QTypeClassRank + "/" + item2.QTypeGradeRank
-              }}</span>
+              <span class="oneSpan2">{{ item2.QTypeGradeRank }}</span>
             </td>
           </tr>
         </tbody>
@@ -84,10 +97,8 @@
 </template>
 
 <script>
-import { GetGradePaperScoreReport_V3 } from "@/api/diolog/stuReportDiolog";
-import { GetClassPaperScoreReport_V3 } from "@/api/diolog/stuReportDiolog";
-import { GetExportGradePaperScoreReport_V3 } from "@/api/diolog/stuReportDiolog";
-import { GetExportClassPaperScoreReport_V3 } from "@/api/diolog/stuReportDiolog";
+import { GetGradePaperQtypeClassCompareList_V3 } from "@/api/diolog/stuReportDiolog";
+import { GetExportGradePaperQtypeClassCompareList_V3 } from "@/api/diolog/stuReportDiolog";
 export default {
   props: {
     PaperName: String,
@@ -96,27 +107,21 @@ export default {
   data() {
     return {
       StuCount: 0,
-      currentPage: 1,
-      // 默认每页显示的条数（可修改）
       PageNum: 1,
       PageSize: 8,
       SearchText: "",
-      emptyText: "",
       showList: [],
       ObjectiveQTypeList: [],
       SubjectiveQTypeList: [],
     };
   },
+
   mounted() {
-    if (this.$route.name == "gradeRZZD") {
-      this.GetGradePaperScoreReport_V3();
-    } else {
-      this.GetClassPaperScoreReport_V3();
-    }
+    this.GetGradePaperQtypeClassCompareList_V3();
   },
   methods: {
-    // // 获取年级历次已发布试卷
-    GetGradePaperScoreReport_V3() {
+    // // 获取年级试卷题型对比分析
+    GetGradePaperQtypeClassCompareList_V3() {
       let params = {
         token: this.$store.state.token,
         TID: this.$store.state.TID,
@@ -128,39 +133,18 @@ export default {
         PageSize: this.PageSize,
         SearchText: this.SearchText,
       };
-      GetGradePaperScoreReport_V3(params).then((res) => {
-        this.StuCount = res.Data.PageStuCount;
-        this.showList = res.Data.PaperStuScoreReportDetailList;
-        this.ObjectiveQTypeList = this.showList[0].ObjectiveQTypeList;
-        this.SubjectiveQTypeList = this.showList[0].SubjectiveQTypeList;
-      });
-    },
-    // // 获取年级历次已发布试卷
-    GetClassPaperScoreReport_V3() {
-      console.log(this.PaperID);
-      let params = {
-        token: this.$store.state.token,
-        TID: this.$store.state.TID,
-        SchoolID: this.$store.state.SchoolID,
-        CourseClassID: this.$store.state.CourseClassID,
-        PaperID: this.PaperID,
-        PaperName: this.PaperName,
-        PageNum: this.PageNum,
-        PageSize: this.PageSize,
-        SearchText: this.SearchText,
-      };
-      GetClassPaperScoreReport_V3(params).then((res) => {
-        this.StuCount = res.Data.PageStuCount;
-        this.showList = res.Data.PaperStuScoreReportDetailList;
-        this.ObjectiveQTypeList = this.showList[0].ObjectiveQTypeList;
-        this.SubjectiveQTypeList = this.showList[0].SubjectiveQTypeList;
+      GetGradePaperQtypeClassCompareList_V3(params).then((res) => {
+        console.log(res);
+        this.StuCount = res.Data.PageClassCount;
+        this.showList = res.Data.ClassQtypeRateRankList;
+        if (this.StuCount != 0) {
+          this.ObjectiveQTypeList = this.showList[0].ObjectiveQTypeList;
+          this.SubjectiveQTypeList = this.showList[0].SubjectiveQTypeList;
+        }
       });
     },
     handleSizeChange(val) {
       // 改变每页显示的条数
-      if (this.$route.query.str == "gradeLeader") {
-        this.PageSize2 = val;
-      }
       this.PageSize = val;
       // 注意：在改变每页显示的条数时，要将页码显示到第一页
       this.currentPage = 1;
@@ -172,41 +156,23 @@ export default {
       this.emptyText = "加载中...";
       // this.showList = [];
     },
-    // 表格头部
-    renderHeader(h, { column }) {
-      let header = column.label.split(" ");
-      return [h("p", [h("p", {}, header[0]), h("span", {}, header[1])])];
-    }, // 文本分别添加到p,span标签中
-    ExportReport() {
-      if (this.$route.name == "gradeRZZD") {
-        let params = {
-          token: this.$store.state.token,
-          TID: this.$store.state.TID,
-          SchoolID: this.$store.state.SchoolID,
-          GlobalGrade: this.$store.state.GlobalGrade,
-          PaperID: this.PaperID,
-          PaperName: this.PaperName,
-        };
-        GetExportGradePaperScoreReport_V3(params).then((res) => {
-          window.open(res.Data, "_self");
-        });
-      } else {
-        let params = {
-          token: this.$store.state.token,
-          TID: this.$store.state.TID,
-          SchoolID: this.$store.state.SchoolID,
-          CourseClassID: this.$store.state.CourseClassID,
-          PaperID: this.PaperID,
-          PaperName: this.PaperName,
-        };
-        GetExportClassPaperScoreReport_V3(params).then((res) => {
-          window.open(res.Data, "_self");
-        });
-      }
+    GetExportGradePaperQtypeClassCompareList_V3() {
+      let params = {
+        token: this.$store.state.token,
+        TID: this.$store.state.TID,
+        SchoolID: this.$store.state.SchoolID,
+        GlobalGrade: this.$store.state.GlobalGrade,
+        PaperID: this.PaperID,
+        PaperName: this.PaperName,
+      };
+      GetExportGradePaperQtypeClassCompareList_V3(params).then((res) => {
+        window.open(res.Data, "_self");
+      });
     },
   },
 };
 </script>
+
 <style lang="scss" scoped>
 @import "../../assets/css/scroll.scss";
 .bottom-box {
@@ -215,7 +181,7 @@ export default {
     width: 182px;
     height: 28px;
     line-height: 28px;
-    margin-bottom: 0;
+    margin-bottom: 10px;
     background: url("../../assets/img/viewImg/导出试卷题型得分分析.png") -0px -28px
       no-repeat;
     border-radius: 4px;
@@ -241,7 +207,6 @@ export default {
     }
   }
 }
-
 .table {
   overflow-x: scroll;
   margin: 10px 0 20px;
@@ -273,10 +238,7 @@ export default {
       width: 130px;
     }
     th:nth-child(3) {
-      width: 80px;
-    }
-    th:nth-child(4) {
-      width: 100px;
+      width: 130px;
     }
     td:nth-child(5) {
       border-left: solid 1px rgba(255, 255, 255, 0.1);
@@ -292,11 +254,11 @@ export default {
         display: inline-block;
       }
       .oneSpan1 {
-        width: 80px;
+        width: 120px;
         color: #fff600;
       }
       .oneSpan2 {
-        width: 160px;
+        width: 120px;
       }
     }
     td:nth-child(1) {
@@ -309,7 +271,8 @@ export default {
       white-space: nowrap;
       text-overflow: ellipsis;
     }
-    td:nth-child(4) {
+
+    td:nth-child(3) {
       color: #51f0ff;
     }
   }
@@ -330,42 +293,31 @@ export default {
       display: inline-block;
     }
     .oneSpan1 {
-      width: 80px;
+      width: 120px;
       border-right: 1px solid rgba(255, 255, 255, 0.1);
     }
     .oneSpan2 {
-      width: 160px;
+      width: 120px;
     }
   }
 }
 .paginationBox {
   margin: 0 0 10px;
 }
-</style>
-<style>
-.stuPhoto {
-  width: 25px;
-  height: 25px;
-  object-fit: cover;
-  border-radius: 100%;
-  margin-right: 5px;
-  vertical-align: middle;
-}
 .stu-rank {
-  display: inline-block;
   width: 20px;
   height: 20px;
   line-height: 20px;
   border-radius: 100%;
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.6);
+  color: #666666;
   margin-right: 5px;
+  background: url("~@/assets/img/grade/其他名次BG.png") center center no-repeat;
   vertical-align: middle;
 }
 .rank1,
 .rank2,
 .rank3 {
-  display: inline-block;
   width: 22px;
   height: 29px;
   margin-right: 5px;
