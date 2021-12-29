@@ -1,11 +1,11 @@
 import request from '@/utils/request';
 
 // 教育局端和校领导端 界面左侧接口 
-// 教育局端
+// 校领导端
 // 累计作答试卷
-export function GetGradeLeaderPaperNum(data){
+export function GetSchoolPaperNum(data){
     return request({
-        url:"/api/GradeLeaderRZZD/GetGradeLeaderPaperNum_V3",
+        url:"/api/SchoolMasterRZZD/GetSchoolPaperNum_V3",
         method:"GET",
         params:{
             ...data
@@ -14,9 +14,9 @@ export function GetGradeLeaderPaperNum(data){
 }
 
 // 认知平均分
-export function GetGradeCognitiveIndex(data){
+export function GetSchoolCongnitiveIndex(data){
     return request({
-        url:"/api/GradeLeaderRZZD/GetGradeCognitiveIndex_V3",
+        url:"/api/SchoolMasterRZZD/GetSchoolCongnitiveIndex_V3",
         method:"GET",
         params:{
             ...data
@@ -25,9 +25,43 @@ export function GetGradeCognitiveIndex(data){
 }
 
 // 高考预估成绩
-export function GetGradeLeaderPredictedScore(data){
+export function GetSchoolPredicted(data){
     return request({
-        url:"/api/GradeLeaderRZZD/GetGradeLeaderPredictedScore_V3",
+        url:"/api/SchoolMasterRZZD/GetSchoolPredicted_V3",
+        method:"GET",
+        params:{
+            ...data
+        }
+    })
+}
+
+// 教育局端
+// 累计作答试卷
+export function GetAreaPaperNum(data){
+    return request({
+        url:"/api/DirectorRZZD/GetAreaPaperNum",
+        method:"GET",
+        params:{
+            ...data
+        }
+    })
+}
+
+// 认知平均分
+export function GetAreaCognitiveIndex(data){
+    return request({
+        url:"/api/DirectorRZZD/GetAreaCognitiveIndex",
+        method:"GET",
+        params:{
+            ...data
+        }
+    })
+}
+
+// 高考预估成绩
+export function GetAreaPredictedScore(data){
+    return request({
+        url:"/api/DirectorRZZD/GetAreaPredictedScore",
         method:"GET",
         params:{
             ...data
