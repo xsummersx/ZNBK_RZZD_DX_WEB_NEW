@@ -57,12 +57,16 @@
       :title="dialogTitle"
       :visible.sync="dialogVisible"
       :close-on-click-modal="false"
-      width="720px"
+      width="1000px"
       top="0vh"
     >
-      <div>
-        <AnalyseDialog v-if="dialogIndex == 1"></AnalyseDialog>
-        <StuReport v-else></StuReport>
+      <div v-if="dialogVisible">
+        <TeachQuesDia
+          :PaperName="PaperName"
+          :PaperID="PaperID"
+          v-if="dialogIndex == 1"
+        ></TeachQuesDia>
+        <StuReport :PaperName="PaperName" :PaperID="PaperID" v-else></StuReport>
       </div>
     </el-dialog>
   </div>
@@ -105,7 +109,7 @@ export default {
   },
   components: {
     ArrowTitle: () => import("../common/ArrowTitle.vue"),
-    AnalyseDialog: () => import("../../views/dialog/AnalyseDialog.vue"),
+    TeachQuesDia: () => import("../../views/dialog/TeachQuesDia.vue"),
     StuReport: () => import("../../views/dialog/StuReport.vue"),
     vuescroll,
   },
@@ -129,6 +133,7 @@ export default {
         this.timeList = this.resInfo.ReleasedPaperList;
         this.paperList = this.timeList[0].ReleasedPaperList;
         this.PaperName = this.paperList[i].PaperName;
+        this.PaperID = this.paperList[i].PaperID;
         this.drawLine(this.resInfo.StuPaperScoreMap);
       });
     },
@@ -172,9 +177,13 @@ export default {
     chooseActiveTime(i) {
       this.activeTimeIndex = i;
       this.paperList = this.timeList[i].ReleasedPaperList;
+      this.PaperName = this.paperList[0].PaperName;
+      this.PaperID = this.paperList[0].PaperID;
     },
     chooseActivePaper(i) {
       this.activePaperIndex = i;
+      this.PaperID = this.paperList[i].PaperID;
+      this.PaperName = this.paperList[i].PaperName;
       this.GetPublishedPaperDaily_V3(this.paperList[i].PaperID, i);
     },
     dialog(i) {
@@ -182,13 +191,10 @@ export default {
       this.dialogIndex = i;
       switch (i) {
         case 1:
-          this.dialogTitle = "试卷对比分析";
+          this.dialogTitle = "试卷题型得分分析-" + this.PaperName;
           break;
         case 2:
-          this.dialogTitle = "学生成绩单" + this.PaperName;
-          break;
-        case 3:
-          this.dialogTitle = "试卷题型得分分析" + this.PaperName;
+          this.dialogTitle = "学生成绩单-" + this.PaperName;
           break;
         default:
           break;

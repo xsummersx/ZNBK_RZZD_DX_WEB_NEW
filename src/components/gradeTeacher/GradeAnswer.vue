@@ -1,7 +1,7 @@
 <!--
  * @Author: 柳欢
  * @Date: 2021-12-13 16:15:01
- * @LastEditTime: 2021-12-16 15:37:13
+ * @LastEditTime: 2021-12-28 11:12:57
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\components\gradeTeacher\GradeAnswer.vue
@@ -10,7 +10,7 @@
   <div>
     <ArrowTitle titleStr="历次作答统计">
       <div class="rightOption float-r">
-        <div class="checkPaper float-r" @click="checkPaper()">
+        <div class="checkPaper float-r" @click="showDialog(4)">
           <span class="exportIcon"></span>
           查看试卷对比分析
         </div>
@@ -53,11 +53,15 @@
       <div class="float-r">
         <div class="right-btn clearfix">
           <span class="float-l paper-name">{{ PaperName }}</span>
-          <span class="float-r paper-checkBtn" @click="dialog(3)">试卷题型得分分析</span>
+          <span class="float-r paper-checkBtn" @click="showDialog(3)"
+            >试卷题型得分分析</span
+          >
           <span class="float-r paper-line"></span>
-          <span class="float-r paper-checkBtn" @click="dialog(2)">学生成绩单</span>
+          <span class="float-r paper-checkBtn" @click="showDialog(2)">学生成绩单</span>
           <span class="float-r paper-line"></span>
-          <span class="float-r paper-checkBtn" @click="dialog(1)">班级成绩对比分析</span>
+          <span class="float-r paper-checkBtn" @click="showDialog(1)"
+            >班级成绩对比分析</span
+          >
         </div>
         <div id="responseCharts"></div>
       </div>
@@ -69,10 +73,19 @@
       width="1000px"
       top="0vh"
     >
-      <div>
-        <HistoryDialog v-if="dialogIndex == 1"></HistoryDialog>
-        <StuReport v-else-if="dialogIndex == 2"></StuReport>
-        <AnalyseDialog v-else></AnalyseDialog>
+      <div v-if="dialogVisible">
+        <HistoryDialog v-if="dialogIndex == 4"></HistoryDialog>
+        <StuReport
+          :PaperName="PaperName"
+          :PaperID="PaperID"
+          v-else-if="dialogIndex == 2"
+        ></StuReport>
+        <AnalyseDialog
+          :PaperName="PaperName"
+          :PaperID="PaperID"
+          v-else-if="dialogIndex == 3"
+        ></AnalyseDialog>
+        <GradeScoreDia :PaperName="PaperName" :PaperID="PaperID" v-else></GradeScoreDia>
       </div>
     </el-dialog>
   </div>
@@ -119,6 +132,7 @@ export default {
     HistoryDialog: () => import("../../views/dialog/HistoryDialog.vue"),
     AnalyseDialog: () => import("../../views/dialog/AnalyseDialog.vue"),
     StuReport: () => import("../../views/dialog/StuReport.vue"),
+    GradeScoreDia: () => import("../../views/dialog/GradeScoreDia.vue"),
     vuescroll,
   },
   created() {
@@ -137,8 +151,9 @@ export default {
       GetGradePublishedPaperDaily_V3(params).then((res) => {
         this.resInfo = res.Data;
         this.timeList = this.resInfo.ReleasedPaperList;
-        this.paperList = this.timeList[0].ReleasedPaperList;
+        this.paperList = this.timeList[this.activeTimeIndex].ReleasedPaperList;
         this.PaperName = this.paperList[i].PaperName;
+        this.PaperID = this.paperList[i].PaperID;
         this.drawLine(this.resInfo.StuPaperScoreMap);
       });
     },
@@ -169,7 +184,6 @@ export default {
           days = "星期日";
           break;
       }
-      console.log(days);
       return days;
     },
     // 转换年月日
@@ -180,18 +194,22 @@ export default {
       return str;
     },
     // 弹窗显示
-    dialog(i) {
+    showDialog(i) {
+      console.log(111);
       this.dialogVisible = true;
       this.dialogIndex = i;
       switch (i) {
         case 1:
-          this.dialogTitle = "试卷对比分析";
+          this.dialogTitle = "班级成绩对比分析-" + this.PaperName;
           break;
         case 2:
-          this.dialogTitle = "学生成绩单" + this.PaperName;
+          this.dialogTitle = "学生成绩单-" + this.PaperName;
           break;
         case 3:
           this.dialogTitle = "试卷题型得分分析" + this.PaperName;
+          break;
+        case 4:
+          this.dialogTitle = "试卷对比分析";
           break;
         default:
           break;
@@ -205,6 +223,8 @@ export default {
     // 选择试卷
     chooseActivePaper(i) {
       this.activePaperIndex = i;
+      this.PaperID = this.paperList[i].PaperID;
+      this.PaperName = this.paperList[i].PaperName;
       this.GetGradePublishedPaperDaily_V3(this.paperList[i].PaperID, i);
     },
     drawLine(list) {

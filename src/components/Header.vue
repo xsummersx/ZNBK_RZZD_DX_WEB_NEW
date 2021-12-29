@@ -1,7 +1,7 @@
 <!--
  * @Author: 柳欢 负责
  * @Date: 2021-11-29 09:48:36
- * @LastEditTime: 2021-12-21 09:42:53
+ * @LastEditTime: 2021-12-28 10:23:47
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 柳欢=》头部信息，包括了用户信息及退出登录等
@@ -168,7 +168,6 @@ export default {
       // this.propObject.SchoolID = this.$route.query.SchoolID;
       this.$store.commit("updateGlobalGrade", this.$route.query.GlobalGrade);
       // this.propObject.GlobalGrade = this.$route.query.GlobalGrade;
-      console.log(this.$store.state);
       this.axios
         .get(
           "RZZD/GetClassHeadDetailInfo?CourseClassID=" +
