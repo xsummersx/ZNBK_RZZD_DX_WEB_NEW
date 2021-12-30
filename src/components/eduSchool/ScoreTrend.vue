@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:31:08
- * @LastEditTime: 2021-12-29 09:08:24
+ * @LastEditTime: 2021-12-29 11:19:58
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》认知成绩走势图，图0，图1
@@ -21,7 +21,7 @@
             <div class="itemName">·&nbsp;{{ item.SchoolClassName }}</div>
             <div class="itemScore0">{{ item.ChangeScore }}分</div>
           </li>
-          <li v-if="ProgList.length == 0">暂无数据</li>
+          <li v-if="ProgList.length == 0" class="noDataIcon"></li>
         </ul>
       </div>
       <div class="TopBox">
@@ -35,7 +35,7 @@
             <div class="itemName">·&nbsp;{{ item.SchoolClassName }}</div>
             <div class="itemScore0">{{ item.ChangeScore }}分</div>
           </li>
-          <li v-if="BackList.length == 0">暂无数据</li>
+          <li v-if="BackList.length == 0" class="noDataIcon"></li>
         </ul>
       </div>
     </div>
@@ -128,7 +128,6 @@ export default {
         params.CountyID = this.$store.state.CountyID;
         //教育局
         GetTrend(params).then((res) => {
-          console.log(res);
           if (res.Code == 1) {
             if (getType == "FirstGet") {
               this.BackList = res.Data.BackwardList;
@@ -141,7 +140,6 @@ export default {
       } else {
         params.SchoolID = this.$store.state.SchoolID;
         GetTrendSchool(params).then((res) => {
-          console.log(res);
           if (getType == "FirstGet") {
             this.BackList = res.Data.BackwardList;
             this.ProgList = res.Data.ProgressiveList;
@@ -610,5 +608,12 @@ export default {
 .cont {
   width: 400px;
   height: 240px;
+}
+.noDataIcon {
+  width: 100%;
+  height: 64px;
+  text-align: center;
+  margin-top: 25px;
+  background: url(~@/assets/img/eduSchool/nodata.png) no-repeat center center;
 }
 </style>
