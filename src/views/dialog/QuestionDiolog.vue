@@ -112,7 +112,7 @@ export default {
               label: {
                 show: true,
                 position: "end",
-                formatter: "{a|平均正确率}\n{b|" + TypeInfoAvgScore + "%}",
+                formatter: "{a|平均得分率}\n{b|" + TypeInfoAvgScore + "%}",
                 fontSize: 14,
                 fontWeight: "bold",
                 rich: {
@@ -158,5 +158,8 @@ export default {
   height: 518px;
   margin: 20px auto;
   background-color: rgba(0, 0, 51, 0.2);
+  -webkit-border-image-source: url("../../assets/img/common/内容高光1.png"); /* Safari 5 */
+  -o-border-image-source: url("../../assets/img/common/内容高光1.png"); /* Opera */
+  border-image-source: url("../../assets/img/common/内容高光1.png");
 }
 </style>

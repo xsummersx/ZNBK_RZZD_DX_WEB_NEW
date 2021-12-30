@@ -36,7 +36,7 @@
               >，通过数字化评估学生历次学习轨迹分析得来。
             </div>
           </div>
-          <div class="float-l centerHead">{{ className }}认知质量评估报告</div>
+          <div class="float-l centerHead">{{ centerName }}</div>
           <div class="float-r rightHead">
             <div class="userInfo" style="float: right">
               <span class="questionIcon"></span>
@@ -64,14 +64,32 @@
               <span class="exitIcon" @click="exit()"></span>
             </div>
             <div class="RZZDName">
-              <i :class="$route.name == 'gradeRZZD' ? 'scholIcon' : 'checkClassIcon'"></i>
+              <i
+                v-if="$route.name != 'studentRZZD'"
+                :class="$route.name == 'gradeRZZD' ? 'scholIcon' : 'checkClassIcon'"
+              ></i>
               <span v-if="$route.name == 'gradeRZZD'" class="className className1">{{
                 UserInfo.SchoolName
               }}</span>
-              <span v-if="$route.name == 'teacherRZZD'" class="className">{{
-                UserInfo.CourseClassName ? UserInfo.CourseClassName : className
-              }}</span>
-              <span v-if="$route.name == 'teacherRZZD'" class="switchIcon">
+              <span
+                v-if="
+                  $route.name == 'educationRZZD' ||
+                  $route.name == 'schoolRZZD' ||
+                  $route.name == 'teacherRZZD'
+                "
+                class="className"
+                >{{
+                  UserInfo.CourseClassName ? UserInfo.CourseClassName : className
+                }}</span
+              >
+              <span
+                v-if="
+                  $route.name == 'educationRZZD' ||
+                  $route.name == 'schoolRZZD' ||
+                  $route.name == 'teacherRZZD'
+                "
+                class="switchIcon"
+              >
                 <div v-if="classContShow" class="classContent">
                   <div class="dotTitle">切换班级</div>
                   <ul style="height: 100px" class="clearfix">
@@ -88,6 +106,11 @@
                     </vuescroll>
                   </ul>
                 </div></span
+              >
+              <span
+                v-if="$route.name == 'educationRZZD' || $route.name == 'schoolRZZD'"
+                class="className"
+                >(共{{ resInfo.ClassCount }}个班级,{{ resInfo.StuCount }}个学生)</span
               >
             </div>
             <div class="ZsdAreaBox"><i></i>最佳分辨率 1920 * 1080; 按F11键可全屏</div>
@@ -117,6 +140,7 @@ import { GetDirectorHeadDetailInfo } from "../api/head/header";
 import { GetSchoolHeadDetailInfo } from "../api/head/header";
 import { GetGradeLeaderDetailInfo } from "../api/head/header";
 import { GetClassHeadDetailInfo } from "../api/head/header";
+import { GetStuHeadDetailInfo } from "../api/head/header";
 import { GetCountyInitResultString } from "../api/head/header";
 import { GetSchoolInitResultString } from "../api/head/header";
 // import { GetDirectorHeadDetailInfo } from "../api/head/header";
@@ -133,6 +157,7 @@ export default {
       classContShow: false,
       dialogVisible: false,
       className: "",
+      centerName: "",
       ops: {
         bar: {
           showDelay: 500,
@@ -199,7 +224,39 @@ export default {
           this.GetDirectorHeadDetailInfo();
         } else if (this.$route.name == "schoolRZZD") {
           this.GetSchoolHeadDetailInfo(this.UserInfo.SchoolID, 0);
+        } else if (this.$route.name == "studentRZZD") {
+          this.GetStuHeadDetailInfo();
         }
+      });
+    },
+    //
+    GetStuHeadDetailInfo() {
+      this.openView = false;
+      let CourseClassID = this.$store.state.CourseClassID;
+      let SchoolID = "";
+      let StuID = this.$route.query.StuID;
+      let GlobalGrade = this.$route.query.GlobalGrade;
+      let StageNo = "";
+      StageNo = GlobalGrade.substring(1) > 9 ? "C" : "B";
+      this.$store.commit("updateStageNo", StageNo);
+      if (this.UserInfo.UserType == 1) {
+        SchoolID = this.$store.state.SchoolID;
+      } else {
+        SchoolID = this.$route.query.SchoolID;
+      }
+      this.$store.commit("updateStuID", StuID);
+      this.$store.commit("updateSchoolID", SchoolID);
+      this.$store.commit("updateGlobalGrade", this.$route.query.GlobalGrade);
+      this.$store.commit("updateCourseClassID", CourseClassID);
+      let params = {
+        token: this.$store.state.token,
+        StuID: this.$store.state.StuID,
+      };
+      GetStuHeadDetailInfo(params).then((res) => {
+        this.resInfo = res.Data;
+        this.className = this.resInfo.UserName;
+        this.centerName = this.resInfo.UserName + "认知质量评估报告";
+        this.openView = true;
       });
     },
     GetClassHeadDetailInfo() {
@@ -227,6 +284,7 @@ export default {
       GetClassHeadDetailInfo(params).then((res) => {
         this.resInfo = res.Data;
         this.className = this.resInfo.CurrName;
+        this.centerName = this.resInfo.CurrName + "认知质量评估报告";
         this.openView = true;
         if (this.resInfo.SwitchInfoList.length == 0) {
           // let token = this.$route.query.token;
@@ -348,6 +406,7 @@ export default {
       GetSchoolHeadDetailInfo(params).then((res) => {
         this.resInfo = res.Data;
         this.className = this.resInfo.CurrName;
+        this.centerName = this.resInfo.SchoolName + "认知质量大数据";
         this.openView = true;
         if (this.resInfo.SwitchInfoList.length == 0) {
           // let token = this.$route.query.token;
@@ -408,6 +467,7 @@ export default {
       GetDirectorHeadDetailInfo(params).then((res) => {
         this.resInfo = res.Data;
         this.className = this.resInfo.CurrName;
+        this.centerName = this.resInfo.CountyName + "教育局认知质量大数据";
         this.openView = true;
         if (this.resInfo.SwitchInfoList.length == 0) {
           // let token = this.$route.query.token;
@@ -459,7 +519,7 @@ export default {
       });
     },
 
-    // 获取教师端初始化认知评估文案内容
+    // 获取教育局端初始化认知评估文案内容
     GetCountyInitResultString() {
       let params = {
         token: this.$route.query.token,
@@ -477,7 +537,7 @@ export default {
         // this.GetCommonKnowledgeSpectrum();
       });
     },
-    // 获取教师端初始化认知评估文案内容
+    // 获取校长端初始化认知评估文案内容
     GetSchoolInitResultString(i) {
       let params = {
         token: this.$route.query.token,
@@ -504,9 +564,33 @@ export default {
     chooseClass(i) {
       this.chooseClassIndex = i;
       this.className = this.resInfo.SwitchInfoList[i].Name;
-      this.classID = this.resInfo.SwitchInfoList[i].ID;
-      this.$store.commit("updateCourseClassID", this.classID);
-      this.GetClassHeadDetailInfo();
+      if (this.$route.name == "teacherRZZD") {
+        this.classID = this.resInfo.SwitchInfoList[i].ID;
+        this.$store.commit("updateCourseClassID", this.classID);
+        this.GetClassHeadDetailInfo();
+      } else if (this.$route.name == "schoolRZZD") {
+        let GlobalGrade = this.resInfo.SwitchInfoList[i].ID;
+        let StageNo = "";
+        if (GlobalGrade.substr(1) > 9) {
+          StageNo = "C";
+        } else {
+          StageNo = "B";
+        }
+        this.$store.commit("updateGlobalGrade", GlobalGrade);
+        this.$store.commit("updateStageNo", StageNo);
+        this.GetDirectorHeadDetailInfo();
+      } else if (this.$route.name == "educationRZZD") {
+        let GlobalGrade = this.resInfo.SwitchInfoList[i].ID;
+        let StageNo = "";
+        if (GlobalGrade.substr(1) > 9) {
+          StageNo = "C";
+        } else {
+          StageNo = "B";
+        }
+        this.$store.commit("updateGlobalGrade", GlobalGrade);
+        this.$store.commit("updateStageNo", StageNo);
+        this.GetDirectorHeadDetailInfo();
+      }
     },
     // 退出系统
     exit() {
