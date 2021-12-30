@@ -64,14 +64,14 @@
               <span class="exitIcon" @click="exit()"></span>
             </div>
             <div class="RZZDName">
-              <i :class="UserInfo.UserType == 12 ? 'scholIcon' : 'checkClassIcon'"></i>
-              <span v-if="UserInfo.UserType == 12" class="className className1">{{
+              <i :class="$route.name == 'gradeRZZD' ? 'scholIcon' : 'checkClassIcon'"></i>
+              <span v-if="$route.name == 'gradeRZZD'" class="className className1">{{
                 UserInfo.SchoolName
               }}</span>
-              <span v-if="UserInfo.UserType != 12" class="className">{{
+              <span v-if="$route.name == 'teacherRZZD'" class="className">{{
                 UserInfo.CourseClassName ? UserInfo.CourseClassName : className
               }}</span>
-              <span v-if="UserInfo.UserType != 12" class="switchIcon">
+              <span v-if="$route.name == 'teacherRZZD'" class="switchIcon">
                 <div v-if="classContShow" class="classContent">
                   <div class="dotTitle">切换班级</div>
                   <ul style="height: 100px" class="clearfix">
