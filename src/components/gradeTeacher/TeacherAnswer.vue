@@ -132,9 +132,11 @@ export default {
         this.resInfo = res.Data;
         this.timeList = this.resInfo.ReleasedPaperList;
         this.paperList = this.timeList[0].ReleasedPaperList;
-        this.PaperName = this.paperList[i].PaperName;
-        this.PaperID = this.paperList[i].PaperID;
-        this.drawLine(this.resInfo.StuPaperScoreMap);
+        if (this.paperList.length > 0) {
+          this.PaperName = this.paperList[i].PaperName;
+          this.PaperID = this.paperList[i].PaperID;
+          this.drawLine(this.resInfo.StuPaperScoreMap);
+        }
       });
     },
     // 转换星期几
@@ -176,9 +178,13 @@ export default {
     // 选择日期
     chooseActiveTime(i) {
       this.activeTimeIndex = i;
+      this.activePaperIndex = 0;
       this.paperList = this.timeList[i].ReleasedPaperList;
-      this.PaperName = this.paperList[0].PaperName;
-      this.PaperID = this.paperList[0].PaperID;
+      if (this.paperList.length > 0) {
+        this.PaperName = this.paperList[0].PaperName;
+        this.PaperID = this.paperList[0].PaperID;
+      }
+      this.GetGradePublishedPaperDaily_V3(this.PaperID, 0);
     },
     chooseActivePaper(i) {
       this.activePaperIndex = i;
@@ -211,6 +217,7 @@ export default {
       var responseCharts = echarts.init(document.getElementById("responseCharts"));
       responseCharts.setOption(this.$optionObj.responseOption);
       responseCharts.setOption({
+        cursor: "default",
         xAxis: {
           data: xData2,
         },

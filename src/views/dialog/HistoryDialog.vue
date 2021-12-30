@@ -11,14 +11,11 @@
     <div class="topBox">
       <div class="clearfix">
         <div class="float-l checkAll" @click="checkAll()">
-          <span
-            class="checkAllBtn"
-            :class="checkedAll ? 'checkedAllBtn' : ''"
-          ></span>
+          <span class="checkAllBtn" :class="checkedAll ? 'checkedAllBtn' : ''"></span>
           <span>全选</span>
         </div>
         <div class="float-r" style="position: relative">
-            <!-- @input="showDelateIcon2()" -->
+          <!-- @input="showDelateIcon2()" -->
           <input
             class="stuInput"
             type="text"
@@ -34,13 +31,13 @@
           <li
             class="float-l PaperLi"
             :class="item.checked ? 'checkedPaperLi' : ''"
-            v-for="(item, index) in PaperList"
+            v-for="(item, index) in showPaperList"
             :key="item.PaperID"
             @click="checkPaper(index)"
             :title="item.PaperName"
           >
             <span>得分率</span><br />
-            <span class="num">{{ (item.PaperScoreRate*100).toFixed(0) }}</span
+            <span class="num">{{ (item.PaperScoreRate * 100).toFixed(0) }}</span
             >%<br />
             <span class="paperName">{{ item.PaperName }}</span>
           </li>
@@ -63,7 +60,8 @@
     <div class="bottomBox">
       <div class="firstLine">
         <div>
-          根据您选择的<span class="num">{{SelectedPaperCount}}</span>份试卷，系统生成如下对比分析表:
+          根据您选择的<span class="num">{{ SelectedPaperCount }}</span
+          >份试卷，系统生成如下对比分析表:
           <span class="refreshContent" @click="refresh()">
             <span class="refreshIcon"></span><span>更新试卷对比分析表</span>
           </span>
@@ -74,40 +72,39 @@
         </div>
       </div>
       <div class="table" v-if="showTable">
-          <table>
-            <thead>
-            
-          <tr>
-            <th>序号</th>
-            <th>试卷名称</th>
-            <th>总分</th>
-            <th>年级平均得分</th>
-            <th v-for="(item, index) in SubjectiveQTypeList" :key="index">
-              {{ item.QTypeName }}
-            </th>
-            <th v-for="(item, index) in ObjectiveQTypeList" :key="index">
-              {{ item.QTypeName }}
-            </th>
-          </tr>
-            </thead>
+        <table>
+          <thead>
+            <tr>
+              <th>序号</th>
+              <th>试卷名称</th>
+              <th>总分</th>
+              <th>年级平均得分</th>
+              <th v-for="item in SubjectiveQTypeList" :key="item.QTypeName">
+                {{ item.QTypeName }}
+              </th>
+              <th v-for="item in ObjectiveQTypeList" :key="item.QTypeName">
+                {{ item.QTypeName }}
+              </th>
+            </tr>
+          </thead>
           <tbody>
-            <tr v-for="(item, index) in SelectedPaperList" :key="index">
+            <tr v-for="item in SelectedPaperList" :key="item.PaperID">
               <td>{{ item.Index }}</td>
               <td>{{ item.PaperName }}</td>
               <td>{{ item.PaperFullScore }}</td>
               <td>{{ item.PaperAvgScore }}</td>
-              <td v-for="(item2, index2) in item.SubjectiveQTypeList" :key="index2">
+              <td v-for="item2 in item.SubjectiveQTypeList" :key="item2.QTypeName">
                 {{ item2.QTypeAvgScore }}
               </td>
-              <td v-for="(item2, index2) in item.ObjectiveQTypeList" :key="index2">
+              <td v-for="item2 in item.ObjectiveQTypeList" :key="item2.QTypeName">
                 {{ item2.QTypeAvgScore }}
               </td>
             </tr>
           </tbody>
-        </table> 
+        </table>
       </div>
 
-      <div class="paginationBox" style="margin-top: 20px" v-if="PaperNum2 > 5">
+      <div class="paginationBox" style="margin-top: 20px" v-if="allCount > 5">
         <el-pagination
           class="pagination"
           @size-change="handleSizeChange2"
@@ -115,7 +112,7 @@
           :current-page="currentPage2"
           :page-size="PageSize2"
           layout=" prev, pager, next,total,  jumper"
-          :total="PaperNum2"
+          :total="allCount"
         >
         </el-pagination>
       </div>
@@ -130,58 +127,63 @@ export default {
     return {
       checkPaperIndex: 0,
       checkedAll: false,
-      PaperCount:0,
+      PaperCount: 0,
       PaperSearchText: "",
       PaperNum1: 1,
       PaperNum2: 1,
+      allCount: 0,
       PageSize1: 16,
       PageSize2: 5,
       currentPage1: 1,
       currentPage2: 1,
       // 默认每页显示的条数（可修改）
       PaperList: [],
-      postList:[],
-      SelectedPaperCount:0,
-      showTable:false,
-      SelectedPaperList:[],
-      ObjectiveQTypeList:[],
-      SubjectiveQTypeList:[],
+      showPaperList: [],
+      postList: [],
+      SelectedPaperCount: 0,
+      showTable: false,
+      SelectedPaperList: [],
+      ObjectiveQTypeList: [],
+      SubjectiveQTypeList: [],
     };
   },
   mounted() {
-    this.GetGradeReleasedPaperList_V3();
+    this.GetGradeReleasedPaperList_V3(-1, -1);
   },
   methods: {
     // 获取年级历次已发布试卷
-    GetGradeReleasedPaperList_V3(){
+    GetGradeReleasedPaperList_V3(PaperNum, PageSize) {
       let params = {
         token: this.$store.state.token,
         TID: this.$store.state.TID,
         SchoolID: this.$store.state.SchoolID,
         GlobalGrade: this.$store.state.GlobalGrade,
-        PageNum: this.PaperNum1,
-        PageSize: this.PageSize1,
+        PageNum: PaperNum,
+        PageSize: PageSize,
         SearchText: this.PaperSearchText,
       };
-       GetGradeReleasedPaperList_V3(params).then((res) => {
-        this.PaperList=[];
-          this.PaperCount = res.Data.PaperCount;
-          res.Data.PaperList.map((item) => {
-            this.PaperList.push(
-              Object.assign(item, {
-                checked: false,
-              })
-            );
-          });
+      GetGradeReleasedPaperList_V3(params).then((res) => {
+        this.PaperList = [];
+        this.PaperCount = res.Data.PaperCount;
+        res.Data.PaperList.map((item) => {
+          this.PaperList.push(
+            Object.assign(item, {
+              checked: false,
+            })
+          );
+        });
+        this.showPaperList = this.PaperList.slice(
+          (this.PaperNum1 - 1) * 16,
+          this.PaperNum1 * 16
+        );
       });
     },
     // 导出
     GetExportGradePapersQTypeScore_V3() {
-      console.log(this.PaperList);
-      for (let i = 0; i < this.PaperList.length; i++) {
-        if (this.PaperList[i].checked) {
-          this.postList.push(this.PaperList[i].PaperID)
-        }        
+      for (let i = 0; i < this.showPaperList.length; i++) {
+        if (this.showPaperList[i].checked) {
+          this.postList.push(this.showPaperList[i].PaperID);
+        }
       }
       let params = {
         token: this.$store.state.token,
@@ -190,28 +192,30 @@ export default {
         GlobalGrade: this.$store.state.GlobalGrade,
         PaperList: this.postList,
       };
-      
-      this.axios.post("api/GradeLeaderRZZD/GetExportGradePapersQTypeScore_V3", params).then((res) => {
-        window.open(res.Data, "_self");
-        // console.log(res);
-      });
+
+      this.axios
+        .post("api/GradeLeaderRZZD/GetExportGradePapersQTypeScore_V3", params)
+        .then((res) => {
+          window.open(res.Data, "_self");
+          // console.log(res);
+        });
     },
     checkPaper(i) {
-      this.SelectedPaperCount=0;
+      this.SelectedPaperCount = 0;
       this.checkPaperIndex = i;
-      this.PaperList[i].checked = !this.PaperList[i].checked;
-      this.checkedAll = this.PaperList.every(function (item) {
+      this.showPaperList[i].checked = !this.showPaperList[i].checked;
+      this.checkedAll = this.showPaperList.every(function (item) {
         return item.checked;
       });
       this.PaperList.map((item) => {
         if (item.checked) {
           this.SelectedPaperCount++;
         }
-      })
+      });
     },
     checkAll() {
       this.checkedAll = !this.checkedAll;
-          this.SelectedPaperCount=this.checkedAll?this.PaperList.length:0;
+      this.SelectedPaperCount = this.checkedAll ? this.PaperList.length : 0;
       for (let i = 0; i < this.PaperList.length; i++) {
         if (this.checkedAll) {
           this.PaperList[i].checked = true;
@@ -222,7 +226,10 @@ export default {
     },
     searchPaper() {
       this.PaperNum1 = 1;
-      this.GetGradeReleasedPaperList_V3();
+      this.currentPage1 = 1;
+      this.checkedAll = false;
+      this.SelectedPaperCount = 0;
+      this.GetGradeReleasedPaperList_V3(-1, -1);
     },
     handleSizeChange1(val) {
       // 改变每页显示的条数
@@ -240,17 +247,24 @@ export default {
     handleCurrentChange1(val) {
       this.currentPage1 = val;
       this.PaperNum1 = val;
-      this.GetGradeReleasedPaperList_V3();
+      this.showPaperList = this.PaperList.slice(
+        (this.PaperNum1 - 1) * 16,
+        this.PaperNum1 * 16
+      );
+      // this.GetGradeReleasedPaperList_V3(this.PaperNum1, -1);
     },
     handleCurrentChange2(val) {
       this.currentPage2 = val;
+      this.PaperNum2 = val;
+      this.refresh();
     },
     // 更新试卷对比
-    refresh(){
+    refresh() {
+      this.postList = [];
       for (let i = 0; i < this.PaperList.length; i++) {
         if (this.PaperList[i].checked) {
-          this.postList.push(this.PaperList[i].PaperID)
-        }        
+          this.postList.push(this.PaperList[i].PaperID);
+        }
       }
       let params = {
         token: this.$store.state.token,
@@ -262,23 +276,27 @@ export default {
         SelectedPageSize: this.PageSize2,
         PaperList: this.postList,
       };
-      this.axios.post("api/GradeLeaderRZZD/GetGradeSelectedPaperList_V3", params).then((res) => {
-        this.SelectedPaperList = res.Data.SelectedPaperList;
-        this.PaperNum2 = this.SelectedPaperList.length;
-        this.SubjectiveQTypeList = this.SelectedPaperList[0].SubjectiveQTypeList;
-        this.ObjectiveQTypeList = this.SelectedPaperList[0].ObjectiveQTypeList;
-        this.showTable = true;
-      });
-    }
+      this.axios
+        .post("api/GradeLeaderRZZD/GetGradeSelectedPaperList_V3", params)
+        .then((res) => {
+          this.showTable = false;
+          this.SelectedPaperList = res.Data.SelectedPaperList;
+          this.allCount = res.Data.SelectedPaperCount;
+          // this.PaperNum2 = this.SelectedPaperList.length;
+          this.SubjectiveQTypeList = this.SelectedPaperList[0].SubjectiveQTypeList;
+          this.ObjectiveQTypeList = this.SelectedPaperList[0].ObjectiveQTypeList;
+          this.showTable = true;
+        });
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-@import '../../assets/css/scroll.scss';
+@import "../../assets/css/scroll.scss";
 .historyDialogBox {
   width: 960px;
-  height: 810px;
+  height: 760px;
   background-color: rgba(0, 0, 51, 0.3);
   border-radius: 4px;
   margin: 20px auto;
@@ -327,8 +345,7 @@ export default {
       padding-top: 18px;
       text-align: center;
       margin-bottom: 35px;
-      background: url("../../assets/img/grade/试卷_未选.png") center center
-        no-repeat;
+      background: url("../../assets/img/grade/试卷_未选.png") center center no-repeat;
       .num {
         font-family: "Oswald";
         font-size: 16px;
@@ -345,8 +362,7 @@ export default {
     }
 
     .checkedPaperLi {
-      background: url("../../assets/img/grade/试卷_选中.png") center center
-        no-repeat;
+      background: url("../../assets/img/grade/试卷_选中.png") center center no-repeat;
       position: relative;
       .paperName {
         color: rgba(255, 255, 255, 1);
@@ -387,8 +403,7 @@ export default {
         display: inline-block;
         width: 18px;
         height: 16px;
-        background: url("../../assets/img/grade/refreshIcon.png") -18px -0px
-          no-repeat;
+        background: url("../../assets/img/grade/refreshIcon.png") -18px -0px no-repeat;
         vertical-align: top;
         margin-right: 5px;
       }
@@ -409,20 +424,17 @@ export default {
     line-height: 28px;
     color: #ffffff;
     text-align: center;
-    background: url("../../assets/img/grade/exportPaper.png") -0px -28px
-      no-repeat;
+    background: url("../../assets/img/grade/exportPaper.png") -0px -28px no-repeat;
     .exportIcon {
       display: inline-block;
       width: 14px;
       height: 14px;
-      background: url("../../assets/img/common/exportIcon.png") center center
-        no-repeat;
+      background: url("../../assets/img/common/exportIcon.png") center center no-repeat;
       position: relative;
       top: 2px;
     }
     &:hover {
-      background: url("../../assets/img/grade/exportPaper.png") -0px -0px
-        no-repeat;
+      background: url("../../assets/img/grade/exportPaper.png") -0px -0px no-repeat;
     }
   }
 }
@@ -476,9 +488,9 @@ export default {
     }
     td:nth-child(2) {
       color: rgba(255, 255, 255, 1);
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
     td:nth-child(3) {
       color: #51f0ff;
@@ -488,5 +500,4 @@ export default {
     }
   }
 }
-
 </style>

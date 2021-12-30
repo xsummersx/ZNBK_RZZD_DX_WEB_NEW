@@ -71,7 +71,7 @@ export default {
     return {
       currentPage: 1,
       PageNum: 1,
-      PageSize: -1,
+      PageSize: 5,
       SearchText: "",
       emptyText: "",
       showList: [],
@@ -164,7 +164,13 @@ export default {
     handleCurrentChange(val) {
       // 改变默认的页数
       this.currentPage = val;
+      this.PageNum = val;
       this.emptyText = "加载中...";
+      if (this.$route.name == "gradeRZZD") {
+        this.GetGradeQtypeRateRank_V3();
+      } else if (this.$route.name == "teacherRZZD") {
+        this.GetClassQtypeRateRank_V3();
+      }
       // this.showList = [];
     },
   },
@@ -178,6 +184,7 @@ export default {
   padding: 10px 20px 20px 20px;
 }
 .table {
+  height: 330px;
   overflow-x: scroll;
   margin-top: 10px;
   table {

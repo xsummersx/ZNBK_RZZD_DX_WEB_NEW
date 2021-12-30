@@ -18,8 +18,8 @@
       :class="switchToShow ? 'right-Content2' : 'right-Content1'"
     >
       <div class="switchTab">
-        <span @click="switchTo(0)">班级教学管理</span>
-        <span @click="switchTo(1)">班级认知详情</span>
+        <span @click="switchTo(1)">班级教学管理</span>
+        <span @click="switchTo(0)">班级认知详情</span>
       </div>
       <div v-show="!switchToShow">
         <VocabularyTeach class="float-l"></VocabularyTeach>

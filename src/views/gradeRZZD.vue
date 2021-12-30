@@ -18,8 +18,8 @@
       :class="switchToShow ? 'right-Content1' : 'right-Content2'"
     >
       <div class="switchTab">
-        <span @click="switchTo(0)">年级教学管理</span>
-        <span @click="switchTo(1)">年级认知详情</span>
+        <span @click="switchTo(1)">年级教学管理</span>
+        <span @click="switchTo(0)">年级认知详情</span>
       </div>
       <div v-show="!switchToShow">
         <VocabularyGrade class="float-l"></VocabularyGrade>
@@ -45,16 +45,14 @@ export default {
     };
   },
   methods: {
-    switchTo(boolean){
+    switchTo(boolean) {
       this.switchToShow = boolean;
     },
   },
   components: {
     PaperNumber: () => import("../components/gradeTeacher/PaperNumber.vue"),
-    CognitiveScore: () =>
-      import("../components/gradeTeacher/CognitiveScore.vue"),
-    PredictedGrades: () =>
-      import("../components/gradeTeacher/PredictedGrades.vue"),
+    CognitiveScore: () => import("../components/gradeTeacher/CognitiveScore.vue"),
+    PredictedGrades: () => import("../components/gradeTeacher/PredictedGrades.vue"),
     VocabularyGrade: () => import("../components/paperTwo/VocabularyGrade.vue"),
     GrammarGrade: () => import("../components/paperTwo/GrammarGrade.vue"),
     MakeQuestion: () => import("../components/paperTwo/MakeQuestion.vue"),
