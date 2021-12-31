@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-12-09 14:11:40
- * @LastEditTime: 2021-12-22 14:56:55
+ * @LastEditTime: 2021-12-30 09:10:24
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\assets\js\ChartsOption\option.js
@@ -1615,6 +1615,10 @@ echarts.graphic.registerShape('CubeTop5', CubeTop5)
 var questionDiologOption = {
   tooltip: {
     trigger: 'item',
+    formatter: function (params) {
+      console.log(params);
+      return params.name + ' : ' + params.value + "%";
+    }
   },
   xAxis: {
     show: true,

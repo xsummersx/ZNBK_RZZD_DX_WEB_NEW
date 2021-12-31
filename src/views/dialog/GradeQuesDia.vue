@@ -184,7 +184,7 @@ export default {
   padding: 10px 20px 20px 20px;
 }
 .table {
-  height: 330px;
+  height: 333px;
   overflow-x: scroll;
   margin-top: 10px;
   table {

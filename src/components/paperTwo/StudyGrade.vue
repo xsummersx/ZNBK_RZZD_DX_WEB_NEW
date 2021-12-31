@@ -68,6 +68,7 @@ export default {
       var learnCharts = echarts.init(document.getElementById("learnCharts"));
       learnCharts.setOption(this.$optionObj.learnOption);
       learnCharts.setOption({
+        cursor: "default",
         xAxis: {
           data: xData,
         },
@@ -84,9 +85,11 @@ export default {
         ],
         series: [
           {
+            cursor: "default",
             data: line1,
           },
           {
+            cursor: "default",
             data: line2,
           },
         ],

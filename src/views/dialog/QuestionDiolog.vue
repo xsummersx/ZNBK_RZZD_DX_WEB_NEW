@@ -88,6 +88,7 @@ export default {
       );
       questionDiologCharts.setOption(this.$optionObj.questionDiologOption);
       questionDiologCharts.setOption({
+        cursor: "default",
         xAxis: {
           data: xData,
         },
@@ -102,50 +103,48 @@ export default {
             zoomOnMouseWheel: false,
           },
         ],
-        series: [
-          {
-            cursor: "default",
-            data: seriesData,
-            markLine: {
-              silent: "true",
-              symbol: "none",
-              label: {
-                show: true,
-                position: "end",
-                formatter: "{a|平均正确率}\n{b|" + TypeInfoAvgScore + "%}",
-                fontSize: 14,
-                fontWeight: "bold",
-                rich: {
-                  a: {
-                    color: "#00ffdd",
-                    fontSize: 12,
-                    fontFamily: "MicrosoftYaHei",
-                    opacity: 1,
-                    padding: [5, 0, 0, 0],
-                  },
-                  b: {
-                    color: "#00ffdd",
-                    padding: [1, 0, 0, 10],
-                  },
+        series: {
+          cursor: "default",
+          data: seriesData,
+          markLine: {
+            silent: "true",
+            symbol: "none",
+            label: {
+              show: true,
+              position: "end",
+              formatter: "{a|平均得分率}\n{b|" + TypeInfoAvgScore + "%}",
+              fontSize: 14,
+              fontWeight: "bold",
+              rich: {
+                a: {
+                  color: "#00ffdd",
+                  fontSize: 12,
+                  fontFamily: "MicrosoftYaHei",
+                  opacity: 1,
+                  padding: [5, 0, 0, 0],
+                },
+                b: {
+                  color: "#00ffdd",
+                  padding: [1, 0, 0, 10],
                 },
               },
-              lineStyle: {
-                type: "dotted",
-              },
-              data: [
-                {
-                  yAxis: TypeInfoAvgScore,
-                  lineStyle: {
-                    color: "#00ffdd",
-                  },
-                  label: {
-                    color: "rgba(0,255,221, 1)",
-                  },
-                },
-              ],
             },
+            lineStyle: {
+              type: "dotted",
+            },
+            data: [
+              {
+                yAxis: TypeInfoAvgScore,
+                lineStyle: {
+                  color: "#00ffdd",
+                },
+                label: {
+                  color: "rgba(0,255,221, 1)",
+                },
+              },
+            ],
           },
-        ],
+        },
       });
     },
   },
@@ -158,5 +157,8 @@ export default {
   height: 518px;
   margin: 20px auto;
   background-color: rgba(0, 0, 51, 0.2);
+  -webkit-border-image-source: url("../../assets/img/common/内容高光1.png"); /* Safari 5 */
+  -o-border-image-source: url("../../assets/img/common/内容高光1.png"); /* Opera */
+  border-image-source: url("../../assets/img/common/内容高光1.png");
 }
 </style>
