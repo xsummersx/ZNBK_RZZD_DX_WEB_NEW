@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-09-04 08:58:57
- * @LastEditTime: 2021-12-28 15:43:36
+ * @LastEditTime: 2021-12-29 14:09:34
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \znbk_znftd_zx_web\src\filter\filter.js
@@ -17,7 +17,7 @@ Vue.filter("toPercent", function (value, i) {
     value = Number((value * 100).toFixed(i));
     return value;
   } else {
-    value = Number((value * 1).toFixed(i));
+    value = Number((-value * 100).toFixed(i));
     return value;
   }
 });

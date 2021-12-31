@@ -56,7 +56,7 @@
         </tbody>
       </table>
     </div>
-    <div class="paginationBox" v-if="StuCount > 8">
+    <div class="paginationBox" v-if="StuCount > 5">
       <el-pagination
         class="pagination"
         @size-change="handleSizeChange"
@@ -83,7 +83,7 @@ export default {
     return {
       StuCount: 0,
       PageNum: 1,
-      PageSize: 8,
+      PageSize: 5,
       SortType: 0,
       SearchText: "",
       showList: [],
@@ -132,6 +132,20 @@ export default {
         window.open(res.Data, "_self");
       });
     },
+    handleSizeChange(val) {
+      // 改变每页显示的条数
+      this.PageSize = val;
+      // 注意：在改变每页显示的条数时，要将页码显示到第一页
+      this.currentPage = 1;
+    },
+    // 显示第几页
+    handleCurrentChange(val) {
+      // 改变默认的页数
+      this.currentPage = val;
+      this.PageNum = val;
+      this.emptyText = "加载中...";
+      this.GetClassPaperQTypeReport_V3();
+    },
   },
 };
 </script>
@@ -142,6 +156,7 @@ export default {
   padding: 10px 20px 20px 20px;
 }
 .table {
+  height: 330px;
   overflow-x: scroll;
   margin: 10px 0 20px;
   table {

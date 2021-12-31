@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:29:29
- * @LastEditTime: 2021-12-28 11:21:03
+ * @LastEditTime: 2021-12-31 10:12:48
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 学校校长=》认知情况详情，图1
@@ -13,8 +13,8 @@
     <EduNoData v-if="false" noDataType="4" style="margin-top: 170px; margin-bottom: 170px"></EduNoData>
     <div class="title">
       <span class="titText">认知情况详情</span>
-      <template v-if="true">
-        <div class="exportScore float-r" style="margin-right: 0px">
+      <template>
+        <div class="exportScore float-r" @click="exoprtExcel" style="margin-right: 0px">
           <span class="exportIcon"></span>
           导出成绩单
         </div>
@@ -23,10 +23,10 @@
           <input class="float-r stuInput" type="text" placeholder="请输入班级名称搜索..." v-model="ClassSearchText" v-on:keyup.enter="searchStu()" />
           <span class="searchIcon" style="right: 146px" @click="searchStu()"></span>
         </div>
-        <div class="inputBox">
-          <input class="float-r stuInput" type="text" placeholder="请输入学生姓名搜索..." v-model="ClassSearchText" v-on:keyup.enter="searchStu()" />
+        <!-- <div class="inputBox">
+          <input class="float-r stuInput" type="text" placeholder="请输入学生姓名搜索..." v-model="ClassSearchText1" v-on:keyup.enter="searchStu()" />
           <span class="searchIcon" style="right: 146px" @click="searchStu()"></span>
-        </div>
+        </div> -->
       </template>
     </div>
     <div class="cont" v-if="true">
@@ -38,90 +38,78 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column prop="Index" label="班级" width="115">
+        <el-table-column prop="CourseClassName" label="班级" width="115">
           <template slot-scope="scope">
             <span class="gray">
-              {{ scope.row.Index }}
+              {{ scope.row.CourseClassName }}
             </span>
           </template>
         </el-table-column>
-        <el-table-column prop="Index" label="累计作答试卷" sortable width="115">
+        <el-table-column prop="PaperNum" label="累计作答试卷" sortable width="115">
           <template slot-scope="scope">
             <span class="gray">
-              {{ scope.row.Index }}
+              {{ scope.row.PaperNum }}
             </span>
           </template>
         </el-table-column>
-        <el-table-column prop="Index" label="平均得分率" sortable width="100">
+        <el-table-column prop="ScoreRate" label="平均得分率" sortable width="100">
+          <template slot-scope="scope">
+            <span class="gray"> {{ scope.row.ScoreRate | toPercent(0) }}% </span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="CognitiveScore" label="认知平均分" sortable width="100">
           <template slot-scope="scope">
             <span class="gray">
-              {{ scope.row.Index }}
+              {{ scope.row.CognitiveScore }}
             </span>
           </template>
         </el-table-column>
-        <el-table-column prop="Index" label="认知平均分" sortable width="100">
+        <el-table-column prop="EstimateScore" label="预估平均分" sortable width="100">
           <template slot-scope="scope">
             <span class="gray">
-              {{ scope.row.Index }}
+              {{ scope.row.EstimateScore }}
             </span>
           </template>
         </el-table-column>
-        <el-table-column prop="Index" label="预估平均分" sortable width="100">
+        <el-table-column prop="FirstRate" label="A+" width="53">
           <template slot-scope="scope">
-            <span class="gray">
-              {{ scope.row.Index }}
-            </span>
+            <span class="gray"> {{ scope.row.FirstRate | toPercent(0) }}% </span>
           </template>
         </el-table-column>
-        <el-table-column prop="Index" label="A+" width="53">
+        <el-table-column prop="SecondRate" label="B+" width="53">
           <template slot-scope="scope">
-            <span class="gray">
-              {{ scope.row.Index }}
-            </span>
+            <span class="gray"> {{ scope.row.SecondRate | toPercent(0) }}% </span>
           </template>
         </el-table-column>
-        <el-table-column prop="Index" label="B+" width="53">
+        <el-table-column prop="ThirdRate" label="C+" width="53">
           <template slot-scope="scope">
-            <span class="gray">
-              {{ scope.row.Index }}
-            </span>
+            <span class="gray"> {{ scope.row.ThirdRate | toPercent(0) }}% </span>
           </template>
         </el-table-column>
-        <el-table-column prop="Index" label="C+" width="53">
+        <el-table-column prop="FourthRate" label="D+" width="53">
           <template slot-scope="scope">
-            <span class="gray">
-              {{ scope.row.Index }}
-            </span>
+            <span class="gray"> {{ scope.row.FourthRate | toPercent(0) }}% </span>
           </template>
         </el-table-column>
-        <el-table-column prop="Index" label="D+" width="53">
+        <el-table-column prop="FifthRate" label="E+" width="53">
           <template slot-scope="scope">
-            <span class="gray">
-              {{ scope.row.Index }}
-            </span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="Index" label="E+" width="53">
-          <template slot-scope="scope">
-            <span class="gray">
-              {{ scope.row.Index }}
-            </span>
+            <span class="gray"> {{ scope.row.FifthRate | toPercent(0) }}% </span>
           </template>
         </el-table-column>
         <el-table-column label="查看详情" width="70">
-          <template>
-            <!-- slot-scope="scope" -->
-            <span class="checkDetail"></span>
+          <template slot-scope="scope">
+            <span class="checkDetail" @click="openClass(scope.row.CourseClassID)"></span>
           </template>
         </el-table-column>
         <template slot="empty" v-if="emptyText == '加载中...'">
           <div class="table-loading-block">加载中...</div>
         </template>
         <template slot="empty" v-else>
-          <div class="table-empty-block">暂无认知情况详情数据噢~</div>
+          <div class="table-empty-block">暂无认知情况数据噢~</div>
         </template>
       </el-table>
-      <div class="paginationBox" v-if="StuCount > 5">
+      <div class="paginationBox">
+        <!--v-if="StuCount > 5"-->
         <el-pagination
           class="pagination"
           @current-change="handleCurrentChange"
@@ -133,55 +121,65 @@
         </el-pagination>
       </div>
     </div>
-    <EduNoData v-if="false" noDataType="3" style="margin-top: 100px"></EduNoData>
   </div>
 </template>
 <script>
+import { GetAnaChart, GetAnaTable, ExportExcel } from "@/api/eduSchool/right.js";
 import EduNoData from "./eduNoData";
 export default {
   name: "AnalysisTable",
   data() {
     return {
       emptyText: "暂无数据",
-      showList: [
-        {
-          Index: "高三",
-        },
-        {
-          Index: "3",
-        },
-        {
-          Index: "2",
-        },
-        {
-          Index: "5",
-        },
-        {
-          Index: "2",
-        },
-      ],
+      showList: [],
       //总数
-      StuCount: 7,
+      StuCount: 0,
       // 默认显示第几页
       currentPage: 1,
       // 默认每页显示的条数（可修改）
       PageSize: 5,
+      ClassSearchText: "", //班级名称
     };
   },
   components: {
     EduNoData,
   },
   mounted() {
-    this.drawBar();
+    console.log(this.$store.state);
+    let params = {
+      Token: this.$store.state.token,
+      TID: this.$store.state.TID,
+      SchoolID: this.$store.state.SchoolID,
+      GlobalGrade: this.$store.state.GlobalGrade,
+      ProvinceID: this.$store.state.ProvinceID,
+      CityID: this.$store.state.CityID,
+      CountyID: this.$store.state.CountyID,
+      ZsdArea: this.$store.state.ZsdArea,
+    };
+    GetAnaChart(params).then((res) => {
+      if (res.Code == 1) {
+        this.drawBar(res.Data);
+      }
+    });
+    //加载表格
+    this.getTable(1, 5, "");
   },
   methods: {
     //echarts统计图
-    drawBar() {
-      let xDate = ["高三(2)班", "高三(2)班", "高三(2)班", "高三(2)班", "高三(2)班"];
-      let paper = [100, 111, 240, 50, 60];
-      let score = [88, 64, 66, 70, 90];
-      let score2 = [8888, 4444, 6666, 7421, 1111];
-      let score3 = [100, 85, 66, 44, 15];
+    drawBar(classList) {
+      let xDate = [];
+      let paper = [];
+      let score = [];
+      let score2 = [];
+      let score3 = [];
+      classList.map((item) => {
+        xDate.push(item.CourseClassName);
+        paper.push(item.FinishedPaperNum);
+        score.push((item.AvgRate * 100).toFixed(0));
+        score2.push(item.AvgIndex);
+        score3.push(item.AvgScore);
+      });
+
       var echarts = require("echarts");
       var barCharts = echarts.init(document.getElementById("tableCharts"));
       barCharts.setOption(this.$optionObj.compareOption);
@@ -198,7 +196,7 @@ export default {
           },
           data: [
             {
-              name: "作答试卷分数",
+              name: "作答试卷份数",
               itemStyle: {
                 color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
                   {
@@ -260,6 +258,14 @@ export default {
           ],
         },
         tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: "shadow", // 默认为直线，可选为：'line' | 'shadow'
+            shadowStyle: {
+              color: "rgba(0,0,0,0.1)",
+            },
+          },
           backgroundColor: "rgba(0,32,92,0)",
           borderColor: "rgba(0,242,255,0)",
           borderWidth: 0,
@@ -271,7 +277,7 @@ export default {
           formatter: function (param) {
             var resultTooltip =
               "<div class='toolImg clearfix' style=''>" +
-              "<div class='float-l' style='line-height:25px'>" +
+              "<div class='float-l' style='line-height:24px'>" +
               "<div style=''> " +
               param[0].seriesName +
               "</div>" +
@@ -307,12 +313,26 @@ export default {
             return resultTooltip;
           },
         },
+        dataZoom: [
+          {
+            type: "inside",
+            show: true,
+            height: 15,
+            xAxisIndex: [0],
+            start: 1,
+            end: (4 / xDate.length) * 100,
+            zoomOnMouseWheel: false,
+          },
+        ],
         xAxis: {
           data: xDate,
+          axisLabel: {
+            interval: 0, //强制显示文字
+          },
         },
         series: [
           {
-            name: "作答试卷分数",
+            name: "作答试卷份数",
             cursor: "default",
             data: paper,
           },
@@ -338,16 +358,75 @@ export default {
         ],
       });
     },
+    getTable(pageNum, pageSize, searchText) {
+      //pageNum页码，pageSize本页显示数量，searchText文本搜索
+      let data = {
+        Token: this.$store.state.token,
+        TID: this.$store.state.TID,
+        SchoolID: this.$store.state.SchoolID,
+        GlobalGrade: this.$store.state.GlobalGrade,
+        ZsdArea: this.$store.state.ZsdArea,
+        StageNo: this.$store.state.StageNo,
+        PageNum: pageNum,
+        PageSize: pageSize,
+        SearchText: searchText,
+      };
+      GetAnaTable(data).then((res) => {
+        this.showList = res.Data.ClassReportDetailInfoList;
+        this.StuCount = res.Data.PageCount;
+        this.emptyText = "暂无数据"; //表格提示内容
+      });
+    },
     //搜索内容
     searchStu() {
       this.emptyText = "加载中...";
       this.currentPage = 1;
+      this.getTable(1, 5, this.ClassSearchText);
     },
     // 显示第几页
     handleCurrentChange(val) {
       // 改变默认的页数
       this.currentPage = val;
       this.emptyText = "加载中...";
+      this.getTable(val, 5, "");
+    },
+    //导出excel
+    exoprtExcel() {
+      let params = {
+        Token: this.$store.state.token,
+        TID: this.$store.state.TID,
+        SchoolID: this.$store.state.SchoolID,
+        GlobalGrade: this.$store.state.GlobalGrade,
+        ZsdArea: this.$store.state.ZsdArea,
+        StageNo: this.$store.state.StageNo,
+      };
+      ExportExcel(params).then((res) => {
+        window.open(res.Data, "_self");
+      });
+    },
+    //跳转到教师页面
+    openClass(CourseClassID) {
+      //写入当前打开的班级ID
+      this.$store.commit("updateCourseClassID", CourseClassID);
+      window.open(
+        window.location.origin +
+          "/Web/index.html#/home/teacherRZZD?token=" +
+          this.$store.state.token +
+          "&SchoolID=" +
+          this.$store.state.SchoolID +
+          "&TID=" +
+          this.$store.state.TID +
+          "&CourseClassID=" +
+          CourseClassID +
+          "&StageNo=" +
+          this.$store.state.StageNo +
+          "&GlobalGrade=" +
+          this.$store.state.GlobalGrade +
+          "&ZsdArea=" +
+          this.$store.state.ZsdArea +
+          "&CountyID=" +
+          this.$store.state.CountyID
+      );
     },
   },
 };
@@ -466,9 +545,10 @@ export default {
 <style>
 .toolImg {
   width: 200px;
-  height: 120px;
+  height: 124px;
   padding-left: 20px;
   padding-right: 25px;
+  padding-top: 5px;
   background: url("../../assets/img/grade/柱状图弹窗BG.png") center center no-repeat;
 }
 </style>

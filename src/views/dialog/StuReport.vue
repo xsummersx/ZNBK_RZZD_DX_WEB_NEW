@@ -68,7 +68,7 @@
         </tbody>
       </table>
     </div>
-    <div class="paginationBox" v-if="StuCount > 8">
+    <div class="paginationBox" v-if="StuCount > 5">
       <el-pagination
         class="pagination"
         @size-change="handleSizeChange"
@@ -99,7 +99,7 @@ export default {
       currentPage: 1,
       // 默认每页显示的条数（可修改）
       PageNum: 1,
-      PageSize: 8,
+      PageSize: 5,
       SearchText: "",
       emptyText: "",
       showList: [],
@@ -169,7 +169,13 @@ export default {
     handleCurrentChange(val) {
       // 改变默认的页数
       this.currentPage = val;
+      this.PageNum = val;
       this.emptyText = "加载中...";
+      if (this.$route.name == "gradeRZZD") {
+        this.GetGradePaperScoreReport_V3();
+      } else {
+        this.GetClassPaperScoreReport_V3();
+      }
       // this.showList = [];
     },
     // 表格头部
@@ -243,6 +249,7 @@ export default {
 }
 
 .table {
+  height: 330px;
   overflow-x: scroll;
   margin: 10px 0 20px;
   table {

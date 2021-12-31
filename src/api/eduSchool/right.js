@@ -1,7 +1,7 @@
 /*
  * @Author: 吴涛
  * @Date: 2021-12-22 20:20:33
- * @LastEditTime: 2021-12-28 16:13:15
+ * @LastEditTime: 2021-12-29 11:43:24
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 右边部分
@@ -50,10 +50,35 @@ export function GetTrend(data) {
     params: { ...data },
   });
 }
-//认知成绩走势图==教育局
+//认知成绩走势图==校长
 export function GetTrendSchool(data) {
   return request({
     url: "/api/SchoolMasterRZZD/GetGradeTrajectoryChart",
+    method: "GET",
+    params: { ...data },
+  });
+}
+
+//认知情况对比图==校长
+export function GetAnaChart(data) {
+  return request({
+    url: "/api/SchoolMasterRZZD/GetSchoolClassAnalysis_V3",
+    method: "GET",
+    params: { ...data },
+  });
+}
+//认知情况对比表格==校长
+export function GetAnaTable(data) {
+  return request({
+    url: "/api/SchoolMasterRZZD/GetGradeCognitiveLevel_V3",
+    method: "GET",
+    params: { ...data },
+  });
+}
+//认知情况对比表格==校长
+export function ExportExcel(data) {
+  return request({
+    url: "/api/SchoolMasterRZZD/GetExportSchoolCognitiveLevel_V3",
     method: "GET",
     params: { ...data },
   });
