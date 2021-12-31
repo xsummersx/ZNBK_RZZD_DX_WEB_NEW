@@ -51,7 +51,7 @@ export default {
 .right-Content {
   width: 1350px;
   height: 934px;
-  padding: 0 40px 20px;
-  background: url("../assets/img/teacher/内容框bg.png") center center no-repeat;
+  padding: 10px 40px 20px;
+  background: url("../assets/img/student/内容框bg.png") center center no-repeat;
 }
 </style>
