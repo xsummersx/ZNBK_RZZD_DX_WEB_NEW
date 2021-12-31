@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:27:26
- * @LastEditTime: 2021-12-30 17:21:46
+ * @LastEditTime: 2021-12-31 10:12:58
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》地图，图0
@@ -34,7 +34,8 @@ export default {
   methods: {
     //跳转学校点击事件
     SchoolClick(id) {
-      console.log(id);
+      this.$store.commit("updateSchoolID", id);
+      window.open(window.location.origin + "/Web/index.html#/home/teacherRZZD?token=" + this.$store.state.token);
     },
     //统计图绘制
     drawMap() {
