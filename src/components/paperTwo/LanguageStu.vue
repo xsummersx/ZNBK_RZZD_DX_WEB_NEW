@@ -61,6 +61,7 @@ export default {
 		let params = {
 			...this.$store.state,
 		};
+		delete params.UserInfo;
 		GetClassLanguage(params).then((res) => {
 			console.log(res);
 			this.lanResInfo = res.Data;

@@ -39,7 +39,7 @@ export default {
 				},
 				grid: {
 					left: "2%",
-					right: "50",
+					right: "100",
 					bottom: "10",
 					top: "16%",
 					containLabel: true,
@@ -246,9 +246,9 @@ export default {
 		},
 		firstPaddingA: function () {
 			if (-14 < this.distance && this.distance < 0) {
-				return [0, 0, -25, -70];
+				return [0, 0, -25, -20];
 			} else {
-				return [0, 0, 20, -70];
+				return [0, 0, 20, -20];
 			}
 		},
 		firstPaddingB: function () {
@@ -260,9 +260,9 @@ export default {
 		},
 		secondPaddingA: function () {
 			if (0 <= this.distance && this.distance < 14) {
-				return [0, 0, -25, -70];
+				return [0, 0, -25, -20];
 			} else {
-				return [0, 0, 20, -70];
+				return [0, 0, 20, -20];
 			}
 		},
 		secondPaddingB: function () {
@@ -445,7 +445,11 @@ export default {
 			});
 		},
 		init() {
-			GetGradeVocabulary({ ...this.$store.state }).then((res) => {
+			let params = {
+				...this.$store.state,
+			};
+			delete params.UserInfo;
+			GetGradeVocabulary(params).then((res) => {
 				this.info = res.Data;
 				this.minCountData = res.Data.MinCountList.map((item) => {
 					return {

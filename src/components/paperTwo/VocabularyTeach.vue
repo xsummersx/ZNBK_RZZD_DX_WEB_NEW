@@ -183,14 +183,7 @@ export default {
 		};
 	},
 	created() {
-		// GetClassVocabulary()
-		//   .then((res) => {
-		//     this.info = res.Data;
-		//   })
-		//   .catch((err) => {
-		//     console.log(err);
-		//   });
-		// this.init();
+		this.init();
 	},
 	computed: {
 		optionData: function () {
@@ -229,12 +222,16 @@ export default {
 		},
 	},
 	mounted() {
-		this.drawInit();
+		// this.drawInit();
 	},
 	methods: {
 		// 初始化
 		init() {
-			GetClassVocabulary({ ...this.$store.state }).then((res) => {
+			let params = {
+				...this.$store.state,
+			};
+			delete params.UserInfo;
+			GetClassVocabulary(params).then((res) => {
 				this.info = res.Data;
 				this.drawInit();
 			});
@@ -300,7 +297,7 @@ export default {
 			// 使用上一次遍历时，计算出的数据和 sumValue，调用 getParametricEquation 函数，
 			// 向每个 series-surface 传入不同的参数方程 series-surface.parametricEquation，实现每一个扇形。
 			for (let i = 0; i < series.length; i++) {
-				endValue = startValue + series[i].pieData.value; 
+				endValue = startValue + series[i].pieData.value;
 				series[i].pieData.startRatio = startValue / sumValue;
 				series[i].pieData.endRatio = endValue / sumValue;
 				series[i].parametricEquation = this.getParametricEquation(
@@ -329,9 +326,9 @@ export default {
 								params.color
 							};"></span><span style="font-weight: bold">${this.getCount(
 								params.seriesName
-							)}</span>人 (${
-								option.series[params.seriesIndex].pieData.value.toFixed(2)
-							}%)`;
+							)}</span>人 (${option.series[
+								params.seriesIndex
+							].pieData.value.toFixed(2)}%)`;
 						}
 					},
 				},

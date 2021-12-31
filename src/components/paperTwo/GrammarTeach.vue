@@ -34,7 +34,6 @@
 			:visible.sync="dialogVisible"
 			:close-on-click-modal="false"
 			width="500px"
-			top="0vh"
 		>
 			<div class="dialogContent">
 				<div class="dialogMain">
@@ -223,7 +222,7 @@ export default {
 					{
 						MasteredConclusion: 1,
 						StuCount: 10,
-						StuCountProportion: 0.20,
+						StuCountProportion: 0.2,
 					},
 					{
 						MasteredConclusion: 2,
@@ -240,7 +239,7 @@ export default {
 		};
 	},
 	created() {
-		// this.init();
+		this.init();
 	},
 	computed: {
 		optionData: function () {
@@ -279,12 +278,16 @@ export default {
 		},
 	},
 	mounted() {
-		this.drawInit();
+		// this.drawInit();
 	},
 	methods: {
 		// 初始化
 		init() {
-			GetClassGrammer({ ...this.$store.state }).then((res) => {
+			let params = {
+				...this.$store.state,
+			};
+			delete params.UserInfo;
+			GetClassGrammer(params).then((res) => {
 				this.info = res.Data;
 				this.drawInit();
 			});
@@ -378,9 +381,9 @@ export default {
 								params.color
 							};"></span><span style="font-weight: bold">${this.getCount(
 								params.seriesName
-							)}</span>人 (${
-								option.series[params.seriesIndex].pieData.value.toFixed(2)
-							}%)`;
+							)}</span>人 (${option.series[
+								params.seriesIndex
+							].pieData.value.toFixed(2)}%)`;
 						}
 					},
 				},
