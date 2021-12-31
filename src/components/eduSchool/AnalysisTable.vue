@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:29:29
- * @LastEditTime: 2021-12-29 14:36:46
+ * @LastEditTime: 2021-12-31 10:12:48
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 学校校长=》认知情况详情，图1
@@ -97,9 +97,8 @@
           </template>
         </el-table-column>
         <el-table-column label="查看详情" width="70">
-          <template>
-            <!-- slot-scope="scope" -->
-            <span class="checkDetail"></span>
+          <template slot-scope="scope">
+            <span class="checkDetail" @click="openClass(scope.row.CourseClassID)"></span>
           </template>
         </el-table-column>
         <template slot="empty" v-if="emptyText == '加载中...'">
@@ -146,6 +145,7 @@ export default {
     EduNoData,
   },
   mounted() {
+    console.log(this.$store.state);
     let params = {
       Token: this.$store.state.token,
       TID: this.$store.state.TID,
@@ -258,6 +258,14 @@ export default {
           ],
         },
         tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: "shadow", // 默认为直线，可选为：'line' | 'shadow'
+            shadowStyle: {
+              color: "rgba(0,0,0,0.1)",
+            },
+          },
           backgroundColor: "rgba(0,32,92,0)",
           borderColor: "rgba(0,242,255,0)",
           borderWidth: 0,
@@ -395,6 +403,30 @@ export default {
       ExportExcel(params).then((res) => {
         window.open(res.Data, "_self");
       });
+    },
+    //跳转到教师页面
+    openClass(CourseClassID) {
+      //写入当前打开的班级ID
+      this.$store.commit("updateCourseClassID", CourseClassID);
+      window.open(
+        window.location.origin +
+          "/Web/index.html#/home/teacherRZZD?token=" +
+          this.$store.state.token +
+          "&SchoolID=" +
+          this.$store.state.SchoolID +
+          "&TID=" +
+          this.$store.state.TID +
+          "&CourseClassID=" +
+          CourseClassID +
+          "&StageNo=" +
+          this.$store.state.StageNo +
+          "&GlobalGrade=" +
+          this.$store.state.GlobalGrade +
+          "&ZsdArea=" +
+          this.$store.state.ZsdArea +
+          "&CountyID=" +
+          this.$store.state.CountyID
+      );
     },
   },
 };

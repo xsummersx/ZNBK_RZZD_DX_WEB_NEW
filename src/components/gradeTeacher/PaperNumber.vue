@@ -17,7 +17,7 @@
 				>
 				<span>总量</span>
 			</div>
-			<CompareLastWeek :ChangeScore="info.ChangePaperCount"/>
+			<CompareLastWeek :ChangeScore="info.ChangePaperCount" />
 		</div>
 		<div class="bottom">
 			<span class="bottomTitle" v-if="$route.name === 'gradeRZZD'"
@@ -115,7 +115,7 @@ export default {
 		this.init();
 	},
 	components: {
-		CompareLastWeek: () => import("../common/CompareLastWeek.vue")
+		CompareLastWeek: () => import("../common/CompareLastWeek.vue"),
 	},
 	computed: {
 		isTeacher: function () {
@@ -146,6 +146,7 @@ export default {
 	methods: {
 		init() {
 			let data = { ...this.$store.state };
+			delete data.UserInfo;
 			if (this.$route.name === "teacherRZZD") {
 				// 教师
 				GetClassPaperNum(data).then((res) => {

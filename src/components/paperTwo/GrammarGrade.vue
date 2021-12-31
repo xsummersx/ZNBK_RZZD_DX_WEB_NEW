@@ -68,7 +68,7 @@ export default {
 				},
 				grid: {
 					left: "2%",
-					right: "50",
+					right: "80",
 					bottom: "10",
 					top: "16%",
 					containLabel: true,
@@ -249,7 +249,11 @@ export default {
 	},
 	methods: {
 		init() {
-			GetGradeGrammerCompare({ ...this.$store.state }).then((res) => {
+			let params = {
+				...this.$store.state,
+			};
+			delete params.UserInfo;
+			GetGradeGrammerCompare(params).then((res) => {
 				this.info = res.Data;
 				this.minData = res.Data.MinClassList.map((item) => {
 					return {
@@ -296,7 +300,7 @@ export default {
 										fontSize: 12,
 										fontFamily: "MicrosoftYaHei",
 										opacity: 1,
-										padding: [5, 0, 20, -70],
+										padding: [5, 0, 20, -40],
 									},
 									b: {
 										fontSize: 14,

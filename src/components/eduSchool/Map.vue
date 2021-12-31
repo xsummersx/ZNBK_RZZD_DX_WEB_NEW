@@ -1,15 +1,18 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:27:26
- * @LastEditTime: 2021-12-29 09:54:32
+ * @LastEditTime: 2021-12-31 10:14:48
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》地图，图0
 -->
 <template>
   <div class="map">
-    <div id="mapID"></div>
-    <div class="legend"></div>
+    <div class="noData" v-show="IsHaveSchool == false || IsHaveMap == false">
+      {{ noDataText0 }}
+    </div>
+    <div id="mapID" v-show="IsHaveMap" :style="{ opacity: IsHaveSchool == false ? 0.2 : 1 }"></div>
+    <div class="legend" v-show="IsHaveMap" :style="{ opacity: IsHaveSchool == false ? 0.2 : 1 }"></div>
     <!-- <div class="btnText"><span class="text">学校认知情况</span><i class="btnIcon"></i></div> -->
   </div>
 </template>
@@ -19,7 +22,11 @@ import { get_A, get_B, get_C, get_D, get_E, get_F, mapBG0, activeBG } from "@/ap
 export default {
   name: "Map",
   data() {
-    return {};
+    return {
+      noDataText0: "暂无教育局地图数据噢~",
+      IsHaveSchool: false, //是否有学校
+      IsHaveMap: false, //是否有地图
+    };
   },
   mounted() {
     this.drawMap();
@@ -27,11 +34,11 @@ export default {
   methods: {
     //跳转学校点击事件
     SchoolClick(id) {
-      console.log(id);
+      this.$store.commit("updateSchoolID", id);
+      window.open(window.location.origin + "/Web/index.html#/home/schoolRZZD?token=" + this.$store.state.token);
     },
     //统计图绘制
     drawMap() {
-      console.log(this.$store.state);
       let params = {
         Token: this.$store.state.token,
         TID: this.$store.state.TID,
@@ -44,8 +51,14 @@ export default {
       };
 
       getMapJson(params).then((res) => {
+        if (res.Data.MapResources.features.length > 0) {
+          this.IsHaveMap = true;
+        }
         let mapDate = [];
         res.Data.SchoolList.map((item) => {
+          if (item.Longitude != -1 && item.Latitude != -1) {
+            this.IsHaveSchool = true; //有学校信息的
+          }
           mapDate.push({
             SchoolID: item.SchoolID,
             name: item.SchoolName,
@@ -434,6 +447,21 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.noData {
+  position: absolute;
+  left: 370px;
+  top: 250px;
+  width: 176px;
+  height: 160px;
+  margin: 0 auto;
+  z-index: 100;
+  padding-top: 130px;
+  background: url(~@/assets/img/eduSchool/mapNoData.png) no-repeat top center;
+
+  color: #fff;
+  font-size: 12px;
+  text-align: center;
+}
 .map {
   width: 940px;
   height: 636px;

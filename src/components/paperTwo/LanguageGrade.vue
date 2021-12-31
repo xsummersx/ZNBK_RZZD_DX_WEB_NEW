@@ -53,7 +53,7 @@
 			width="1000px"
 			top="0vh"
 		>
-			<LanDialog :list="ClassList"/>
+			<LanDialog :list="ClassList" />
 		</el-dialog>
 	</div>
 </template>
@@ -134,11 +134,12 @@ export default {
 	},
 	created() {
 		let params = {
-      ...this.$store.state
+			...this.$store.state,
 		};
+		delete params.UserInfo;
 		GetGradeLanguage(params).then((res) => {
 			this.lanResInfo = res.Data.Conlusion;
-      this.ClassList = res.Data.ClassList;
+			this.ClassList = res.Data.ClassList;
 		});
 	},
 	mounted() {},
