@@ -24,7 +24,9 @@
 			</div>
 			<div class="ddtotal">
 				<span class="text1"
-					><span class="point"></span>共有<span class="totalNumber">15</span
+					><span class="point"></span>共有<span class="totalNumber">{{
+						zsdCount
+					}}</span
 					>个{{ currentChoose + typeName }}</span
 				>
 				<input
@@ -38,26 +40,32 @@
 			</div>
 			<div class="ddBottomContent" v-if="typeName === '词汇'">
 				<div class="ddCon">
-					<div class="ddVocaItem" v-for="(item, index) in arr" :key="index">
+					<div
+						class="ddVocaItem"
+						v-for="(item, index) in vocaZsdList"
+						:key="index"
+					>
 						<div class="ddVocaContent">
-							<div class="vocaName">freezing</div>
+							<div class="vocaName">{{ item.ZsdString }}</div>
 							<div class="contentItem">
 								<span class="littleTitle">
 									<span class="point"></span>测试概率</span
 								>
-								<span class="testRate">1.0000</span>
+								<span class="testRate">{{ (+item.TestRate).toFixed(4) }}</span>
 							</div>
 							<div class="contentItem">
 								<span class="littleTitle">
 									<span class="point"></span>认知分</span
 								>
-								<span class="score">300分</span>
+								<span class="score">{{ item.ClassScore }}分</span>
 							</div>
 							<div class="contentItem">
 								<span class="littleTitle">
 									<span class="point"></span>答对率</span
 								>
-								<span class="correctRate">2%</span>
+								<span class="correctRate"
+									>{{ (item.ScoreRate * 100).toFixed(2) }}%</span
+								>
 							</div>
 						</div>
 					</div>
@@ -69,29 +77,35 @@
 				style="min-height: 480px"
 			>
 				<div class="ddCon">
-					<div class="ddGraItem" v-for="(item, index) in arr1" :key="index">
+					<div
+						class="ddGraItem"
+						v-for="(item, index) in graZsdList"
+						:key="index"
+					>
 						<div class="ddGraContent">
-							<div class="ddGraName">freezingxxxxxxxxxxxxxxxxxxx</div>
+							<div class="ddGraName">{{ item.ZsdString }}</div>
 							<div class="contentItem">
 								<span class="littleTitle">
 									<span class="point"></span>测试概率</span
 								>
-								<span class="testRate">1.0000</span>
+								<span class="testRate">{{ (+item.TestRate).toFixed(4) }}</span>
 							</div>
 							<div class="contentItem">
 								<span class="littleTitle">
 									<span class="point"></span>认知分</span
 								>
-								<span class="score">300分</span>
+								<span class="score">{{ item.CurrScore }}分</span>
 							</div>
 							<div class="contentItem">
 								<span class="littleTitle">
 									<span class="point"></span>答对率</span
 								>
-								<span class="correctRate">2%</span>
+								<span class="correctRate"
+									>{{ (item.ScoreRate * 100).toFixed(2) }}%</span
+								>
 							</div>
 							<div class="contentItem">
-								<span class="ddGraTitle">所属专题：现在完成时</span>
+								<span class="ddGraTitle">所属专题：{{ item.U_TopicName }}</span>
 							</div>
 						</div>
 					</div>
@@ -112,14 +126,27 @@
 </template>
 
 <script>
+import * as api from "@/api/diagnosis";
 export default {
+	props: {
+		typeName: {
+			type: String,
+			default: "词汇",
+		},
+		userType: {
+			type: String,
+			default: "teacher",
+		},
+	},
 	data() {
 		return {
+			zsdCount: 0,
 			currentChoose: "常考",
-			typeName: "语法",
+			searchCount: 0,
+			// typeName: "语法",
 			searchText: "",
-			arr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
-			arr1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+			vocaZsdList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+			graZsdList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
 			// 总分页数
 			pageCount: 5,
 			// 当前第几页
@@ -148,14 +175,90 @@ export default {
 			}
 		},
 	},
+	created() {
+		this.init();
+	},
 	methods: {
+		init() {
+			if (this.typeName == "词汇") {
+				this.getVocaDetail(this.currentPage, this.currentChooseLetter);
+			} else if (this.typeName == "语法") {
+				this.getGraDetail(this.currentPage, this.currentChooseNum);
+			}
+		},
+		getVocaDetail(pageNum, zsdType) {
+			let params = {
+				// ...this.$store.state,
+				CourseClassID: "511D5718-8E55-496E-86BF-A9103200A62F",
+				GlobalGrade: "K12",
+				SchoolID: "S4-000020-9AB3",
+				StageNo: "C",
+				TID: "GD110202",
+				ZsdArea: "C",
+				token: "262bddd0-b463-4410-8a93-b96b47701072",
+				PageNum: pageNum,
+				PageSize: 15,
+				ZsdType: zsdType,
+			};
+			delete params.UserInfo;
+			if (this.userType == "teacher") {
+				api.GetClassVocabDetailInfo(params).then((res) => {
+					this.vocaZsdList = res.Data.VocaList;
+					this.zsdCount = res.Data.VocaCount;
+					// this.searchCount = res.Data.PageZsdCount;
+					this.pageCount = Math.ceil(this.zsdCount / 15);
+				});
+			} else if (this.userType == "grade") {
+				// ❎
+				api.GetClassRecommen2dVoca(params).then((res) => {
+					this.vocaZsdList = res.Data.VocaList;
+					this.zsdCount = res.Data.VocaCount;
+					// this.searchCount = res.Data.PageZsdCount;
+					this.pageCount = Math.ceil(this.zsdCount / 15);
+				});
+			}
+		},
+		getGraDetail(pageNum, zsdType) {
+			let params = {
+				// ...this.$store.state,
+				CourseClassID: "511D5718-8E55-496E-86BF-A9103200A62F",
+				GlobalGrade: "K12",
+				SchoolID: "S4-000020-9AB3",
+				StageNo: "C",
+				TID: "GD110202",
+				ZsdArea: "C",
+				token: "262bddd0-b463-4410-8a93-b96b47701072",
+				PageNum: pageNum,
+				PageSize: 12,
+				ZsdType: zsdType,
+			};
+			delete params.UserInfo;
+			if (this.userType == "teacher") {
+				api.GetGrammerZsdMapApplication(params).then((res) => {
+					this.graZsdList = res.Data.ZsdList;
+					this.zsdCount = res.Data.ZsdCount;
+					this.searchCount = res.Data.PageZsdCount;
+					this.pageCount = res.Data.TotalPageNum;
+				});
+			} else if (this.userType == "grade") {
+				api.GetGradeGrammerZsdMapApplication(params).then((res) => {
+					this.graZsdList = res.Data.ZsdList;
+					this.zsdCount = res.Data.ZsdCount;
+					this.searchCount = res.Data.PageZsdCount;
+					this.pageCount = res.Data.TotalPageNum;
+				});
+			}
+		},
 		changeCurrChoose(val) {
+			this.currentPage = 1;
 			this.currentChoose = val;
+			this.init();
 		},
 		// 显示第几页
 		handleCurrentChange(val) {
 			// 改变默认的页数
 			this.currentPage = val;
+			this.init();
 		},
 	},
 };

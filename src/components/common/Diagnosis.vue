@@ -3,8 +3,15 @@
 	<div class="diagnosisPage">
 		<div class="diagnosisTitle">
 			<div class="titleLeft"></div>
-			<div class="titleMiddle">
-				嘉兴一中-高三(1)班-{{ titleText }}薄弱{{ typeName }}诊断报告
+			<div class="titleMiddle" v-if="userType === 'teacher'">
+				{{ SchoolName + "-" + CourseClassName }}-{{ titleText }}薄弱{{
+					typeName
+				}}诊断报告
+			</div>
+			<div class="titleMiddle" v-else-if="userType === 'grade'">
+				{{ SchoolName + "-" + GradeName }}-{{ titleText }}薄弱{{
+					typeName
+				}}诊断报告
 			</div>
 			<div class="titleRight"></div>
 		</div>
@@ -30,8 +37,44 @@
 							>重点关注学生</span
 						>
 						<span class="focusTitle" v-else>重点关注班级</span>
-						<div class="stuList">
-							<div class="stuItem">
+						<div class="stuList" v-if="userType === 'teacher'">
+							<div
+								class="stuItem"
+								v-for="(item, index) in focusList"
+								:key="index"
+							>
+								<div class="listFront">
+									<span class="stuRank">{{ item.Index }}</span>
+									<span class="stuName"
+										><img class="stuPhoto" :src="item.PhotoPath" />{{
+											item.StuName
+										}}</span
+									>
+								</div>
+
+								<span class="stuScore"
+									>{{ typeName }}认知分：<span class="score"
+										>{{ item.CognitiveIndex }}分</span
+									></span
+								>
+								<span class="stuRate"
+									>答对率：<span class="correctRate"
+										>{{ (item.StuScoreRate * 100).toFixed(2) }}%</span
+									></span
+								>
+							</div>
+							<img
+								v-if="focusList.length === 0"
+								class="noDataImg"
+								src="~@/assets/img/eduSchool/nodata.png"
+							/>
+						</div>
+						<div class="stuList" v-else>
+							<div
+								class="stuItem"
+								v-for="(item, index) in focusList"
+								:key="index"
+							>
 								<span class="stuRank">1</span>
 								<span class="stuName"
 									><img
@@ -46,36 +89,11 @@
 									>答对率：<span class="correctRate">40%</span></span
 								>
 							</div>
-							<div class="stuItem">
-								<span class="stuRank">2</span>
-								<span class="stuName"
-									><img
-										class="stuPhoto"
-										src="http://172.16.41.236:5000/LgFtp/UserInfo/Photo/Default/Nopic.jpg"
-									/>王中明</span
-								>
-								<span class="stuScore"
-									>{{ typeName }}认知分：<span class="score">6666分</span></span
-								>
-								<span class="stuRate"
-									>答对率：<span class="correctRate">40%</span></span
-								>
-							</div>
-							<div class="stuItem">
-								<span class="stuRank">3</span>
-								<span class="stuName"
-									><img
-										class="stuPhoto"
-										src="http://172.16.41.236:5000/LgFtp/UserInfo/Photo/Default/Nopic.jpg"
-									/>王大明</span
-								>
-								<span class="stuScore"
-									>{{ typeName }}认知分：<span class="score">6666分</span></span
-								>
-								<span class="stuRate"
-									>答对率：<span class="correctRate">40%</span></span
-								>
-							</div>
+							<img
+								v-if="focusList.length === 0"
+								class="noDataImg"
+								src="~@/assets/img/eduSchool/nodata.png"
+							/>
 						</div>
 					</div>
 					<div class="rightBottom">
@@ -105,7 +123,9 @@
 				</div>
 				<div class="total">
 					<span class="text1"
-						><span class="point"></span>共推荐<span class="totalNumber">15</span
+						><span class="point"></span>共推荐<span class="totalNumber">{{
+							recommendCount
+						}}</span
 						>个讲解{{ typeName }}</span
 					>
 					<span class="btn" @click="openDialog"
@@ -114,26 +134,34 @@
 				</div>
 				<div class="bottomContent" v-if="reportType === 'voca'">
 					<div class="bcCon">
-						<div class="vocaItem" v-for="(item, index) in arr" :key="index">
+						<div
+							class="vocaItem"
+							v-for="(item, index) in vocaList"
+							:key="index"
+						>
 							<div class="vocaContent">
-								<div class="vocaName">freezing</div>
+								<div class="vocaName">{{ item.ZsdString }}</div>
 								<div class="contentItem">
 									<span class="littleTitle">
 										<span class="point"></span>测试概率</span
 									>
-									<span class="testRate">1.0000</span>
+									<span class="testRate">{{
+										(+item.TestRate).toFixed(4)
+									}}</span>
 								</div>
 								<div class="contentItem">
 									<span class="littleTitle">
 										<span class="point"></span>认知分</span
 									>
-									<span class="score">300分</span>
+									<span class="score">{{ item.ClassScore }}分</span>
 								</div>
 								<div class="contentItem">
 									<span class="littleTitle">
 										<span class="point"></span>答对率</span
 									>
-									<span class="correctRate">2%</span>
+									<span class="correctRate"
+										>{{ (item.ScoreRate * 100).toFixed(2) }}%</span
+									>
 								</div>
 							</div>
 						</div>
@@ -141,29 +169,33 @@
 				</div>
 				<div class="bottomContent" v-if="reportType === 'gra'">
 					<div class="bcCon">
-						<div class="graItem" v-for="(item, index) in arr1" :key="index">
+						<div class="graItem" v-for="(item, index) in graList" :key="index">
 							<div class="graContent">
-								<div class="graName">freezingxxxxxxxxxxxxxxxxxxx</div>
+								<div class="graName">{{ item.ZsdString }}</div>
 								<div class="contentItem">
 									<span class="littleTitle">
 										<span class="point"></span>测试概率</span
 									>
-									<span class="testRate">1.0000</span>
+									<span class="testRate">{{
+										(+item.TestRate).toFixed(4)
+									}}</span>
 								</div>
 								<div class="contentItem">
 									<span class="littleTitle">
 										<span class="point"></span>认知分</span
 									>
-									<span class="score">300分</span>
+									<span class="score">{{ item.CurrScore }}分</span>
 								</div>
 								<div class="contentItem">
 									<span class="littleTitle">
 										<span class="point"></span>答对率</span
 									>
-									<span class="correctRate">2%</span>
+									<span class="correctRate"
+										>{{ (item.ScoreRate * 100).toFixed(2) }}%</span
+									>
 								</div>
 								<div class="contentItem">
-									<span class="graTitle">所属专题：现在完成时</span>
+									<span class="graTitle">所属专题：{{ item.U_TopicName }}</span>
 								</div>
 							</div>
 						</div>
@@ -187,17 +219,19 @@
 			:close-on-click-modal="false"
 			width="1120px"
 		>
-			<DIagnosisDialog />
+			<DIagnosisDialog :typeName="typeName" :userType="userType" />
 		</el-dialog>
 	</div>
 </template>
 
 <script>
+import * as api from "@/api/diagnosis";
 export default {
 	data() {
 		return {
-			arr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
-			arr1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+			focusList: [],
+			vocaList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+			graList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
 			searchText: "",
 			// 总分页数
 			pageCount: 1,
@@ -205,10 +239,14 @@ export default {
 			currentPage: 1,
 			// 每页显示的数量
 			PageSize: 9,
-			userType: "grade",
+			userType: "teacher",
 			reportType: "voca",
 			dialogTitle: "薄弱",
 			dialogVisible: false,
+			SchoolName: "蓝鸽高中",
+			CourseClassName: "高三（3）班",
+			GradeName: "高中三年级",
+			recommendCount: "12",
 		};
 	},
 	computed: {
@@ -238,10 +276,87 @@ export default {
 			}
 		},
 	},
+	created() {
+		this.init();
+	},
 	components: {
 		DIagnosisDialog: () => import("./DIagnosisDialog.vue"),
 	},
 	methods: {
+		init() {
+			if (this.reportType == "voca") {
+				this.getVocaHome();
+			} else if (this.reportType == "gra") {
+				this.getGraHome();
+			}
+		},
+		getVocaHome() {
+			let params = {
+				// ...this.$store.state,
+				CourseClassID: "511D5718-8E55-496E-86BF-A9103200A62F",
+				GlobalGrade: "K12",
+				SchoolID: "S4-000020-9AB3",
+				StageNo: "C",
+				TID: "GD110202",
+				ZsdArea: "C",
+				token: "262bddd0-b463-4410-8a93-b96b47701072",
+				PageNum: 1,
+				PageSize: 15,
+				ShowNum: 15,
+			};
+			delete params.UserInfo;
+			if (this.userType == "teacher") {
+				api.GetClassRecommendVoca(params).then((res) => {
+					this.vocaList = res.Data.VocaRecommendList;
+					this.SchoolName = res.Data.SchoolName;
+					this.CourseClassName = res.Data.CourseClassName;
+					this.recommendCount = res.Data.VocaRecommendCount;
+					this.focusList = res.Data.StuFocusInfoList;
+				});
+			} else if (this.userType == "grade") {
+				// ❎
+				api.GetClassRecommen2dVoca(params).then((res) => {
+					this.vocaList = res.Data.GrammerZsdList;
+					this.SchoolName = res.Data.SchoolName;
+					this.GradeName = res.Data.GradeName;
+					this.recommendCount = res.Data.GrammerZsdCount;
+					this.focusList = res.Data.ClassFocusInfoList;
+				});
+			}
+		},
+		getGraHome() {
+			let params = {
+				// ...this.$store.state,
+				CourseClassID: "511D5718-8E55-496E-86BF-A9103200A62F",
+				GlobalGrade: "K12",
+				SchoolID: "S4-000020-9AB3",
+				StageNo: "C",
+				TID: "GD110202",
+				ZsdArea: "C",
+				token: "262bddd0-b463-4410-8a93-b96b47701072",
+				PageNum: 1,
+				PageSize: 12,
+				RecommendCount: 12,
+			};
+			delete params.UserInfo;
+			if (this.userType == "teacher") {
+				api.GetClassWeakGrammerDiagnosis(params).then((res) => {
+					this.graList = res.Data.GrammerZsdList;
+					this.SchoolName = res.Data.SchoolName;
+					this.CourseClassName = res.Data.CourseClassName;
+					this.recommendCount = res.Data.GrammerZsdCount;
+					this.focusList = res.Data.StuFocusInfoList;
+				});
+			} else if (this.userType == "grade") {
+				api.GetGradeWeakGrammerDiagnosis(params).then((res) => {
+					this.graList = res.Data.GrammerZsdList;
+					this.SchoolName = res.Data.SchoolName;
+					this.GradeName = res.Data.GradeName;
+					this.recommendCount = res.Data.GrammerZsdCount;
+					this.focusList = res.Data.ClassFocusInfoList;
+				});
+			}
+		},
 		openDialog() {
 			this.dialogVisible = true;
 		},
@@ -349,18 +464,34 @@ export default {
 			padding-left: 20px;
 		}
 		.stuList {
+			display: flex;
+			display: -webkit-flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			.noDataImg {
+				width: 64px;
+				height: 64px;
+				margin: 20px 0 0;
+			}
 			.stuItem {
 				width: 86%;
-				margin: 10px auto;
+				margin: 5px auto;
 				display: flex;
 				display: -webkit-flex;
 				justify-content: space-between;
 				align-items: center;
+				.listFront {
+					width: 110px;
+					display: flex;
+					display: -webkit-flex;
+					align-items: center;
+				}
 				.stuRank {
 					width: 16px;
 					height: 16px;
 					font-size: 12px;
-					margin: 0 -10px 0 0;
+					margin: 0 10px 0 0;
 					border-radius: 50%;
 					background-color: rgba(#fff, 0.35);
 					text-align: center;
@@ -369,6 +500,7 @@ export default {
 					display: flex;
 					display: -webkit-flex;
 					align-items: center;
+
 					.stuPhoto {
 						width: 24px;
 						height: 24px;
