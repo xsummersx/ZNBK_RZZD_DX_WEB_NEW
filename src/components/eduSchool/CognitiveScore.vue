@@ -123,6 +123,7 @@ export default {
 		Ring: () => import("../common/Ring.vue"),
 	},
 	computed: {
+		// 不同身份不同高度
 		boxHeight: function () {
 			if (this.$route.name === "schoolRZZD") {
 				return "height: 308px";
@@ -130,6 +131,7 @@ export default {
 				return "height: 298px";
 			}
 		},
+		// 返回较上周数据
 		comparedData: function () {
 			if (this.info.ChangeIndex < 0) {
 				return Math.abs(this.info.ChangeIndex);
@@ -137,6 +139,7 @@ export default {
 				return this.info.ChangeIndex;
 			}
 		},
+		// 返回较上周是上升还是下降
 		status: function () {
 			if (this.info.ChangeIndex < 0) {
 				return "down";
@@ -147,13 +150,16 @@ export default {
 	},
 	mounted() {},
 	methods: {
+		// 初始化
 		init() {
 			let data = { ...this.$store.state };
 			if (this.$route.name === "educationRZZD") {
+				// 教育局
 				GetAreaCognitiveIndex(data).then((res) => {
 					this.info = res.Data;
 				});
 			} else {
+				// 校领导
 				GetSchoolCongnitiveIndex(data).then((res) => {
 					this.info = res.Data;
 				});
