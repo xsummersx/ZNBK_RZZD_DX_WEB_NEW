@@ -10,7 +10,9 @@
 	<div class="right-small-box">
 		<div class="box-title clearfix">
 			<span class="float-l title">语法认知</span>
-			<span class="float-r check-icon"><i></i>薄弱语法诊断</span>
+			<span class="float-r check-icon" @click="toDiagnosis"
+				><i></i>薄弱语法诊断</span
+			>
 		</div>
 		<div class="main">
 			<div class="left">
@@ -557,6 +559,20 @@ export default {
 			// setTimeout(() => {
 			// 		this.emptyText = "暂无数据";
 			// }, 1500);
+		},
+		// 跳转薄弱诊断
+		toDiagnosis() {
+			let url = this.$router.resolve({
+				path: "/DiagReport",
+				query: {
+					token: this.$store.state.token,
+					userType: "teacher",
+					reportType: "gra",
+					courseClassID: this.$store.state.CourseClassID,
+					stageNo: this.$store.state.StageNo,
+				},
+			});
+			window.open(url.href, "_blank");
 		},
 	},
 };

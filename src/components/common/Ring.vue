@@ -2,7 +2,7 @@
 	<!-- 圆环图 -->
 	<div class="left" :style="isMR ? 'margin-right:-32px' : ''">
 		<div class="circleWhite"></div>
-		<div id="echart" style="width: 100%; height: 100%"></div>
+		<div id="ring" style="width: 100%; height: 100%"></div>
 		<div class="text">
 			<span
 				><span class="number">{{ avgIndex }}</span
@@ -35,8 +35,10 @@ export default {
 	},
 	methods: {
 		chart() {
-			let chartDom = document.getElementById("echart");
-			let myChart = this.$echarts.init(chartDom);
+			let chartDom = document.getElementById("ring");
+			let myChart = this.$echarts.init(chartDom, null, {
+				renderer: "svg",
+			});
 			let option;
 			option = {
 				polar: {
@@ -69,8 +71,13 @@ export default {
 						barWidth: 95,
 						z: 10,
 						itemStyle: {
-							normal: {
-								color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 0.5, [
+							color: {
+								type: "linear",
+								x: 0,
+								x2: 0,
+								y: 0,
+								y2: 0.5,
+								colorStops: [
 									{
 										offset: 0.5,
 										color: "#ffd572",
@@ -79,12 +86,12 @@ export default {
 										offset: 1,
 										color: "#ff8a01",
 									},
-								]),
-								shadowColor: "rgba(0, 0, 0, 0.2)", //设置折线阴影
-								shadowBlur: 8,
-								shadowOffsetY: -3,
-								shadowOffsetX: -3,
+								],
 							},
+							shadowColor: "rgba(0, 0, 0, 0.2)", //设置折线阴影
+							shadowBlur: 8,
+							shadowOffsetY: -3,
+							shadowOffsetX: -3,
 						},
 						data: [(100 * 2) / 3],
 						coordinateSystem: "polar",
@@ -93,16 +100,23 @@ export default {
 						type: "pie",
 						name: "内层细圆环",
 						radius: ["84%", "78%"],
-						hoverAnimation: false,
-						clockWise: true,
+						emphasis: {
+							scale: false,
+						},
+						clockwise: true,
 						itemStyle: {
-							normal: {
-								color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
+							color: {
+								type: "linear",
+								x: 0,
+								x2: 0,
+								y: 0,
+								y2: 1,
+								colorStops: [
 									{
 										offset: 1,
 										color: "#7f8c8d",
 									},
-								]),
+								],
 							},
 						},
 						label: {

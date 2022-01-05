@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 
 // 薄弱诊断
-// 教师端 
+// 教师端
 // 词汇弹窗
 export function GetClassVocabDetailInfo(data) {
 	return request({
@@ -39,6 +39,28 @@ export function GetGradeVocabDetailInfo(data) {
 export function GetGradeGrammerZsdMapApplication(data) {
 	return request({
 		url: "/api/GradeLeaderRZZD/GetGradeGrammerZsdMapApplication_V3",
+		method: "GET",
+		params: {
+			...data,
+		},
+	});
+}
+
+// 学生个人端
+// 词汇弹窗
+// export function GetGradeVocabDetssailInfo(data) {
+// 	return request({
+// 		url: "/api/GradeLeaderRZZD/GetGradeVocabDetailInfo_V3",
+// 		method: "GET",
+// 		params: {
+// 			...data,
+// 		},
+// 	});
+// }
+// 语法弹窗
+export function GetStuGrammerZsdMapApplication(data) {
+	return request({
+		url: "/api/StuRZZD/GetStuGrammerZsdMapApplication_V3",
 		method: "GET",
 		params: {
 			...data,

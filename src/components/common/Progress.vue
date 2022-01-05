@@ -1,18 +1,20 @@
 <template>
+	<!-- 答对率百分比 -->
+	<!-- 1-4日需求变更，要求词汇和语法认知进度条去掉个数，只保留答对率 -->
 	<div class="mainBottom" v-if="isVoca">
-		<span class="bottomTitle">常考词汇答对率{{ percent1 }}%</span>
+		<span class="bottomTitle">常考词汇答对率</span>
 		<div id="voca1"></div>
-		<span class="bottomTitle">次常考词汇答对率{{ percent2 }}%</span>
+		<span class="bottomTitle">次常考词汇答对率</span>
 		<div id="voca2"></div>
-		<span class="bottomTitle">不常考词汇答对率{{ percent3 }}%</span>
+		<span class="bottomTitle">不常考词汇答对率</span>
 		<div id="voca3"></div>
 	</div>
 	<div class="mainBottom" v-else>
-		<span class="bottomTitle">常考语法答对率{{ percent1 }}%</span>
+		<span class="bottomTitle">常考语法答对率</span>
 		<div id="gra1"></div>
-		<span class="bottomTitle">次常考语法答对率{{ percent2 }}%</span>
+		<span class="bottomTitle">次常考语法答对率</span>
 		<div id="gra2"></div>
-		<span class="bottomTitle">不常考语法答对率{{ percent3 }}%</span>
+		<span class="bottomTitle">不常考语法答对率</span>
 		<div id="gra3"></div>
 	</div>
 </template>
@@ -23,6 +25,18 @@ export default {
 		isVoca: {
 			type: Boolean,
 			default: true,
+		},
+		FirstScoreRate: {
+			type: Number,
+			default: 0.435,
+		},
+		SecondScoreRate: {
+			type: Number,
+			default: 0.846,
+		},
+		ThirdScoreRate: {
+			type: Number,
+			default: 0.9548,
 		},
 	},
 	data() {
@@ -46,7 +60,7 @@ export default {
 				},
 				grid: {
 					top: "8",
-					right: "24%",
+					right: "25%",
 					left: "0%",
 					bottom: "8", //图表尺寸大小
 				},
@@ -61,13 +75,13 @@ export default {
 	},
 	computed: {
 		percent1: function () {
-			return 80;
+			return (this.FirstScoreRate*100).toFixed(2);
 		},
 		percent2: function () {
-			return 30;
+			return (this.SecondScoreRate*100).toFixed(2);
 		},
 		percent3: function () {
-			return 55;
+			return (this.ThirdScoreRate*100).toFixed(2);
 		},
 		data1: function () {
 			return 66666;
@@ -99,7 +113,7 @@ export default {
 							position: "right",
 							// padding: [-8, -80, 0, 0],
 							formatter: () => {
-								return `{a|${this.data1}}{b|个}`;
+								return `{a|${this.percent1}}{b|%}`;
 							},
 							rich: {
 								a: {
@@ -107,36 +121,35 @@ export default {
 									fontSize: 24,
 								},
 								b: {
-									fontSize: 14,
+									fontFamily: "Oswald",
+									fontSize: 18,
 								},
 							},
 							color: "rgba(80,162,250,1)",
 						},
 						itemStyle: {
-							normal: {
-								color: {
-									type: "linear",
-									x: 1,
-									x2: 0,
-									y: 0,
-									y2: 1,
-									colorStops: [
-										{
-											offset: 1,
-											color: "rgba(225, 225, 225, 0)",
-										},
-										{
-											offset: 0.4,
-											color: "rgba(80,162,250,0.5)",
-										},
-										{
-											offset: 0,
-											color: "rgba(80,162,250,1)",
-										},
-									],
-								},
-								borderRadius: [0, 30, 30, 0], //圆角大小
+							color: {
+								type: "linear",
+								x: 1,
+								x2: 0,
+								y: 0,
+								y2: 1,
+								colorStops: [
+									{
+										offset: 1,
+										color: "rgba(225, 225, 225, 0)",
+									},
+									{
+										offset: 0.4,
+										color: "rgba(80,162,250,0.5)",
+									},
+									{
+										offset: 0,
+										color: "rgba(80,162,250,1)",
+									},
+								],
 							},
+							borderRadius: [0, 30, 30, 0], //圆角大小
 						},
 						data: [this.percent1],
 					},
@@ -161,7 +174,7 @@ export default {
 							show: true,
 							position: "right",
 							formatter: () => {
-								return `{a|${this.data2}}{b|个}`;
+								return `{a|${this.percent2}}{b|%}`;
 							},
 							rich: {
 								a: {
@@ -169,37 +182,36 @@ export default {
 									fontSize: 24,
 								},
 								b: {
-									fontSize: 14,
+									fontFamily: "Oswald",
+									fontSize: 18,
 								},
 							},
 							color: "rgba(221,116,35, 1)",
 							fontSize: 24,
 						},
 						itemStyle: {
-							normal: {
-								color: {
-									type: "linear",
-									x: 1,
-									x2: 0,
-									y: 0,
-									y2: 1,
-									colorStops: [
-										{
-											offset: 1,
-											color: "rgba(225, 225, 225, 0)",
-										},
-										{
-											offset: 0.4,
-											color: "rgba(221,116,35,0.5)",
-										},
-										{
-											offset: 0,
-											color: "rgba(221,116,35,1)",
-										},
-									],
-								},
-								borderRadius: [0, 30, 30, 0], //圆角大小
+							color: {
+								type: "linear",
+								x: 1,
+								x2: 0,
+								y: 0,
+								y2: 1,
+								colorStops: [
+									{
+										offset: 1,
+										color: "rgba(225, 225, 225, 0)",
+									},
+									{
+										offset: 0.4,
+										color: "rgba(221,116,35,0.5)",
+									},
+									{
+										offset: 0,
+										color: "rgba(221,116,35,1)",
+									},
+								],
 							},
+							borderRadius: [0, 30, 30, 0], //圆角大小
 						},
 						data: [this.percent2],
 					},
@@ -209,9 +221,14 @@ export default {
 		draw3() {
 			let chart;
 			if (this.isVoca) {
-				chart = this.$echarts.init(document.getElementById("voca3"));
+				let vocaDom = document.getElementById("voca3");
+				// chart = this.$echarts.init(vocaDom, null, {
+				// 	renderer: "svg",
+				// });
+				chart = this.$echarts.init(vocaDom);
 			} else {
-				chart = this.$echarts.init(document.getElementById("gra3"));
+				let graDom = document.getElementById("gra3");
+				chart = this.$echarts.init(graDom);
 			}
 			chart.setOption(this.option);
 			chart.setOption({
@@ -224,7 +241,7 @@ export default {
 							show: true,
 							position: "right",
 							formatter: () => {
-								return `{a|${this.data3}}{b|个}`;
+								return `{a|${this.percent3}}{b|%}`;
 							},
 							rich: {
 								a: {
@@ -232,37 +249,36 @@ export default {
 									fontSize: 24,
 								},
 								b: {
-									fontSize: 14,
+									fontFamily: "Oswald",
+									fontSize: 18,
 								},
 							},
 							color: "rgba(113,233,157,1)",
 							fontSize: 24,
 						},
 						itemStyle: {
-							normal: {
-								color: {
-									type: "linear",
-									x: 1,
-									x2: 0,
-									y: 0,
-									y2: 1,
-									colorStops: [
-										{
-											offset: 1,
-											color: "rgba(225, 225, 225, 0)",
-										},
-										{
-											offset: 0.4,
-											color: "rgba(113,233,157,0.5)",
-										},
-										{
-											offset: 0,
-											color: "rgba(113,233,157,1)",
-										},
-									],
-								},
-								borderRadius: [0, 30, 30, 0], //圆角大小
+							color: {
+								type: "linear",
+								x: 1,
+								x2: 0,
+								y: 0,
+								y2: 1,
+								colorStops: [
+									{
+										offset: 1,
+										color: "rgba(225, 225, 225, 0)",
+									},
+									{
+										offset: 0.4,
+										color: "rgba(113,233,157,0.5)",
+									},
+									{
+										offset: 0,
+										color: "rgba(113,233,157,1)",
+									},
+								],
 							},
+							borderRadius: [0, 30, 30, 0], //圆角大小
 						},
 						data: [this.percent3],
 					},

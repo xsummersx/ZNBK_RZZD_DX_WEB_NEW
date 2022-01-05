@@ -13,6 +13,9 @@
 					typeName
 				}}诊断报告
 			</div>
+			<div class="titleMiddle" v-else-if="userType === 'stu'">
+				{{ StuName }}-{{ titleText }}薄弱{{ typeName }}诊断报告
+			</div>
 			<div class="titleRight"></div>
 		</div>
 		<div class="diagnosisMain">
@@ -142,6 +145,7 @@
 							class="vocaItem"
 							v-for="(item, index) in vocaList"
 							:key="index"
+							@click="handleClickItem(item.KlgUniqueID)"
 						>
 							<div class="vocaContent">
 								<div class="vocaName">{{ item.ZsdString }}</div>
@@ -173,7 +177,12 @@
 				</div>
 				<div class="bottomContent" v-if="reportType === 'gra'">
 					<div class="bcCon">
-						<div class="graItem" v-for="(item, index) in graList" :key="index">
+						<div
+							class="graItem"
+							v-for="(item, index) in graList"
+							:key="index"
+							@click="handleClickItem(item.KlgUniqueID)"
+						>
 							<div class="graContent">
 								<div class="graName">{{ item.ZsdString }}</div>
 								<div class="contentItem">
@@ -223,22 +232,33 @@
 			:close-on-click-modal="false"
 			width="1120px"
 		>
-			<DiagnosisDialog :typeName="typeName" :userType="userType" />
+			<DiagnosisDialog
+				:typeName="typeName"
+				:userType="userType"
+				:resInfo="resInfo"
+				@handleClickItem="handleClickItem"
+			/>
 		</el-dialog>
 	</div>
 </template>
 
 <script>
 import * as api from "@/api/diagnosis";
+// import { GetSubSystemInfo } from "@/api/head/header";
 export default {
+	props: {
+		resInfo: {
+			type: Object,
+		},
+	},
 	data() {
 		return {
 			// 重点关注列表
 			focusList: [],
 			// 词汇列表
-			vocaList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+			vocaList: [],
 			// 语法列表
-			graList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+			graList: [],
 			// 搜索框文本
 			searchText: "",
 			// 总分页数
@@ -248,9 +268,9 @@ export default {
 			// 每页显示的数量
 			PageSize: 9,
 			// 用户身份 teacher：老师，grade：年级组长，stu：学生
-			userType: "teacher",
+			userType: this.$route.query.userType,
 			// 报告类型 voca：词汇，gra：语法
-			reportType: "gra",
+			reportType: this.$route.query.reportType,
 			// dialog标题
 			dialogTitle: "薄弱",
 			// dialog是否可见
@@ -259,10 +279,13 @@ export default {
 			SchoolName: "蓝鸽高中",
 			// 班级名称
 			CourseClassName: "高三（3）班",
+			// 学生姓名
+			StuName: "",
 			// 年级名称
 			GradeName: "高中三年级",
 			// 推荐语法/词汇知识点数量
 			recommendCount: "12",
+			// BaseSysID: "",
 		};
 	},
 	computed: {
@@ -297,6 +320,7 @@ export default {
 	},
 	created() {
 		this.init("");
+		this.initBase();
 	},
 	components: {
 		DiagnosisDialog: () => import("./DIagnosisDialog.vue"),
@@ -316,21 +340,21 @@ export default {
 		getVocaHome(searchText) {
 			let params = {
 				// ...this.$store.state,
-				CourseClassID: "511D5718-8E55-496E-86BF-A9103200A62F",
-				GlobalGrade: "K12",
-				SchoolID: "S4-000020-9AB3",
-				StageNo: "C",
-				TID: "GD110202",
+				// CourseClassID: "511D5718-8E55-496E-86BF-A9103200A62F",
+				// CourseClassID: this.$route.query.courseClassID,
+				// GlobalGrade: this.resInfo.GlobalGrade,
+				SchoolID: this.resInfo.SchoolID,
+				TID: this.resInfo.UserID,
 				ZsdArea: "C",
-				token: "262bddd0-b463-4410-8a93-b96b47701072",
+				token: this.$route.query.token,
 				PageNum: 1,
 				PageSize: 15,
 				ShowNum: 15,
 				SearchText: searchText,
 			};
-			delete params.UserInfo;
 			if (this.userType == "teacher") {
 				// 老师词汇首页
+				params["CourseClassID"] = this.$route.query.courseClassID;
 				api.GetClassRecommendVoca(params).then((res) => {
 					this.vocaList = res.Data.VocaRecommendList;
 					this.SchoolName = res.Data.SchoolName;
@@ -339,17 +363,19 @@ export default {
 					this.focusList = res.Data.StuFocusInfoList;
 				});
 			} else if (this.userType == "grade") {
-				// 年级组长词汇首页❎
-				api.GetClassRecommen2dVoca(params).then((res) => {
-					this.vocaList = res.Data.GrammerZsdList;
+				// 年级组长词汇首页
+				params["GlobalGrade"] = this.resInfo.GlobalGrade;
+				api.GetGradeRecommendVoca(params).then((res) => {
+					this.vocaList = res.Data.VocaRecommendList;
 					this.SchoolName = res.Data.SchoolName;
 					this.GradeName = res.Data.GradeName;
-					this.recommendCount = res.Data.GrammerZsdCount;
+					this.recommendCount = res.Data.VocaRecommendCount;
 					this.focusList = res.Data.ClassFocusInfoList;
 				});
 			} else if (this.userType == "stu") {
 				// 个人词汇首页❎
-				api.GetClassRecommen2dVoca(params).then((res) => {
+				params["StuID"] = this.$route.query.StuID;
+				api.GetGradeRecommendVoca(params).then((res) => {
 					this.vocaList = res.Data.GrammerZsdList;
 					this.SchoolName = res.Data.SchoolName;
 					this.GradeName = res.Data.GradeName;
@@ -362,21 +388,23 @@ export default {
 		getGraHome(searchText) {
 			let params = {
 				// ...this.$store.state,
-				CourseClassID: "511D5718-8E55-496E-86BF-A9103200A62F",
-				GlobalGrade: "K12",
-				SchoolID: "S4-000020-9AB3",
-				StageNo: "C",
-				TID: "GD110202",
+				// CourseClassID: "511D5718-8E55-496E-86BF-A9103200A62F",
+				// CourseClassID: this.$route.query.courseClassID,
+				// GlobalGrade: this.resInfo.GlobalGrade,
+				SchoolID: this.resInfo.SchoolID,
+				TID: this.resInfo.UserID,
 				ZsdArea: "C",
-				token: "262bddd0-b463-4410-8a93-b96b47701072",
+				// token: "262bddd0-b463-4410-8a93-b96b47701072",
+				token: this.$route.query.token,
 				PageNum: 1,
 				PageSize: 12,
 				RecommendCount: 12,
 				SearchText: searchText,
 			};
-			delete params.UserInfo;
+			// delete params.UserInfo;
 			if (this.userType == "teacher") {
 				// 老师语法
+				params["CourseClassID"] = this.$route.query.courseClassID;
 				api.GetClassWeakGrammerDiagnosis(params).then((res) => {
 					this.graList = res.Data.GrammerZsdList;
 					this.SchoolName = res.Data.SchoolName;
@@ -386,6 +414,7 @@ export default {
 				});
 			} else if (this.userType == "grade") {
 				// 年级组长语法
+				params["GlobalGrade"] = this.resInfo.GlobalGrade;
 				api.GetGradeWeakGrammerDiagnosis(params).then((res) => {
 					this.graList = res.Data.GrammerZsdList;
 					this.SchoolName = res.Data.SchoolName;
@@ -394,13 +423,12 @@ export default {
 					this.focusList = res.Data.ClassFocusInfoList;
 				});
 			} else if (this.userType == "stu") {
-				// 个人语法❎
-				api.GetGradeWeakGrammerDiagnosis(params).then((res) => {
+				// 个人语法
+				params["StuID"] = this.$route.query.StuID;
+				api.GetStuWeakGrammerDiagnosis(params).then((res) => {
 					this.graList = res.Data.GrammerZsdList;
-					this.SchoolName = res.Data.SchoolName;
-					this.GradeName = res.Data.GradeName;
+					this.StuName = res.Data.StuName;
 					this.recommendCount = res.Data.GrammerZsdCount;
-					this.focusList = res.Data.ClassFocusInfoList;
 				});
 			}
 		},
@@ -422,27 +450,31 @@ export default {
 		vocaReport() {
 			let params = {
 				// ...this.$store.state,
-				CourseClassID: "511D5718-8E55-496E-86BF-A9103200A62F",
-				GlobalGrade: "K12",
-				SchoolID: "S4-000020-9AB3",
-				TID: "GD110202",
+				// CourseClassID: "511D5718-8E55-496E-86BF-A9103200A62F",
+				// CourseClassID: this.$route.query.courseClassID,
+				// GlobalGrade: this.resInfo.GlobalGrade,
+				SchoolID: this.resInfo.SchoolID,
+				TID: this.resInfo.UserID,
 				ZsdArea: "C",
-				token: "262bddd0-b463-4410-8a93-b96b47701072",
+				token: this.$route.query.token,
 				RecommendCount: 15,
 			};
-			delete params.UserInfo;
+			// delete params.UserInfo;
 			if (this.userType == "teacher") {
 				// 老师词汇
+				params["CourseClassID"] = this.$route.query.courseClassID;
 				api.GetExportClassVocabPlans(params).then((res) => {
 					window.open(res.Data, "_self");
 				});
 			} else if (this.userType == "grade") {
 				// 年级组长词汇
+				params["GlobalGrade"] = this.resInfo.GlobalGrade;
 				api.GetExportGradeVocabPlans(params).then((res) => {
 					window.open(res.Data, "_self");
 				});
 			} else if (this.userType == "stu") {
 				// 个人词汇❎
+				params["StuID"] = this.$route.query.StuID;
 				api.GetExportClassWeakGrammerDiagnosis(params).then((res) => {
 					window.open(res.Data, "_self");
 				});
@@ -452,40 +484,113 @@ export default {
 		graReport() {
 			let params = {
 				// ...this.$store.state,
-				CourseClassID: "511D5718-8E55-496E-86BF-A9103200A62F",
-				GlobalGrade: "K12",
-				SchoolID: "S4-000020-9AB3",
-				TID: "GD110202",
+				// CourseClassID: "511D5718-8E55-496E-86BF-A9103200A62F",
+				// CourseClassID: this.$route.query.courseClassID,
+				// GlobalGrade: this.resInfo.GlobalGrade,
+				SchoolID: this.resInfo.SchoolID,
+				TID: this.resInfo.UserID,
 				ZsdArea: "C",
-				token: "262bddd0-b463-4410-8a93-b96b47701072",
+				token: this.$route.query.token,
 				RecommendCount: 12,
 			};
-			delete params.UserInfo;
+			// delete params.UserInfo;
 			if (this.userType == "teacher") {
 				// 老师语法
+				params["CourseClassID"] = this.$route.query.courseClassID;
 				api.GetExportClassWeakGrammerDiagnosis(params).then((res) => {
 					window.open(res.Data, "_self");
 				});
 			} else if (this.userType == "grade") {
 				// 年级组长语法
+				params["GlobalGrade"] = this.resInfo.GlobalGrade;
 				api.GetExportGradeWeakGrammerDiagnosis(params).then((res) => {
 					window.open(res.Data, "_self");
 				});
 			} else if (this.userType == "stu") {
-				// 个人语法❎
-				api.GetExportGradeWeakGrammerDiagnosis(params).then((res) => {
+				// 个人语法
+				params["StuID"] = this.$route.query.StuID;
+				api.GetExportStuWeakGrammerDiagnosis(params).then((res) => {
 					window.open(res.Data, "_self");
 				});
 			}
 		},
 		// 搜索知识点
 		searchKnowledge() {
+			// this.currentPage = 1;
 			this.init(this.searchText);
 		},
 		// 显示第几页
 		handleCurrentChange(val) {
 			// 改变页数
 			this.currentPage = val;
+		},
+		// 单个知识点的点击
+		handleClickItem(uniqueCode) {
+			let params = {
+				stageNo: this.$route.query.stageNo,
+				uniqueCode: uniqueCode,
+				UseType: 1,
+			};
+			api.GetZSDCourseware(params).then((res) => {
+				this.zsdClick(res.Data);
+			});
+		},
+		// getBaseSysID() {
+		// 	let params = {
+		// 		token: this.$route.query.token,
+		// 	};
+		// 	GetSubSystemInfo(params).then((res) => {
+		// 		this.BaseSysID = res.Data.BaseSysID;
+		// 	});
+		// },
+		//初始化基础平台
+		initBase() {
+			this.clientObj = this.$com.BsToCsFunc(this.InitFunc);
+			// this.getBaseSysID();
+		},
+		//②与基础平台的5次握手
+		InitFunc(obj) {
+			this.jcptFlag = obj;
+		},
+		//启动exe的方法
+		EClient(args) {
+			let proName = "IResLib";
+			let moduleName = "EnglishCard";
+			let porotol = "lgwebp://IResLib\\EnglishCard\\KnowledgeCourseware.exe";
+			let StartClient_WS = this.$baseUrl; //基础平台
+			this.$com.start(proName, moduleName, StartClient_WS, porotol, args);
+		},
+		//点击事件
+		zsdClick(url) {
+			if (this.jcptFlag == undefined) {
+				this.$message({
+					message: "还未加载完成课件信息，请稍候~",
+					duration: 2000,
+					type: "warning",
+					center: true,
+				});
+			} else {
+				if (this.jcptFlag != false) {
+					console.log("启动参数：" + url);
+					if (url == "") {
+						this.$message({
+							message: "还未加载完成课件信息，请稍候再试~",
+							duration: 2000,
+							type: "warning",
+							center: true,
+						});
+					} else {
+						this.EClient(url);
+					}
+				} else {
+					this.$message({
+						message: "您未安装基础平台插件包！",
+						duration: 2000,
+						type: "warning",
+						center: true,
+					});
+				}
+			}
 		},
 	},
 };
@@ -831,6 +936,11 @@ export default {
 					.graTitle {
 						margin: 5px 0 0 0;
 						color: #00aaff;
+						overflow: hidden;
+						white-space: nowrap;
+						text-overflow: ellipsis;
+						width: 220px;
+						display: block;
 					}
 				}
 			}

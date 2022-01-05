@@ -86,3 +86,58 @@ export function GetExportGradeWeakGrammerDiagnosis(data) {
 		},
 	});
 }
+
+
+// 获取知识点课件
+export function GetZSDCourseware(data) {
+	return request({
+		url: "/api/RZZD/GetZSDCourseware",
+		method: "GET",
+		params: {
+			...data,
+		},
+	});
+}
+
+// 学生个人端
+// 词汇首页
+// export function GetGradeRecommssendVoca(data) {
+// 	return request({
+// 		url: "/api/StuRZZD/GetGradeRecommendVoca_V3",
+// 		method: "GET",
+// 		params: {
+// 			...data,
+// 		},
+// 	});
+// }
+// 词汇导出报告
+// export function GetExpossrtGradeVocabPlans(data) {
+// 	return request({
+// 		url: "/api/StuRZZD/GetExportGradeVocabPlans",
+// 		method: "GET",
+// 		params: {
+// 			...data,
+// 		},
+// 	});
+// }
+
+// 语法首页
+export function GetStuWeakGrammerDiagnosis(data) {
+	return request({
+		url: "/api/StuRZZD/GetStuWeakGrammerDiagnosis_V3",
+		method: "GET",
+		params: {
+			...data,
+		},
+	});
+}
+// 语法导出报告
+export function GetExportStuWeakGrammerDiagnosis(data) {
+	return request({
+		url: "/api/StuRZZD/GetExportStuWeakGrammerDiagnosis_V3",
+		method: "GET",
+		params: {
+			...data,
+		},
+	});
+}

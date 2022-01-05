@@ -42,7 +42,7 @@
 				<span class="exitIcon" @click="exit()"></span>
 			</div>
 		</div>
-		<Diagnosis />
+		<Diagnosis :resInfo="resInfo2" v-if="isShow" />
 	</div>
 </template>
 
@@ -54,13 +54,14 @@ export default {
 	data() {
 		return {
 			resInfo2: {},
+			isShow: false,
 		};
 	},
 	components: {
 		Diagnosis: () => import("./dialog/Diagnosis.vue"),
 	},
-	mounted() {
-		// this.GetUserInfo();
+	created() {
+		this.GetUserInfo();
 	},
 	methods: {
 		GetUserInfo() {
@@ -73,8 +74,9 @@ export default {
 			this.axios
 				.get("api/RZZD/GetUserInfo?token=" + this.$route.query.token)
 				.then((res) => {
-					console.log(res);
+					// console.log(res);
 					this.resInfo2 = res.Data;
+					this.isShow = true;
 				});
 		},
 		// 退出系统

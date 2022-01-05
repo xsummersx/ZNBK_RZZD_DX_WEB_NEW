@@ -52,6 +52,7 @@
 						class="ddVocaItem"
 						v-for="(item, index) in vocaZsdList"
 						:key="index"
+						@click="handleDDClick(item.KlgUniqueID)"
 					>
 						<div class="ddVocaContent">
 							<div class="vocaName">{{ item.ZsdString }}</div>
@@ -89,6 +90,7 @@
 						class="ddGraItem"
 						v-for="(item, index) in graZsdList"
 						:key="index"
+						@click="handleDDClick(item.KlgUniqueID)"
 					>
 						<div class="ddGraContent">
 							<div class="ddGraName">{{ item.ZsdString }}</div>
@@ -119,7 +121,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="ddPagination" v-if="true">
+			<div class="ddPagination" v-if="isShowpPagination">
 				<el-pagination
 					class="pagination"
 					@current-change="handleCurrentChange"
@@ -145,6 +147,9 @@ export default {
 			type: String,
 			default: "teacher",
 		},
+		resInfo: {
+			type: Object,
+		},
 	},
 	data() {
 		return {
@@ -158,9 +163,9 @@ export default {
 			// 搜索框文本
 			searchText: "",
 			// 词汇知识点列表
-			vocaZsdList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+			vocaZsdList: [],
 			// 语法知识点列表
-			graZsdList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+			graZsdList: [],
 			// 总分页数
 			pageCount: 5,
 			// 当前第几页
@@ -172,6 +177,21 @@ export default {
 		};
 	},
 	computed: {
+		isShowpPagination: function () {
+			if (this.isSearching) {
+				if (this.searchCount === 0) {
+					return false;
+				} else {
+					return true;
+				}
+			} else {
+				if (this.zsdCount === 0) {
+					return false;
+				} else {
+					return true;
+				}
+			}
+		},
 		currentChooseNum: function () {
 			if (this.currentChoose === "常考") {
 				return 0;
@@ -217,20 +237,22 @@ export default {
 		getVocaDetail(pageNum, zsdType, searchText) {
 			let params = {
 				// ...this.$store.state,
-				CourseClassID: "511D5718-8E55-496E-86BF-A9103200A62F",
-				GlobalGrade: "K12",
-				SchoolID: "S4-000020-9AB3",
-				TID: "GD110202",
+				// CourseClassID: "511D5718-8E55-496E-86BF-A9103200A62F",
+				// CourseClassID: this.$route.query.courseClassID,
+				// GlobalGrade: this.resInfo.GlobalGrade,
+				SchoolID: this.resInfo.SchoolID,
+				TID: this.resInfo.UserID,
 				ZsdArea: "C",
-				token: "262bddd0-b463-4410-8a93-b96b47701072",
+				token: this.$route.query.token,
 				PageNum: pageNum,
 				PageSize: 15,
 				ZsdType: zsdType,
 				SearchText: searchText,
 			};
-			delete params.UserInfo;
+			// delete params.UserInfo;
 			if (this.userType == "teacher") {
 				// 老师词汇
+				params["CourseClassID"] = this.$route.query.courseClassID;
 				api.GetClassVocabDetailInfo(params).then((res) => {
 					this.vocaZsdList = res.Data.VocaList;
 					this.zsdCount = res.Data.VocaCount;
@@ -239,6 +261,7 @@ export default {
 				});
 			} else if (this.userType == "grade") {
 				// 年级组长词汇
+				params["GlobalGrade"] = this.resInfo.GlobalGrade;
 				api.GetGradeVocabDetailInfo(params).then((res) => {
 					this.vocaZsdList = res.Data.VocaList;
 					this.zsdCount = res.Data.VocaCount;
@@ -247,6 +270,7 @@ export default {
 				});
 			} else if (this.userType == "stu") {
 				// 个人词汇❎
+				params["StuID"] = this.$route.query.StuID;
 				api.GetClassVocabDetailInfo(params).then((res) => {
 					this.vocaZsdList = res.Data.VocaList;
 					this.zsdCount = res.Data.VocaCount;
@@ -259,41 +283,57 @@ export default {
 		getGraDetail(pageNum, zsdType, searchText) {
 			let params = {
 				// ...this.$store.state,
-				CourseClassID: "511D5718-8E55-496E-86BF-A9103200A62F",
-				GlobalGrade: "K12",
-				SchoolID: "S4-000020-9AB3",
-				TID: "GD110202",
+				// CourseClassID: "511D5718-8E55-496E-86BF-A9103200A62F",
+				// CourseClassID: this.$route.query.courseClassID,
+				// GlobalGrade: this.resInfo.GlobalGrade,
+				SchoolID: this.resInfo.SchoolID,
+				TID: this.resInfo.UserID,
 				ZsdArea: "C",
-				token: "262bddd0-b463-4410-8a93-b96b47701072",
+				token: this.$route.query.token,
 				PageNum: pageNum,
 				PageSize: 12,
 				ZsdType: zsdType,
 				SearchText: searchText,
 			};
-			delete params.UserInfo;
+			// delete params.UserInfo;
 			if (this.userType == "teacher") {
 				// 老师语法
+				params["CourseClassID"] = this.$route.query.courseClassID;
 				api.GetGrammerZsdMapApplication(params).then((res) => {
 					this.graZsdList = res.Data.ZsdList;
 					this.zsdCount = res.Data.ZsdCount;
 					this.searchCount = res.Data.PageZsdCount;
-					this.pageCount = res.Data.TotalPageNum;
+					if (this.isSearching) {
+						this.pageCount = Math.ceil(res.Data.PageZsdCount / 12);
+					} else {
+						this.pageCount = res.Data.TotalPageNum;
+					}
 				});
 			} else if (this.userType == "grade") {
 				// 年级组长语法
+				params["GlobalGrade"] = this.resInfo.GlobalGrade;
 				api.GetGradeGrammerZsdMapApplication(params).then((res) => {
 					this.graZsdList = res.Data.ZsdList;
 					this.zsdCount = res.Data.ZsdCount;
 					this.searchCount = res.Data.PageZsdCount;
-					this.pageCount = res.Data.TotalPageNum;
+					if (this.isSearching) {
+						this.pageCount = Math.ceil(res.Data.PageZsdCount / 12);
+					} else {
+						this.pageCount = res.Data.TotalPageNum;
+					}
 				});
 			} else if (this.userType == "stu") {
-				// 个人语法❎
-				api.GetGradeGrammerZsdMapApplication(params).then((res) => {
+				// 个人语法
+				params["StuID"] = this.$route.query.StuID;
+				api.GetStuGrammerZsdMapApplication(params).then((res) => {
 					this.graZsdList = res.Data.ZsdList;
 					this.zsdCount = res.Data.ZsdCount;
 					this.searchCount = res.Data.PageZsdCount;
-					this.pageCount = res.Data.TotalPageNum;
+					if (this.isSearching) {
+						this.pageCount = Math.ceil(res.Data.PageZsdCount / 12);
+					} else {
+						this.pageCount = res.Data.TotalPageNum;
+					}
 				});
 			}
 		},
@@ -310,6 +350,7 @@ export default {
 		},
 		// 搜索知识点
 		searchKnowledgeDD() {
+			this.currentPage = 1;
 			if (this.searchText != "") {
 				this.isSearching = true;
 			} else {
@@ -326,6 +367,10 @@ export default {
 			} else {
 				this.init("");
 			}
+		},
+		// 点击调用exe弹窗
+		handleDDClick(id) {
+			this.$emit("handleClickItem", id);
 		},
 	},
 };
@@ -531,6 +576,11 @@ export default {
 				.ddGraTitle {
 					margin: 5px 0 0 0;
 					color: #00aaff;
+					overflow: hidden;
+					white-space: nowrap;
+					text-overflow: ellipsis;
+					width: 220px;
+					display: block;
 				}
 			}
 		}

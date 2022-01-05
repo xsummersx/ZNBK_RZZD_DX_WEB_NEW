@@ -3,7 +3,9 @@
 	<div class="right-small-box">
 		<div class="box-title clearfix">
 			<span class="float-l title">词汇认知</span>
-			<span class="float-r check-icon"><i></i>薄弱词汇诊断</span>
+			<span class="float-r check-icon" @click="toDiagnosis"
+				><i></i>薄弱词汇诊断</span
+			>
 		</div>
 		<div class="main">
 			<div class="mainTop">
@@ -16,7 +18,7 @@
 					<span class="rate"><span class="number">96</span>%</span>
 				</div>
 			</div>
-			<Progress :isVoca="true"/>
+			<Progress :isVoca="true" />
 		</div>
 	</div>
 </template>
@@ -30,7 +32,22 @@ export default {
 		Progress: () => import("../common/Progress.vue"),
 	},
 	mounted() {},
-	methods: {},
+	methods: {
+		// 跳转薄弱诊断
+		toDiagnosis() {
+			let url = this.$router.resolve({
+				path: "/DiagReport",
+				query: {
+					token: this.$store.state.token,
+					userType: "stu",
+					reportType: "voca",
+					stageNo: this.$store.state.StageNo,
+					StuID: this.$store.state.StuID,
+				},
+			});
+			window.open(url.href, "_blank");
+		},
+	},
 };
 </script>
 

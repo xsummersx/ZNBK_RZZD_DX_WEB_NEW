@@ -5,13 +5,13 @@
 			<span class="bottomTitle">比较情况</span>
 			<div class="content">
 				<span
-					>· 较班级平均
+					>· 较班级平均&nbsp;&nbsp;
 					<span class="quantity" :class="status === 'up' ? 'up' : 'down'"
 						>{{ comparedData }}<span class="char">分</span></span
 					></span
 				>
 				<span
-					>· 较年级平均
+					>· 较年级平均&nbsp;&nbsp;
 					<span class="quantity" :class="status1 === 'up' ? 'up' : 'down'"
 						>{{ comparedData1 }}<span class="char">分</span></span
 					></span
@@ -28,8 +28,8 @@
 					:title="item.SchoolName"
 					>· {{ item.SchoolName }}</span
 				> -->
-				<span>· 班级排名 <span class="rankNumber">8</span></span>
-				<span>· 年级排名 <span class="rankNumber">80</span></span>
+				<span>· 班级排名 &nbsp;&nbsp;<span class="rankNumber">8</span></span>
+				<span>· 年级排名 &nbsp;&nbsp;<span class="rankNumber">80</span></span>
 			</div>
 		</div>
 	</div>

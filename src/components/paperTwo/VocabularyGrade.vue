@@ -10,7 +10,9 @@
 	<div class="right-small-box">
 		<div class="box-title clearfix">
 			<span class="float-l title">词汇认知对比分析</span>
-			<span class="float-r check-icon"><i></i>薄弱词汇诊断</span>
+			<span class="float-r check-icon" @click="toDiagnosis"
+				><i></i>薄弱词汇诊断</span
+			>
 		</div>
 		<div id="vocabCharts"></div>
 	</div>
@@ -465,6 +467,19 @@ export default {
 				});
 				this.drawLine();
 			});
+		},
+		// 跳转薄弱诊断
+		toDiagnosis() {
+			let url = this.$router.resolve({
+				path: "/DiagReport",
+				query: {
+					token: this.$store.state.token,
+					userType: "grade",
+					reportType: "voca",
+					stageNo: this.$store.state.StageNo,
+				},
+			});
+			window.open(url.href, "_blank");
 		},
 	},
 };
