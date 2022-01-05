@@ -135,6 +135,7 @@ export default {
 	methods: {
 		init() {
 			let data = { ...this.$store.state };
+			delete data.UserInfo;
 			if (this.$route.name === "teacherRZZD") {
 				// 教师
 				GetClassCognitiveIndex(data).then((res) => {

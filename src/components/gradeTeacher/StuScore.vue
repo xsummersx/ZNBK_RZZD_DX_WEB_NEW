@@ -6,11 +6,20 @@
 	<div class="left-Content-Box">
 		<span class="title">认知平均分</span>
 		<div class="main">
-			<Ring :FullIndex="info.FullIndex" :avgIndex="info.AvgIndex" />
-			<div class="middle" :class="info.CognitiveGradeName"></div>
-			<CompareLastWeek :ChangeScore="info.ChangeIndex" />
+			<Ring :FullIndex="info.FullIndex" :avgIndex="info.PersonIndex" />
+			<div
+				class="middle"
+				:class="info.CognitiveGradeName.substring(0, 1)"
+			></div>
+			<CompareLastWeek :ChangeScore="info.IndexChange" />
 		</div>
-		<CompareAndRank />
+		<CompareAndRank
+			v-if="isShow"
+			:classCompare="info.TrastCLassAvgIndex"
+			:gradeCompare="info.TrastGradeAvgIndex"
+			:ClassRank="info.ClassRank"
+			:GradeRank="info.GradeRank"
+		/>
 		<div class="foot">
 			<span class="btn">认知成绩走势</span>
 		</div>
@@ -18,27 +27,26 @@
 </template>
 
 <script>
-// import {
-// 	GetClassCognitiveIndex,
-// } from "@/api/gradeTeacher/left.js";
-
+import { GetStuCognitiveIndex } from "@/api/stu/left.js";
 export default {
 	data() {
 		return {
-			// 1:教师
-			// 12:年级组长
-			userType: 1,
 			info: {
-				AvgIndex: 6633,
-				ChangeIndex: 100,
-				CognitiveGradeName: "C",
+				CognitiveGradeName: "C+",
 				FullIndex: 10000,
+				PersonIndex: 5888,
+				IndexChange: 20,
+				TrastCLassAvgIndex: 158,
+				TrastGradeAvgIndex: 124,
+				ClassRank: 8,
+				GradeRank: 50,
 			},
+			isShow: true,
 		};
 	},
 	computed: {},
 	created() {
-		// this.init();
+		this.init();
 	},
 	components: {
 		CompareLastWeek: () => import("../common/CompareLastWeek.vue"),
@@ -48,10 +56,20 @@ export default {
 	mounted() {},
 	methods: {
 		init() {
-			// let data = { ...this.$store.state };
-			// 	GetClassCognitiveIndex(data).then((res) => {
-			// 		this.info = res.Data;
-			// 	});
+			let data = {
+				token: this.$store.state.token,
+				StuID: this.$store.state.StuID,
+				CourseClassID: this.$store.state.CourseClassID,
+				GlobalGrade: this.$store.state.GlobalGrade,
+				SchoolID: this.$store.state.SchoolID,
+				TID: this.$store.state.TID,
+				ZsdArea: this.$store.state.ZsdArea,
+				StageNo: this.$store.state.StageNo,
+			};
+			GetStuCognitiveIndex(data).then((res) => {
+				this.info = res.Data;
+				this.isShow = true;
+			});
 		},
 	},
 };

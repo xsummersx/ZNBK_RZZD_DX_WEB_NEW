@@ -101,25 +101,25 @@ export function GetZSDCourseware(data) {
 
 // 学生个人端
 // 词汇首页
-// export function GetGradeRecommssendVoca(data) {
-// 	return request({
-// 		url: "/api/StuRZZD/GetGradeRecommendVoca_V3",
-// 		method: "GET",
-// 		params: {
-// 			...data,
-// 		},
-// 	});
-// }
+export function GetStuVocabInfoList(data) {
+	return request({
+		url: "/api/StuRZZD/GetStuVocabInfoList_V3",
+		method: "GET",
+		params: {
+			...data,
+		},
+	});
+}
 // 词汇导出报告
-// export function GetExpossrtGradeVocabPlans(data) {
-// 	return request({
-// 		url: "/api/StuRZZD/GetExportGradeVocabPlans",
-// 		method: "GET",
-// 		params: {
-// 			...data,
-// 		},
-// 	});
-// }
+export function GetExportStuGrammerPlans(data) {
+	return request({
+		url: "/api/StuRZZD/GetExportStuGrammerPlans",
+		method: "GET",
+		params: {
+			...data,
+		},
+	});
+}
 
 // 语法首页
 export function GetStuWeakGrammerDiagnosis(data) {

@@ -24,9 +24,8 @@
 					<div class="tips">
 						<div>老师您好，</div>
 						<div>
-							蓝鸽大数据基于您的{{
-								recommendText
-							}}词汇学习情况，进行智能诊断分析，
+							蓝鸽大数据基于您的{{ recommendText
+							}}{{ typeName }}学习情况，进行智能诊断分析，
 						</div>
 						<div>为您安排如下薄弱{{ typeName }}教学计划:</div>
 					</div>
@@ -57,7 +56,7 @@
 
 								<span class="stuScore"
 									>{{ typeName }}认知分：<span class="score"
-										>{{ item.CognitiveIndex }}分</span
+										>{{ item.CognitiveIndex.toFixed(2) }}分</span
 									></span
 								>
 								<span class="stuRate"
@@ -78,18 +77,17 @@
 								v-for="(item, index) in focusList"
 								:key="index"
 							>
-								<span class="stuRank">1</span>
-								<span class="stuName"
-									><img
-										class="stuPhoto"
-										src="http://172.16.41.236:5000/LgFtp/UserInfo/Photo/Default/Nopic.jpg"
-									/>王小明</span
-								>
+								<span class="stuRank">{{ item.Index }}</span>
+								<span class="stuName"> {{ item.CourseClassName }}</span>
 								<span class="stuScore"
-									>{{ typeName }}认知分：<span class="score">6666分</span></span
+									>{{ typeName }}认知分：<span class="score"
+										>{{ item.CognitiveIndex.toFixed(2) }}分</span
+									></span
 								>
 								<span class="stuRate"
-									>答对率：<span class="correctRate">40%</span></span
+									>答对率：<span class="correctRate"
+										>{{ (item.ScoreRate * 100).toFixed(2) }}%</span
+									></span
 								>
 							</div>
 							<img
@@ -244,7 +242,6 @@
 
 <script>
 import * as api from "@/api/diagnosis";
-// import { GetSubSystemInfo } from "@/api/head/header";
 export default {
 	props: {
 		resInfo: {
@@ -285,7 +282,6 @@ export default {
 			GradeName: "高中三年级",
 			// 推荐语法/词汇知识点数量
 			recommendCount: "12",
-			// BaseSysID: "",
 		};
 	},
 	computed: {
@@ -339,10 +335,6 @@ export default {
 		// 词汇首页
 		getVocaHome(searchText) {
 			let params = {
-				// ...this.$store.state,
-				// CourseClassID: "511D5718-8E55-496E-86BF-A9103200A62F",
-				// CourseClassID: this.$route.query.courseClassID,
-				// GlobalGrade: this.resInfo.GlobalGrade,
 				SchoolID: this.resInfo.SchoolID,
 				TID: this.resInfo.UserID,
 				ZsdArea: "C",
@@ -373,35 +365,27 @@ export default {
 					this.focusList = res.Data.ClassFocusInfoList;
 				});
 			} else if (this.userType == "stu") {
-				// 个人词汇首页❎
+				// 个人词汇首页
 				params["StuID"] = this.$route.query.StuID;
-				api.GetGradeRecommendVoca(params).then((res) => {
-					this.vocaList = res.Data.GrammerZsdList;
-					this.SchoolName = res.Data.SchoolName;
-					this.GradeName = res.Data.GradeName;
-					this.recommendCount = res.Data.GrammerZsdCount;
-					this.focusList = res.Data.ClassFocusInfoList;
+				api.GetStuVocabInfoList(params).then((res) => {
+					this.vocaList = res.Data.VocaRecommendList;
+					this.StuName = res.Data.StuName;
+					this.recommendCount = res.Data.VocaRecommendCount;
 				});
 			}
 		},
 		// 语法首页
 		getGraHome(searchText) {
 			let params = {
-				// ...this.$store.state,
-				// CourseClassID: "511D5718-8E55-496E-86BF-A9103200A62F",
-				// CourseClassID: this.$route.query.courseClassID,
-				// GlobalGrade: this.resInfo.GlobalGrade,
 				SchoolID: this.resInfo.SchoolID,
 				TID: this.resInfo.UserID,
 				ZsdArea: "C",
-				// token: "262bddd0-b463-4410-8a93-b96b47701072",
 				token: this.$route.query.token,
 				PageNum: 1,
 				PageSize: 12,
 				RecommendCount: 12,
 				SearchText: searchText,
 			};
-			// delete params.UserInfo;
 			if (this.userType == "teacher") {
 				// 老师语法
 				params["CourseClassID"] = this.$route.query.courseClassID;
@@ -449,17 +433,12 @@ export default {
 		// 词汇报告
 		vocaReport() {
 			let params = {
-				// ...this.$store.state,
-				// CourseClassID: "511D5718-8E55-496E-86BF-A9103200A62F",
-				// CourseClassID: this.$route.query.courseClassID,
-				// GlobalGrade: this.resInfo.GlobalGrade,
 				SchoolID: this.resInfo.SchoolID,
 				TID: this.resInfo.UserID,
 				ZsdArea: "C",
 				token: this.$route.query.token,
 				RecommendCount: 15,
 			};
-			// delete params.UserInfo;
 			if (this.userType == "teacher") {
 				// 老师词汇
 				params["CourseClassID"] = this.$route.query.courseClassID;
@@ -473,9 +452,9 @@ export default {
 					window.open(res.Data, "_self");
 				});
 			} else if (this.userType == "stu") {
-				// 个人词汇❎
+				// 个人词汇
 				params["StuID"] = this.$route.query.StuID;
-				api.GetExportClassWeakGrammerDiagnosis(params).then((res) => {
+				api.GetExportStuGrammerPlans(params).then((res) => {
 					window.open(res.Data, "_self");
 				});
 			}
@@ -483,17 +462,12 @@ export default {
 		// 语法报告
 		graReport() {
 			let params = {
-				// ...this.$store.state,
-				// CourseClassID: "511D5718-8E55-496E-86BF-A9103200A62F",
-				// CourseClassID: this.$route.query.courseClassID,
-				// GlobalGrade: this.resInfo.GlobalGrade,
 				SchoolID: this.resInfo.SchoolID,
 				TID: this.resInfo.UserID,
 				ZsdArea: "C",
 				token: this.$route.query.token,
 				RecommendCount: 12,
 			};
-			// delete params.UserInfo;
 			if (this.userType == "teacher") {
 				// 老师语法
 				params["CourseClassID"] = this.$route.query.courseClassID;
@@ -535,18 +509,9 @@ export default {
 				this.zsdClick(res.Data);
 			});
 		},
-		// getBaseSysID() {
-		// 	let params = {
-		// 		token: this.$route.query.token,
-		// 	};
-		// 	GetSubSystemInfo(params).then((res) => {
-		// 		this.BaseSysID = res.Data.BaseSysID;
-		// 	});
-		// },
 		//初始化基础平台
 		initBase() {
 			this.clientObj = this.$com.BsToCsFunc(this.InitFunc);
-			// this.getBaseSysID();
 		},
 		//②与基础平台的5次握手
 		InitFunc(obj) {
@@ -571,7 +536,7 @@ export default {
 				});
 			} else {
 				if (this.jcptFlag != false) {
-					console.log("启动参数：" + url);
+					// console.log("启动参数：" + url);
 					if (url == "") {
 						this.$message({
 							message: "还未加载完成课件信息，请稍候再试~",

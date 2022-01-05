@@ -56,9 +56,7 @@ export default {
 					},
 					axisTick: { show: false },
 					axisLabel: {
-						textStyle: {
-							color: "#ffffff",
-						},
+						color: "#ffffff",
 					},
 				},
 				yAxis: [
@@ -77,9 +75,7 @@ export default {
 						max: 800,
 						axisLabel: {
 							show: false,
-							textStyle: {
-								color: "#666666",
-							},
+							color: "#666666",
 						},
 					},
 					{
@@ -107,9 +103,7 @@ export default {
 						axisLabel: {
 							show: false,
 							formatter: "{value} %", //右侧Y轴文字显示
-							textStyle: {
-								color: "#666",
-							},
+							color: "#666",
 						},
 					},
 				],
@@ -278,7 +272,11 @@ export default {
 	methods: {
 		drawLine() {
 			let vocabCharts = this.$echarts.init(
-				document.getElementById("vocabCharts")
+				document.getElementById("vocabCharts"),
+				null,
+				{
+					renderer: "svg",
+				}
 			);
 			vocabCharts.setOption(this.vocabOption);
 			vocabCharts.setOption({

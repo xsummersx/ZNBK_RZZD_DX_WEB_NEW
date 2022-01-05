@@ -488,6 +488,7 @@ export default {
 				PageNum: PageNum,
 				PageSize: this.PageSize,
 			};
+			delete params.UserInfo;
 			// console.log(params);
 			GetClassVocaConclusionDetail(params).then((res) => {
 				this.tableData = res.Data.StuVocaList;

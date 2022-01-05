@@ -211,13 +211,7 @@ export default {
 			}
 		},
 	},
-	watch: {
-		// searchText: function () {
-		// 	if (this.searchText === "") {
-		// 		this.isSearching = false;
-		// 	}
-		// },
-	},
+	watch: {},
 	created() {
 		this.init("");
 	},
@@ -236,10 +230,6 @@ export default {
 		// 获取词汇知识点
 		getVocaDetail(pageNum, zsdType, searchText) {
 			let params = {
-				// ...this.$store.state,
-				// CourseClassID: "511D5718-8E55-496E-86BF-A9103200A62F",
-				// CourseClassID: this.$route.query.courseClassID,
-				// GlobalGrade: this.resInfo.GlobalGrade,
 				SchoolID: this.resInfo.SchoolID,
 				TID: this.resInfo.UserID,
 				ZsdArea: "C",
@@ -249,15 +239,18 @@ export default {
 				ZsdType: zsdType,
 				SearchText: searchText,
 			};
-			// delete params.UserInfo;
 			if (this.userType == "teacher") {
 				// 老师词汇
 				params["CourseClassID"] = this.$route.query.courseClassID;
 				api.GetClassVocabDetailInfo(params).then((res) => {
 					this.vocaZsdList = res.Data.VocaList;
 					this.zsdCount = res.Data.VocaCount;
-					this.searchCount = res.Data.VocaCount;
-					this.pageCount = Math.ceil(this.zsdCount / 15);
+					this.searchCount = res.Data.SearchVocaCount;
+					if (this.isSearching) {
+						this.pageCount = Math.ceil(res.Data.SearchVocaCount / 15);
+					} else {
+						this.pageCount = Math.ceil(res.Data.VocaCount / 15);
+					}
 				});
 			} else if (this.userType == "grade") {
 				// 年级组长词汇
@@ -265,27 +258,31 @@ export default {
 				api.GetGradeVocabDetailInfo(params).then((res) => {
 					this.vocaZsdList = res.Data.VocaList;
 					this.zsdCount = res.Data.VocaCount;
-					this.searchCount = res.Data.VocaCount;
-					this.pageCount = Math.ceil(this.zsdCount / 15);
+					this.searchCount = res.Data.SearchVocaCount;
+					if (this.isSearching) {
+						this.pageCount = Math.ceil(res.Data.SearchVocaCount / 15);
+					} else {
+						this.pageCount = Math.ceil(res.Data.VocaCount / 15);
+					}
 				});
 			} else if (this.userType == "stu") {
-				// 个人词汇❎
+				// 个人词汇
 				params["StuID"] = this.$route.query.StuID;
-				api.GetClassVocabDetailInfo(params).then((res) => {
+				api.GetStuDetailVocabulary(params).then((res) => {
 					this.vocaZsdList = res.Data.VocaList;
 					this.zsdCount = res.Data.VocaCount;
-					this.searchCount = res.Data.VocaCount;
-					this.pageCount = Math.ceil(this.zsdCount / 15);
+					this.searchCount = res.Data.SearchVocaCount;
+					if (this.isSearching) {
+						this.pageCount = Math.ceil(res.Data.SearchVocaCount / 15);
+					} else {
+						this.pageCount = Math.ceil(res.Data.VocaCount / 15);
+					}
 				});
 			}
 		},
 		// 获取语法知识点
 		getGraDetail(pageNum, zsdType, searchText) {
 			let params = {
-				// ...this.$store.state,
-				// CourseClassID: "511D5718-8E55-496E-86BF-A9103200A62F",
-				// CourseClassID: this.$route.query.courseClassID,
-				// GlobalGrade: this.resInfo.GlobalGrade,
 				SchoolID: this.resInfo.SchoolID,
 				TID: this.resInfo.UserID,
 				ZsdArea: "C",
@@ -295,7 +292,6 @@ export default {
 				ZsdType: zsdType,
 				SearchText: searchText,
 			};
-			// delete params.UserInfo;
 			if (this.userType == "teacher") {
 				// 老师语法
 				params["CourseClassID"] = this.$route.query.courseClassID;

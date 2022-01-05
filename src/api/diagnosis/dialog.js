@@ -48,15 +48,15 @@ export function GetGradeGrammerZsdMapApplication(data) {
 
 // 学生个人端
 // 词汇弹窗
-// export function GetGradeVocabDetssailInfo(data) {
-// 	return request({
-// 		url: "/api/GradeLeaderRZZD/GetGradeVocabDetailInfo_V3",
-// 		method: "GET",
-// 		params: {
-// 			...data,
-// 		},
-// 	});
-// }
+export function GetStuDetailVocabulary(data) {
+	return request({
+		url: "/api/GradeLeaderRZZD/GetStuDetailVocabulary_V3",
+		method: "GET",
+		params: {
+			...data,
+		},
+	});
+}
 // 语法弹窗
 export function GetStuGrammerZsdMapApplication(data) {
 	return request({

@@ -18,6 +18,7 @@
 				</div>
 			</div>
 			<Progress
+				v-if="isShow"
 				:isVoca="false"
 				:FirstScoreRate="FirstScoreRate"
 				:SecondScoreRate="SecondScoreRate"
@@ -35,11 +36,15 @@ export default {
 			scoreRate: 0.6986,
 			FirstScoreRate: 1.0,
 			SecondScoreRate: 0.9863,
-			ThirdScoreRate: 0.2,
+			ThirdScoreRate: 0.4226,
+			isShow: false,
 		};
 	},
 	components: {
 		Progress: () => import("../common/Progress.vue"),
+	},
+	created() {
+		this.init();
 	},
 	methods: {
 		init() {
@@ -55,6 +60,7 @@ export default {
 				this.FirstScoreRate = res.Data.FirstScoreRate;
 				this.SecondScoreRate = res.Data.SecondScoreRate;
 				this.ThirdScoreRate = res.Data.ThirdScoreRate;
+				this.isShow = true;
 			});
 		},
 		// 跳转薄弱诊断

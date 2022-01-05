@@ -7,13 +7,15 @@
 				<span
 					>· 较班级平均&nbsp;&nbsp;
 					<span class="quantity" :class="status === 'up' ? 'up' : 'down'"
-						>{{ comparedData }}<span class="char">分</span></span
+						>{{ comparedData }}<span class="char" v-if="isScore">分</span
+						><span class="char" v-else>份</span></span
 					></span
 				>
 				<span
 					>· 较年级平均&nbsp;&nbsp;
 					<span class="quantity" :class="status1 === 'up' ? 'up' : 'down'"
-						>{{ comparedData1 }}<span class="char">分</span></span
+						>{{ comparedData1 }}<span class="char" v-if="isScore">分</span
+						><span class="char" v-else>份</span></span
 					></span
 				>
 			</div>
@@ -28,8 +30,16 @@
 					:title="item.SchoolName"
 					>· {{ item.SchoolName }}</span
 				> -->
-				<span>· 班级排名 &nbsp;&nbsp;<span class="rankNumber">8</span></span>
-				<span>· 年级排名 &nbsp;&nbsp;<span class="rankNumber">80</span></span>
+				<span
+					>· 班级排名 &nbsp;&nbsp;<span class="rankNumber">{{
+						ClassRank
+					}}</span></span
+				>
+				<span
+					>· 年级排名 &nbsp;&nbsp;<span class="rankNumber">{{
+						GradeRank
+					}}</span></span
+				>
 			</div>
 		</div>
 	</div>
@@ -38,47 +48,53 @@
 <script>
 export default {
 	props: {
-		compareList: {
-			type: Array,
+		classCompare: {
+			type: Number,
 		},
-		rankList: {
-			type: Array,
+		gradeCompare: {
+			type: Number,
 		},
 		isScore: {
 			type: Boolean,
 			default: true,
 		},
+		ClassRank: {
+			type: Number,
+		},
+		GradeRank: {
+			type: Number,
+		},
 	},
 	data() {
 		return {
-			ChangeScore: 100,
-			ChangeScore1: -100,
+			// ChangeScore: 100,
+			// ChangeScore1: -100,
 		};
 	},
 	computed: {
 		comparedData: function () {
-			if (this.ChangeScore < 0) {
-				return Math.abs(this.ChangeScore);
+			if (this.classCompare < 0) {
+				return Math.abs(this.classCompare);
 			} else {
-				return this.ChangeScore;
+				return this.classCompare;
 			}
 		},
 		status: function () {
-			if (this.ChangeScore < 0) {
+			if (this.classCompare < 0) {
 				return "down";
 			} else {
 				return "up";
 			}
 		},
 		comparedData1: function () {
-			if (this.ChangeScore1 < 0) {
-				return Math.abs(this.ChangeScore1);
+			if (this.gradeCompare < 0) {
+				return Math.abs(this.gradeCompare);
 			} else {
-				return this.ChangeScore1;
+				return this.gradeCompare;
 			}
 		},
 		status1: function () {
-			if (this.ChangeScore1 < 0) {
+			if (this.gradeCompare < 0) {
 				return "down";
 			} else {
 				return "up";

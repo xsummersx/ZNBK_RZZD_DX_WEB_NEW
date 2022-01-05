@@ -75,13 +75,13 @@ export default {
 	},
 	computed: {
 		percent1: function () {
-			return (this.FirstScoreRate*100).toFixed(2);
+			return (this.FirstScoreRate * 100).toFixed(2);
 		},
 		percent2: function () {
-			return (this.SecondScoreRate*100).toFixed(2);
+			return (this.SecondScoreRate * 100).toFixed(2);
 		},
 		percent3: function () {
-			return (this.ThirdScoreRate*100).toFixed(2);
+			return (this.ThirdScoreRate * 100).toFixed(2);
 		},
 		data1: function () {
 			return 66666;
@@ -97,9 +97,13 @@ export default {
 		draw1() {
 			let chart;
 			if (this.isVoca) {
-				chart = this.$echarts.init(document.getElementById("voca1"));
+				chart = this.$echarts.init(document.getElementById("voca1"), null, {
+					renderer: "svg",
+				});
 			} else {
-				chart = this.$echarts.init(document.getElementById("gra1"));
+				chart = this.$echarts.init(document.getElementById("gra1"), null, {
+					renderer: "svg",
+				});
 			}
 			chart.setOption(this.option);
 			chart.setOption({
@@ -130,21 +134,21 @@ export default {
 						itemStyle: {
 							color: {
 								type: "linear",
-								x: 1,
-								x2: 0,
+								x: 0,
 								y: 0,
-								y2: 1,
+								x2: 1,
+								y2: 0,
 								colorStops: [
 									{
-										offset: 1,
+										offset: 0,
 										color: "rgba(225, 225, 225, 0)",
 									},
 									{
-										offset: 0.4,
+										offset: 0.6,
 										color: "rgba(80,162,250,0.5)",
 									},
 									{
-										offset: 0,
+										offset: 1,
 										color: "rgba(80,162,250,1)",
 									},
 								],
@@ -159,9 +163,13 @@ export default {
 		draw2() {
 			let chart;
 			if (this.isVoca) {
-				chart = this.$echarts.init(document.getElementById("voca2"));
+				chart = this.$echarts.init(document.getElementById("voca2"), null, {
+					renderer: "svg",
+				});
 			} else {
-				chart = this.$echarts.init(document.getElementById("gra2"));
+				chart = this.$echarts.init(document.getElementById("gra2"), null, {
+					renderer: "svg",
+				});
 			}
 			chart.setOption(this.option);
 			chart.setOption({
@@ -187,26 +195,25 @@ export default {
 								},
 							},
 							color: "rgba(221,116,35, 1)",
-							fontSize: 24,
 						},
 						itemStyle: {
 							color: {
 								type: "linear",
-								x: 1,
-								x2: 0,
+								x: 0,
 								y: 0,
-								y2: 1,
+								x2: 1,
+								y2: 0,
 								colorStops: [
 									{
-										offset: 1,
+										offset: 0,
 										color: "rgba(225, 225, 225, 0)",
 									},
 									{
-										offset: 0.4,
+										offset: 0.6,
 										color: "rgba(221,116,35,0.5)",
 									},
 									{
-										offset: 0,
+										offset: 1,
 										color: "rgba(221,116,35,1)",
 									},
 								],
@@ -222,13 +229,16 @@ export default {
 			let chart;
 			if (this.isVoca) {
 				let vocaDom = document.getElementById("voca3");
-				// chart = this.$echarts.init(vocaDom, null, {
-				// 	renderer: "svg",
-				// });
-				chart = this.$echarts.init(vocaDom);
+				chart = this.$echarts.init(vocaDom, null, {
+					renderer: "svg",
+				});
+				// chart = this.$echarts.init(vocaDom);
 			} else {
 				let graDom = document.getElementById("gra3");
-				chart = this.$echarts.init(graDom);
+				chart = this.$echarts.init(graDom, null, {
+					renderer: "svg",
+				});
+				// chart = this.$echarts.init(graDom);
 			}
 			chart.setOption(this.option);
 			chart.setOption({
@@ -254,26 +264,25 @@ export default {
 								},
 							},
 							color: "rgba(113,233,157,1)",
-							fontSize: 24,
 						},
 						itemStyle: {
 							color: {
 								type: "linear",
-								x: 1,
-								x2: 0,
+								x: 0,
 								y: 0,
-								y2: 1,
+								x2: 1,
+								y2: 0,
 								colorStops: [
 									{
-										offset: 1,
+										offset: 0,
 										color: "rgba(225, 225, 225, 0)",
 									},
 									{
-										offset: 0.4,
+										offset: 0.6,
 										color: "rgba(113,233,157,0.5)",
 									},
 									{
-										offset: 0,
+										offset: 1,
 										color: "rgba(113,233,157,1)",
 									},
 								],

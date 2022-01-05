@@ -117,6 +117,7 @@ export default {
 	methods: {
 		init() {
 			let data = { ...this.$store.state };
+			delete data.UserInfo;
 			if (this.$route.name === "educationRZZD") {
 				GetAreaPaperNum(data).then((res) => {
 					this.info = res.Data;

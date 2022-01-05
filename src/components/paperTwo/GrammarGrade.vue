@@ -52,7 +52,7 @@ export default {
 									},
 									{
 										offset: 0.5,
-										color: "rgba(126,199,255,1)", // 100% 处的颜色
+										color: "rgba(126,199,255,1)",
 									},
 									{
 										offset: 1,
@@ -85,9 +85,7 @@ export default {
 					},
 					axisTick: { show: false },
 					axisLabel: {
-						textStyle: {
-							color: "#ffffff",
-						},
+						color: "#ffffff",
 					},
 				},
 
@@ -120,9 +118,7 @@ export default {
 						axisLabel: {
 							show: true,
 							formatter: "{value}", //右侧Y轴文字显示
-							textStyle: {
-								color: "#a2afcc",
-							},
+							color: "#a2afcc",
 						},
 					},
 				],
@@ -155,28 +151,25 @@ export default {
 						},
 						areaStyle: {
 							//区域填充样式
-							normal: {
-								//线性渐变，前4个参数分别是x0,y0,x2,y2(范围0~1);相当于图形包围盒中的百分比。如果最后一个参数是‘true’，则该四个值是绝对像素位置。
-								color: {
-									type: "linear",
-									x: 0,
-									y: 0,
-									x2: 0,
-									y2: 1,
-									colorStops: [
-										{
-											offset: 0,
-											color: "rgba(3,163,233,.8)",
-										},
-										{
-											offset: 1,
-											color: "rgba(25,163,223, 0)",
-										},
-									],
-								},
-								shadowColor: "rgba(25,163,223, 0.5)", //阴影颜色
-								shadowBlur: 20, //shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
+							color: {
+								type: "linear",
+								x: 0,
+								y: 0,
+								x2: 0,
+								y2: 1,
+								colorStops: [
+									{
+										offset: 0,
+										color: "rgba(3,163,233,.8)",
+									},
+									{
+										offset: 1,
+										color: "rgba(25,163,223, 0)",
+									},
+								],
 							},
+							shadowColor: "rgba(25,163,223, 0.5)", //阴影颜色
+							shadowBlur: 20, //shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
 						},
 					},
 				],
@@ -268,7 +261,11 @@ export default {
 		},
 		drawLine() {
 			var grammerCharts = this.$echarts.init(
-				document.getElementById("grammerCharts")
+				document.getElementById("grammerCharts"),
+				null,
+				{
+					renderer: "svg",
+				}
 			);
 			grammerCharts.setOption(this.gramOption);
 			grammerCharts.setOption({

@@ -550,7 +550,7 @@ export default {
 				PageNum: PageNum,
 				PageSize: this.PageSize,
 			};
-			// console.log(params);
+			delete params.UserInfo;
 			GetClassGrammerList(params).then((res) => {
 				this.tableData = res.Data.StuGrammerList;
 				this.pageCount = res.Data.PageCount;

@@ -153,6 +153,7 @@ export default {
 		// 初始化
 		init() {
 			let data = { ...this.$store.state };
+			delete data.UserInfo;
 			if (this.$route.name === "educationRZZD") {
 				// 教育局
 				GetAreaCognitiveIndex(data).then((res) => {

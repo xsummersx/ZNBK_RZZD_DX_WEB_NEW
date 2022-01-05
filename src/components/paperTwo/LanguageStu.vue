@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { GetClassLanguage } from "@/api/paperTwo/question";
+import { GetStuLanguage } from "@/api/stu/right";
 export default {
 	data() {
 		return {
@@ -59,10 +59,12 @@ export default {
 
 	created() {
 		let params = {
-			...this.$store.state,
+			Token: this.$store.state.token,
+			TID: this.$store.state.TID,
+			SchoolID: this.$store.state.SchoolID,
+			StuID: this.$store.state.StuID,
 		};
-		delete params.UserInfo;
-		GetClassLanguage(params).then((res) => {
+		GetStuLanguage(params).then((res) => {
 			console.log(res);
 			this.lanResInfo = res.Data;
 		});
