@@ -102,14 +102,18 @@
 							type="text"
 							:placeholder="'请输入' + typeName + '搜索...'"
 							v-model="searchText"
-							@keyup.enter="s"
+							@keyup.enter="searchKnowledge"
 						/>
-						<span class="searchIcon" style="right: 140px"></span>
+						<span
+							class="searchIcon"
+							style="right: 140px"
+							@click="searchKnowledge"
+						></span>
 						<i class="line"></i>
 						<div
 							class="exportScore"
 							style="margin-right: 0px"
-							@click="GetScoreReport()"
+							@click="exportReport"
 						>
 							<span class="exportIcon"></span>
 							导出报告
@@ -219,7 +223,7 @@
 			:close-on-click-modal="false"
 			width="1120px"
 		>
-			<DIagnosisDialog :typeName="typeName" :userType="userType" />
+			<DiagnosisDialog :typeName="typeName" :userType="userType" />
 		</el-dialog>
 	</div>
 </template>
@@ -229,9 +233,13 @@ import * as api from "@/api/diagnosis";
 export default {
 	data() {
 		return {
+			// 重点关注列表
 			focusList: [],
+			// 词汇列表
 			vocaList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+			// 语法列表
 			graList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+			// 搜索框文本
 			searchText: "",
 			// 总分页数
 			pageCount: 1,
@@ -239,17 +247,26 @@ export default {
 			currentPage: 1,
 			// 每页显示的数量
 			PageSize: 9,
+			// 用户身份 teacher：老师，grade：年级组长，stu：学生
 			userType: "teacher",
-			reportType: "voca",
+			// 报告类型 voca：词汇，gra：语法
+			reportType: "gra",
+			// dialog标题
 			dialogTitle: "薄弱",
+			// dialog是否可见
 			dialogVisible: false,
+			// 学校名称
 			SchoolName: "蓝鸽高中",
+			// 班级名称
 			CourseClassName: "高三（3）班",
+			// 年级名称
 			GradeName: "高中三年级",
+			// 推荐语法/词汇知识点数量
 			recommendCount: "12",
 		};
 	},
 	computed: {
+		// 报告类型
 		typeName: function () {
 			if (this.reportType == "voca") {
 				return "词汇";
@@ -257,6 +274,7 @@ export default {
 				return "语法";
 			}
 		},
+		// 智能官显示文本
 		recommendText: function () {
 			if (this.userType == "teacher") {
 				return "班级";
@@ -266,6 +284,7 @@ export default {
 				return "学生";
 			}
 		},
+		// 标题文本
 		titleText: function () {
 			if (this.userType == "teacher") {
 				return "班级";
@@ -277,20 +296,24 @@ export default {
 		},
 	},
 	created() {
-		this.init();
+		this.init("");
 	},
 	components: {
-		DIagnosisDialog: () => import("./DIagnosisDialog.vue"),
+		DiagnosisDialog: () => import("./DIagnosisDialog.vue"),
 	},
 	methods: {
-		init() {
+		// 初始化
+		init(searchText) {
 			if (this.reportType == "voca") {
-				this.getVocaHome();
+				// 词汇
+				this.getVocaHome(searchText);
 			} else if (this.reportType == "gra") {
-				this.getGraHome();
+				// 语法
+				this.getGraHome(searchText);
 			}
 		},
-		getVocaHome() {
+		// 词汇首页
+		getVocaHome(searchText) {
 			let params = {
 				// ...this.$store.state,
 				CourseClassID: "511D5718-8E55-496E-86BF-A9103200A62F",
@@ -303,9 +326,11 @@ export default {
 				PageNum: 1,
 				PageSize: 15,
 				ShowNum: 15,
+				SearchText: searchText,
 			};
 			delete params.UserInfo;
 			if (this.userType == "teacher") {
+				// 老师词汇首页
 				api.GetClassRecommendVoca(params).then((res) => {
 					this.vocaList = res.Data.VocaRecommendList;
 					this.SchoolName = res.Data.SchoolName;
@@ -314,7 +339,16 @@ export default {
 					this.focusList = res.Data.StuFocusInfoList;
 				});
 			} else if (this.userType == "grade") {
-				// ❎
+				// 年级组长词汇首页❎
+				api.GetClassRecommen2dVoca(params).then((res) => {
+					this.vocaList = res.Data.GrammerZsdList;
+					this.SchoolName = res.Data.SchoolName;
+					this.GradeName = res.Data.GradeName;
+					this.recommendCount = res.Data.GrammerZsdCount;
+					this.focusList = res.Data.ClassFocusInfoList;
+				});
+			} else if (this.userType == "stu") {
+				// 个人词汇首页❎
 				api.GetClassRecommen2dVoca(params).then((res) => {
 					this.vocaList = res.Data.GrammerZsdList;
 					this.SchoolName = res.Data.SchoolName;
@@ -324,7 +358,8 @@ export default {
 				});
 			}
 		},
-		getGraHome() {
+		// 语法首页
+		getGraHome(searchText) {
 			let params = {
 				// ...this.$store.state,
 				CourseClassID: "511D5718-8E55-496E-86BF-A9103200A62F",
@@ -337,9 +372,11 @@ export default {
 				PageNum: 1,
 				PageSize: 12,
 				RecommendCount: 12,
+				SearchText: searchText,
 			};
 			delete params.UserInfo;
 			if (this.userType == "teacher") {
+				// 老师语法
 				api.GetClassWeakGrammerDiagnosis(params).then((res) => {
 					this.graList = res.Data.GrammerZsdList;
 					this.SchoolName = res.Data.SchoolName;
@@ -348,6 +385,16 @@ export default {
 					this.focusList = res.Data.StuFocusInfoList;
 				});
 			} else if (this.userType == "grade") {
+				// 年级组长语法
+				api.GetGradeWeakGrammerDiagnosis(params).then((res) => {
+					this.graList = res.Data.GrammerZsdList;
+					this.SchoolName = res.Data.SchoolName;
+					this.GradeName = res.Data.GradeName;
+					this.recommendCount = res.Data.GrammerZsdCount;
+					this.focusList = res.Data.ClassFocusInfoList;
+				});
+			} else if (this.userType == "stu") {
+				// 个人语法❎
 				api.GetGradeWeakGrammerDiagnosis(params).then((res) => {
 					this.graList = res.Data.GrammerZsdList;
 					this.SchoolName = res.Data.SchoolName;
@@ -357,30 +404,105 @@ export default {
 				});
 			}
 		},
+		// 打开dialog
 		openDialog() {
 			this.dialogVisible = true;
 		},
+		// 导出报告
+		exportReport() {
+			if (this.reportType == "voca") {
+				// 词汇
+				this.vocaReport();
+			} else if (this.reportType == "gra") {
+				// 语法
+				this.graReport();
+			}
+		},
+		// 词汇报告
+		vocaReport() {
+			let params = {
+				// ...this.$store.state,
+				CourseClassID: "511D5718-8E55-496E-86BF-A9103200A62F",
+				GlobalGrade: "K12",
+				SchoolID: "S4-000020-9AB3",
+				TID: "GD110202",
+				ZsdArea: "C",
+				token: "262bddd0-b463-4410-8a93-b96b47701072",
+				RecommendCount: 15,
+			};
+			delete params.UserInfo;
+			if (this.userType == "teacher") {
+				// 老师词汇
+				api.GetExportClassVocabPlans(params).then((res) => {
+					window.open(res.Data, "_self");
+				});
+			} else if (this.userType == "grade") {
+				// 年级组长词汇
+				api.GetExportGradeVocabPlans(params).then((res) => {
+					window.open(res.Data, "_self");
+				});
+			} else if (this.userType == "stu") {
+				// 个人词汇❎
+				api.GetExportClassWeakGrammerDiagnosis(params).then((res) => {
+					window.open(res.Data, "_self");
+				});
+			}
+		},
+		// 语法报告
+		graReport() {
+			let params = {
+				// ...this.$store.state,
+				CourseClassID: "511D5718-8E55-496E-86BF-A9103200A62F",
+				GlobalGrade: "K12",
+				SchoolID: "S4-000020-9AB3",
+				TID: "GD110202",
+				ZsdArea: "C",
+				token: "262bddd0-b463-4410-8a93-b96b47701072",
+				RecommendCount: 12,
+			};
+			delete params.UserInfo;
+			if (this.userType == "teacher") {
+				// 老师语法
+				api.GetExportClassWeakGrammerDiagnosis(params).then((res) => {
+					window.open(res.Data, "_self");
+				});
+			} else if (this.userType == "grade") {
+				// 年级组长语法
+				api.GetExportGradeWeakGrammerDiagnosis(params).then((res) => {
+					window.open(res.Data, "_self");
+				});
+			} else if (this.userType == "stu") {
+				// 个人语法❎
+				api.GetExportGradeWeakGrammerDiagnosis(params).then((res) => {
+					window.open(res.Data, "_self");
+				});
+			}
+		},
+		// 搜索知识点
+		searchKnowledge() {
+			this.init(this.searchText);
+		},
 		// 显示第几页
 		handleCurrentChange(val) {
-			// 改变默认的页数
+			// 改变页数
 			this.currentPage = val;
 		},
 	},
 };
 </script>
 <style lang="scss">
-@import "../../assets/js/dialog/colorGlobal.scss";
-@import "../../assets/js/dialog/elementReset_Dialog.scss";
+@import "~@/assets/js/dialog/colorGlobal.scss";
+@import "~@/assets/js/dialog/elementReset_Dialog.scss";
 </style>
 <style lang="scss" scoped>
 .diagnosisPage {
-	width: 1920px;
-	height: 1080px;
+	// width: 1920px;
+	// height: 1080px;
 	display: flex;
 	display: -webkit-flex;
 	flex-direction: column;
 	align-items: center;
-	background: url(~@/assets/img/diagnosis/整体大BG.png) center center no-repeat;
+	// background: url(~@/assets/img/diagnosis/整体大BG.png) center center no-repeat;
 }
 .diagnosisTitle {
 	height: 84px;

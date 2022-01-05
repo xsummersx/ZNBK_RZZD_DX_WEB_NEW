@@ -12,16 +12,17 @@ export function GetClassRecommendVoca(data) {
 		},
 	});
 }
-// 词汇弹窗
-export function GetClassVocabDetailInfo(data) {
+// 词汇导出报告
+export function GetExportClassVocabPlans(data) {
 	return request({
-		url: "/api/TeacherRZZD/GetClassVocabDetailInfo_V3",
+		url: "/api/TeacherRZZD/GetExportClassVocabPlans",
 		method: "GET",
 		params: {
 			...data,
 		},
 	});
 }
+
 // 语法首页
 export function GetClassWeakGrammerDiagnosis(data) {
 	return request({
@@ -32,10 +33,10 @@ export function GetClassWeakGrammerDiagnosis(data) {
 		},
 	});
 }
-// 语法弹窗
-export function GetGrammerZsdMapApplication(data) {
+// 语法导出报告
+export function GetExportClassWeakGrammerDiagnosis(data) {
 	return request({
-		url: "/api/TeacherRZZD/GetGrammerZsdMapApplication_V3",
+		url: "/api/TeacherRZZD/GetExportClassWeakGrammerDiagnosis_V3",
 		method: "GET",
 		params: {
 			...data,
@@ -45,27 +46,26 @@ export function GetGrammerZsdMapApplication(data) {
 
 // 年级组长端
 // 词汇首页
-// ❎
-export function GetClassRecommen2dVoca(data) {
+export function GetGradeRecommendVoca(data) {
 	return request({
-		url: "/api/GradeLeaderRZZD/GetClassRecommendVoca_V3",
+		url: "/api/GradeLeaderRZZD/GetGradeRecommendVoca_V3",
 		method: "GET",
 		params: {
 			...data,
 		},
 	});
 }
-// 词汇弹窗
-// ❎
-export function GetClassVocabDet2ailInfo(data) {
+// 词汇导出报告
+export function GetExportGradeVocabPlans(data) {
 	return request({
-		url: "/api/GradeLeaderRZZD/GetClassVocabDetailInfo_V3",
+		url: "/api/GradeLeaderRZZD/GetExportGradeVocabPlans",
 		method: "GET",
 		params: {
 			...data,
 		},
 	});
 }
+
 // 语法首页
 export function GetGradeWeakGrammerDiagnosis(data) {
 	return request({
@@ -76,10 +76,10 @@ export function GetGradeWeakGrammerDiagnosis(data) {
 		},
 	});
 }
-// 语法弹窗
-export function GetGradeGrammerZsdMapApplication(data) {
+// 语法导出报告
+export function GetExportGradeWeakGrammerDiagnosis(data) {
 	return request({
-		url: "/api/GradeLeaderRZZD/GetGradeGrammerZsdMapApplication_V3",
+		url: "/api/TeacherRZZD/GetExportGradeWeakGrammerDiagnosis_V3",
 		method: "GET",
 		params: {
 			...data,

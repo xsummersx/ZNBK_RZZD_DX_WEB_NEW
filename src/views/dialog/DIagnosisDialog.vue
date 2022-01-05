@@ -1,4 +1,5 @@
 <template>
+	<!-- 薄弱诊断内弹窗 -->
 	<div class="diagnosisDiaPage">
 		<div class="diagnosisDiaMain">
 			<div class="ddLine"></div>
@@ -23,20 +24,27 @@
 				>
 			</div>
 			<div class="ddtotal">
-				<span class="text1"
-					><span class="point"></span>共有<span class="totalNumber">{{
-						zsdCount
+				<span class="text1">
+					<span class="point"></span>共有<span
+						class="totalNumber"
+						v-if="!isSearching"
+						>{{ zsdCount }}</span
+					><span class="totalNumber" v-else>{{ searchCount }}</span> 个{{
+						currentChoose + typeName
 					}}</span
-					>个{{ currentChoose + typeName }}</span
 				>
 				<input
 					class="stuInput"
 					type="text"
 					:placeholder="'请输入' + typeName + '搜索...'"
 					v-model="searchText"
-					@keyup.enter="s"
+					@keyup.enter="searchKnowledgeDD"
 				/>
-				<span class="searchIcon" style="right: 10px"></span>
+				<span
+					class="searchIcon"
+					style="right: 10px"
+					@click="searchKnowledgeDD"
+				></span>
 			</div>
 			<div class="ddBottomContent" v-if="typeName === '词汇'">
 				<div class="ddCon">
@@ -126,7 +134,7 @@
 </template>
 
 <script>
-import * as api from "@/api/diagnosis";
+import * as api from "@/api/diagnosis/dialog";
 export default {
 	props: {
 		typeName: {
@@ -140,12 +148,18 @@ export default {
 	},
 	data() {
 		return {
+			// 左上角知识点总数
 			zsdCount: 0,
+			// 顶部tab当时前选择
 			currentChoose: "常考",
+			// 搜索后的总数
 			searchCount: 0,
 			// typeName: "语法",
+			// 搜索框文本
 			searchText: "",
+			// 词汇知识点列表
 			vocaZsdList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+			// 语法知识点列表
 			graZsdList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
 			// 总分页数
 			pageCount: 5,
@@ -153,6 +167,8 @@ export default {
 			currentPage: 1,
 			// 每页显示的数量
 			PageSize: 9,
+			// 搜索状态
+			isSearching: false,
 		};
 	},
 	computed: {
@@ -175,65 +191,88 @@ export default {
 			}
 		},
 	},
+	watch: {
+		// searchText: function () {
+		// 	if (this.searchText === "") {
+		// 		this.isSearching = false;
+		// 	}
+		// },
+	},
 	created() {
-		this.init();
+		this.init("");
 	},
 	methods: {
-		init() {
+		init(searchText) {
 			if (this.typeName == "词汇") {
-				this.getVocaDetail(this.currentPage, this.currentChooseLetter);
+				this.getVocaDetail(
+					this.currentPage,
+					this.currentChooseLetter,
+					searchText
+				);
 			} else if (this.typeName == "语法") {
-				this.getGraDetail(this.currentPage, this.currentChooseNum);
+				this.getGraDetail(this.currentPage, this.currentChooseNum, searchText);
 			}
 		},
-		getVocaDetail(pageNum, zsdType) {
+		// 获取词汇知识点
+		getVocaDetail(pageNum, zsdType, searchText) {
 			let params = {
 				// ...this.$store.state,
 				CourseClassID: "511D5718-8E55-496E-86BF-A9103200A62F",
 				GlobalGrade: "K12",
 				SchoolID: "S4-000020-9AB3",
-				StageNo: "C",
 				TID: "GD110202",
 				ZsdArea: "C",
 				token: "262bddd0-b463-4410-8a93-b96b47701072",
 				PageNum: pageNum,
 				PageSize: 15,
 				ZsdType: zsdType,
+				SearchText: searchText,
 			};
 			delete params.UserInfo;
 			if (this.userType == "teacher") {
+				// 老师词汇
 				api.GetClassVocabDetailInfo(params).then((res) => {
 					this.vocaZsdList = res.Data.VocaList;
 					this.zsdCount = res.Data.VocaCount;
-					// this.searchCount = res.Data.PageZsdCount;
+					this.searchCount = res.Data.VocaCount;
 					this.pageCount = Math.ceil(this.zsdCount / 15);
 				});
 			} else if (this.userType == "grade") {
-				// ❎
-				api.GetClassRecommen2dVoca(params).then((res) => {
+				// 年级组长词汇
+				api.GetGradeVocabDetailInfo(params).then((res) => {
 					this.vocaZsdList = res.Data.VocaList;
 					this.zsdCount = res.Data.VocaCount;
-					// this.searchCount = res.Data.PageZsdCount;
+					this.searchCount = res.Data.VocaCount;
+					this.pageCount = Math.ceil(this.zsdCount / 15);
+				});
+			} else if (this.userType == "stu") {
+				// 个人词汇❎
+				api.GetClassVocabDetailInfo(params).then((res) => {
+					this.vocaZsdList = res.Data.VocaList;
+					this.zsdCount = res.Data.VocaCount;
+					this.searchCount = res.Data.VocaCount;
 					this.pageCount = Math.ceil(this.zsdCount / 15);
 				});
 			}
 		},
-		getGraDetail(pageNum, zsdType) {
+		// 获取语法知识点
+		getGraDetail(pageNum, zsdType, searchText) {
 			let params = {
 				// ...this.$store.state,
 				CourseClassID: "511D5718-8E55-496E-86BF-A9103200A62F",
 				GlobalGrade: "K12",
 				SchoolID: "S4-000020-9AB3",
-				StageNo: "C",
 				TID: "GD110202",
 				ZsdArea: "C",
 				token: "262bddd0-b463-4410-8a93-b96b47701072",
 				PageNum: pageNum,
 				PageSize: 12,
 				ZsdType: zsdType,
+				SearchText: searchText,
 			};
 			delete params.UserInfo;
 			if (this.userType == "teacher") {
+				// 老师语法
 				api.GetGrammerZsdMapApplication(params).then((res) => {
 					this.graZsdList = res.Data.ZsdList;
 					this.zsdCount = res.Data.ZsdCount;
@@ -241,6 +280,15 @@ export default {
 					this.pageCount = res.Data.TotalPageNum;
 				});
 			} else if (this.userType == "grade") {
+				// 年级组长语法
+				api.GetGradeGrammerZsdMapApplication(params).then((res) => {
+					this.graZsdList = res.Data.ZsdList;
+					this.zsdCount = res.Data.ZsdCount;
+					this.searchCount = res.Data.PageZsdCount;
+					this.pageCount = res.Data.TotalPageNum;
+				});
+			} else if (this.userType == "stu") {
+				// 个人语法❎
 				api.GetGradeGrammerZsdMapApplication(params).then((res) => {
 					this.graZsdList = res.Data.ZsdList;
 					this.zsdCount = res.Data.ZsdCount;
@@ -249,16 +297,35 @@ export default {
 				});
 			}
 		},
+		// 改变当前tab的选择
 		changeCurrChoose(val) {
+			this.searchText = "";
 			this.currentPage = 1;
 			this.currentChoose = val;
-			this.init();
+			if (this.isSearching) {
+				this.init(this.searchText);
+			} else {
+				this.init("");
+			}
+		},
+		// 搜索知识点
+		searchKnowledgeDD() {
+			if (this.searchText != "") {
+				this.isSearching = true;
+			} else {
+				this.isSearching = false;
+			}
+			this.init(this.searchText);
 		},
 		// 显示第几页
 		handleCurrentChange(val) {
 			// 改变默认的页数
 			this.currentPage = val;
-			this.init();
+			if (this.isSearching) {
+				this.init(this.searchText);
+			} else {
+				this.init("");
+			}
 		},
 	},
 };
