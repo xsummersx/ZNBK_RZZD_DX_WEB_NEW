@@ -1,19 +1,21 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:27:26
- * @LastEditTime: 2021-12-31 10:14:48
+ * @LastEditTime: 2022-01-05 11:22:05
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》地图，图0
 -->
 <template>
   <div class="map">
-    <div class="noData" v-show="IsHaveSchool == false || IsHaveMap == false">
-      {{ noDataText0 }}
+    <div v-show="showData">
+      <div class="noData" v-show="IsHaveSchool == false || IsHaveMap == false">
+        {{ noDataText0 }}
+      </div>
+      <div id="mapID" v-show="IsHaveMap" :style="{ opacity: IsHaveSchool == false ? 0.2 : 1 }"></div>
+      <div class="legend" v-show="IsHaveMap" :style="{ opacity: IsHaveSchool == false ? 0.2 : 1 }"></div>
+      <!-- <div class="btnText"><span class="text">学校认知情况</span><i class="btnIcon"></i></div> -->
     </div>
-    <div id="mapID" v-show="IsHaveMap" :style="{ opacity: IsHaveSchool == false ? 0.2 : 1 }"></div>
-    <div class="legend" v-show="IsHaveMap" :style="{ opacity: IsHaveSchool == false ? 0.2 : 1 }"></div>
-    <!-- <div class="btnText"><span class="text">学校认知情况</span><i class="btnIcon"></i></div> -->
   </div>
 </template>
 <script>
@@ -26,6 +28,7 @@ export default {
       noDataText0: "暂无教育局地图数据噢~",
       IsHaveSchool: false, //是否有学校
       IsHaveMap: false, //是否有地图
+      showData: false, //是否接口异步请求完成
     };
   },
   mounted() {
@@ -33,10 +36,10 @@ export default {
   },
   methods: {
     //跳转学校点击事件
-    SchoolClick(id) {
-      this.$store.commit("updateSchoolID", id);
-      window.open(window.location.origin + "/Web/index.html#/home/schoolRZZD?token=" + this.$store.state.token);
-    },
+    // SchoolClick(id) {
+    //   this.$store.commit("updateSchoolID", id);
+    //   window.open(window.location.origin + "/Web/index.html#/home/schoolRZZD?token=" + this.$store.state.token);
+    // },
     //统计图绘制
     drawMap() {
       let params = {
@@ -51,6 +54,7 @@ export default {
       };
 
       getMapJson(params).then((res) => {
+        this.showData = true;
         if (res.Data.MapResources.features.length > 0) {
           this.IsHaveMap = true;
         }
@@ -148,7 +152,12 @@ export default {
             // },
             formatter: function (params) {
               console.log(params);
-              let url = "http://www.baidu.com";
+              let url =
+                window.location.origin +
+                "/Web/index.html#/home/schoolRZZD?token=" +
+                window.location.hash.split("?")[1].split("=")[1] +
+                "&SchoolID=" +
+                params.data.SchoolID;
               let divTop =
                 '<div class="toolTipTop"><span class="toolTipTitle" title="' +
                 params.data.name +
