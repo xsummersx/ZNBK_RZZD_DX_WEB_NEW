@@ -19,36 +19,16 @@
 			</div>
 			<CompareLastWeek :ChangeScore="info.ChangePaperCount" />
 		</div>
-		<div class="bottom">
-			<span class="bottomTitle" v-if="$route.name === 'gradeRZZD'"
-				>班级排行榜<span class="top2">TOP2</span></span
-			>
-			<span class="bottomTitle" v-if="$route.name === 'teacherRZZD'"
-				>学生排行榜<span class="top2">TOP2</span></span
-			>
-			<div class="content" v-if="$route.name === 'teacherRZZD'">
-				<span :title="theFirst.StuName"
-					>· {{ theFirst.StuName + " " + theFirst.PaperCount }}份</span
-				>
-				<span :title="theSecond.StuName"
-					>· {{ theSecond.StuName + " " + theSecond.PaperCount }}份</span
-				>
-			</div>
-			<div class="content" v-else>
-				<span :title="theFirst.CourseClassName"
-					>·
-					{{
-						theFirst.CourseClassName + " " + theFirst.ClassPaperCount
-					}}份</span
-				>
-				<span :title="theSecond.CourseClassName"
-					>·
-					{{
-						theSecond.CourseClassName + " " + theSecond.ClassPaperCount
-					}}份</span
-				>
-			</div>
-		</div>
+		<Top2
+			:theFirstStu="theFirst.StuName"
+			:theFirstPre="theFirst.PaperCount"
+			:theFirstClass="theFirst.CourseClassName"
+			:theFirstAvg="theFirst.ClassPaperCount"
+			:theSecondStu="theSecond.StuName"
+			:theSecondPre="theSecond.PaperCount"
+			:theSecondClass="theSecond.CourseClassName"
+			:theSecondAvg="theSecond.ClassPaperCount"
+		/>
 	</div>
 </template>
 
@@ -57,18 +37,15 @@ import { GetClassPaperNum, GetGradePaperNum } from "@/api/gradeTeacher/left.js";
 export default {
 	data() {
 		return {
-			// 1:教师
-			// 12:年级组长
-			userType: 1,
 			info: {
-				ClassTotalPaperCount: 500,
-				ChangePaperCount: -12,
+				ClassTotalPaperCount: 0,
+				ChangePaperCount: 0,
 				StuPaperCountList: [
 					{
 						Index: 13,
 						StuID: "1201054",
 						StuPhotoPath: null,
-						StuName: "1201054",
+						StuName: "1",
 						PaperCount: 1,
 						PaperAvgRate: 0.5833333,
 						ClassRank: 3,
@@ -78,18 +55,8 @@ export default {
 						Index: 13,
 						StuID: "1201057",
 						StuPhotoPath: null,
-						StuName: "张青青",
-						PaperCount: 3,
-						PaperAvgRate: 0.5833333,
-						ClassRank: 3,
-						GradeRank: 3,
-					},
-					{
-						Index: 13,
-						StuID: "1201055",
-						StuPhotoPath: null,
-						StuName: "卢倩峰",
-						PaperCount: 2,
+						StuName: "2",
+						PaperCount: 1,
 						PaperAvgRate: 0.5833333,
 						ClassRank: 3,
 						GradeRank: 3,
@@ -97,14 +64,12 @@ export default {
 				],
 				ClassList: [
 					{
-						CourseClassName: "初三（1班）",
-						CourseClassID: "FD4A1310-57EB-40FB-BC20-B8120FFDDA5D",
-						ClassPaperCount: 3,
+						CourseClassName: "1",
+						ClassPaperCount: 0,
 					},
 					{
-						CourseClassName: "初三（1班）",
-						CourseClassID: "FD4A1310-57EB-40FB-BC20-B8120FFDDA5D",
-						ClassPaperCount: 3,
+						CourseClassName: "1",
+						ClassPaperCount: 0,
 					},
 				],
 				AvgCountPaperInClassAcc: 0,
@@ -116,6 +81,7 @@ export default {
 	},
 	components: {
 		CompareLastWeek: () => import("../common/CompareLastWeek.vue"),
+		Top2: () => import("../common/Top2.vue"),
 	},
 	computed: {
 		isTeacher: function () {
@@ -200,38 +166,6 @@ export default {
 			font-size: 32px;
 			font-family: Oswald;
 		}
-	}
-}
-.bottom {
-	margin: 10px 0 0 0;
-	width: 368px;
-	height: 60px;
-	padding-top: 5px;
-	background-image: linear-gradient(
-		to right,
-		rgba(255, 255, 255, 0.1),
-		rgba(255, 255, 255, 0)
-	);
-	border-radius: 4px;
-	.bottomTitle {
-		background: url(~@/assets/img/teacher/标题小标签.png) 0px center no-repeat;
-		padding-left: 10px;
-		font-size: 16px;
-		font-family: YouSheBiaoTiHei;
-		color: #00aaff;
-		.top2 {
-			font-size: 12px;
-			color: #0088cc;
-		}
-	}
-	.content {
-		display: flex;
-		display: -webkit-flex;
-		margin: 5px 0 0 0;
-		justify-content: space-around;
-		// span {
-		// flex-grow: 1;
-		// }
 	}
 }
 </style>

@@ -5,7 +5,7 @@
 			<span class="bottomTitle icon1"
 				>全区排行榜<span class="top2">TOP2</span></span
 			>
-			<div class="content">
+			<div class="content" v-if="SchoolList.length > 0">
 				<span
 					v-for="(item, index) in SchoolList.slice(0, 2)"
 					:key="index"
@@ -13,13 +13,14 @@
 					>· {{ item.SchoolName }}</span
 				>
 			</div>
+			<img v-else class="imgNoData" src="~@/assets/img/common/无数据.png" />
 		</div>
 		<!-- 重点关注 -->
 		<div class="bottomItem">
 			<span class="bottomTitle icon2"
 				>全区重点关注<span class="top2">TOP2</span></span
 			>
-			<div class="content">
+			<div class="content" v-if="FocusSchoolList.length > 0">
 				<span
 					v-for="(item, index) in FocusSchoolList.slice(0, 2)"
 					:key="index"
@@ -27,6 +28,7 @@
 					>· {{ item.SchoolName }}</span
 				>
 			</div>
+			<img v-else class="imgNoData" src="~@/assets/img/common/无数据.png" />
 		</div>
 	</div>
 </template>
@@ -62,6 +64,11 @@ export default {
 			rgba(255, 255, 255, 0.1),
 			rgba(255, 255, 255, 0)
 		);
+		.imgNoData {
+			width: 40px;
+			height: 40px;
+			margin: 0 auto;
+		}
 		.content {
 			display: flex;
 			display: -webkit-flex;

@@ -14,7 +14,7 @@
 				><i></i>班级语言能力对比分析</span
 			>
 		</div>
-		<div class="main">
+		<div class="main" v-if="isShow">
 			<div class="listenAbility" :class="classToName(lanResInfo.TL)">
 				<div class="abilityLV">
 					{{ numToString(lanResInfo.TL) }}
@@ -46,6 +46,7 @@
 				<div class="ability">综合能力</div>
 			</div>
 		</div>
+		<NoDataVGL v-else type="lan" />
 		<el-dialog
 			title="班级语言能力对比分析"
 			:visible.sync="dialogVisible"
@@ -127,23 +128,34 @@ export default {
 					XZScore: 60,
 				},
 			],
+			isShow: true,
 		};
 	},
 	components: {
 		LanDialog: () => import("./dialog/LanDialog.vue"),
+		NoDataVGL: () => import("../common/NoDataVGL.vue"),
 	},
 	created() {
-		let params = {
-			...this.$store.state,
-		};
-		delete params.UserInfo;
-		GetGradeLanguage(params).then((res) => {
-			this.lanResInfo = res.Data.Conlusion;
-			this.ClassList = res.Data.ClassList;
-		});
+		this.init();
 	},
 	mounted() {},
 	methods: {
+		init() {
+			let params = {
+				...this.$store.state,
+			};
+			delete params.UserInfo;
+			GetGradeLanguage(params).then((res) => {
+				this.lanResInfo = res.Data.Conlusion;
+				this.ClassList = res.Data.ClassList;
+				let { ZH, XZ, KY, YD, TL } = this.lanResInfo;
+				if (ZH == 0 && XZ == 0 && KY == 0 && YD == 0 && TL == 0) {
+					this.isShow = false;
+				} else {
+					this.isShow = true;
+				}
+			});
+		},
 		openDialog() {
 			this.dialogVisible = true;
 		},

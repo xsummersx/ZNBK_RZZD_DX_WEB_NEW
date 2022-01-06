@@ -14,7 +14,8 @@
 				><i></i>薄弱语法诊断</span
 			>
 		</div>
-		<div id="grammerCharts"></div>
+		<div id="grammerCharts" v-show="isShow"></div>
+		<NoDataVGL v-if="!isShow" type="gra" />
 	</div>
 </template>
 
@@ -22,13 +23,6 @@
 import { GetGradeGrammerCompare } from "@/api/paperTwo/question";
 export default {
 	created() {
-		// GetGradeGrammerCompare()
-		//   .then((res) => {
-		//     this.info = res.Data;
-		//   })
-		//   .catch((err) => {
-		//     console.log(err);
-		//   });
 		this.init();
 	},
 	data() {
@@ -38,6 +32,7 @@ export default {
 					trigger: "axis",
 					axisPointer: {
 						// 坐标轴指示器，坐标轴触发有效
+						type: "line",
 						lineStyle: {
 							color: {
 								type: "linear",
@@ -46,20 +41,20 @@ export default {
 								x2: 0,
 								y2: 1,
 								colorStops: [
-									{
-										offset: 0,
-										color: "rgba(126,199,255,0)", // 0% 处的颜色
-									},
-									{
-										offset: 0.5,
-										color: "rgba(126,199,255,1)",
-									},
+									// {
+									// 	offset: 0,
+									// 	color: "rgba(126,199,255,0.5)", // 0% 处的颜色
+									// },
+									// {
+									// 	offset: 0.5,
+									// 	color: "rgba(126,199,255,1)",
+									// },
 									{
 										offset: 1,
-										color: "rgba(126,199,255,0)", // 100% 处的颜色
+										color: "rgba(126,199,255,0.7)", // 100% 处的颜色
 									},
 								],
-								global: false, // 缺省为 false
+								global: true,
 							},
 						},
 					},
@@ -212,11 +207,11 @@ export default {
 			},
 			// 最低答对率
 			minData: [],
+			isShow: true,
 		};
 	},
-
-	mounted() {
-		// this.drawLine();
+	components: {
+		NoDataVGL: () => import("../common/NoDataVGL.vue"),
 	},
 	computed: {
 		avgRate: function () {
@@ -250,13 +245,18 @@ export default {
 			delete params.UserInfo;
 			GetGradeGrammerCompare(params).then((res) => {
 				this.info = res.Data;
-				this.minData = res.Data.MinClassList.map((item) => {
-					return {
-						xAxis: item.CourseClassName,
-						yAxis: (item.ClassGrammerScoreRate * 100).toFixed(2),
-					};
-				});
-				this.drawLine();
+				if (res.Data.ClassGrammerScoreRateList.length == 0) {
+					this.isShow = false;
+				} else {
+					this.isShow = true;
+					this.minData = res.Data.MinClassList.map((item) => {
+						return {
+							xAxis: item.CourseClassName,
+							yAxis: (item.ClassGrammerScoreRate * 100).toFixed(2),
+						};
+					});
+					this.drawLine();
+				}
 			});
 		},
 		drawLine() {

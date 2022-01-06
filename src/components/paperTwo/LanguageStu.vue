@@ -7,7 +7,7 @@
 		<div class="box-title clearfix">
 			<span class="float-l title">语言能力</span>
 		</div>
-		<div class="main">
+		<div class="main" v-if="isShow">
 			<div class="listenAbility" :class="classToName(lanResInfo.TL)">
 				<div class="abilityLV">
 					{{ numToString(lanResInfo.TL) }}
@@ -39,6 +39,7 @@
 				<div class="ability">综合能力</div>
 			</div>
 		</div>
+		<NoDataVGL v-else type="lan" />
 	</div>
 </template>
 
@@ -54,23 +55,35 @@ export default {
 				YD: 0,
 				TL: 0,
 			},
+			isShow: false,
 		};
 	},
 
 	created() {
-		let params = {
-			Token: this.$store.state.token,
-			TID: this.$store.state.TID,
-			SchoolID: this.$store.state.SchoolID,
-			StuID: this.$store.state.StuID,
-		};
-		GetStuLanguage(params).then((res) => {
-			console.log(res);
-			this.lanResInfo = res.Data;
-		});
+		this.init();
 	},
-	mounted() {},
+	components: {
+		NoDataVGL: () => import("../common/NoDataVGL.vue"),
+	},
 	methods: {
+		init() {
+			let params = {
+				Token: this.$store.state.token,
+				TID: this.$store.state.TID,
+				SchoolID: this.$store.state.SchoolID,
+				StuID: this.$store.state.StuID,
+			};
+			GetStuLanguage(params).then((res) => {
+				// console.log(res);
+				this.lanResInfo = res.Data;
+				let { ZH, XZ, KY, YD, TL } = this.lanResInfo;
+				if (ZH == 0 && XZ == 0 && KY == 0 && YD == 0 && TL == 0) {
+					this.isShow = false;
+				} else {
+					this.isShow = true;
+				}
+			});
+		},
 		// 数字转为字符串
 		numToString(i) {
 			switch (i) {

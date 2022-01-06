@@ -13,7 +13,18 @@
 			<Polo :FullScore="info.FullScore" :score="score" />
 			<CompareLastWeek :ChangeScore="info.ChangeScore" />
 		</div>
-		<div class="bottom">
+		<Top2
+			
+			:theFirstStu="theFirst.StudentName"
+			:theFirstPre="theFirst.PredictedScore"
+			:theFirstClass="theFirst.CourseClassName"
+			:theFirstAvg="theFirst.ClassAvgScore"
+			:theSecondStu="theSecond.StudentName"
+			:theSecondPre="theSecond.PredictedScore"
+			:theSecondClass="theSecond.CourseClassName"
+			:theSecondAvg="theSecond.ClassAvgScore"
+		/>
+		<!-- <div class="bottom">
 			<span class="bottomTitle" v-if="$route.name === 'gradeRZZD'"
 				>班级排行榜<span class="top2">TOP2</span></span
 			>
@@ -39,7 +50,7 @@
 					<span class="numberColor">{{ theSecond.ClassAvgScore }}分</span>
 				</span>
 			</div>
-		</div>
+		</div> -->
 	</div>
 </template>
 
@@ -52,9 +63,6 @@ import {
 export default {
 	data() {
 		return {
-			// 1:教师
-			// 12:年级组长
-			userType: 1,
 			info: {
 				ClassAvgScore: 80,
 				GradeAvgScore: 38,
@@ -99,6 +107,7 @@ export default {
 	components: {
 		CompareLastWeek: () => import("../common/CompareLastWeek.vue"),
 		Polo: () => import("../common/Polo.vue"),
+		Top2: () => import("../common/Top2.vue"),
 	},
 	computed: {
 		score: function () {
@@ -180,36 +189,36 @@ export default {
 	margin: 30px 0 20px;
 	justify-content: space-around;
 }
-.bottom {
-	margin: 10px 0 0 0;
-	width: 368px;
-	height: 60px;
-	padding-top: 5px;
-	background-image: linear-gradient(
-		to right,
-		rgba(255, 255, 255, 0.1),
-		rgba(255, 255, 255, 0)
-	);
-	border-radius: 4px;
-	.bottomTitle {
-		background: url(~@/assets/img/teacher/标题小标签.png) 0px center no-repeat;
-		padding-left: 10px;
-		font-size: 16px;
-		font-family: YouSheBiaoTiHei;
-		color: #00aaff;
-		.top2 {
-			font-size: 12px;
-			color: #0088cc;
-		}
-	}
-	.content {
-		display: flex;
-		display: -webkit-flex;
-		margin: 5px 0 0 0;
-		justify-content: space-around;
-		// span {
-		// flex-grow: 1;
-		// }
-	}
-}
+// .bottom {
+// 	margin: 10px 0 0 0;
+// 	width: 368px;
+// 	height: 60px;
+// 	padding-top: 5px;
+// 	background-image: linear-gradient(
+// 		to right,
+// 		rgba(255, 255, 255, 0.1),
+// 		rgba(255, 255, 255, 0)
+// 	);
+// 	border-radius: 4px;
+// 	.bottomTitle {
+// 		background: url(~@/assets/img/teacher/标题小标签.png) 0px center no-repeat;
+// 		padding-left: 10px;
+// 		font-size: 16px;
+// 		font-family: YouSheBiaoTiHei;
+// 		color: #00aaff;
+// 		.top2 {
+// 			font-size: 12px;
+// 			color: #0088cc;
+// 		}
+// 	}
+// 	.content {
+// 		display: flex;
+// 		display: -webkit-flex;
+// 		margin: 5px 0 0 0;
+// 		justify-content: space-around;
+// 		// span {
+// 		// flex-grow: 1;
+// 		// }
+// 	}
+// }
 </style>

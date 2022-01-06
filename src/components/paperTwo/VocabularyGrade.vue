@@ -14,7 +14,8 @@
 				><i></i>薄弱词汇诊断</span
 			>
 		</div>
-		<div id="vocabCharts"></div>
+		<div id="vocabCharts" v-show="isShow"></div>
+		<NoDataVGL v-if="!isShow" type="voca" />
 	</div>
 </template>
 
@@ -193,10 +194,11 @@ export default {
 			minCountData: [],
 			// 答对率最低
 			minRateData: [],
+			isShow: true,
 		};
 	},
-	mounted() {
-		// this.drawLine();
+	components: {
+		NoDataVGL: () => import("../common/NoDataVGL.vue"),
 	},
 	computed: {
 		avgScore: function () {
@@ -451,19 +453,24 @@ export default {
 			delete params.UserInfo;
 			GetGradeVocabulary(params).then((res) => {
 				this.info = res.Data;
-				this.minCountData = res.Data.MinCountList.map((item) => {
-					return {
-						xAxis: item.CourseClassName,
-						yAxis: item.ClassMasterCount,
-					};
-				});
-				this.minRateData = res.Data.MinRateList.map((item) => {
-					return {
-						xAxis: item.CourseClassName,
-						yAxis: (item.VocabularyScoreRate * 100).toFixed(2),
-					};
-				});
-				this.drawLine();
+				if (res.Data.ClassList.length == 0) {
+					this.isShow = false;
+				} else {
+					this.isShow = true;
+					this.minCountData = res.Data.MinCountList.map((item) => {
+						return {
+							xAxis: item.CourseClassName,
+							yAxis: item.ClassMasterCount,
+						};
+					});
+					this.minRateData = res.Data.MinRateList.map((item) => {
+						return {
+							xAxis: item.CourseClassName,
+							yAxis: (item.VocabularyScoreRate * 100).toFixed(2),
+						};
+					});
+					this.drawLine();
+				}
 			});
 		},
 		// 跳转薄弱诊断

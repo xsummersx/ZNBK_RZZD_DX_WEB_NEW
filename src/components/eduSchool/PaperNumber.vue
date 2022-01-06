@@ -103,7 +103,7 @@ export default {
 		};
 	},
 	created() {
-		// this.init();
+		this.init();
 	},
 	components: {
 		RankAndFirst: () => import("../common/RankAndFirst.vue"),

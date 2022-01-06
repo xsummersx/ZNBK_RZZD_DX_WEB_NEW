@@ -37,7 +37,7 @@ export default {
 			FirstScoreRate: 1.0,
 			SecondScoreRate: 0.9863,
 			ThirdScoreRate: 0.4226,
-			isShow: false,
+			isShow: true,
 		};
 	},
 	components: {

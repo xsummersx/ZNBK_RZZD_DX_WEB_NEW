@@ -50,7 +50,7 @@ export default {
 			SecondScoreRate: 0.0,
 			// 不常考
 			ThirdScoreRate: 0.0,
-			isShow: false,
+			isShow: true,
 		};
 	},
 	components: {
