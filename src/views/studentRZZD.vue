@@ -17,8 +17,8 @@
       <VocabularyStu class="float-l"></VocabularyStu>
       <GrammarStu class="float-l"></GrammarStu>
       <LanguageStu class="float-l"></LanguageStu>
-      <StuQuestion class="float-l"></StuQuestion>
       <StuStudy class="float-l"></StuStudy>
+      <StuQuestion class="float-l"></StuQuestion>
       <StuAnswer class="float-l"></StuAnswer>
     </div>
   </div>

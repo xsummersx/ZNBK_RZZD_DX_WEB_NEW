@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import { GetPublishedPaperDaily_V3 } from "@/api/gradeTeacher/right";
+import { GetStuPublishedPaperDaily_V3 } from "@/api/student/right";
 import vuescroll from "vuescroll";
 export default {
   data() {
@@ -112,26 +112,29 @@ export default {
     vuescroll,
   },
   mounted() {
-    this.GetPublishedPaperDaily_V3(this.PaperID, 0);
+    this.GetStuPublishedPaperDaily_V3(this.PaperID, 0);
   },
   methods: {
-    GetPublishedPaperDaily_V3(PaperID, i) {
+    GetStuPublishedPaperDaily_V3(PaperID, i) {
       let params = {
         token: this.$store.state.token,
         TID: this.$store.state.TID,
-        CourseClassID: this.$store.state.CourseClassID,
+        StageNo: this.$store.state.StageNo,
         SchoolID: this.$store.state.SchoolID,
         GlobalGrade: this.$store.state.GlobalGrade,
-        StageNo: this.$store.state.StageNo,
+        CourseClassID: this.$store.state.CourseClassID,
+        StuID: this.$store.state.StuID,
         PaperID: PaperID,
       };
-      GetPublishedPaperDaily_V3(params).then((res) => {
+      GetStuPublishedPaperDaily_V3(params).then((res) => {
         this.resInfo = res.Data;
         this.timeList = this.resInfo.ReleasedPaperList;
-        this.paperList = this.timeList[0].ReleasedPaperList;
-        if (this.paperList.length > 0) {
-          this.PaperName = this.paperList[i].PaperName;
-          this.PaperID = this.paperList[i].PaperID;
+        if (this.timeList.length > 0) {
+          this.paperList = this.timeList[0].ReleasedPaperList;
+          if (this.paperList.length > 0) {
+            this.PaperName = this.paperList[i].PaperName;
+            this.PaperID = this.paperList[i].PaperID;
+          }
         }
       });
     },
@@ -186,7 +189,7 @@ export default {
       this.activePaperIndex = i;
       this.PaperID = this.paperList[i].PaperID;
       this.PaperName = this.paperList[i].PaperName;
-      this.GetPublishedPaperDaily_V3(this.paperList[i].PaperID, i);
+      this.GetStuPublishedPaperDaily_V3(this.paperList[i].PaperID, i);
     },
 
     dialog(i) {

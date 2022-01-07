@@ -143,6 +143,7 @@ import { GetClassHeadDetailInfo } from "../api/head/header";
 import { GetStuHeadDetailInfo } from "../api/head/header";
 import { GetCountyInitResultString } from "../api/head/header";
 import { GetSchoolInitResultString } from "../api/head/header";
+import { GetStuInitResultString } from "../api/head/header";
 // import { GetDirectorHeadDetailInfo } from "../api/head/header";
 import { GetSubSystemInfo } from "../api/head/header";
 import { ExitTheSystem } from "../api/head/header";
@@ -206,7 +207,12 @@ export default {
         this.$store.commit("updatetoken", this.$route.query.token);
         this.$store.commit("updateProvinceID", this.UserInfo.ProvinceID);
         this.$store.commit("updateCityID", this.UserInfo.CityID);
-        this.$store.commit("updateSchoolID", this.UserInfo.SchoolID);
+
+        if (this.UserInfo.UserType == 8) {
+          this.$store.commit("updateSchoolID", this.$route.query.SchoolID);
+        } else {
+          this.$store.commit("updateSchoolID", this.UserInfo.SchoolID);
+        }
         this.$store.commit("updateCourseClassID", this.$route.query.CourseClassID);
         this.$store.commit("updateUserID", this.UserInfo.UserID);
         this.$store.commit("updateTID", this.UserInfo.UserID);
@@ -257,6 +263,7 @@ export default {
         this.className = this.resInfo.UserName;
         this.centerName = this.resInfo.UserName + "认知质量评估报告";
         this.openView = true;
+        this.GetStuInitResultString();
       });
     },
     GetClassHeadDetailInfo() {
@@ -350,6 +357,7 @@ export default {
         this.resInfo = res.Data;
         this.openView = true;
         this.className = this.resInfo.CurrName;
+        this.centerName = this.resInfo.CurrName + "认知质量评估报告";
         // if (this.resInfo.SwitchInfoList.length == 0) {
         //   // let token = this.$route.query.token;
         //   // this.$znbkLayer.znbkConfirmWithNoButton(
@@ -548,6 +556,24 @@ export default {
       };
 
       GetSchoolInitResultString(params).then((res) => {
+        this.resInfo4 = res.Data;
+        if (this.resInfo4 != "") {
+          this.showPopUp = !this.showPopUp;
+          this.showAreaSwitch = true;
+        }
+        // this.GetCommonKnowledgeSpectrum();
+      });
+    },
+    // 获取学生端初始化认知评估文案内容
+    GetStuInitResultString() {
+      let params = {
+        token: this.$route.query.token,
+        SchoolID: this.$store.state.SchoolID,
+        StuID: this.$store.state.StuID,
+        UserID: this.$store.state.UserID,
+      };
+
+      GetStuInitResultString(params).then((res) => {
         this.resInfo4 = res.Data;
         if (this.resInfo4 != "") {
           this.showPopUp = !this.showPopUp;

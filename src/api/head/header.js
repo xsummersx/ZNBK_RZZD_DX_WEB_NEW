@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-12-23 11:38:19
- * @LastEditTime: 2021-12-30 10:41:26
+ * @LastEditTime: 2022-01-05 16:43:38
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\api\head\header.JS
@@ -24,6 +24,16 @@ export function getUserInfo(data){
 export function GetStuHeadDetailInfo(data){
     return request({
         url:"/api/RZZD/GetStuHeadDetailInfo",
+        method:"GET",
+        params:{
+            ...data
+        }
+    })
+}
+// 获取学生端初始化认知评估文案内容
+export function GetStuInitResultString(data){
+    return request({
+        url:"/api/RZZD/GetStuInitResultString",
         method:"GET",
         params:{
             ...data
