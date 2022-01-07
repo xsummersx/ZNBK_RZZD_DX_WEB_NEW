@@ -1,7 +1,7 @@
 /*
  * @Author: 吴涛
  * @Date: 2021-12-22 20:20:33
- * @LastEditTime: 2021-12-29 11:43:24
+ * @LastEditTime: 2022-01-07 15:30:45
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 右边部分
@@ -41,6 +41,22 @@ export function GetAreaSchool(data) {
     params: { ...data },
   });
 }
+//认知成绩分布==年级组长
+export function GetAreaGrade(data) {
+  return request({
+    url: "/api/GradeLeaderRZZD/GetGradeIndexDistribute_V3",
+    method: "GET",
+    params: { ...data },
+  });
+}
+//认知成绩分布==教师
+export function GetAreaTeacher(data) {
+  return request({
+    url: "/api/TeacherRZZD/GetClassIndexDistribute_V3",
+    method: "GET",
+    params: { ...data },
+  });
+}
 
 //认知成绩走势图==教育局
 export function GetTrend(data) {
@@ -54,6 +70,22 @@ export function GetTrend(data) {
 export function GetTrendSchool(data) {
   return request({
     url: "/api/SchoolMasterRZZD/GetGradeTrajectoryChart",
+    method: "GET",
+    params: { ...data },
+  });
+}
+//认知成绩走势图==校长
+export function GetTrendGrade(data) {
+  return request({
+    url: "/api/GradeLeaderRZZD/GetGradeTrajectoryChart",
+    method: "GET",
+    params: { ...data },
+  });
+}
+//认知成绩走势图==教师
+export function GetTrendTeacher(data) {
+  return request({
+    url: "/api/TeacherRZZD/GetClassCognitiveTrajectoryChart",
     method: "GET",
     params: { ...data },
   });

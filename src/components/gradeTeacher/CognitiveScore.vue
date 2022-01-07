@@ -1,7 +1,7 @@
 <!--
  * @Author: 汤宇昕
  * @Date: 2021-11-30 14:22:09
- * @LastEditTime: 2021-12-09 10:28:50
+ * @LastEditTime: 2022-01-07 15:19:17
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 年级组长，教师=》认知平均分
@@ -25,10 +25,32 @@
 			:theSecondAvg="theSecond.ClassAvgIndex"
 		/>
 		<div class="foot">
-			<span class="btn">认知成绩分布</span>
+			<span class="btn" @click="openDis()">认知成绩分布</span>
 			<i class="line"></i>
-			<span class="btn">认知成绩走势</span>
+			<span class="btn" @click="openTrend()">认知成绩走势</span>
 		</div>
+		<el-dialog
+			:title="TitleDis"
+			:visible.sync="dialogDis"
+			:close-on-click-modal="false"
+			width="440px"
+			top="0vh"
+		>
+			<div class="DisContent">
+				<ScoreDis></ScoreDis>
+			</div>
+		</el-dialog>
+		<el-dialog
+			:title="TitleDis"
+			:visible.sync="dialogTrend"
+			:close-on-click-modal="false"
+			width="440px"
+			top="0vh"
+		>
+			<div class="DisContent">
+				<ScoreTrend></ScoreTrend>
+			</div>
+		</el-dialog>
 	</div>
 </template>
 
@@ -41,6 +63,9 @@ import {
 export default {
 	data() {
 		return {
+			dialogDis: false, //认知成绩分布弹窗
+			TitleDis: "认知成绩分布图",
+			dialogTrend: false, //认知成绩走势弹窗
 			info: {
 				ClassAvgIndex: 0,
 				GradeAvgIndex: 0,
@@ -101,6 +126,8 @@ export default {
 		Ring: () => import("../common/Ring.vue"),
 		Top2: () => import("../common/Top2.vue"),
 		Middle: () => import("../common/Middle.vue"),
+		ScoreDis: () => import("../eduSchool/ScoreDis.vue"),
+		ScoreTrend: () => import("../eduSchool/ScoreTrend.vue"),
 	},
 	mounted() {},
 	methods: {
@@ -122,6 +149,14 @@ export default {
 					})
 					.catch();
 			}
+		},
+		//打开认知成绩分布
+		openDis() {
+			this.dialogDis = true;
+		},
+		//打开认知成绩走势
+		openTrend() {
+			this.dialogTrend = true;
 		},
 	},
 };
