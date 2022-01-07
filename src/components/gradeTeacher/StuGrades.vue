@@ -3,30 +3,38 @@
 	<div class="left-Content-Box">
 		<span class="title">高考预估成绩</span>
 		<div class="main">
-			<Polo :FullScore="info.FullScore" :score="info.AvgScore" />
-			<CompareLastWeek :ChangeScore="info.ChangeScore" />
+			<Polo :FullScore="info.FullScore" :score="info.PersonScore" />
+			<CompareLastWeek :ChangeScore="info.ScoreChange" />
 		</div>
-		<CompareAndRank />
+		<CompareAndRank
+			v-if="isShow"
+			:classCompare="info.TrastCLassAvgScore"
+			:gradeCompare="info.TrastGradeAvgScore"
+			:ClassRank="info.ClassRank"
+			:GradeRank="info.GradeRank"
+		/>
 	</div>
 </template>
 
 <script>
-// import {
-// 	GetClassPredictedScore,
-// } from "@/api/gradeTeacher/left.js";
-
+import { GetStuPredictedScore } from "@/api/stu/left.js";
 export default {
 	data() {
 		return {
 			info: {
-				AvgScore: 80,
-				FullScore: 120,
-				ChangeScore: 10,
+				PersonScore: 128,
+				FullScore: 150,
+				ScoreChange: 10,
+				TrastCLassAvgScore: 5,
+				TrastGradeAvgScore: -8,
+				ClassRank: 1,
+				GradeRank: 3,
 			},
+			isShow: true,
 		};
 	},
 	created() {
-		// this.init();
+		this.init();
 	},
 	components: {
 		CompareLastWeek: () => import("../common/CompareLastWeek.vue"),
@@ -36,10 +44,18 @@ export default {
 	computed: {},
 	methods: {
 		init() {
-			// let data = { ...this.$store.state };
-			// 	GetClassPredictedScore(data).then((res) => {
-			// 		this.info = res.Data;
-			// 	});
+			let data = {
+				token: this.$store.state.token,
+				StuID: this.$store.state.StuID,
+				CourseClassID: this.$store.state.CourseClassID,
+				GlobalGrade: this.$store.state.GlobalGrade,
+				SchoolID: this.$store.state.SchoolID,
+				TID: this.$store.state.TID,
+			};
+			GetStuPredictedScore(data).then((res) => {
+				this.info = res.Data;
+				this.isShow = true;
+			});
 		},
 	},
 };

@@ -1,4 +1,5 @@
 <template>
+	<!-- 薄弱诊断内弹窗 -->
 	<div class="diagnosisDiaPage">
 		<div class="diagnosisDiaMain">
 			<div class="ddLine"></div>
@@ -23,41 +24,57 @@
 				>
 			</div>
 			<div class="ddtotal">
-				<span class="text1"
-					><span class="point"></span>共有<span class="totalNumber">15</span
-					>个{{ currentChoose + typeName }}</span
+				<span class="text1">
+					<span class="point"></span>共有<span
+						class="totalNumber"
+						v-if="!isSearching"
+						>{{ zsdCount }}</span
+					><span class="totalNumber" v-else>{{ searchCount }}</span> 个{{
+						currentChoose + typeName
+					}}</span
 				>
 				<input
 					class="stuInput"
 					type="text"
 					:placeholder="'请输入' + typeName + '搜索...'"
 					v-model="searchText"
-					@keyup.enter="s"
+					@keyup.enter="searchKnowledgeDD"
 				/>
-				<span class="searchIcon" style="right: 10px"></span>
+				<span
+					class="searchIcon"
+					style="right: 10px"
+					@click="searchKnowledgeDD"
+				></span>
 			</div>
 			<div class="ddBottomContent" v-if="typeName === '词汇'">
 				<div class="ddCon">
-					<div class="ddVocaItem" v-for="(item, index) in arr" :key="index">
+					<div
+						class="ddVocaItem"
+						v-for="(item, index) in vocaZsdList"
+						:key="index"
+						@click="handleDDClick(item.KlgUniqueID)"
+					>
 						<div class="ddVocaContent">
-							<div class="vocaName">freezing</div>
+							<div class="vocaName">{{ item.ZsdString }}</div>
 							<div class="contentItem">
 								<span class="littleTitle">
 									<span class="point"></span>测试概率</span
 								>
-								<span class="testRate">1.0000</span>
+								<span class="testRate">{{ (+item.TestRate).toFixed(4) }}</span>
 							</div>
 							<div class="contentItem">
 								<span class="littleTitle">
 									<span class="point"></span>认知分</span
 								>
-								<span class="score">300分</span>
+								<span class="score">{{ item.ClassScore }}分</span>
 							</div>
 							<div class="contentItem">
 								<span class="littleTitle">
 									<span class="point"></span>答对率</span
 								>
-								<span class="correctRate">2%</span>
+								<span class="correctRate"
+									>{{ (item.ScoreRate * 100).toFixed(2) }}%</span
+								>
 							</div>
 						</div>
 					</div>
@@ -69,35 +86,42 @@
 				style="min-height: 480px"
 			>
 				<div class="ddCon">
-					<div class="ddGraItem" v-for="(item, index) in arr1" :key="index">
+					<div
+						class="ddGraItem"
+						v-for="(item, index) in graZsdList"
+						:key="index"
+						@click="handleDDClick(item.KlgUniqueID)"
+					>
 						<div class="ddGraContent">
-							<div class="ddGraName">freezingxxxxxxxxxxxxxxxxxxx</div>
+							<div class="ddGraName">{{ item.ZsdString }}</div>
 							<div class="contentItem">
 								<span class="littleTitle">
 									<span class="point"></span>测试概率</span
 								>
-								<span class="testRate">1.0000</span>
+								<span class="testRate">{{ (+item.TestRate).toFixed(4) }}</span>
 							</div>
 							<div class="contentItem">
 								<span class="littleTitle">
 									<span class="point"></span>认知分</span
 								>
-								<span class="score">300分</span>
+								<span class="score">{{ item.CurrScore }}分</span>
 							</div>
 							<div class="contentItem">
 								<span class="littleTitle">
 									<span class="point"></span>答对率</span
 								>
-								<span class="correctRate">2%</span>
+								<span class="correctRate"
+									>{{ (item.ScoreRate * 100).toFixed(2) }}%</span
+								>
 							</div>
 							<div class="contentItem">
-								<span class="ddGraTitle">所属专题：现在完成时</span>
+								<span class="ddGraTitle">所属专题：{{ item.U_TopicName }}</span>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="ddPagination" v-if="true">
+			<div class="ddPagination" v-if="isShowpPagination">
 				<el-pagination
 					class="pagination"
 					@current-change="handleCurrentChange"
@@ -112,23 +136,62 @@
 </template>
 
 <script>
+import * as api from "@/api/diagnosis/dialog";
 export default {
+	props: {
+		typeName: {
+			type: String,
+			default: "词汇",
+		},
+		userType: {
+			type: String,
+			default: "teacher",
+		},
+		resInfo: {
+			type: Object,
+		},
+	},
 	data() {
 		return {
+			// 左上角知识点总数
+			zsdCount: 0,
+			// 顶部tab当时前选择
 			currentChoose: "常考",
-			typeName: "语法",
+			// 搜索后的总数
+			searchCount: 0,
+			// typeName: "语法",
+			// 搜索框文本
 			searchText: "",
-			arr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
-			arr1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+			// 词汇知识点列表
+			vocaZsdList: [],
+			// 语法知识点列表
+			graZsdList: [],
 			// 总分页数
 			pageCount: 5,
 			// 当前第几页
 			currentPage: 1,
 			// 每页显示的数量
 			PageSize: 9,
+			// 搜索状态
+			isSearching: false,
 		};
 	},
 	computed: {
+		isShowpPagination: function () {
+			if (this.isSearching) {
+				if (this.searchCount === 0) {
+					return false;
+				} else {
+					return true;
+				}
+			} else {
+				if (this.zsdCount === 0) {
+					return false;
+				} else {
+					return true;
+				}
+			}
+		},
 		currentChooseNum: function () {
 			if (this.currentChoose === "常考") {
 				return 0;
@@ -148,14 +211,162 @@ export default {
 			}
 		},
 	},
+	watch: {},
+	created() {
+		this.init("");
+	},
 	methods: {
+		init(searchText) {
+			if (this.typeName == "词汇") {
+				this.getVocaDetail(
+					this.currentPage,
+					this.currentChooseLetter,
+					searchText
+				);
+			} else if (this.typeName == "语法") {
+				this.getGraDetail(this.currentPage, this.currentChooseNum, searchText);
+			}
+		},
+		// 获取词汇知识点
+		getVocaDetail(pageNum, zsdType, searchText) {
+			let params = {
+				SchoolID: this.resInfo.SchoolID,
+				TID: this.resInfo.UserID,
+				ZsdArea: "C",
+				token: this.$route.query.token,
+				PageNum: pageNum,
+				PageSize: 15,
+				ZsdType: zsdType,
+				SearchText: searchText,
+			};
+			if (this.userType == "teacher") {
+				// 老师词汇
+				params["CourseClassID"] = this.$route.query.courseClassID;
+				api.GetClassVocabDetailInfo(params).then((res) => {
+					this.vocaZsdList = res.Data.VocaList;
+					this.zsdCount = res.Data.VocaCount;
+					this.searchCount = res.Data.SearchVocaCount;
+					if (this.isSearching) {
+						this.pageCount = Math.ceil(res.Data.SearchVocaCount / 15);
+					} else {
+						this.pageCount = Math.ceil(res.Data.VocaCount / 15);
+					}
+				});
+			} else if (this.userType == "grade") {
+				// 年级组长词汇
+				params["GlobalGrade"] = this.resInfo.GlobalGrade;
+				api.GetGradeVocabDetailInfo(params).then((res) => {
+					this.vocaZsdList = res.Data.VocaList;
+					this.zsdCount = res.Data.VocaCount;
+					this.searchCount = res.Data.SearchVocaCount;
+					if (this.isSearching) {
+						this.pageCount = Math.ceil(res.Data.SearchVocaCount / 15);
+					} else {
+						this.pageCount = Math.ceil(res.Data.VocaCount / 15);
+					}
+				});
+			} else if (this.userType == "stu") {
+				// 个人词汇
+				params["StuID"] = this.$route.query.StuID;
+				api.GetStuDetailVocabulary(params).then((res) => {
+					this.vocaZsdList = res.Data.VocaList;
+					this.zsdCount = res.Data.VocaCount;
+					this.searchCount = res.Data.SearchVocaCount;
+					if (this.isSearching) {
+						this.pageCount = Math.ceil(res.Data.SearchVocaCount / 15);
+					} else {
+						this.pageCount = Math.ceil(res.Data.VocaCount / 15);
+					}
+				});
+			}
+		},
+		// 获取语法知识点
+		getGraDetail(pageNum, zsdType, searchText) {
+			let params = {
+				SchoolID: this.resInfo.SchoolID,
+				TID: this.resInfo.UserID,
+				ZsdArea: "C",
+				token: this.$route.query.token,
+				PageNum: pageNum,
+				PageSize: 12,
+				ZsdType: zsdType,
+				SearchText: searchText,
+			};
+			if (this.userType == "teacher") {
+				// 老师语法
+				params["CourseClassID"] = this.$route.query.courseClassID;
+				api.GetGrammerZsdMapApplication(params).then((res) => {
+					this.graZsdList = res.Data.ZsdList;
+					this.zsdCount = res.Data.ZsdCount;
+					this.searchCount = res.Data.PageZsdCount;
+					if (this.isSearching) {
+						this.pageCount = Math.ceil(res.Data.PageZsdCount / 12);
+					} else {
+						this.pageCount = res.Data.TotalPageNum;
+					}
+				});
+			} else if (this.userType == "grade") {
+				// 年级组长语法
+				params["GlobalGrade"] = this.resInfo.GlobalGrade;
+				api.GetGradeGrammerZsdMapApplication(params).then((res) => {
+					this.graZsdList = res.Data.ZsdList;
+					this.zsdCount = res.Data.ZsdCount;
+					this.searchCount = res.Data.PageZsdCount;
+					if (this.isSearching) {
+						this.pageCount = Math.ceil(res.Data.PageZsdCount / 12);
+					} else {
+						this.pageCount = res.Data.TotalPageNum;
+					}
+				});
+			} else if (this.userType == "stu") {
+				// 个人语法
+				params["StuID"] = this.$route.query.StuID;
+				api.GetStuGrammerZsdMapApplication(params).then((res) => {
+					this.graZsdList = res.Data.ZsdList;
+					this.zsdCount = res.Data.ZsdCount;
+					this.searchCount = res.Data.PageZsdCount;
+					if (this.isSearching) {
+						this.pageCount = Math.ceil(res.Data.PageZsdCount / 12);
+					} else {
+						this.pageCount = res.Data.TotalPageNum;
+					}
+				});
+			}
+		},
+		// 改变当前tab的选择
 		changeCurrChoose(val) {
+			this.searchText = "";
+			this.currentPage = 1;
 			this.currentChoose = val;
+			if (this.isSearching) {
+				this.init(this.searchText);
+			} else {
+				this.init("");
+			}
+		},
+		// 搜索知识点
+		searchKnowledgeDD() {
+			this.currentPage = 1;
+			if (this.searchText != "") {
+				this.isSearching = true;
+			} else {
+				this.isSearching = false;
+			}
+			this.init(this.searchText);
 		},
 		// 显示第几页
 		handleCurrentChange(val) {
 			// 改变默认的页数
 			this.currentPage = val;
+			if (this.isSearching) {
+				this.init(this.searchText);
+			} else {
+				this.init("");
+			}
+		},
+		// 点击调用exe弹窗
+		handleDDClick(id) {
+			this.$emit("handleClickItem", id);
 		},
 	},
 };
@@ -361,6 +572,11 @@ export default {
 				.ddGraTitle {
 					margin: 5px 0 0 0;
 					color: #00aaff;
+					overflow: hidden;
+					white-space: nowrap;
+					text-overflow: ellipsis;
+					width: 220px;
+					display: block;
 				}
 			}
 		}

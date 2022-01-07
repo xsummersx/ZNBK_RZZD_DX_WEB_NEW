@@ -14,34 +14,16 @@
 			<div class="middle" :class="info.CognitiveGradeName"></div>
 			<CompareLastWeek :ChangeScore="info.ChangeIndex" />
 		</div>
-		<div class="bottom">
-			<span class="bottomTitle" v-if="$route.name === 'gradeRZZD'"
-				>班级排行榜<span class="top2">TOP2</span></span
-			>
-			<span class="bottomTitle" v-if="$route.name === 'teacherRZZD'"
-				>学生排行榜<span class="top2">TOP2</span></span
-			>
-			<div class="content" v-if="$route.name === 'teacherRZZD'">
-				<span :title="theFirst.StudentName"
-					>· {{ theFirst.StudentName + " " + theFirst.CurrentIndex }}分</span
-				>
-				<span :title="theSecond.StudentName"
-					>· {{ theSecond.StudentName + " " + theSecond.CurrentIndex }}分</span
-				>
-			</div>
-			<div class="content" v-else>
-				<span :title="theFirst.CourseClassName"
-					>·
-					{{ theFirst.CourseClassName + " " + theFirst.ClassAvgIndex }}分</span
-				>
-				<span :title="theSecond.CourseClassName"
-					>·
-					{{
-						theSecond.CourseClassName + " " + theSecond.ClassAvgIndex
-					}}分</span
-				>
-			</div>
-		</div>
+		<Top2
+			:theFirstStu="theFirst.StudentName"
+			:theFirstPre="theFirst.CurrentIndex"
+			:theFirstClass="theFirst.CourseClassName"
+			:theFirstAvg="theFirst.ClassAvgIndex"
+			:theSecondStu="theSecond.StudentName"
+			:theSecondPre="theSecond.CurrentIndex"
+			:theSecondClass="theSecond.CourseClassName"
+			:theSecondAvg="theSecond.ClassAvgIndex"
+		/>
 		<div class="foot">
 			<span class="btn">认知成绩分布</span>
 			<i class="line"></i>
@@ -59,9 +41,6 @@ import {
 export default {
 	data() {
 		return {
-			// 1:教师
-			// 12:年级组长
-			userType: 1,
 			info: {
 				ClassAvgIndex: 6633,
 				GradeAvgIndex: 4268,
@@ -130,11 +109,13 @@ export default {
 	components: {
 		CompareLastWeek: () => import("../common/CompareLastWeek.vue"),
 		Ring: () => import("../common/Ring.vue"),
+		Top2: () => import("../common/Top2.vue"),
 	},
 	mounted() {},
 	methods: {
 		init() {
 			let data = { ...this.$store.state };
+			delete data.UserInfo;
 			if (this.$route.name === "teacherRZZD") {
 				// 教师
 				GetClassCognitiveIndex(data).then((res) => {
@@ -196,38 +177,6 @@ export default {
 	}
 	.right {
 		margin-left: -32px;
-	}
-}
-.bottom {
-	margin: 10px 0 0 0;
-	width: 368px;
-	height: 60px;
-	padding-top: 5px;
-	background-image: linear-gradient(
-		to right,
-		rgba(255, 255, 255, 0.1),
-		rgba(255, 255, 255, 0)
-	);
-	border-radius: 4px;
-	.bottomTitle {
-		background: url(~@/assets/img/teacher/标题小标签.png) 0px center no-repeat;
-		padding-left: 10px;
-		font-size: 16px;
-		font-family: YouSheBiaoTiHei;
-		color: #00aaff;
-		.top2 {
-			font-size: 12px;
-			color: #0088cc;
-		}
-	}
-	.content {
-		display: flex;
-		display: -webkit-flex;
-		margin: 5px 0 0 0;
-		justify-content: space-around;
-		// span {
-		// flex-grow: 1;
-		// }
 	}
 }
 .foot {

@@ -5,30 +5,43 @@
 		<div class="main">
 			<div class="left">
 				<span
-					><span class="number">{{ info.ClassTotalPaperCount }}</span
+					><span class="number">{{ info.PersonTotalPaperCount }}</span
 					>份</span
 				>
 				<span>总量</span>
 			</div>
-			<CompareLastWeek :ChangeScore="info.ChangePaperCount" />
+			<CompareLastWeek :ChangeScore="info.PaperCountChange" />
 		</div>
-		<CompareAndRank />
+		<CompareAndRank
+			v-if="isShow"
+			:isScore="false"
+			:classCompare="info.TrastCLassAvgPaper"
+			:gradeCompare="info.TrastGradeAvgPaper"
+			:ClassRank="info.ClassRank"
+			:GradeRank="info.GradeRank"
+		/>
 	</div>
 </template>
 
 <script>
-// import { GetClassPaperNum } from "@/api/gradeTeacher/left.js";
+import { GetStuPaperNum } from "@/api/stu/left.js";
 export default {
 	data() {
 		return {
 			info: {
-				ClassTotalPaperCount: 500,
-				ChangePaperCount: -12,
+				PersonTotalPaperCount: 58,
+				AreaMaxPaper: 59,
+				PaperCountChange: 3,
+				TrastCLassAvgPaper: 3,
+				TrastGradeAvgPaper: 2,
+				ClassRank: 2,
+				GradeRank: 8,
 			},
+			isShow: true,
 		};
 	},
 	created() {
-		// this.init();
+		this.init();
 	},
 	components: {
 		CompareLastWeek: () => import("../common/CompareLastWeek.vue"),
@@ -37,10 +50,19 @@ export default {
 	computed: {},
 	methods: {
 		init() {
-			// let data = { ...this.$store.state };
-			// GetClassPaperNum(data).then((res) => {
-			// 	this.info = res.Data;
-			// });
+			let data = {
+				token: this.$store.state.token,
+				StuID: this.$store.state.StuID,
+				CourseClassID: this.$store.state.CourseClassID,
+				GlobalGrade: this.$store.state.GlobalGrade,
+				SchoolID: this.$store.state.SchoolID,
+				CountyID: this.$store.state.CountyID,
+				TID: this.$store.state.TID,
+			};
+			GetStuPaperNum(data).then((res) => {
+				this.info = res.Data;
+				this.isShow = true;
+			});
 		},
 	},
 };

@@ -9,9 +9,9 @@
 <template>
   <div class="clearfix">
     <div class="left-Content float-l">
-      <PaperNumber></PaperNumber>
-      <CognitiveScore></CognitiveScore>
-      <PredictedGrades></PredictedGrades>
+      <StuNum></StuNum>
+      <StuScore></StuScore>
+      <StuGrades></StuGrades>
     </div>
     <div class="right-Content float-r">
       <VocabularyStu class="float-l"></VocabularyStu>
@@ -30,9 +30,9 @@ export default {
     return {};
   },
   components: {
-    PaperNumber: () => import("../components/gradeTeacher/PaperNumber.vue"),
-    CognitiveScore: () => import("../components/gradeTeacher/CognitiveScore.vue"),
-    PredictedGrades: () => import("../components/gradeTeacher/PredictedGrades.vue"),
+    StuNum: () => import("../components/gradeTeacher/StuNum.vue"),
+    StuScore: () => import("../components/gradeTeacher/StuScore.vue"),
+    StuGrades: () => import("../components/gradeTeacher/StuGrades.vue"),
     VocabularyStu: () => import("../components/paperTwo/VocabularyStu.vue"),
     GrammarStu: () => import("../components/paperTwo/GrammarStu.vue"),
     LanguageStu: () => import("../components/paperTwo/LanguageStu.vue"),

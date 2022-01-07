@@ -16,6 +16,8 @@ import "../src/assets/css/global.css";
 import "../src/assets/css/common.scss";
 import "../src/assets/css/elementReset.css";
 import optionObj from "./assets/js/ChartsOption/chartsOption";
+// 调用本地exe所需
+import com from "./utils/Common";
 //引入全局过滤器
 import "./utils/filter";
 //echarts
@@ -37,23 +39,25 @@ Vue.prototype.$optionObj = optionObj;
 Vue.prototype.$echarts = echarts;
 //token失效后基础平台地址=>>error页面
 Vue.prototype.$baseUrl = "http://172.16.41.237";
+// 调用本地exe所需
+Vue.prototype.$com = com;
 //tab标签页名字
 Vue.directive("title", {
-  inserted: function (el) {
-    document.title = el.dataset.title;
-  },
+	inserted: function (el) {
+		document.title = el.dataset.title;
+	},
 });
 router.beforeEach((to, from, next) => {
-  /*路由发生改变修改页面的title */
-  if (to.meta.title) {
-    document.title = to.meta.title;
-  }
-  next();
+	/*路由发生改变修改页面的title */
+	if (to.meta.title) {
+		document.title = to.meta.title;
+	}
+	next();
 });
 new Vue({
-  router,
-  store,
-  render: (h) => h(App),
+	router,
+	store,
+	render: (h) => h(App),
 }).$mount("#app");
 
 // 10   43  35

@@ -157,9 +157,7 @@ export default {
 					},
 					axisTick: { show: false },
 					axisLabel: {
-						textStyle: {
-							color: "#ffffff",
-						},
+						color: "#ffffff",
 					},
 				},
 				yAxis: [
@@ -192,9 +190,7 @@ export default {
 						axisLabel: {
 							show: true,
 							formatter: "{value}", //右侧Y轴文字显示
-							textStyle: {
-								color: "#a2afcc",
-							},
+							color: "#a2afcc",
 						},
 					},
 				],

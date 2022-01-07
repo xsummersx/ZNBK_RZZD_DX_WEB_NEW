@@ -10,9 +10,12 @@
 	<div class="right-small-box">
 		<div class="box-title clearfix">
 			<span class="float-l title">词汇认知对比分析</span>
-			<span class="float-r check-icon"><i></i>薄弱词汇诊断</span>
+			<span class="float-r check-icon" @click="toDiagnosis"
+				><i></i>薄弱词汇诊断</span
+			>
 		</div>
-		<div id="vocabCharts"></div>
+		<div id="vocabCharts" v-show="isShow"></div>
+		<NoDataVGL v-if="!isShow" type="voca" />
 	</div>
 </template>
 
@@ -54,9 +57,7 @@ export default {
 					},
 					axisTick: { show: false },
 					axisLabel: {
-						textStyle: {
-							color: "#ffffff",
-						},
+						color: "#ffffff",
 					},
 				},
 				yAxis: [
@@ -75,9 +76,7 @@ export default {
 						max: 800,
 						axisLabel: {
 							show: false,
-							textStyle: {
-								color: "#666666",
-							},
+							color: "#666666",
 						},
 					},
 					{
@@ -105,9 +104,7 @@ export default {
 						axisLabel: {
 							show: false,
 							formatter: "{value} %", //右侧Y轴文字显示
-							textStyle: {
-								color: "#666",
-							},
+							color: "#666",
 						},
 					},
 				],
@@ -197,10 +194,11 @@ export default {
 			minCountData: [],
 			// 答对率最低
 			minRateData: [],
+			isShow: true,
 		};
 	},
-	mounted() {
-		// this.drawLine();
+	components: {
+		NoDataVGL: () => import("../common/NoDataVGL.vue"),
 	},
 	computed: {
 		avgScore: function () {
@@ -276,7 +274,11 @@ export default {
 	methods: {
 		drawLine() {
 			let vocabCharts = this.$echarts.init(
-				document.getElementById("vocabCharts")
+				document.getElementById("vocabCharts"),
+				null,
+				{
+					renderer: "svg",
+				}
 			);
 			vocabCharts.setOption(this.vocabOption);
 			vocabCharts.setOption({
@@ -451,20 +453,38 @@ export default {
 			delete params.UserInfo;
 			GetGradeVocabulary(params).then((res) => {
 				this.info = res.Data;
-				this.minCountData = res.Data.MinCountList.map((item) => {
-					return {
-						xAxis: item.CourseClassName,
-						yAxis: item.ClassMasterCount,
-					};
-				});
-				this.minRateData = res.Data.MinRateList.map((item) => {
-					return {
-						xAxis: item.CourseClassName,
-						yAxis: (item.VocabularyScoreRate * 100).toFixed(2),
-					};
-				});
-				this.drawLine();
+				if (res.Data.ClassList.length == 0) {
+					this.isShow = false;
+				} else {
+					this.isShow = true;
+					this.minCountData = res.Data.MinCountList.map((item) => {
+						return {
+							xAxis: item.CourseClassName,
+							yAxis: item.ClassMasterCount,
+						};
+					});
+					this.minRateData = res.Data.MinRateList.map((item) => {
+						return {
+							xAxis: item.CourseClassName,
+							yAxis: (item.VocabularyScoreRate * 100).toFixed(2),
+						};
+					});
+					this.drawLine();
+				}
 			});
+		},
+		// 跳转薄弱诊断
+		toDiagnosis() {
+			let url = this.$router.resolve({
+				path: "/DiagReport",
+				query: {
+					token: this.$store.state.token,
+					userType: "grade",
+					reportType: "voca",
+					stageNo: this.$store.state.StageNo,
+				},
+			});
+			window.open(url.href, "_blank");
 		},
 	},
 };

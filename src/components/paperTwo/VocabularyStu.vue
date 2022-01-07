@@ -3,34 +3,95 @@
 	<div class="right-small-box">
 		<div class="box-title clearfix">
 			<span class="float-l title">词汇认知</span>
-			<span class="float-r check-icon"><i></i>薄弱词汇诊断</span>
+			<span class="float-r check-icon" @click="toDiagnosis"
+				><i></i>薄弱词汇诊断</span
+			>
 		</div>
 		<div class="main">
 			<div class="mainTop">
 				<div class="masteredCount">
 					<span class="title">平均掌握量</span>
-					<span class="count"><span class="number">8500</span>个</span>
+					<span class="count"
+						><span class="number">{{ masteredCount }}</span
+						>个</span
+					>
 				</div>
 				<div class="scoreRate">
 					<span class="title">平均答对率</span>
-					<span class="rate"><span class="number">96</span>%</span>
+					<span class="rate"
+						><span class="number">{{ (scoreRate * 100).toFixed(2) }}</span
+						>%</span
+					>
 				</div>
 			</div>
-			<Progress :isVoca="true"/>
+			<Progress
+				v-if="isShow"
+				:isVoca="true"
+				:FirstScoreRate="FirstScoreRate"
+				:SecondScoreRate="SecondScoreRate"
+				:ThirdScoreRate="ThirdScoreRate"
+			/>
 		</div>
 	</div>
 </template>
 
 <script>
+import { GetStuVocabulary } from "@/api/stu/right";
 export default {
 	data() {
-		return {};
+		return {
+			// 平均掌握量
+			masteredCount: 2965,
+			// 词汇答对率
+			scoreRate: 1.0,
+			// 常考
+			FirstScoreRate: 1.0,
+			// 次常考
+			SecondScoreRate: 0.0,
+			// 不常考
+			ThirdScoreRate: 0.0,
+			isShow: true,
+		};
 	},
 	components: {
 		Progress: () => import("../common/Progress.vue"),
 	},
-	mounted() {},
-	methods: {},
+	created() {
+		this.init();
+	},
+	methods: {
+		// 跳转薄弱诊断
+		toDiagnosis() {
+			let url = this.$router.resolve({
+				path: "/DiagReport",
+				query: {
+					token: this.$store.state.token,
+					userType: "stu",
+					reportType: "voca",
+					stageNo: this.$store.state.StageNo,
+					StuID: this.$store.state.StuID,
+				},
+			});
+			window.open(url.href, "_blank");
+		},
+		init() {
+			let params = {
+				Token: this.$store.state.token,
+				TID: this.$store.state.TID,
+				SchoolID: this.$store.state.SchoolID,
+				StuID: this.$store.state.StuID,
+				ZsdArea: this.$store.state.ZsdArea,
+			};
+			GetStuVocabulary(params).then((res) => {
+				this.masteredCount = res.Data.MasteredCount;
+				this.scoreRate = res.Data.VocabularyScoreRate;
+				this.FirstScoreRate = res.Data.FirstScoreRate;
+				this.SecondScoreRate = res.Data.SecondScoreRate;
+				this.ThirdScoreRate = res.Data.ThirdScoreRate;
+				this.isShow = true;
+			});
+		},
+	},
 };
 </script>
 
