@@ -1,15 +1,15 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:31:08
- * @LastEditTime: 2021-12-29 11:19:58
+ * @LastEditTime: 2022-01-07 15:36:36
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》认知成绩走势图，图0，图1
 -->
 <template>
-  <div class="Tren">
-    <div class="title">认知成绩走势</div>
-    <div class="top">
+  <div class="Tren" :class="{ teacDis: $route.name == 'gradeRZZD' || $route.name == 'teacherRZZD' }">
+    <div class="title" v-if="!($route.name == 'gradeRZZD' || $route.name == 'teacherRZZD')">认知成绩走势</div>
+    <div class="top" v-if="userType < 2">
       <div class="TopBox">
         <div class="top3">
           <i class="top3Icon0"></i>
@@ -66,14 +66,13 @@
 </template>
 <script>
 import EduNoData from "./eduNoData";
-import { GetTrend } from "@/api/eduSchool/right.js";
-import { GetTrendSchool } from "@/api/eduSchool/right.js";
+import { GetTrend, GetTrendSchool, GetTrendGrade, GetTrendTeacher } from "@/api/eduSchool/right.js";
 export default {
   name: "ScoreTrend",
   data() {
     return {
       activeSpan: 3, //3按月，2按周，1按天
-      userType: 0, //用户身份，教育局还是校长
+      userType: 0, //用户身份，教育局还是校长,2的年级组长，3教师
       // optData0: [], //已作答试卷份数
       // optData1: [], //平均得分率
       // optData2: [], //高考预估成绩
@@ -94,6 +93,10 @@ export default {
   created() {
     if (this.$route.name == "schoolRZZD") {
       this.userType = 1;
+    } else if (this.$route.name == "gradeRZZD") {
+      this.userType = 2;
+    } else if (this.$route.name == "teacherRZZD") {
+      this.userType = 3;
     } else {
       this.userType = 0;
     }
@@ -123,6 +126,7 @@ export default {
         ProgressiveNum: 3, //异常班级显示数量
       };
       if (this.userType == 0) {
+        //教育局
         params.ProvinceID = this.$store.state.ProvinceID;
         params.CityID = this.$store.state.CityID;
         params.CountyID = this.$store.state.CountyID;
@@ -137,13 +141,29 @@ export default {
             this.putDataNext(res);
           }
         });
-      } else {
+      } else if (this.userType == 1) {
+        //校长
         params.SchoolID = this.$store.state.SchoolID;
         GetTrendSchool(params).then((res) => {
           if (getType == "FirstGet") {
             this.BackList = res.Data.BackwardList;
             this.ProgList = res.Data.ProgressiveList;
           }
+          //提取数据渲染统计图
+          this.putDataNext(res);
+        });
+      } else if (this.userType == 2) {
+        //年级组长
+        params.SchoolID = this.$store.state.SchoolID;
+        GetTrendGrade(params).then((res) => {
+          //提取数据渲染统计图
+          this.putDataNext(res);
+        });
+      } else if (this.userType == 3) {
+        //教师
+        params.CourseClassID = this.$store.state.CourseClassID;
+        params.SchoolID = this.$store.state.SchoolID;
+        GetTrendTeacher(params).then((res) => {
           //提取数据渲染统计图
           this.putDataNext(res);
         });
@@ -465,6 +485,15 @@ export default {
   margin-left: 10px;
   margin-top: 10px;
   background: url(~@/assets/img/eduSchool/认知成绩走势_bg.png) center center no-repeat;
+}
+.teacDis {
+  background-image: none !important;
+  background: rgba(0, 0, 51, 0.2) !important;
+  margin: 0 auto;
+  height: 340px;
+  padding-top: 2px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 .title {
   font-family: "YouSheBiaoTiHei";
