@@ -11,7 +11,7 @@
 		<span class="title">认知平均分</span>
 		<div class="main">
 			<Ring :FullIndex="info.FullIndex" :avgIndex="avgIndex" />
-			<div class="middle" :class="info.CognitiveGradeName"></div>
+			<Middle :level="info.CognitiveGradeName" />
 			<CompareLastWeek :ChangeScore="info.ChangeIndex" />
 		</div>
 		<Top2
@@ -100,6 +100,7 @@ export default {
 		CompareLastWeek: () => import("../common/CompareLastWeek.vue"),
 		Ring: () => import("../common/Ring.vue"),
 		Top2: () => import("../common/Top2.vue"),
+		Middle: () => import("../common/Middle.vue"),
 	},
 	mounted() {},
 	methods: {
@@ -150,25 +151,6 @@ export default {
 	flex-direction: row;
 	margin: 20px 0 0 0;
 	justify-content: space-around;
-	.middle {
-		width: 64px;
-		margin-top: -90px;
-	}
-	.A {
-		background: url(~@/assets/img/teacher/小A+.png) center center no-repeat;
-	}
-	.B {
-		background: url(~@/assets/img/teacher/小B+.png) center center no-repeat;
-	}
-	.C {
-		background: url(~@/assets/img/teacher/小C+.png) center center no-repeat;
-	}
-	.D {
-		background: url(~@/assets/img/teacher/小D+.png) center center no-repeat;
-	}
-	.E {
-		background: url(~@/assets/img/teacher/小E+.png) center center no-repeat;
-	}
 	.right {
 		margin-left: -32px;
 	}
