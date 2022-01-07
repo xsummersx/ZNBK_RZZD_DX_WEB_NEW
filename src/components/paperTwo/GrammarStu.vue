@@ -7,7 +7,7 @@
 				><i></i>薄弱语法诊断</span
 			>
 		</div>
-		<div class="main">
+		<div class="main" v-if="isShow">
 			<div class="mainTop">
 				<div class="scoreRate">
 					<span class="title">平均答对率</span>
@@ -25,6 +25,7 @@
 				:ThirdScoreRate="ThirdScoreRate"
 			/>
 		</div>
+		<NoDataVGL v-if="!isShow" type="gra" />
 	</div>
 </template>
 
@@ -42,6 +43,7 @@ export default {
 	},
 	components: {
 		Progress: () => import("../common/Progress.vue"),
+		NoDataVGL: () => import("../common/NoDataVGL.vue"),
 	},
 	created() {
 		this.init();
@@ -55,13 +57,17 @@ export default {
 				StuID: this.$store.state.StuID,
 				ZsdArea: this.$store.state.ZsdArea,
 			};
-			GetStuGrammer(params).then((res) => {
-				this.scoreRate = res.Data.GrammarScoreRate;
-				this.FirstScoreRate = res.Data.FirstScoreRate;
-				this.SecondScoreRate = res.Data.SecondScoreRate;
-				this.ThirdScoreRate = res.Data.ThirdScoreRate;
-				this.isShow = true;
-			});
+			GetStuGrammer(params)
+				.then((res) => {
+					this.scoreRate = res.Data.GrammarScoreRate;
+					this.FirstScoreRate = res.Data.FirstScoreRate;
+					this.SecondScoreRate = res.Data.SecondScoreRate;
+					this.ThirdScoreRate = res.Data.ThirdScoreRate;
+					this.isShow = true;
+				})
+				.catch(() => {
+					this.isShow = false;
+				});
 		},
 		// 跳转薄弱诊断
 		toDiagnosis() {

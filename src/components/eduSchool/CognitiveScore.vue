@@ -70,21 +70,21 @@ export default {
 		return {
 			info: {
 				// 学校平均分
-				SchoolAvgIndex: 1110,
+				SchoolAvgIndex: 0,
 				// 较上周
-				ChangeIndex: -100,
+				ChangeIndex: 0,
 				// 等级
 				CognitiveGradeName: "A",
 				// 满分
-				FullIndex: 10000,
+				FullIndex: 0,
 				// 全区平均分
-				AreaAvgIndex: 9717,
+				AreaAvgIndex: 0,
 				// 排名第一学校
 				FirstSchool: "蓝鸽高中",
 				// 排名第一分数
-				FirstScore: 6666,
+				FirstScore: 0,
 				// 本校区排名
-				MySchoolRank: 3,
+				MySchoolRank: 1,
 				// 全区排行榜
 				SchoolList: [
 					{
@@ -156,14 +156,18 @@ export default {
 			delete data.UserInfo;
 			if (this.$route.name === "educationRZZD") {
 				// 教育局
-				GetAreaCognitiveIndex(data).then((res) => {
-					this.info = res.Data;
-				});
+				GetAreaCognitiveIndex(data)
+					.then((res) => {
+						this.info = res.Data;
+					})
+					.catch();
 			} else {
 				// 校领导
-				GetSchoolCongnitiveIndex(data).then((res) => {
-					this.info = res.Data;
-				});
+				GetSchoolCongnitiveIndex(data)
+					.then((res) => {
+						this.info = res.Data;
+					})
+					.catch();
 			}
 		},
 	},

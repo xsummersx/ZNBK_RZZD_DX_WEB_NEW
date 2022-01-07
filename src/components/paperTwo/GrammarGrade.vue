@@ -243,21 +243,25 @@ export default {
 				...this.$store.state,
 			};
 			delete params.UserInfo;
-			GetGradeGrammerCompare(params).then((res) => {
-				this.info = res.Data;
-				if (res.Data.ClassGrammerScoreRateList.length == 0) {
+			GetGradeGrammerCompare(params)
+				.then((res) => {
+					this.info = res.Data;
+					if (res.Data.ClassGrammerScoreRateList.length == 0) {
+						this.isShow = false;
+					} else {
+						this.isShow = true;
+						this.minData = res.Data.MinClassList.map((item) => {
+							return {
+								xAxis: item.CourseClassName,
+								yAxis: (item.ClassGrammerScoreRate * 100).toFixed(2),
+							};
+						});
+						this.drawLine();
+					}
+				})
+				.catch(() => {
 					this.isShow = false;
-				} else {
-					this.isShow = true;
-					this.minData = res.Data.MinClassList.map((item) => {
-						return {
-							xAxis: item.CourseClassName,
-							yAxis: (item.ClassGrammerScoreRate * 100).toFixed(2),
-						};
-					});
-					this.drawLine();
-				}
-			});
+				});
 		},
 		drawLine() {
 			var grammerCharts = this.$echarts.init(

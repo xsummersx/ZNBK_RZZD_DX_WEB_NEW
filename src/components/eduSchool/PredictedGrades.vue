@@ -63,28 +63,26 @@ export default {
 		return {
 			info: {
 				// 全区平均
-				AreaAvgScore: 107,
+				AreaAvgScore: 0,
 				// 学校平均
-				SchoolAvgScore: 107,
+				SchoolAvgScore: 0,
 				// 较上周
-				ChangeScore: 10,
+				ChangeScore: 0,
 				// 满分
-				FullScore: 150,
+				FullScore: 0,
 				// 排名第一
 				FirstSchool: "蓝鸽高中",
 				// 第一分数
-				FirstScore: 150,
+				FirstScore: 0,
 				// 本校排名
-				MySchoolRank: 20,
+				MySchoolRank: 1,
 				// 排行榜
 				SchoolList: [
 					{
-						SchoolID: "",
 						SchoolName: "蓝鸽高中",
 						SchoolRank: 1,
 					},
 					{
-						SchoolID: "",
 						SchoolName: "蓝鸽高中",
 						SchoolRank: 1,
 					},
@@ -92,12 +90,10 @@ export default {
 				// 重点关注
 				FocusSchoolList: [
 					{
-						SchoolID: "",
 						SchoolName: "蓝鸽高中",
 						SchoolRank: 1,
 					},
 					{
-						SchoolID: "",
 						SchoolName: "蓝鸽高中",
 						SchoolRank: 1,
 					},
@@ -141,13 +137,17 @@ export default {
 			let data = { ...this.$store.state };
 			delete data.UserInfo;
 			if (this.$route.name === "educationRZZD") {
-				GetAreaPredictedScore(data).then((res) => {
-					this.info = res.Data;
-				});
+				GetAreaPredictedScore(data)
+					.then((res) => {
+						this.info = res.Data;
+					})
+					.catch();
 			} else {
-				GetSchoolPredicted(data).then((res) => {
-					this.info = res.Data;
-				});
+				GetSchoolPredicted(data)
+					.then((res) => {
+						this.info = res.Data;
+					})
+					.catch();
 			}
 		},
 	},

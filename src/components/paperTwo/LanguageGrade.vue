@@ -154,7 +154,9 @@ export default {
 				} else {
 					this.isShow = true;
 				}
-			});
+			}).catch(() => {
+					this.isShow = false;
+				});
 		},
 		openDialog() {
 			this.dialogVisible = true;

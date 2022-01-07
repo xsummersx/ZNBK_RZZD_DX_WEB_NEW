@@ -14,7 +14,6 @@
 			<CompareLastWeek :ChangeScore="info.IndexChange" />
 		</div>
 		<CompareAndRank
-			v-if="isShow"
 			:classCompare="info.TrastCLassAvgIndex"
 			:gradeCompare="info.TrastGradeAvgIndex"
 			:ClassRank="info.ClassRank"
@@ -33,13 +32,13 @@ export default {
 		return {
 			info: {
 				CognitiveGradeName: "C+",
-				FullIndex: 10000,
-				PersonIndex: 5888,
-				IndexChange: 20,
-				TrastCLassAvgIndex: 158,
-				TrastGradeAvgIndex: 124,
-				ClassRank: 8,
-				GradeRank: 50,
+				FullIndex: 0,
+				PersonIndex: 0,
+				IndexChange: 0,
+				TrastCLassAvgIndex: 0,
+				TrastGradeAvgIndex: 0,
+				ClassRank: 0,
+				GradeRank: 0,
 			},
 			isShow: true,
 		};
@@ -66,10 +65,12 @@ export default {
 				ZsdArea: this.$store.state.ZsdArea,
 				StageNo: this.$store.state.StageNo,
 			};
-			GetStuCognitiveIndex(data).then((res) => {
-				this.info = res.Data;
-				this.isShow = true;
-			});
+			GetStuCognitiveIndex(data)
+				.then((res) => {
+					this.info = res.Data;
+					this.isShow = true;
+				})
+				.catch();
 		},
 	},
 };

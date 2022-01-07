@@ -75,16 +75,20 @@ export default {
 				...this.$store.state,
 			};
 			delete params.UserInfo;
-			GetClassLanguage(params).then((res) => {
-				// console.log(res);
-				this.lanResInfo = res.Data;
-				let { ZH, XZ, KY, YD, TL } = this.lanResInfo ;
-				if (ZH == 0 && XZ == 0 && KY == 0 && YD == 0 && TL == 0) {
+			GetClassLanguage(params)
+				.then((res) => {
+					// console.log(res);
+					this.lanResInfo = res.Data;
+					let { ZH, XZ, KY, YD, TL } = this.lanResInfo;
+					if (ZH == 0 && XZ == 0 && KY == 0 && YD == 0 && TL == 0) {
+						this.isShow = false;
+					} else {
+						this.isShow = true;
+					}
+				})
+				.catch(() => {
 					this.isShow = false;
-				} else {
-					this.isShow = true;
-				}
-			});
+				});
 		},
 		// 数字转为字符串
 		numToString(i) {

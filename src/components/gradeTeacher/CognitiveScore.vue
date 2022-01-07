@@ -42,39 +42,29 @@ export default {
 	data() {
 		return {
 			info: {
-				ClassAvgIndex: 6633,
-				GradeAvgIndex: 4268,
-				ChangeIndex: 100,
+				ClassAvgIndex: 0,
+				GradeAvgIndex: 0,
+				ChangeIndex: 0,
 				CognitiveGradeName: "C",
-				FullIndex: 10000,
+				FullIndex: 0,
 				StuIndexList: [
 					{
-						StudentID: "1201046",
-						StudentName: "江南",
-						CourseClassID: "90EC6CF6-945C-4710-AFB8-96BC6CC0A549",
-						CurrentIndex: 6661,
-						SchoolID: "S2-000054-B4BC",
+						StudentName: "无",
+						CurrentIndex: 0,
 					},
 					{
-						StudentID: "1201060",
-						StudentName: "乔瑟夫",
-						CourseClassID: "90EC6CF6-945C-4710-AFB8-96BC6CC0A549",
-						CurrentIndex: 5000,
-						SchoolID: "S2-000054-B4BC",
+						StudentName: "无",
+						CurrentIndex: 0,
 					},
 				],
 				ClassList: [
 					{
-						CourseClassID: "BFF54539-01AF-4759-823A-0EBB5C1415DE",
-						CourseClassName: "初三2班",
-						ClassAvgIndex: 8413,
-						Rank: 1,
+						CourseClassName: "无",
+						ClassAvgIndex: 0,
 					},
 					{
-						CourseClassID: "499B60B2-D4E8-4135-BE7D-F9DF32403A5B",
-						CourseClassName: "初三（3）班",
-						ClassAvgIndex: 6778,
-						Rank: 2,
+						CourseClassName: "无",
+						ClassAvgIndex: 0,
 					},
 				],
 			},
@@ -118,14 +108,18 @@ export default {
 			delete data.UserInfo;
 			if (this.$route.name === "teacherRZZD") {
 				// 教师
-				GetClassCognitiveIndex(data).then((res) => {
-					this.info = res.Data;
-				});
+				GetClassCognitiveIndex(data)
+					.then((res) => {
+						this.info = res.Data;
+					})
+					.catch();
 			} else {
 				// 年级组长
-				GetGradeCognitiveIndex(data).then((res) => {
-					this.info = res.Data;
-				});
+				GetGradeCognitiveIndex(data)
+					.then((res) => {
+						this.info = res.Data;
+					})
+					.catch();
 			}
 		},
 	},
