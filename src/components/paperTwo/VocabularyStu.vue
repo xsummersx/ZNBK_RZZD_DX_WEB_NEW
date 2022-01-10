@@ -7,7 +7,7 @@
 				><i></i>薄弱词汇诊断</span
 			>
 		</div>
-		<div class="main">
+		<div class="main" v-if="isShow">
 			<div class="mainTop">
 				<div class="masteredCount">
 					<span class="title">平均掌握量</span>
@@ -32,6 +32,7 @@
 				:ThirdScoreRate="ThirdScoreRate"
 			/>
 		</div>
+		<NoDataVGL v-if="!isShow" type="voca" />
 	</div>
 </template>
 
@@ -50,11 +51,12 @@ export default {
 			SecondScoreRate: 0.0,
 			// 不常考
 			ThirdScoreRate: 0.0,
-			isShow: true,
+			isShow: false,
 		};
 	},
 	components: {
 		Progress: () => import("../common/Progress.vue"),
+		NoDataVGL: () => import("../common/NoDataVGL.vue"),
 	},
 	created() {
 		this.init();
@@ -82,14 +84,18 @@ export default {
 				StuID: this.$store.state.StuID,
 				ZsdArea: this.$store.state.ZsdArea,
 			};
-			GetStuVocabulary(params).then((res) => {
-				this.masteredCount = res.Data.MasteredCount;
-				this.scoreRate = res.Data.VocabularyScoreRate;
-				this.FirstScoreRate = res.Data.FirstScoreRate;
-				this.SecondScoreRate = res.Data.SecondScoreRate;
-				this.ThirdScoreRate = res.Data.ThirdScoreRate;
-				this.isShow = true;
-			});
+			GetStuVocabulary(params)
+				.then((res) => {
+					this.masteredCount = res.Data.MasteredCount;
+					this.scoreRate = res.Data.VocabularyScoreRate;
+					this.FirstScoreRate = res.Data.FirstScoreRate;
+					this.SecondScoreRate = res.Data.SecondScoreRate;
+					this.ThirdScoreRate = res.Data.ThirdScoreRate;
+					this.isShow = true;
+				})
+				.catch(() => {
+					this.isShow = false;
+				});
 		},
 	},
 };

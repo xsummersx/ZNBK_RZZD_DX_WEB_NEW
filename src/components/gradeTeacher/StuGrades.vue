@@ -7,7 +7,6 @@
 			<CompareLastWeek :ChangeScore="info.ScoreChange" />
 		</div>
 		<CompareAndRank
-			v-if="isShow"
 			:classCompare="info.TrastCLassAvgScore"
 			:gradeCompare="info.TrastGradeAvgScore"
 			:ClassRank="info.ClassRank"
@@ -22,13 +21,13 @@ export default {
 	data() {
 		return {
 			info: {
-				PersonScore: 128,
+				PersonScore: 0,
 				FullScore: 150,
-				ScoreChange: 10,
-				TrastCLassAvgScore: 5,
-				TrastGradeAvgScore: -8,
-				ClassRank: 1,
-				GradeRank: 3,
+				ScoreChange: 0,
+				TrastCLassAvgScore: 0,
+				TrastGradeAvgScore: 0,
+				ClassRank: 0,
+				GradeRank: 0,
 			},
 			isShow: true,
 		};
@@ -52,10 +51,12 @@ export default {
 				SchoolID: this.$store.state.SchoolID,
 				TID: this.$store.state.TID,
 			};
-			GetStuPredictedScore(data).then((res) => {
-				this.info = res.Data;
-				this.isShow = true;
-			});
+			GetStuPredictedScore(data)
+				.then((res) => {
+					this.info = res.Data;
+					this.isShow = true;
+				})
+				.catch();
 		},
 	},
 };

@@ -78,6 +78,11 @@
 							</div>
 						</div>
 					</div>
+					<img
+						v-if="vocaZsdList.length === 0"
+						class="noDataImg1"
+						src="~@/assets/img/eduSchool/nodata.png"
+					/>
 				</div>
 			</div>
 			<div
@@ -119,6 +124,11 @@
 							</div>
 						</div>
 					</div>
+					<img
+						v-if="graZsdList.length === 0"
+						class="noDataImg1"
+						src="~@/assets/img/eduSchool/nodata.png"
+					/>
 				</div>
 			</div>
 			<div class="ddPagination" v-if="isShowpPagination">
@@ -584,5 +594,10 @@ export default {
 }
 .ddPagination {
 	margin: 15px 0 0 0;
+}
+.noDataImg1 {
+	width: 64px;
+	height: 64px;
+	margin: 200px auto 0;
 }
 </style>

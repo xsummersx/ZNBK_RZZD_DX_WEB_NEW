@@ -1,18 +1,18 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:30:34
- * @LastEditTime: 2021-12-29 09:07:40
+ * @LastEditTime: 2022-01-07 15:29:19
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》认知成绩分布
 -->
 <template>
-  <div class="Dis">
-    <div class="title">认知成绩分布</div>
+  <div class="Dis" :class="{ teacDis: $route.name == 'gradeRZZD' || $route.name == 'teacherRZZD' }">
+    <div class="title" v-if="!($route.name == 'gradeRZZD' || $route.name == 'teacherRZZD')">认知成绩分布</div>
     <template v-if="true">
       <div class="button">
         <span @click="checkButton(0)" v-show="$route.name == 'educationRZZD'" :class="{ active: activeSpan == 0 }">学校</span>
-        <span @click="checkButton(1)" v-show="$route.name == 'schoolRZZD'" :class="{ active: activeSpan == 1 }">班级</span>
+        <span @click="checkButton(1)" v-show="$route.name == 'schoolRZZD' || $route.name == 'gradeRZZD'" :class="{ active: activeSpan == 1 }">班级</span>
         <span @click="checkButton(2)" :class="{ active: activeSpan == 2 }">学生</span>
       </div>
       <div class="tu">
@@ -128,21 +128,22 @@
   </div>
 </template>
 <script>
-import { GetArea } from "@/api/eduSchool/right.js";
-import { GetAreaSchool } from "@/api/eduSchool/right.js";
+import { GetArea, GetAreaSchool, GetAreaGrade, GetAreaTeacher } from "@/api/eduSchool/right.js";
 import EduNoData from "./eduNoData";
 export default {
   name: "ScoreDis",
   data() {
     return {
-      activeSpan: 0, //0-学校，1-班级，2-学生
+      activeSpan: 0, //0-学校，1-班级，2-学生,
       List: [],
       showData: true, //是否有数据
     };
   },
   created() {
-    if (this.$route.name == "schoolRZZD") {
+    if (this.$route.name == "schoolRZZD" || this.$route.name == "gradeRZZD") {
       this.activeSpan = 1;
+    } else if (this.$route.name == "teacherRZZD") {
+      this.activeSpan = 2;
     }
   },
   computed: {
@@ -210,6 +211,32 @@ export default {
             }
           }
         });
+      } else if (name == "gradeRZZD") {
+        params.SchoolID = this.$store.state.SchoolID;
+        params.SwitchType = type;
+        GetAreaGrade(params).then((res) => {
+          if (res.Code == 1) {
+            if (res.Data.IndexTable.length > 0) {
+              this.List = res.Data.IndexTable;
+            } else {
+              this.showData = false;
+            }
+          }
+        });
+      } else if (name == "teacherRZZD") {
+        params.CourseClassID = this.$store.state.CourseClassID;
+        params.SchoolID = this.$store.state.SchoolID;
+        // params.SwitchType = "student";
+        GetAreaTeacher(params).then((res) => {
+          console.log(res);
+          if (res.Code == 1) {
+            if (res.Data.length > 0) {
+              this.List = res.Data;
+            } else {
+              this.showData = false;
+            }
+          }
+        });
       }
     },
   },
@@ -222,6 +249,13 @@ export default {
   margin-left: 10px;
   background: url(~@/assets/img/eduSchool/认知成绩分布_bg.png) center center no-repeat;
   overflow: hidden;
+}
+.teacDis {
+  background-image: none !important;
+  background: rgba(0, 0, 51, 0.2) !important;
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 .title {
   font-family: "YouSheBiaoTiHei";

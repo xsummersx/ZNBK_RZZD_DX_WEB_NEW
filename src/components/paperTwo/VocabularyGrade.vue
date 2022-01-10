@@ -451,27 +451,31 @@ export default {
 				...this.$store.state,
 			};
 			delete params.UserInfo;
-			GetGradeVocabulary(params).then((res) => {
-				this.info = res.Data;
-				if (res.Data.ClassList.length == 0) {
+			GetGradeVocabulary(params)
+				.then((res) => {
+					this.info = res.Data;
+					if (res.Data.ClassList.length == 0) {
+						this.isShow = false;
+					} else {
+						this.isShow = true;
+						this.minCountData = res.Data.MinCountList.map((item) => {
+							return {
+								xAxis: item.CourseClassName,
+								yAxis: item.ClassMasterCount,
+							};
+						});
+						this.minRateData = res.Data.MinRateList.map((item) => {
+							return {
+								xAxis: item.CourseClassName,
+								yAxis: (item.VocabularyScoreRate * 100).toFixed(2),
+							};
+						});
+						this.drawLine();
+					}
+				})
+				.catch(() => {
 					this.isShow = false;
-				} else {
-					this.isShow = true;
-					this.minCountData = res.Data.MinCountList.map((item) => {
-						return {
-							xAxis: item.CourseClassName,
-							yAxis: item.ClassMasterCount,
-						};
-					});
-					this.minRateData = res.Data.MinRateList.map((item) => {
-						return {
-							xAxis: item.CourseClassName,
-							yAxis: (item.VocabularyScoreRate * 100).toFixed(2),
-						};
-					});
-					this.drawLine();
-				}
-			});
+				});
 		},
 		// 跳转薄弱诊断
 		toDiagnosis() {

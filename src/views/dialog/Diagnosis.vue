@@ -171,6 +171,11 @@
 								</div>
 							</div>
 						</div>
+						<img
+							v-if="vocaList.length === 0"
+							class="noDataImg1"
+							src="~@/assets/img/eduSchool/nodata.png"
+						/>
 					</div>
 				</div>
 				<div class="bottomContent" v-if="reportType === 'gra'">
@@ -210,6 +215,11 @@
 								</div>
 							</div>
 						</div>
+						<img
+							v-if="graList.length === 0"
+							class="noDataImg1"
+							src="~@/assets/img/eduSchool/nodata.png"
+						/>
 					</div>
 				</div>
 				<div class="diagnosisPagination" v-if="false">
@@ -914,5 +924,10 @@ export default {
 	.diagnosisPagination {
 		margin: 15px auto 0;
 	}
+}
+.noDataImg1 {
+	width: 64px;
+	height: 64px;
+	margin: 200px auto 0;
 }
 </style>

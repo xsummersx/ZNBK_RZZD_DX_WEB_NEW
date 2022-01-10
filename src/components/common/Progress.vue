@@ -56,7 +56,7 @@ export default {
 				},
 				xAxis: {
 					show: false,
-					max: 100,
+					max: 102,
 				},
 				grid: {
 					top: "8",
@@ -148,14 +148,50 @@ export default {
 										color: "rgba(80,162,250,0.5)",
 									},
 									{
-										offset: 1,
+										offset: 0.97,
 										color: "rgba(80,162,250,1)",
+									},
+									{
+										offset: 1,
+										color: "rgba(134,192,253,1)",
 									},
 								],
 							},
 							borderRadius: [0, 30, 30, 0], //圆角大小
 						},
 						data: [this.percent1],
+					},
+					{
+						name: "背景",
+						type: "bar",
+						barWidth: 20,
+						z: 0,
+						barGap: "-100%",
+						data: [+this.percent1 + 1],
+						itemStyle: {
+							color: {
+								type: "linear",
+								x: 0,
+								y: 0,
+								x2: 1,
+								y2: 0,
+								colorStops: [
+									{
+										offset: 0,
+										color: "rgba(225, 225, 225, 0)",
+									},
+									{
+										offset: 0.96,
+										color: "rgba(80,162,250,0)",
+									},
+									{
+										offset: 1,
+										color: "rgba(80,162,250,0.6)",
+									},
+								],
+							},
+							borderRadius: 10,
+						},
 					},
 				],
 			});
@@ -213,14 +249,50 @@ export default {
 										color: "rgba(221,116,35,0.5)",
 									},
 									{
-										offset: 1,
+										offset: 0.97,
 										color: "rgba(221,116,35,1)",
+									},
+									{
+										offset: 1,
+										color: "rgba(253,170,104,1)",
 									},
 								],
 							},
 							borderRadius: [0, 30, 30, 0], //圆角大小
 						},
 						data: [this.percent2],
+					},
+					{
+						name: "背景",
+						type: "bar",
+						barWidth: 20,
+						z: 0,
+						barGap: "-100%",
+						data: [+this.percent2 + 1],
+						itemStyle: {
+							color: {
+								type: "linear",
+								x: 0,
+								y: 0,
+								x2: 1,
+								y2: 0,
+								colorStops: [
+									{
+										offset: 0,
+										color: "rgba(225, 225, 225, 0)",
+									},
+									{
+										offset: 0.97,
+										color: "rgba(221,116,35,0)",
+									},
+									{
+										offset: 1,
+										color: "rgba(221,116,35,0.8)",
+									},
+								],
+							},
+							borderRadius: 10,
+						},
 					},
 				],
 			});
@@ -282,14 +354,50 @@ export default {
 										color: "rgba(113,233,157,0.5)",
 									},
 									{
-										offset: 1,
+										offset: 0.97,
 										color: "rgba(113,233,157,1)",
+									},
+									{
+										offset: 1,
+										color: "rgba(167,253,198,1)",
 									},
 								],
 							},
 							borderRadius: [0, 30, 30, 0], //圆角大小
 						},
 						data: [this.percent3],
+					},
+					{
+						name: "背景",
+						type: "bar",
+						barWidth: 20,
+						z: 0,
+						barGap: "-100%",
+						data: [+this.percent3 + 1],
+						itemStyle: {
+							color: {
+								type: "linear",
+								x: 0,
+								y: 0,
+								x2: 1,
+								y2: 0,
+								colorStops: [
+									{
+										offset: 0,
+										color: "rgba(225, 225, 225, 0)",
+									},
+									{
+										offset: 0.96,
+										color: "rgba(113,233,157,0)",
+									},
+									{
+										offset: 1,
+										color: "rgba(113,233,157,0.8)",
+									},
+								],
+							},
+							borderRadius: 10,
+						},
 					},
 				],
 			});

@@ -62,17 +62,17 @@ export default {
 			// 接口返回数据
 			info: {
 				// 学校作答总量
-				SchoolCount: 17,
+				SchoolCount: 0,
 				// 全区平均
-				AreaAvgPaper: 17,
+				AreaAvgPaper: 0,
 				// 排名第一学校
 				FirstSchool: "蓝鸽高中",
 				// 本校区排名
-				MySchoolRank: 100,
+				MySchoolRank: 1,
 				// 排名第一份数
-				FirstScore: 56,
+				FirstScore: 0,
 				// 教育局显示总量
-				AreaAvgCount: 8,
+				AreaAvgCount: 0,
 				// 排行榜
 				SchoolList: [
 					{
@@ -119,13 +119,17 @@ export default {
 			let data = { ...this.$store.state };
 			delete data.UserInfo;
 			if (this.$route.name === "educationRZZD") {
-				GetAreaPaperNum(data).then((res) => {
-					this.info = res.Data;
-				});
+				GetAreaPaperNum(data)
+					.then((res) => {
+						this.info = res.Data;
+					})
+					.catch();
 			} else {
-				GetSchoolPaperNum(data).then((res) => {
-					this.info = res.Data;
-				});
+				GetSchoolPaperNum(data)
+					.then((res) => {
+						this.info = res.Data;
+					})
+					.catch();
 			}
 		},
 		chart() {

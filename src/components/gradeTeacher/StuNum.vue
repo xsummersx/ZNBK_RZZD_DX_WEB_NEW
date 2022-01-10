@@ -13,7 +13,6 @@
 			<CompareLastWeek :ChangeScore="info.PaperCountChange" />
 		</div>
 		<CompareAndRank
-			v-if="isShow"
 			:isScore="false"
 			:classCompare="info.TrastCLassAvgPaper"
 			:gradeCompare="info.TrastGradeAvgPaper"
@@ -29,13 +28,13 @@ export default {
 	data() {
 		return {
 			info: {
-				PersonTotalPaperCount: 58,
-				AreaMaxPaper: 59,
-				PaperCountChange: 3,
-				TrastCLassAvgPaper: 3,
-				TrastGradeAvgPaper: 2,
-				ClassRank: 2,
-				GradeRank: 8,
+				PersonTotalPaperCount: 0,
+				AreaMaxPaper: 0,
+				PaperCountChange: 0,
+				TrastCLassAvgPaper: 0,
+				TrastGradeAvgPaper: 0,
+				ClassRank: 0,
+				GradeRank: 0,
 			},
 			isShow: true,
 		};
@@ -59,10 +58,12 @@ export default {
 				CountyID: this.$store.state.CountyID,
 				TID: this.$store.state.TID,
 			};
-			GetStuPaperNum(data).then((res) => {
-				this.info = res.Data;
-				this.isShow = true;
-			});
+			GetStuPaperNum(data)
+				.then((res) => {
+					this.info = res.Data;
+					this.isShow = true;
+				})
+				.catch();
 		},
 	},
 };

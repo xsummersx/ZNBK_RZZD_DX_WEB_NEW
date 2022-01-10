@@ -11,7 +11,7 @@
 		<span class="title">认知平均分</span>
 		<div class="main" v-if="$route.name === 'educationRZZD'">
 			<Ring :FullIndex="info.FullIndex" :avgIndex="info.AreaAvgIndex" />
-			<div class="middle" :class="info.CognitiveGradeName"></div>
+			<Middle :level="info.CognitiveGradeName" />
 			<div class="right">
 				<span class="quantity" :class="status === 'up' ? 'up' : 'down'"
 					>{{ comparedData }}<span class="char">分</span></span
@@ -35,8 +35,7 @@
 					>
 				</div>
 			</div>
-
-			<div class="middle" :class="info.CognitiveGradeName"></div>
+			<Middle :level="info.CognitiveGradeName" />
 			<div class="right-leader">
 				<span class="score"
 					>{{ info.AreaAvgIndex }}<span class="char">分</span></span
@@ -70,47 +69,25 @@ export default {
 		return {
 			info: {
 				// 学校平均分
-				SchoolAvgIndex: 1110,
+				SchoolAvgIndex: 0,
 				// 较上周
-				ChangeIndex: -100,
+				ChangeIndex: 0,
 				// 等级
 				CognitiveGradeName: "A",
 				// 满分
-				FullIndex: 10000,
+				FullIndex: 0,
 				// 全区平均分
-				AreaAvgIndex: 9717,
+				AreaAvgIndex: 0,
 				// 排名第一学校
 				FirstSchool: "蓝鸽高中",
 				// 排名第一分数
-				FirstScore: 6666,
+				FirstScore: 0,
 				// 本校区排名
-				MySchoolRank: 3,
+				MySchoolRank: 1,
 				// 全区排行榜
-				SchoolList: [
-					{
-						SchoolID: "S4-000020-9AB3",
-						SchoolName: "蓝鸽高中",
-						SchoolRank: 1,
-					},
-					{
-						SchoolID: "S4-000020-9AB3",
-						SchoolName: "蓝鸽高中",
-						SchoolRank: 1,
-					},
-				],
+				SchoolList: [],
 				// 重点关注
-				FocusSchoolList: [
-					{
-						SchoolID: "S4-000020-9AB3",
-						SchoolName: "蓝鸽高中",
-						SchoolRank: 1,
-					},
-					{
-						SchoolID: "S4-000020-9AB3",
-						SchoolName: "蓝鸽高中",
-						SchoolRank: 1,
-					},
-				],
+				FocusSchoolList: [],
 			},
 		};
 	},
@@ -121,6 +98,7 @@ export default {
 		RankAndFirst: () => import("../common/RankAndFirst.vue"),
 		Top: () => import("../common/Top.vue"),
 		Ring: () => import("../common/Ring.vue"),
+		Middle: () => import("../common/Middle.vue"),
 	},
 	computed: {
 		// 不同身份不同高度
@@ -156,14 +134,22 @@ export default {
 			delete data.UserInfo;
 			if (this.$route.name === "educationRZZD") {
 				// 教育局
-				GetAreaCognitiveIndex(data).then((res) => {
-					this.info = res.Data;
-				});
+				GetAreaCognitiveIndex(data)
+					.then((res) => {
+						if (res.Data != null) {
+							this.info = res.Data;
+						}
+					})
+					.catch();
 			} else {
 				// 校领导
-				GetSchoolCongnitiveIndex(data).then((res) => {
-					this.info = res.Data;
-				});
+				GetSchoolCongnitiveIndex(data)
+					.then((res) => {
+						if (res.Data != null) {
+							this.info = res.Data;
+						}
+					})
+					.catch();
 			}
 		},
 	},
@@ -202,25 +188,6 @@ export default {
 	flex-direction: row;
 	margin: 15px 0 -10px 0;
 	justify-content: space-around;
-	.middle {
-		width: 64px;
-		margin-top: -90px;
-	}
-	.A {
-		background: url(~@/assets/img/teacher/小A+.png) center center no-repeat;
-	}
-	.B {
-		background: url(~@/assets/img/teacher/小B+.png) center center no-repeat;
-	}
-	.C {
-		background: url(~@/assets/img/teacher/小C+.png) center center no-repeat;
-	}
-	.D {
-		background: url(~@/assets/img/teacher/小D+.png) center center no-repeat;
-	}
-	.E {
-		background: url(~@/assets/img/teacher/小E+.png) center center no-repeat;
-	}
 	.right {
 		display: flex;
 		display: -webkit-flex;

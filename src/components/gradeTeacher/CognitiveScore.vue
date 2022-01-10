@@ -1,7 +1,7 @@
 <!--
  * @Author: 汤宇昕
  * @Date: 2021-11-30 14:22:09
- * @LastEditTime: 2021-12-09 10:28:50
+ * @LastEditTime: 2022-01-07 15:19:17
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 年级组长，教师=》认知平均分
@@ -11,7 +11,7 @@
 		<span class="title">认知平均分</span>
 		<div class="main">
 			<Ring :FullIndex="info.FullIndex" :avgIndex="avgIndex" />
-			<div class="middle" :class="info.CognitiveGradeName"></div>
+			<Middle :level="info.CognitiveGradeName" />
 			<CompareLastWeek :ChangeScore="info.ChangeIndex" />
 		</div>
 		<Top2
@@ -25,10 +25,32 @@
 			:theSecondAvg="theSecond.ClassAvgIndex"
 		/>
 		<div class="foot">
-			<span class="btn">认知成绩分布</span>
+			<span class="btn" @click="openDis()">认知成绩分布</span>
 			<i class="line"></i>
-			<span class="btn">认知成绩走势</span>
+			<span class="btn" @click="openTrend()">认知成绩走势</span>
 		</div>
+		<el-dialog
+			:title="TitleDis"
+			:visible.sync="dialogDis"
+			:close-on-click-modal="false"
+			width="440px"
+			top="0vh"
+		>
+			<div class="DisContent">
+				<ScoreDis></ScoreDis>
+			</div>
+		</el-dialog>
+		<el-dialog
+			:title="TitleDis"
+			:visible.sync="dialogTrend"
+			:close-on-click-modal="false"
+			width="440px"
+			top="0vh"
+		>
+			<div class="DisContent">
+				<ScoreTrend></ScoreTrend>
+			</div>
+		</el-dialog>
 	</div>
 </template>
 
@@ -41,40 +63,33 @@ import {
 export default {
 	data() {
 		return {
+			dialogDis: false, //认知成绩分布弹窗
+			TitleDis: "认知成绩分布图",
+			dialogTrend: false, //认知成绩走势弹窗
 			info: {
-				ClassAvgIndex: 6633,
-				GradeAvgIndex: 4268,
-				ChangeIndex: 100,
+				ClassAvgIndex: 0,
+				GradeAvgIndex: 0,
+				ChangeIndex: 0,
 				CognitiveGradeName: "C",
-				FullIndex: 10000,
+				FullIndex: 0,
 				StuIndexList: [
 					{
-						StudentID: "1201046",
-						StudentName: "江南",
-						CourseClassID: "90EC6CF6-945C-4710-AFB8-96BC6CC0A549",
-						CurrentIndex: 6661,
-						SchoolID: "S2-000054-B4BC",
+						StudentName: "无",
+						CurrentIndex: 0,
 					},
 					{
-						StudentID: "1201060",
-						StudentName: "乔瑟夫",
-						CourseClassID: "90EC6CF6-945C-4710-AFB8-96BC6CC0A549",
-						CurrentIndex: 5000,
-						SchoolID: "S2-000054-B4BC",
+						StudentName: "无",
+						CurrentIndex: 0,
 					},
 				],
 				ClassList: [
 					{
-						CourseClassID: "BFF54539-01AF-4759-823A-0EBB5C1415DE",
-						CourseClassName: "初三2班",
-						ClassAvgIndex: 8413,
-						Rank: 1,
+						CourseClassName: "无",
+						ClassAvgIndex: 0,
 					},
 					{
-						CourseClassID: "499B60B2-D4E8-4135-BE7D-F9DF32403A5B",
-						CourseClassName: "初三（3）班",
-						ClassAvgIndex: 6778,
-						Rank: 2,
+						CourseClassName: "无",
+						ClassAvgIndex: 0,
 					},
 				],
 			},
@@ -110,6 +125,9 @@ export default {
 		CompareLastWeek: () => import("../common/CompareLastWeek.vue"),
 		Ring: () => import("../common/Ring.vue"),
 		Top2: () => import("../common/Top2.vue"),
+		Middle: () => import("../common/Middle.vue"),
+		ScoreDis: () => import("../eduSchool/ScoreDis.vue"),
+		ScoreTrend: () => import("../eduSchool/ScoreTrend.vue"),
 	},
 	mounted() {},
 	methods: {
@@ -118,15 +136,27 @@ export default {
 			delete data.UserInfo;
 			if (this.$route.name === "teacherRZZD") {
 				// 教师
-				GetClassCognitiveIndex(data).then((res) => {
-					this.info = res.Data;
-				});
+				GetClassCognitiveIndex(data)
+					.then((res) => {
+						this.info = res.Data;
+					})
+					.catch();
 			} else {
 				// 年级组长
-				GetGradeCognitiveIndex(data).then((res) => {
-					this.info = res.Data;
-				});
+				GetGradeCognitiveIndex(data)
+					.then((res) => {
+						this.info = res.Data;
+					})
+					.catch();
 			}
+		},
+		//打开认知成绩分布
+		openDis() {
+			this.dialogDis = true;
+		},
+		//打开认知成绩走势
+		openTrend() {
+			this.dialogTrend = true;
 		},
 	},
 };
@@ -156,25 +186,6 @@ export default {
 	flex-direction: row;
 	margin: 20px 0 0 0;
 	justify-content: space-around;
-	.middle {
-		width: 64px;
-		margin-top: -90px;
-	}
-	.A {
-		background: url(~@/assets/img/teacher/小A+.png) center center no-repeat;
-	}
-	.B {
-		background: url(~@/assets/img/teacher/小B+.png) center center no-repeat;
-	}
-	.C {
-		background: url(~@/assets/img/teacher/小C+.png) center center no-repeat;
-	}
-	.D {
-		background: url(~@/assets/img/teacher/小D+.png) center center no-repeat;
-	}
-	.E {
-		background: url(~@/assets/img/teacher/小E+.png) center center no-repeat;
-	}
 	.right {
 		margin-left: -32px;
 	}

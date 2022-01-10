@@ -42,33 +42,21 @@ export default {
 				ChangePaperCount: 0,
 				StuPaperCountList: [
 					{
-						Index: 13,
-						StuID: "1201054",
-						StuPhotoPath: null,
-						StuName: "1",
-						PaperCount: 1,
-						PaperAvgRate: 0.5833333,
-						ClassRank: 3,
-						GradeRank: 3,
+						StuName: "无",
+						PaperCount: 0,
 					},
 					{
-						Index: 13,
-						StuID: "1201057",
-						StuPhotoPath: null,
-						StuName: "2",
-						PaperCount: 1,
-						PaperAvgRate: 0.5833333,
-						ClassRank: 3,
-						GradeRank: 3,
+						StuName: "无",
+						PaperCount: 0,
 					},
 				],
 				ClassList: [
 					{
-						CourseClassName: "1",
+						CourseClassName: "无",
 						ClassPaperCount: 0,
 					},
 					{
-						CourseClassName: "1",
+						CourseClassName: "无",
 						ClassPaperCount: 0,
 					},
 				],
@@ -115,14 +103,18 @@ export default {
 			delete data.UserInfo;
 			if (this.$route.name === "teacherRZZD") {
 				// 教师
-				GetClassPaperNum(data).then((res) => {
-					this.info = res.Data;
-				});
+				GetClassPaperNum(data)
+					.then((res) => {
+						this.info = res.Data;
+					})
+					.catch();
 			} else {
 				// 年级组长
-				GetGradePaperNum(data).then((res) => {
-					this.info = res.Data;
-				});
+				GetGradePaperNum(data)
+					.then((res) => {
+						this.info = res.Data;
+					})
+					.catch();
 			}
 		},
 	},

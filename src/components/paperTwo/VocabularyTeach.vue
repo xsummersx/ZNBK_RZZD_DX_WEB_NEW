@@ -182,6 +182,7 @@ export default {
 					},
 				],
 			},
+			isShow: true,
 		};
 	},
 	created() {

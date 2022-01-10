@@ -7,10 +7,7 @@
 		<span class="title">认知平均分</span>
 		<div class="main">
 			<Ring :FullIndex="info.FullIndex" :avgIndex="info.PersonIndex" />
-			<div
-				class="middle"
-				:class="info.CognitiveGradeName.substring(0, 1)"
-			></div>
+			<Middle :level="info.CognitiveGradeName.substring(0, 1)" />
 			<CompareLastWeek :ChangeScore="info.IndexChange" />
 		</div>
 		<CompareAndRank
@@ -33,13 +30,13 @@ export default {
 		return {
 			info: {
 				CognitiveGradeName: "C+",
-				FullIndex: 10000,
-				PersonIndex: 5888,
-				IndexChange: 20,
-				TrastCLassAvgIndex: 158,
-				TrastGradeAvgIndex: 124,
-				ClassRank: 8,
-				GradeRank: 50,
+				FullIndex: 0,
+				PersonIndex: 0,
+				IndexChange: 0,
+				TrastCLassAvgIndex: 0,
+				TrastGradeAvgIndex: 0,
+				ClassRank: 0,
+				GradeRank: 0,
 			},
 			isShow: true,
 		};
@@ -52,6 +49,7 @@ export default {
 		CompareLastWeek: () => import("../common/CompareLastWeek.vue"),
 		Ring: () => import("../common/Ring.vue"),
 		CompareAndRank: () => import("../common/CompareAndRank.vue"),
+		Middle: () => import("../common/Middle.vue"),
 	},
 	mounted() {},
 	methods: {
@@ -66,10 +64,14 @@ export default {
 				ZsdArea: this.$store.state.ZsdArea,
 				StageNo: this.$store.state.StageNo,
 			};
-			GetStuCognitiveIndex(data).then((res) => {
-				this.info = res.Data;
-				this.isShow = true;
-			});
+			GetStuCognitiveIndex(data)
+				.then((res) => {
+					if (res.Data != null) {
+						this.info = res.Data;
+					}
+					this.isShow = true;
+				})
+				.catch();
 		},
 	},
 };
@@ -99,25 +101,6 @@ export default {
 	flex-direction: row;
 	margin: 20px 0 -5px 0;
 	justify-content: space-around;
-	.middle {
-		width: 64px;
-		margin-top: -90px;
-	}
-	.A {
-		background: url(~@/assets/img/teacher/小A+.png) center center no-repeat;
-	}
-	.B {
-		background: url(~@/assets/img/teacher/小B+.png) center center no-repeat;
-	}
-	.C {
-		background: url(~@/assets/img/teacher/小C+.png) center center no-repeat;
-	}
-	.D {
-		background: url(~@/assets/img/teacher/小D+.png) center center no-repeat;
-	}
-	.E {
-		background: url(~@/assets/img/teacher/小E+.png) center center no-repeat;
-	}
 	.right {
 		margin-left: -32px;
 	}

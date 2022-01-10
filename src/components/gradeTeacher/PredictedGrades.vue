@@ -14,7 +14,6 @@
 			<CompareLastWeek :ChangeScore="info.ChangeScore" />
 		</div>
 		<Top2
-			
 			:theFirstStu="theFirst.StudentName"
 			:theFirstPre="theFirst.PredictedScore"
 			:theFirstClass="theFirst.CourseClassName"
@@ -142,14 +141,18 @@ export default {
 			delete data.UserInfo;
 			if (this.$route.name === "teacherRZZD") {
 				// 教师
-				GetClassPredictedScore(data).then((res) => {
-					this.info = res.Data;
-				});
+				GetClassPredictedScore(data)
+					.then((res) => {
+						this.info = res.Data;
+					})
+					.catch();
 			} else if (this.$route.name === "gradeRZZD") {
 				// 年级组长
-				GetGradePredictedScore(data).then((res) => {
-					this.info = res.Data;
-				});
+				GetGradePredictedScore(data)
+					.then((res) => {
+						this.info = res.Data;
+					})
+					.catch();
 			}
 		},
 	},
