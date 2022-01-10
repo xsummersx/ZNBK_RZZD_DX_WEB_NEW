@@ -41,7 +41,7 @@
 export default {
   data() {
     return {
-      switchToShow: false,
+      switchToShow: true,
     };
   },
   methods: {
