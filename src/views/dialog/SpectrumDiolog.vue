@@ -33,16 +33,46 @@
 </template>
 
 <script>
+import { GetStuKnowledgeSpectrum } from "../../api/head/header";
 import { GetClassKnowledgeSpectrum } from "../../api/head/header";
+import { GetCommonKnowledgeSpectrum } from "../../api/head/header";
 export default {
   data() {
     return { resInfo: {} };
   },
   mounted() {
-    this.GetClassKnowledgeSpectrum();
+    if (this.$route.name == "studentRZZD") {
+      this.GetStuKnowledgeSpectrum();
+    } else if (this.$route.name == "teacherRZZD") {
+      this.GetClassKnowledgeSpectrum();
+    } else if (this.$route.name == "gradeRZZD") {
+      this.GetCommonKnowledgeSpectrum(2);
+    } else if (this.$route.name == "schoolRZZD") {
+      this.GetCommonKnowledgeSpectrum(3);
+    } else if (this.$route.name == "educationRZZD") {
+      this.GetCommonKnowledgeSpectrum(4);
+    }
   },
   methods: {
     // 获取学生端测试知识点全谱
+    GetStuKnowledgeSpectrum() {
+      let params = {
+        token: this.$store.state.token,
+        ZsdArea: "C",
+        StuID: this.$store.state.StuID,
+        SchoolID: this.$store.state.SchoolID,
+      };
+
+      GetStuKnowledgeSpectrum(params).then((res) => {
+        this.resInfo = res.Data;
+        this.drawLine2(
+          this.resInfo.FirstVocabList,
+          this.resInfo.SecondVocabList,
+          this.resInfo.ThirdVocabList
+        );
+      });
+    },
+    // 获取教师端测试知识点全谱
     GetClassKnowledgeSpectrum() {
       let params = {
         token: this.$store.state.token,
@@ -54,7 +84,43 @@ export default {
       };
 
       GetClassKnowledgeSpectrum(params).then((res) => {
-        console.log(1);
+        this.resInfo = res.Data;
+        this.drawLine2(
+          this.resInfo.FirstVocabList,
+          this.resInfo.SecondVocabList,
+          this.resInfo.ThirdVocabList
+        );
+      });
+    },
+    // 获取年级，学校，教育局端测试知识点全谱
+    GetCommonKnowledgeSpectrum(i) {
+      let params = {};
+      if (this.$route.name == "gradeRZZD") {
+        params = {
+          token: this.$store.state.token,
+          ZsdArea: "C",
+          IdentityType: i,
+          ID: this.$store.state.SchoolID,
+          GlobalGrade: this.$store.state.GlobalGrade,
+        };
+      } else if (this.$route.name == "schoolRZZD") {
+        params = {
+          token: this.$store.state.token,
+          ZsdArea: "C",
+          IdentityType: i,
+          ID: this.$store.state.SchoolID,
+          GlobalGrade: this.$store.state.GlobalGrade,
+        };
+      } else if (this.$route.name == "educationRZZD") {
+        params = {
+          token: this.$store.state.token,
+          ZsdArea: "C",
+          IdentityType: i,
+          ID: this.$store.state.CountyID,
+          GlobalGrade: this.$store.state.GlobalGrade,
+        };
+      }
+      GetCommonKnowledgeSpectrum(params).then((res) => {
         this.resInfo = res.Data;
         this.drawLine2(
           this.resInfo.FirstVocabList,

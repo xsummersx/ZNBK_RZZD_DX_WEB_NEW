@@ -656,6 +656,10 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+@import "../assets/js/dialog/colorGlobal.scss";
+@import "../assets/js/dialog/elementReset_Dialog.scss";
+</style>
 <style lang="scss" scoped>
 .rightHead {
   position: relative;

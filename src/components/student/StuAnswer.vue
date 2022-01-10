@@ -43,12 +43,169 @@
           </div>
         </vuescroll>
       </div>
-      <div class="float-r">
+      <div class="float-l">
         <div class="right-btn clearfix">
           <span class="float-l paper-name">{{ PaperName }}</span>
           <span class="float-r paper-checkBtn" @click="dialog(1)">查看试卷作答详情</span>
         </div>
-        <div id="responseCharts"></div>
+        <div style="width: 1040px; height: 184px; border-radius: 6px; margin-top: 10px">
+          <div
+            style="width: 1040px; overflow-y: hidden"
+            :style="{
+              'overflow-x': resInfo.QTypeList.length > 10 ? 'scroll' : 'auto',
+            }"
+          >
+            <table
+              v-if="resInfo.QTypeList.length != 0"
+              class="customTable"
+              :style="{
+                width: resInfo.QTypeList.length > 9 ? 'max-content' : '100%',
+              }"
+            >
+              <thead>
+                <tr>
+                  <th
+                    :style="{
+                      width:
+                        resInfo.QTypeList.length > 9
+                          ? '100px'
+                          : 100 / (resInfo.QTypeList.length + 1) + '%',
+                    }"
+                  ></th>
+                  <th
+                    :style="{
+                      width:
+                        resInfo.QTypeList.length > 9
+                          ? '100px'
+                          : 100 / (resInfo.QTypeList.length + 1) + '%',
+                    }"
+                    v-for="(item, index) in resInfo.QTypeList"
+                    :key="index"
+                  >
+                    <span>{{ item.QTypeName }}</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td
+                    class="TDHead"
+                    :style="{
+                      width:
+                        resInfo.QTypeList.length > 9
+                          ? '100px'
+                          : 100 / (resInfo.QTypeList.length + 1) + '%',
+                    }"
+                  >
+                    <span>得分率</span>
+                  </td>
+                  <td
+                    :style="{
+                      width:
+                        resInfo.QTypeList.length > 9
+                          ? '100px'
+                          : 100 / (resInfo.QTypeList.length + 1) + '%',
+                    }"
+                    class="ScoreTD ScoreTD2"
+                    :class="
+                      item.PaperScoreRate >= 0.9
+                        ? 'BlueScoreTD'
+                        : item.PaperScoreRate >= 0.8
+                        ? 'GreenScoreTD'
+                        : item.PaperScoreRate >= 0.7
+                        ? 'OrangeScoreTD'
+                        : 'RedScoreTD'
+                    "
+                    v-for="(item, index) in resInfo.QTypeList"
+                    :key="index"
+                  >
+                    <!-- @click="
+                      openPopUp(item.TypeNo, item.GenreName,item.TypeName, item.GenreID, 1)
+                    " -->
+                    <span>
+                      {{ (item.PaperScoreRate * 100).toFixed() + "%" }}
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    class="TDHead"
+                    :style="{
+                      width:
+                        resInfo.QTypeList.length > 9
+                          ? '100px'
+                          : 100 / (resInfo.QTypeList.length + 1) + '%',
+                    }"
+                  >
+                    <span> 班级排名 </span>
+                  </td>
+                  <td
+                    :style="{
+                      width:
+                        resInfo.QTypeList.length > 9
+                          ? '100px'
+                          : 100 / (resInfo.QTypeList.length + 1) + '%',
+                    }"
+                    v-for="(item, index) in resInfo.QTypeList"
+                    :key="index"
+                  >
+                    <span
+                      class="IndexRank"
+                      :class="
+                        item.QTypeClassRank == 1
+                          ? 'FirstRank'
+                          : item.QTypeClassRank == 2
+                          ? 'SecondRank'
+                          : item.QTypeClassRank == 3
+                          ? 'ThirdRank'
+                          : ''
+                      "
+                      >{{ item.QTypeClassRank > 3 ? item.QTypeClassRank : "" }}</span
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    class="TDHead"
+                    :style="{
+                      width:
+                        resInfo.QTypeList.length > 9
+                          ? '100px'
+                          : 100 / (resInfo.QTypeList.length + 1) + '%',
+                    }"
+                  >
+                    <span> 年级排名 </span>
+                  </td>
+                  <td
+                    :style="{
+                      width:
+                        resInfo.QTypeList.length > 9
+                          ? '100px'
+                          : 100 / (resInfo.QTypeList.length + 1) + '%',
+                    }"
+                    v-for="(item, index) in resInfo.QTypeList"
+                    :key="index"
+                  >
+                    <span
+                      class="IndexRank"
+                      :class="
+                        item.QTypeGradeRank == 1
+                          ? 'FirstRank'
+                          : item.QTypeGradeRank == 2
+                          ? 'SecondRank'
+                          : item.QTypeGradeRank == 3
+                          ? 'ThirdRank'
+                          : ''
+                      "
+                      >{{ item.QTypeGradeRank > 3 ? item.QTypeGradeRank : "" }}</span
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div style="width: 1120px" class="tableNoData" v-else></div>
+          </div>
+        </div>
       </div>
     </div>
     <el-dialog
@@ -59,12 +216,11 @@
       top="0vh"
     >
       <div v-if="dialogVisible">
-        <TeachQuesDia
+        <StuPaper
           :PaperName="PaperName"
           :PaperID="PaperID"
           v-if="dialogIndex == 1"
-        ></TeachQuesDia>
-        <StuReport :PaperName="PaperName" :PaperID="PaperID" v-else></StuReport>
+        ></StuPaper>
       </div>
     </el-dialog>
   </div>
@@ -76,7 +232,9 @@ import vuescroll from "vuescroll";
 export default {
   data() {
     return {
-      resInfo: [],
+      resInfo: {
+        QTypeList: [],
+      },
       activeTimeIndex: 0,
       activePaperIndex: 0,
       dialogVisible: false, //默认隐藏弹框
@@ -107,8 +265,7 @@ export default {
   },
   components: {
     ArrowTitle: () => import("../common/ArrowTitle.vue"),
-    TeachQuesDia: () => import("../../views/dialog/TeachQuesDia.vue"),
-    StuReport: () => import("../../views/dialog/StuReport.vue"),
+    StuPaper: () => import("../../views/dialog/StuPaper.vue"),
     vuescroll,
   },
   mounted() {
@@ -197,7 +354,7 @@ export default {
       this.dialogIndex = i;
       switch (i) {
         case 1:
-          this.dialogTitle = "试卷题型得分分析-" + this.PaperName;
+          this.dialogTitle = this.PaperName;
           break;
         case 2:
           this.dialogTitle = "学生成绩单-" + this.PaperName;
@@ -210,7 +367,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import "../../assets/js/dialog/colorGlobal.scss";
 @import "../../assets/js/dialog/elementReset_Dialog.scss";
 .right-long-box {
@@ -220,5 +377,67 @@ export default {
   border-radius: 4px;
   padding: 16px 24px 0 0;
   overflow: hidden;
+}
+.customTable {
+  border-collapse: collapse;
+  width: max-content;
+  th,
+  td {
+    width: 100px;
+    display: inline-block;
+    height: 46px;
+    line-height: 46px;
+    text-align: center;
+    border: solid 1px rgba(126, 172, 255, 0.2);
+    span {
+      display: inline-block;
+    }
+  }
+  th {
+    background-color: rgba(126, 172, 255, 0.2);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: bold;
+  }
+  .ScoreTD {
+    span {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+  .ScoreTD2 {
+    span {
+      text-decoration: none;
+      cursor: default;
+    }
+  }
+  .IndexRank {
+    display: inline-block;
+    width: 24px;
+    height: 29px;
+    line-height: 26px;
+    margin-top: 8px;
+  }
+  .FirstRank {
+    background: url("~@/assets/img/grade/第一名.png") center center no-repeat;
+  }
+  .SecondRank {
+    background: url("~@/assets/img/grade/第二名.png") center center no-repeat;
+  }
+  .ThirdRank {
+    background: url("~@/assets/img/grade/第三名.png") center center no-repeat;
+  }
+  .BlueScoreTD {
+    color: #00fff0;
+  }
+  .GreenScoreTD {
+    color: #60ff60;
+  }
+  .OrangeScoreTD {
+    color: #fff600;
+  }
+  .RedScoreTD {
+    color: #ff8080;
+  }
 }
 </style>
