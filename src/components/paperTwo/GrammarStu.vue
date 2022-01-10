@@ -79,6 +79,7 @@ export default {
 					reportType: "gra",
 					stageNo: this.$store.state.StageNo,
 					StuID: this.$store.state.StuID,
+					schoolID: this.$store.state.SchoolID,
 				},
 			});
 			window.open(url.href, "_blank");

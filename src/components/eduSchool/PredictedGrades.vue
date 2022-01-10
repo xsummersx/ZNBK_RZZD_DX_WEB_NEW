@@ -77,27 +77,9 @@ export default {
 				// 本校排名
 				MySchoolRank: 1,
 				// 排行榜
-				SchoolList: [
-					{
-						SchoolName: "蓝鸽高中",
-						SchoolRank: 1,
-					},
-					{
-						SchoolName: "蓝鸽高中",
-						SchoolRank: 1,
-					},
-				],
+				SchoolList: [],
 				// 重点关注
-				FocusSchoolList: [
-					{
-						SchoolName: "蓝鸽高中",
-						SchoolRank: 1,
-					},
-					{
-						SchoolName: "蓝鸽高中",
-						SchoolRank: 1,
-					},
-				],
+				FocusSchoolList: [],
 			},
 		};
 	},
@@ -139,13 +121,17 @@ export default {
 			if (this.$route.name === "educationRZZD") {
 				GetAreaPredictedScore(data)
 					.then((res) => {
-						this.info = res.Data;
+						if (res.Data != null) {
+							this.info = res.Data;
+						}
 					})
 					.catch();
 			} else {
 				GetSchoolPredicted(data)
 					.then((res) => {
-						this.info = res.Data;
+						if (res.Data != null) {
+							this.info = res.Data;
+						}
 					})
 					.catch();
 			}

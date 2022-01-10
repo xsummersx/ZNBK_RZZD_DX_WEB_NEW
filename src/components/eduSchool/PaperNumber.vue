@@ -74,31 +74,9 @@ export default {
 				// 教育局显示总量
 				AreaAvgCount: 0,
 				// 排行榜
-				SchoolList: [
-					{
-						SchoolID: "S4-000020-9AB3",
-						SchoolName: "蓝鸽高中",
-						SchoolRank: 1,
-					},
-					{
-						SchoolID: "S4-000020-9AB3",
-						SchoolName: "蓝鸽高中",
-						SchoolRank: 1,
-					},
-				],
+				SchoolList: [],
 				// 重点关注
-				FocusSchoolList: [
-					{
-						SchoolID: "S4-000020-9AB3",
-						SchoolName: "蓝鸽高中",
-						SchoolRank: 1,
-					},
-					{
-						SchoolID: "S4-000020-9AB3",
-						SchoolName: "蓝鸽高中",
-						SchoolRank: 1,
-					},
-				],
+				FocusSchoolList: [],
 			},
 		};
 	},
@@ -121,13 +99,17 @@ export default {
 			if (this.$route.name === "educationRZZD") {
 				GetAreaPaperNum(data)
 					.then((res) => {
-						this.info = res.Data;
+						if (res.Data != null) {
+							this.info = res.Data;
+						}
 					})
 					.catch();
 			} else {
 				GetSchoolPaperNum(data)
 					.then((res) => {
-						this.info = res.Data;
+						if (res.Data != null) {
+							this.info = res.Data;
+						}
 					})
 					.catch();
 			}

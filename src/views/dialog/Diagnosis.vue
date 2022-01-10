@@ -345,7 +345,7 @@ export default {
 		// 词汇首页
 		getVocaHome(searchText) {
 			let params = {
-				SchoolID: this.resInfo.SchoolID,
+				SchoolID: this.$route.query.schoolID,
 				TID: this.resInfo.UserID,
 				ZsdArea: "C",
 				token: this.$route.query.token,
@@ -366,7 +366,7 @@ export default {
 				});
 			} else if (this.userType == "grade") {
 				// 年级组长词汇首页
-				params["GlobalGrade"] = this.resInfo.GlobalGrade;
+				params["GlobalGrade"] = this.$route.query.globalGrade;
 				api.GetGradeRecommendVoca(params).then((res) => {
 					this.vocaList = res.Data.VocaRecommendList;
 					this.SchoolName = res.Data.SchoolName;
@@ -387,7 +387,7 @@ export default {
 		// 语法首页
 		getGraHome(searchText) {
 			let params = {
-				SchoolID: this.resInfo.SchoolID,
+				SchoolID: this.$route.query.schoolID,
 				TID: this.resInfo.UserID,
 				ZsdArea: "C",
 				token: this.$route.query.token,
@@ -408,7 +408,7 @@ export default {
 				});
 			} else if (this.userType == "grade") {
 				// 年级组长语法
-				params["GlobalGrade"] = this.resInfo.GlobalGrade;
+				params["GlobalGrade"] = this.$route.query.globalGrade;
 				api.GetGradeWeakGrammerDiagnosis(params).then((res) => {
 					this.graList = res.Data.GrammerZsdList;
 					this.SchoolName = res.Data.SchoolName;
@@ -443,7 +443,7 @@ export default {
 		// 词汇报告
 		vocaReport() {
 			let params = {
-				SchoolID: this.resInfo.SchoolID,
+				SchoolID: this.$route.query.schoolID,
 				TID: this.resInfo.UserID,
 				ZsdArea: "C",
 				token: this.$route.query.token,
@@ -457,7 +457,7 @@ export default {
 				});
 			} else if (this.userType == "grade") {
 				// 年级组长词汇
-				params["GlobalGrade"] = this.resInfo.GlobalGrade;
+				params["GlobalGrade"] = this.$route.query.globalGrade;
 				api.GetExportGradeVocabPlans(params).then((res) => {
 					window.open(res.Data, "_self");
 				});
@@ -472,7 +472,7 @@ export default {
 		// 语法报告
 		graReport() {
 			let params = {
-				SchoolID: this.resInfo.SchoolID,
+				SchoolID: this.$route.query.schoolID,
 				TID: this.resInfo.UserID,
 				ZsdArea: "C",
 				token: this.$route.query.token,
@@ -486,7 +486,7 @@ export default {
 				});
 			} else if (this.userType == "grade") {
 				// 年级组长语法
-				params["GlobalGrade"] = this.resInfo.GlobalGrade;
+				params["GlobalGrade"] = this.$route.query.globalGrade;
 				api.GetExportGradeWeakGrammerDiagnosis(params).then((res) => {
 					window.open(res.Data, "_self");
 				});

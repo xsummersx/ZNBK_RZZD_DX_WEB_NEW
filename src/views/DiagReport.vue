@@ -12,7 +12,7 @@
 		<div class="clearfix" style="height: 60px">
 			<div
 				class="productName float-l"
-				:class="$route.query.StageNo == 'C' ? 'productName' : 'productName2'"
+				:class="$route.query.stageNo == 'C' ? 'productName' : 'productName2'"
 			></div>
 			<div class="rightInfo float-r">
 				<!-- <div

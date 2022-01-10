@@ -13,6 +13,7 @@
 			<CompareLastWeek :ChangeScore="info.PaperCountChange" />
 		</div>
 		<CompareAndRank
+			v-if="isShow"
 			:isScore="false"
 			:classCompare="info.TrastCLassAvgPaper"
 			:gradeCompare="info.TrastGradeAvgPaper"
@@ -60,7 +61,9 @@ export default {
 			};
 			GetStuPaperNum(data)
 				.then((res) => {
-					this.info = res.Data;
+					if (res.Data != null) {
+						this.info = res.Data;
+					}
 					this.isShow = true;
 				})
 				.catch();
