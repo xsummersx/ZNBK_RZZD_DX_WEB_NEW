@@ -9,7 +9,7 @@
 <template>
   <div class="right-small-Box">
     <div class="box-title clearfix">
-      <span class="float-l title">做题特点</span>
+      <span class="float-l title">学习特点</span>
     </div>
     <div class="study-box1">
       <div class="study-box1"></div>

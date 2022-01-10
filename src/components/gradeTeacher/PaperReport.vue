@@ -22,7 +22,7 @@
         <input
           class="float-r stuInput"
           type="text"
-          placeholder="请输入班级名称搜索..."
+          placeholder="请输入学生名称搜索..."
           v-model="SearchText"
           v-on:keyup.enter="searchStu()"
         />

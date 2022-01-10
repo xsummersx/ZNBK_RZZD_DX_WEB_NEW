@@ -361,6 +361,8 @@ export default {
 					userType: "grade",
 					reportType: "gra",
 					stageNo: this.$store.state.StageNo,
+					schoolID: this.$store.state.SchoolID,
+					globalGrade: this.$store.state.GlobalGrade,
 				},
 			});
 			window.open(url.href, "_blank");

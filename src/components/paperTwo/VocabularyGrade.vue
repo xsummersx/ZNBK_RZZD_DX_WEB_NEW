@@ -240,7 +240,12 @@ export default {
 			// return 10000;
 		},
 		distance: function () {
-			return (this.avgScore / this.countMax) * 100 - this.avgRate;
+			if (this.countMax === 0) {
+				this.alertVoca();
+				return 0 - this.avgRate;
+			} else {
+				return (this.avgScore / this.countMax) * 100 - this.avgRate;
+			}
 		},
 		firstPaddingA: function () {
 			if (-14 < this.distance && this.distance < 0) {
@@ -486,9 +491,18 @@ export default {
 					userType: "grade",
 					reportType: "voca",
 					stageNo: this.$store.state.StageNo,
+					schoolID: this.$store.state.SchoolID,
+					globalGrade: this.$store.state.GlobalGrade,
 				},
 			});
 			window.open(url.href, "_blank");
+		},
+		alertVoca() {
+			this.$message({
+				type: "warning",
+				message: "词汇认知对比分析：总词汇量为0，接口错误！",
+				duration: 2500,
+			});
 		},
 	},
 };

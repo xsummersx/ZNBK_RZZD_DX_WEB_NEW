@@ -9,7 +9,7 @@
 <template>
   <div class="right-Long-Box">
     <div class="box-title clearfix">
-      <span class="float-l title">学习特点</span>
+      <span class="float-l title">做题特点</span>
     </div>
     <div class="legend" v-show="showData">
       <span class="maxScore" v-show="maxTypeName"
@@ -194,11 +194,11 @@ export default {
         ],
         series: [
           {
-            cursor: "pointer",
+            cursor: "default",
             data: MAX,
           },
           {
-            cursor: "pointer",
+            cursor: "default",
             data: seriesData2,
             markPoint: {
               symbol:
@@ -223,7 +223,7 @@ export default {
           },
           {
             data: MAX,
-            cursor: "pointer",
+            cursor: "default",
             markPoint: {
               symbol:
                 "image://data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAALCAYAAABGbhwYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTM4IDc5LjE1OTgyNCwgMjAxNi8wOS8xNC0wMTowOTowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTcgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkE2RjFEQjc2NTgwMTExRUM5RTFCRTIzRDAyOUYzNTYzIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOkE2RjFEQjc3NTgwMTExRUM5RTFCRTIzRDAyOUYzNTYzIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6QTZGMURCNzQ1ODAxMTFFQzlFMUJFMjNEMDI5RjM1NjMiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6QTZGMURCNzU1ODAxMTFFQzlFMUJFMjNEMDI5RjM1NjMiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz49eoCiAAAAs0lEQVR42mL8UtPMAAWhQJwDxMZQ/hkgngrEq0EcJiBmBOLZQLwKiO2AmBuK7aFiIDlGFiARD8QpDLgBSO4YyMRcJMG7QOwIxXeRxLNACrWQBLqA+AAUdyGJ64AUvkYSsIS6mRHKhoHXIIVbkQQSgPgSFCcgiW9hglrxDdkaKIYBkFw3SOF9IM7D42uQ3H0mKGcuEFcA8X8kBf+hYiA5BhYkiU4gvg51CsgzpUC8CSYJEGAAT/cjWt241fUAAAAASUVORK5CYII=",
@@ -247,16 +247,16 @@ export default {
           },
         ],
       });
-      questionCharts.off("click");
-      questionCharts.on("click", function (params) {
-        that.dialogVisible = false;
-        that.dialogIndex = 1;
-        that.GenreID = that.resInfo.TypeInfoList[params.dataIndex].GenreID;
-        that.TypeNo = that.resInfo.TypeInfoList[params.dataIndex].TypeNo;
-        that.dialogVisible = true;
-        that.dialogTitle = params.name + "对比分析";
-        //
-      });
+      // questionCharts.off("click");
+      // questionCharts.on("click", function (params) {
+      //   that.dialogVisible = false;
+      //   that.dialogIndex = 1;
+      //   that.GenreID = that.resInfo.TypeInfoList[params.dataIndex].GenreID;
+      //   that.TypeNo = that.resInfo.TypeInfoList[params.dataIndex].TypeNo;
+      //   that.dialogVisible = true;
+      //   that.dialogTitle = params.name + "对比分析";
+      //   //
+      // });
     },
   },
 };

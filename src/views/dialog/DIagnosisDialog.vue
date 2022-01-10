@@ -240,7 +240,7 @@ export default {
 		// 获取词汇知识点
 		getVocaDetail(pageNum, zsdType, searchText) {
 			let params = {
-				SchoolID: this.resInfo.SchoolID,
+				SchoolID: this.$route.query.schoolID,
 				TID: this.resInfo.UserID,
 				ZsdArea: "C",
 				token: this.$route.query.token,
@@ -264,7 +264,7 @@ export default {
 				});
 			} else if (this.userType == "grade") {
 				// 年级组长词汇
-				params["GlobalGrade"] = this.resInfo.GlobalGrade;
+				params["GlobalGrade"] = this.$route.query.globalGrade;
 				api.GetGradeVocabDetailInfo(params).then((res) => {
 					this.vocaZsdList = res.Data.VocaList;
 					this.zsdCount = res.Data.VocaCount;
@@ -293,7 +293,7 @@ export default {
 		// 获取语法知识点
 		getGraDetail(pageNum, zsdType, searchText) {
 			let params = {
-				SchoolID: this.resInfo.SchoolID,
+				SchoolID: this.$route.query.schoolID,
 				TID: this.resInfo.UserID,
 				ZsdArea: "C",
 				token: this.$route.query.token,
@@ -317,7 +317,7 @@ export default {
 				});
 			} else if (this.userType == "grade") {
 				// 年级组长语法
-				params["GlobalGrade"] = this.resInfo.GlobalGrade;
+				params["GlobalGrade"] = this.$route.query.globalGrade;
 				api.GetGradeGrammerZsdMapApplication(params).then((res) => {
 					this.graZsdList = res.Data.ZsdList;
 					this.zsdCount = res.Data.ZsdCount;

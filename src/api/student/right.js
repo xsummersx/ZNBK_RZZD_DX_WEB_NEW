@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-01-05 16:18:07
- * @LastEditTime: 2022-01-05 16:35:46
+ * @LastEditTime: 2022-01-07 11:29:38
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\api\student\right.js
@@ -34,6 +34,16 @@ export function GetStuExerciseTrait_V3(data){
 export function GetStuPublishedPaperDaily_V3(data){
     return request({
         url:"/api/StuRZZD/GetStuPublishedPaperDaily_V3",
+        method:"GET",
+        params:{
+            ...data
+        }
+    })
+}
+// 学生查看试卷作答详情
+export function GetStuPaperQTypeReport_V3(data){
+    return request({
+        url:"/api/StuRZZD/GetStuPaperQTypeReport_V3",
         method:"GET",
         params:{
             ...data
