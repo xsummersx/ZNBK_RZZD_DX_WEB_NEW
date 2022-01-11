@@ -29,6 +29,22 @@
                     : 'middleProduct'
                 "
               ></span>
+              <span
+                v-if="$route.name == 'educationRZZD' || $route.name == 'schoolRZZD'"
+                class="lineIcon"
+              ></span>
+              <span
+                v-if="$route.name == 'educationRZZD' || $route.name == 'schoolRZZD'"
+                class="timeText"
+                >{{
+                  new Date().getFullYear() +
+                  "年" +
+                  (new Date().getMonth() + 1) +
+                  "月" +
+                  new Date().getDate() +
+                  "日"
+                }}</span
+              >
             </div>
             <div class="ZsdAreaBox">
               该报告依据大数据分析的<span @click="switchArea()"

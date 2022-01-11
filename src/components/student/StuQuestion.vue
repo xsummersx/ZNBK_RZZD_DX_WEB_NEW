@@ -23,7 +23,7 @@
 
     <div class="study-box3">
       <div class="study-box yellowFont">
-        <span>{{ resInfo.PerAvgTime }}</span
+        <span>{{ resInfo.PerAvgTime.toFixed(2) }}</span
         >H
       </div>
       <div class="study-box BlueFont">

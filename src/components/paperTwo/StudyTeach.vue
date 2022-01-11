@@ -108,76 +108,96 @@ export default {
   },
   mounted() {
     this.init();
-    this.GetClassStudyFeature_V3();
   },
 
   computed: {
     optionData1: function () {
-      let arr = [];
-      this.info1.StuList.map((item) => {
-        if (+item.Conclusion === 2) {
-          arr.push({
-            name: "掌握一般",
-            value: item.StuRatio * 100,
-            count: item.StuCount,
-            itemStyle: {
-              color: "rgba(249,169,74,0.9)",
-            },
-          });
-        } else if (+item.Conclusion === 3) {
-          arr.push({
-            name: "掌握较好",
-            value: item.StuRatio * 100,
-            count: item.StuCount,
-            itemStyle: {
-              color: "rgba(37,216,187,0.9)",
-            },
-          });
-        } else {
-          arr.push({
-            name: "掌握较差",
-            value: item.StuRatio * 100,
-            count: item.StuCount,
-            itemStyle: {
-              color: "rgba(193,193,193,1)",
-            },
-          });
-        }
-      });
+      let arr = [
+        {
+          name: "优秀人数",
+          value:
+            (this.resInfo.ClassStudyTimes.ExceStuCount /
+              (this.resInfo.ClassStudyTimes.ExceStuCount +
+                this.resInfo.ClassStudyTimes.BetterStuCount +
+                this.resInfo.ClassStudyTimes.NormalStuCount)) *
+            100,
+          count: this.resInfo.ClassStudyTimes.ExceStuCount,
+          itemStyle: {
+            color: "rgba(249,169,74,1)",
+          },
+        },
+        {
+          name: "较好人数",
+          value:
+            (this.resInfo.ClassStudyTimes.BetterStuCount /
+              (this.resInfo.ClassStudyTimes.ExceStuCount +
+                this.resInfo.ClassStudyTimes.BetterStuCount +
+                this.resInfo.ClassStudyTimes.NormalStuCount)) *
+            100,
+          count: this.resInfo.ClassStudyTimes.BetterStuCount,
+          itemStyle: {
+            color: "rgba(37,216,187,1)",
+          },
+        },
+        {
+          name: "一般人数",
+          value:
+            (this.resInfo.ClassStudyTimes.NormalStuCount /
+              (this.resInfo.ClassStudyTimes.ExceStuCount +
+                this.resInfo.ClassStudyTimes.BetterStuCount +
+                this.resInfo.ClassStudyTimes.NormalStuCount)) *
+            100,
+          count: this.resInfo.ClassStudyTimes.NormalStuCount,
+          itemStyle: {
+            color: "rgba(193,193,193,1)",
+          },
+        },
+      ];
       return arr;
     },
+
     optionData2: function () {
-      let arr = [];
-      this.info2.GrammerMasteredMapList.map((item) => {
-        if (+item.MasteredConclusion === 2) {
-          arr.push({
-            name: "掌握一般",
-            value: item.StuCount,
-            ratio: item.StuCountProportion * 100,
-            itemStyle: {
-              color: "rgba(41,176,38,1)",
-            },
-          });
-        } else if (+item.MasteredConclusion === 3) {
-          arr.push({
-            name: "掌握较好",
-            value: item.StuCount,
-            ratio: item.StuCountProportion * 100,
-            itemStyle: {
-              color: "rgba(0,170,255,1)",
-            },
-          });
-        } else {
-          arr.push({
-            name: "掌握较差",
-            value: item.StuCount,
-            ratio: item.StuCountProportion * 100,
-            itemStyle: {
-              color: "rgba(251,122,122,1)",
-            },
-          });
-        }
-      });
+      let arr = [
+        {
+          name: "速度较快",
+          value:
+            (this.resInfo.ClassStudySpeeds.GoodStuCount /
+              (this.resInfo.ClassStudySpeeds.GoodStuCount +
+                this.resInfo.ClassStudySpeeds.BetterStuCount +
+                this.resInfo.ClassStudySpeeds.NormalStuCount)) *
+            100,
+          count: this.resInfo.ClassStudySpeeds.GoodStuCount,
+          itemStyle: {
+            color: "rgba(41,176,38,1)",
+          },
+        },
+        {
+          name: "速度一般",
+          value:
+            (this.resInfo.ClassStudySpeeds.NormalStuCount /
+              (this.resInfo.ClassStudySpeeds.ExceStuCount +
+                this.resInfo.ClassStudySpeeds.NormalStuCount +
+                this.resInfo.ClassStudySpeeds.NormalStuCount)) *
+            100,
+          count: this.resInfo.ClassStudySpeeds.NormalStuCount,
+          itemStyle: {
+            color: "rgba(0,170,255,1)",
+          },
+        },
+        {
+          name: "速度较差",
+          value:
+            (this.resInfo.ClassStudySpeeds.BadStuCount /
+              (this.resInfo.ClassStudySpeeds.ExceStuCount +
+                this.resInfo.ClassStudySpeeds.BetterStuCount +
+                this.resInfo.ClassStudySpeeds.BadStuCount)) *
+            100,
+          count: this.resInfo.ClassStudySpeeds.BadStuCount,
+          itemStyle: {
+            color: "rgba(251,122,122,1)",
+          },
+        },
+      ];
       return arr;
     },
   },
@@ -192,9 +212,13 @@ export default {
       };
       GetClassStudyFeature_V3(params).then((res) => {
         this.resInfo = res.Data;
+        this.drawInit();
       });
     },
     init() {
+      this.GetClassStudyFeature_V3();
+    },
+    drawInit() {
       //构建3d饼状图
       let myChart1 = this.$echarts.init(document.getElementById("pieChart1"));
       let myChart2 = this.$echarts.init(document.getElementById("pieChart2"));
@@ -206,7 +230,6 @@ export default {
       this.bindListen(myChart1);
       this.bindListen(myChart2);
     },
-
     getPie3D(pieData, internalDiameterRatio) {
       let series = [];
       let sumValue = 0;
@@ -331,9 +354,9 @@ export default {
                   params.seriesName
                 }<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:${
                   params.color
-                };"></span>${
+                };"></span>${this.getCount(params.seriesName)} (${
                   option.series[params.seriesIndex].pieData.value
-                } (${this.getPercent(params.seriesName)}%)`;
+                }%)`;
               }
             },
           },
@@ -441,7 +464,7 @@ export default {
       });
     },
     getCount(d) {
-      return this.optionData.filter((item) => item.name === d)[0].count;
+      return this.optionData1.filter((item) => item.name === d)[0].count;
     },
   },
 };

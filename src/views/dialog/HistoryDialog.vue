@@ -66,7 +66,11 @@
             <span class="refreshIcon"></span><span>更新试卷对比分析表</span>
           </span>
         </div>
-        <div @click="GetExportGradePapersQTypeScore_V3()" class="exportPaper">
+        <div
+          v-if="SelectedPaperList.length"
+          @click="GetExportGradePapersQTypeScore_V3()"
+          class="exportPaper"
+        >
           <span class="exportIcon"></span>
           导出试卷对比分析
         </div>
@@ -283,9 +287,11 @@ export default {
           this.SelectedPaperList = res.Data.SelectedPaperList;
           this.allCount = res.Data.SelectedPaperCount;
           // this.PaperNum2 = this.SelectedPaperList.length;
-          this.SubjectiveQTypeList = this.SelectedPaperList[0].SubjectiveQTypeList;
-          this.ObjectiveQTypeList = this.SelectedPaperList[0].ObjectiveQTypeList;
-          this.showTable = true;
+          if (this.SelectedPaperList.length > 0) {
+            this.SubjectiveQTypeList = this.SelectedPaperList[0].SubjectiveQTypeList;
+            this.ObjectiveQTypeList = this.SelectedPaperList[0].ObjectiveQTypeList;
+            this.showTable = true;
+          }
         });
     },
   },
