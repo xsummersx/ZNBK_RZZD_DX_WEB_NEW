@@ -32,6 +32,7 @@
 .el-dialog__title {
   font-size: 16px;
   color: #fff;
+  line-height: 48px;
 }
 
 //弹框的关闭按钮
@@ -138,6 +139,7 @@
 .el-dialog__header {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  padding: 0 20px;
   height: 48px;
   background: -webkit-linear-gradient(top, #003bd1, #0042d6);
   background: -o-linear-gradient(bottom, #003bd1, #0042d6);
