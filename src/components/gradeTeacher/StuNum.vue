@@ -6,16 +6,16 @@
 			<div class="left">
 				<span
 					><span class="number">{{ info.PersonTotalPaperCount }}</span
-					>份</span
+					><span class="charChar">份</span></span
 				>
-				<span>总量</span>
+				<span class="fullInfexxx">总量</span>
 			</div>
 			<CompareLastWeek :ChangeScore="info.PaperCountChange" />
 		</div>
 		<CompareAndRank
 			v-if="isShow"
 			:isScore="false"
-			:classCompare="info.TrastCLassAvgPaper"
+			:classCompare="info.TrastClassAvgPaper"
 			:gradeCompare="info.TrastGradeAvgPaper"
 			:ClassRank="info.ClassRank"
 			:GradeRank="info.GradeRank"
@@ -32,7 +32,7 @@ export default {
 				PersonTotalPaperCount: 0,
 				AreaMaxPaper: 0,
 				PaperCountChange: 0,
-				TrastCLassAvgPaper: 0,
+				TrastClassAvgPaper: 0,
 				TrastGradeAvgPaper: 0,
 				ClassRank: 0,
 				GradeRank: 0,
@@ -108,6 +108,13 @@ export default {
 			font-size: 32px;
 			font-family: Oswald;
 		}
+		.fullInfexxx {
+			font-size: 12px;
+		}
+	}
+	.charChar {
+		font-size: 14px;
+		font-weight: bold;
 	}
 }
 </style>

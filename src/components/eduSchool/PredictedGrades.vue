@@ -15,12 +15,12 @@
 				<span class="quantity" :class="status === 'up' ? 'up' : 'down'"
 					>{{ comparedData }}<span class="char">分</span></span
 				>
-				<span>较上周</span>
+				<span class="font12">较上周</span>
 			</div>
 		</div>
 		<div class="main" v-if="$route.name === 'schoolRZZD'">
 			<div class="leader">
-				<span class="textColor">全校平均预估成绩</span>
+				<span class="textColor font12">全校平均预估成绩</span>
 				<Polo :FullScore="info.FullScore" :score="info.SchoolAvgScore" />
 				<div class="compare">
 					<i class="icon"></i>
@@ -32,9 +32,9 @@
 			</div>
 			<div class="right-leader">
 				<span class="score"
-					>{{ info.AreaAvgScore }}<span class="char">分</span></span
+					>{{ info.AreaAvgScore }}<span class="charChar">分</span></span
 				>
-				<span class="textColor">全区平均预估成绩</span>
+				<span class="textColor font12">全区平均预估成绩</span>
 			</div>
 		</div>
 		<Top
@@ -147,6 +147,13 @@ export default {
 .textColor {
 	color: #fff;
 	opacity: 0.8;
+}
+.font12 {
+	font-size: 12px;
+}
+.charChar {
+	font-size: 14px;
+	font-weight: bold;
 }
 .left-Content-Box {
 	display: flex;

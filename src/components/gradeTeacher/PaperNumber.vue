@@ -13,9 +13,9 @@
 			<div class="left">
 				<span
 					><span class="number">{{ count }}</span
-					>份</span
+					><span class="charChar">份</span></span
 				>
-				<span>总量</span>
+				<span class="totalNum">总量</span>
 			</div>
 			<CompareLastWeek :ChangeScore="info.ChangePaperCount" />
 		</div>
@@ -157,6 +157,13 @@ export default {
 		.number {
 			font-size: 32px;
 			font-family: Oswald;
+		}
+		.charChar {
+			font-size: 14px;
+			font-weight: bold;
+		}
+		.totalNum {
+			font-size: 12px;
 		}
 	}
 }

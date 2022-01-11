@@ -6,10 +6,10 @@
 				<div class="percent">
 					<span
 						><span class="number">{{ score }}</span
-						>分</span
+						><span class="charChar">分</span></span
 					>
 					<br />
-					<span>满分:{{ FullScore }}分</span>
+					<span class="fullScore">满分:{{ FullScore }}分</span>
 				</div>
 				<div class="water"></div>
 				<div class="glare"></div>
@@ -79,6 +79,13 @@ export default {
 		top: -5px;
 		left: -5px;
 		border-radius: 50% !important;
+		.charChar {
+			font-size: 14px;
+			font-weight: bold;
+		}
+		.fullScore {
+			font-size: 12px;
+		}
 
 		.water {
 			position: absolute;

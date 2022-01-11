@@ -97,7 +97,7 @@
 							/>
 						</div>
 					</div>
-					<div class="rightBottom">
+					<div class="rightBottom" v-if="showExports">
 						<input
 							class="stuInput"
 							type="text"
@@ -119,6 +119,20 @@
 							<span class="exportIcon"></span>
 							导出报告
 						</div>
+					</div>
+					<div class="rightBottom" v-else>
+						<input
+							class="stuInput"
+							type="text"
+							:placeholder="'请输入' + typeName + '搜索...'"
+							v-model="searchText"
+							@keyup.enter="searchKnowledge"
+						/>
+						<span
+							class="searchIcon"
+							style="right: 10px"
+							@click="searchKnowledge"
+						></span>
 					</div>
 				</div>
 			</div>
@@ -321,6 +335,22 @@ export default {
 				return "年级";
 			} else {
 				return "个人";
+			}
+		},
+		// 是否显示导出
+		showExports: function () {
+			if (this.reportType == "voca") {
+				if (this.vocaList.length === 0) {
+					return false;
+				} else {
+					return true;
+				}
+			} else {
+				if (this.graList.length === 0) {
+					return false;
+				} else {
+					return true;
+				}
 			}
 		},
 	},

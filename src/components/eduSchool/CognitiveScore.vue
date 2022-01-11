@@ -16,12 +16,12 @@
 				<span class="quantity" :class="status === 'up' ? 'up' : 'down'"
 					>{{ comparedData }}<span class="char">分</span></span
 				>
-				<span>较上周</span>
+				<span class="font12">较上周</span>
 			</div>
 		</div>
 		<div class="main" v-if="$route.name === 'schoolRZZD'">
 			<div class="leader">
-				<span class="textColor">全校平均认知分</span>
+				<span class="textColor font12">全校平均认知分</span>
 				<Ring
 					:FullIndex="info.FullIndex"
 					:avgIndex="info.SchoolAvgIndex"
@@ -38,9 +38,9 @@
 			<Middle :level="info.CognitiveGradeName" />
 			<div class="right-leader">
 				<span class="score"
-					>{{ info.AreaAvgIndex }}<span class="char">分</span></span
+					>{{ info.AreaAvgIndex }}<span class="charChar">分</span></span
 				>
-				<span class="textColor">全区平均认知分</span>
+				<span class="textColor font12">全区平均认知分</span>
 			</div>
 		</div>
 		<Top
@@ -164,6 +164,13 @@ export default {
 	color: #fff;
 	opacity: 0.8;
 }
+.font12 {
+	font-size: 12px;
+}
+.charChar {
+	font-size: 14px;
+	font-weight: bold;
+}
 .left-Content-Box {
 	display: flex;
 	display: -webkit-flex;
@@ -230,7 +237,7 @@ export default {
 			.icon {
 				height: 22px;
 				width: 37px;
-				left: -10px;
+				left: 0px;
 				bottom: 12px;
 				background: url(~@/assets/img/eduSchool/VS.png) center center no-repeat;
 				position: absolute;

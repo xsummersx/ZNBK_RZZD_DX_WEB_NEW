@@ -8,7 +8,7 @@
 		</div>
 		<CompareAndRank
 			v-if="isShow"
-			:classCompare="info.TrastCLassAvgScore"
+			:classCompare="info.TrastClassAvgScore"
 			:gradeCompare="info.TrastGradeAvgScore"
 			:ClassRank="info.ClassRank"
 			:GradeRank="info.GradeRank"
@@ -25,7 +25,7 @@ export default {
 				PersonScore: 0,
 				FullScore: 150,
 				ScoreChange: 0,
-				TrastCLassAvgScore: 0,
+				TrastClassAvgScore: 0,
 				TrastGradeAvgScore: 0,
 				ClassRank: 0,
 				GradeRank: 0,
