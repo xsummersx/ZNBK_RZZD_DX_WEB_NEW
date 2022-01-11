@@ -198,7 +198,7 @@ export default {
 						value: item.StuRatio * 100,
 						count: item.StuCount,
 						itemStyle: {
-							color: "#0cce07",
+							color: "rgba(12,206,7,0.9)",
 						},
 					});
 				} else if (+item.Conclusion === 3) {
@@ -207,7 +207,7 @@ export default {
 						value: item.StuRatio * 100,
 						count: item.StuCount,
 						itemStyle: {
-							color: "#00ccff",
+							color: "rgba(0,204,255,1)",
 						},
 					});
 				} else {
@@ -216,7 +216,8 @@ export default {
 						value: item.StuRatio * 100,
 						count: item.StuCount,
 						itemStyle: {
-							color: "#ff8080",
+							color: "rgba(255,128,128,1)",
+							// color: "#ff8080",
 						},
 					});
 				}
@@ -510,6 +511,7 @@ export default {
 					reportType: "voca",
 					courseClassID: this.$store.state.CourseClassID,
 					stageNo: this.$store.state.StageNo,
+					schoolID: this.$store.state.SchoolID,
 				},
 			});
 			window.open(url.href, "_blank");

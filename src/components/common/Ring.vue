@@ -6,10 +6,10 @@
 		<div class="text">
 			<span
 				><span class="number">{{ avgIndex }}</span
-				>分</span
+				><span class="charChar">分</span></span
 			>
 			<br />
-			<span>总分:{{ FullIndex }}分</span>
+			<span class="fullScore">总分:{{ FullIndex }}分</span>
 		</div>
 	</div>
 </template>
@@ -152,6 +152,13 @@ export default {
 		position: absolute;
 		margin-top: -10px;
 		text-align: center;
+		.charChar {
+			font-size: 14px;
+			font-weight: bold;
+		}
+		.fullScore {
+			font-size: 12px;
+		}
 	}
 }
 .circleWhite {

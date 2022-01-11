@@ -97,7 +97,7 @@
 							/>
 						</div>
 					</div>
-					<div class="rightBottom">
+					<div class="rightBottom" v-if="showExports">
 						<input
 							class="stuInput"
 							type="text"
@@ -119,6 +119,20 @@
 							<span class="exportIcon"></span>
 							导出报告
 						</div>
+					</div>
+					<div class="rightBottom" v-else>
+						<input
+							class="stuInput"
+							type="text"
+							:placeholder="'请输入' + typeName + '搜索...'"
+							v-model="searchText"
+							@keyup.enter="searchKnowledge"
+						/>
+						<span
+							class="searchIcon"
+							style="right: 10px"
+							@click="searchKnowledge"
+						></span>
 					</div>
 				</div>
 			</div>
@@ -323,6 +337,22 @@ export default {
 				return "个人";
 			}
 		},
+		// 是否显示导出
+		showExports: function () {
+			if (this.reportType == "voca") {
+				if (this.vocaList.length === 0) {
+					return false;
+				} else {
+					return true;
+				}
+			} else {
+				if (this.graList.length === 0) {
+					return false;
+				} else {
+					return true;
+				}
+			}
+		},
 	},
 	created() {
 		this.init("");
@@ -345,7 +375,7 @@ export default {
 		// 词汇首页
 		getVocaHome(searchText) {
 			let params = {
-				SchoolID: this.resInfo.SchoolID,
+				SchoolID: this.$route.query.schoolID,
 				TID: this.resInfo.UserID,
 				ZsdArea: "C",
 				token: this.$route.query.token,
@@ -366,7 +396,7 @@ export default {
 				});
 			} else if (this.userType == "grade") {
 				// 年级组长词汇首页
-				params["GlobalGrade"] = this.resInfo.GlobalGrade;
+				params["GlobalGrade"] = this.$route.query.globalGrade;
 				api.GetGradeRecommendVoca(params).then((res) => {
 					this.vocaList = res.Data.VocaRecommendList;
 					this.SchoolName = res.Data.SchoolName;
@@ -387,7 +417,7 @@ export default {
 		// 语法首页
 		getGraHome(searchText) {
 			let params = {
-				SchoolID: this.resInfo.SchoolID,
+				SchoolID: this.$route.query.schoolID,
 				TID: this.resInfo.UserID,
 				ZsdArea: "C",
 				token: this.$route.query.token,
@@ -408,7 +438,7 @@ export default {
 				});
 			} else if (this.userType == "grade") {
 				// 年级组长语法
-				params["GlobalGrade"] = this.resInfo.GlobalGrade;
+				params["GlobalGrade"] = this.$route.query.globalGrade;
 				api.GetGradeWeakGrammerDiagnosis(params).then((res) => {
 					this.graList = res.Data.GrammerZsdList;
 					this.SchoolName = res.Data.SchoolName;
@@ -443,7 +473,7 @@ export default {
 		// 词汇报告
 		vocaReport() {
 			let params = {
-				SchoolID: this.resInfo.SchoolID,
+				SchoolID: this.$route.query.schoolID,
 				TID: this.resInfo.UserID,
 				ZsdArea: "C",
 				token: this.$route.query.token,
@@ -457,7 +487,7 @@ export default {
 				});
 			} else if (this.userType == "grade") {
 				// 年级组长词汇
-				params["GlobalGrade"] = this.resInfo.GlobalGrade;
+				params["GlobalGrade"] = this.$route.query.globalGrade;
 				api.GetExportGradeVocabPlans(params).then((res) => {
 					window.open(res.Data, "_self");
 				});
@@ -472,7 +502,7 @@ export default {
 		// 语法报告
 		graReport() {
 			let params = {
-				SchoolID: this.resInfo.SchoolID,
+				SchoolID: this.$route.query.schoolID,
 				TID: this.resInfo.UserID,
 				ZsdArea: "C",
 				token: this.$route.query.token,
@@ -486,7 +516,7 @@ export default {
 				});
 			} else if (this.userType == "grade") {
 				// 年级组长语法
-				params["GlobalGrade"] = this.resInfo.GlobalGrade;
+				params["GlobalGrade"] = this.$route.query.globalGrade;
 				api.GetExportGradeWeakGrammerDiagnosis(params).then((res) => {
 					window.open(res.Data, "_self");
 				});

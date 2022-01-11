@@ -72,6 +72,7 @@ export default {
 					reportType: "voca",
 					stageNo: this.$store.state.StageNo,
 					StuID: this.$store.state.StuID,
+					schoolID: this.$store.state.SchoolID,
 				},
 			});
 			window.open(url.href, "_blank");

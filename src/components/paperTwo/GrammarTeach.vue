@@ -253,7 +253,7 @@ export default {
 						value: item.StuCountProportion * 100,
 						count: item.StuCount,
 						itemStyle: {
-							color: "#0cce07",
+							color: "rgba(12,206,7,0.9)",
 						},
 					});
 				} else if (+item.MasteredConclusion === 3) {
@@ -262,7 +262,7 @@ export default {
 						value: item.StuCountProportion * 100,
 						count: item.StuCount,
 						itemStyle: {
-							color: "#00ccff",
+							color: "rgba(0,204,255,1)",
 						},
 					});
 				} else {
@@ -271,7 +271,7 @@ export default {
 						value: item.StuCountProportion * 100,
 						count: item.StuCount,
 						itemStyle: {
-							color: "#ff8080",
+							color: "rgba(255,128,128,1)",
 						},
 					});
 				}
@@ -415,6 +415,7 @@ export default {
 				},
 				series: series,
 			};
+			// console.log(series);
 			return option;
 		},
 
@@ -570,6 +571,7 @@ export default {
 					reportType: "gra",
 					courseClassID: this.$store.state.CourseClassID,
 					stageNo: this.$store.state.StageNo,
+					schoolID: this.$store.state.SchoolID,
 				},
 			});
 			window.open(url.href, "_blank");

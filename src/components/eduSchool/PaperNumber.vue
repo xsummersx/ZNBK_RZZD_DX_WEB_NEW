@@ -17,25 +17,25 @@
 			<div class="text">
 				<span
 					><span class="number">{{ info.AreaAvgCount }}</span
-					>份</span
+					><span class="charChar">份</span></span
 				>
 				<br />
-				<span class="nextNumber">平均试卷量</span>
+				<span class="avgNum">平均试卷量</span>
 			</div>
 		</div>
 		<div class="main" v-if="$route.name === 'schoolRZZD'">
 			<div class="left">
 				<span
 					><span class="number">{{ info.SchoolCount }}</span
-					>份</span
+					><span class="charChar">份</span></span
 				>
-				<span class="textColor">总量</span>
+				<span class="textColor font12">总量</span>
 			</div>
 			<div class="right">
 				<span class="quantity"
 					>{{ info.AreaAvgPaper }}<span class="char">份</span></span
 				>
-				<span class="textColor">全区平均量</span>
+				<span class="textColor font12">全区平均量</span>
 			</div>
 		</div>
 		<Top
@@ -74,31 +74,9 @@ export default {
 				// 教育局显示总量
 				AreaAvgCount: 0,
 				// 排行榜
-				SchoolList: [
-					{
-						SchoolID: "S4-000020-9AB3",
-						SchoolName: "蓝鸽高中",
-						SchoolRank: 1,
-					},
-					{
-						SchoolID: "S4-000020-9AB3",
-						SchoolName: "蓝鸽高中",
-						SchoolRank: 1,
-					},
-				],
+				SchoolList: [],
 				// 重点关注
-				FocusSchoolList: [
-					{
-						SchoolID: "S4-000020-9AB3",
-						SchoolName: "蓝鸽高中",
-						SchoolRank: 1,
-					},
-					{
-						SchoolID: "S4-000020-9AB3",
-						SchoolName: "蓝鸽高中",
-						SchoolRank: 1,
-					},
-				],
+				FocusSchoolList: [],
 			},
 		};
 	},
@@ -121,13 +99,17 @@ export default {
 			if (this.$route.name === "educationRZZD") {
 				GetAreaPaperNum(data)
 					.then((res) => {
-						this.info = res.Data;
+						if (res.Data != null) {
+							this.info = res.Data;
+						}
 					})
 					.catch();
 			} else {
 				GetSchoolPaperNum(data)
 					.then((res) => {
-						this.info = res.Data;
+						if (res.Data != null) {
+							this.info = res.Data;
+						}
 					})
 					.catch();
 			}
@@ -252,6 +234,10 @@ export default {
 	font-family: YouSheBiaoTiHei;
 	font-size: 24px;
 }
+.charChar {
+	font-size: 14px;
+	font-weight: bold;
+}
 .paper {
 	width: 132px;
 	height: 132px;
@@ -270,6 +256,10 @@ export default {
 		margin-top: -10px;
 		width: 100%;
 		text-align: center;
+
+		.avgNum {
+			font-size: 12px;
+		}
 	}
 	.number {
 		font-size: 32px;
@@ -283,6 +273,10 @@ export default {
 	flex-direction: row;
 	margin: 30px 0 0 0;
 	justify-content: space-around;
+
+	.font12 {
+		font-size: 12px;
+	}
 	.left {
 		display: flex;
 		display: -webkit-flex;
@@ -313,7 +307,8 @@ export default {
 			font-family: ArialMT;
 		}
 		.char {
-			font-size: 12px;
+			font-size: 14px;
+			font-weight: bold;
 		}
 	}
 }

@@ -4,7 +4,7 @@
 		<span class="quantity" :class="status === 'up' ? 'up' : 'down'"
 			>{{ comparedData }}<span class="char">分</span></span
 		>
-		<span>较上周</span>
+		<span class="cLastWeek">较上周</span>
 	</div>
 </template>
 
@@ -60,6 +60,9 @@ export default {
 		color: #ff0000;
 	}
 	.char {
+		font-size: 12px;
+	}
+	.cLastWeek {
 		font-size: 12px;
 	}
 }
