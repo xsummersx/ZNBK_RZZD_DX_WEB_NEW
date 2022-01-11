@@ -18,7 +18,7 @@
           <br />
           <span class="count">
             <span class="number">{{
-              resInfo.ClassStudyTimes.GradeAvgStudyTimes.toFixed()
+              resInfo.ClassStudyTimes.GradeAvgStudyTimes.toFixed(2)
             }}</span
             >h</span
           >
@@ -27,7 +27,7 @@
           <span>平均知识掌握速度</span>
           <span class="count"
             ><span class="number">{{
-              resInfo.ClassStudySpeeds.GradeAvgStudySpeeds.toFixed()
+              resInfo.ClassStudySpeeds.GradeAvgStudySpeeds.toFixed(2)
             }}</span
             >%</span
           >
@@ -61,49 +61,6 @@ export default {
       },
       option1: {},
       option2: {},
-      info1: {
-        Conclusion: 0,
-        VocabularyTotalCount: 9066,
-        MasteredCount: 4003,
-        VocabularyScoreRate: 0.447262049,
-        StuList: [
-          {
-            Conclusion: 3,
-            StuCount: 9500,
-            StuRatio: 0.45,
-          },
-          {
-            Conclusion: 2,
-            StuCount: 7500,
-            StuRatio: 0.35,
-          },
-          {
-            Conclusion: 1,
-            StuCount: 8500,
-            StuRatio: 0.2,
-          },
-        ],
-      },
-      info2: {
-        GrammarScoreRate: 0.6985816,
-        GrammerMasteredMapList: [
-          {
-            MasteredConclusion: 1,
-            StuCount: 10,
-            StuCountProportion: 0.1,
-          },
-          {
-            MasteredConclusion: 2,
-            StuCount: 35,
-            StuCountProportion: 0.2,
-          },
-          {
-            MasteredConclusion: 3,
-            StuCount: 15,
-            StuCountProportion: 0.4,
-          },
-        ],
-      },
     };
   },
   mounted() {
@@ -163,8 +120,8 @@ export default {
           value:
             (this.resInfo.ClassStudySpeeds.GoodStuCount /
               (this.resInfo.ClassStudySpeeds.GoodStuCount +
-                this.resInfo.ClassStudySpeeds.BetterStuCount +
-                this.resInfo.ClassStudySpeeds.NormalStuCount)) *
+                this.resInfo.ClassStudySpeeds.NormalStuCount +
+                this.resInfo.ClassStudySpeeds.BadStuCount)) *
             100,
           count: this.resInfo.ClassStudySpeeds.GoodStuCount,
           itemStyle: {
@@ -177,7 +134,7 @@ export default {
             (this.resInfo.ClassStudySpeeds.NormalStuCount /
               (this.resInfo.ClassStudySpeeds.ExceStuCount +
                 this.resInfo.ClassStudySpeeds.NormalStuCount +
-                this.resInfo.ClassStudySpeeds.NormalStuCount)) *
+                this.resInfo.ClassStudySpeeds.BadStuCount)) *
             100,
           count: this.resInfo.ClassStudySpeeds.NormalStuCount,
           itemStyle: {
@@ -189,7 +146,7 @@ export default {
           value:
             (this.resInfo.ClassStudySpeeds.BadStuCount /
               (this.resInfo.ClassStudySpeeds.ExceStuCount +
-                this.resInfo.ClassStudySpeeds.BetterStuCount +
+                this.resInfo.ClassStudySpeeds.NormalStuCount +
                 this.resInfo.ClassStudySpeeds.BadStuCount)) *
             100,
           count: this.resInfo.ClassStudySpeeds.BadStuCount,
@@ -313,9 +270,9 @@ export default {
                   params.seriesName
                 }<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:${
                   params.color
-                };"></span>${this.getCount(params.seriesName)} (${
-                  option.series[params.seriesIndex].pieData.value
-                }%)`;
+                };"></span>${this.getCount1(params.seriesName)} (${option.series[
+                  params.seriesIndex
+                ].pieData.value.toFixed(2)}%)`;
               }
             },
           },
@@ -354,9 +311,9 @@ export default {
                   params.seriesName
                 }<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:${
                   params.color
-                };"></span>${this.getCount(params.seriesName)} (${
-                  option.series[params.seriesIndex].pieData.value
-                }%)`;
+                };"></span>${this.getCount2(params.seriesName)} (${option.series[
+                  params.seriesIndex
+                ].pieData.value.toFixed(2)}%)`;
               }
             },
           },
@@ -463,8 +420,11 @@ export default {
         console.log(params);
       });
     },
-    getCount(d) {
+    getCount1(d) {
       return this.optionData1.filter((item) => item.name === d)[0].count;
+    },
+    getCount2(d) {
+      return this.optionData2.filter((item) => item.name === d)[0].count;
     },
   },
 };
