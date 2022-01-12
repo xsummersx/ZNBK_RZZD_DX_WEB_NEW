@@ -63,7 +63,8 @@
             >班级成绩对比分析</span
           >
         </div>
-        <div id="responseCharts"></div>
+        <div v-show="noDataShow" class="noData"></div>
+        <div v-show="!noDataShow" id="responseCharts"></div>
       </div>
     </div>
     <el-dialog
@@ -107,6 +108,7 @@ export default {
       paperList: [],
       PaperID: "",
       PaperName: "",
+      noDataShow: false,
       ops: {
         scrollPanel: {
           scrollingX: false,
@@ -155,7 +157,10 @@ export default {
         if (this.paperList.length > 0) {
           this.PaperName = this.paperList[i].PaperName;
           this.PaperID = this.paperList[i].PaperID;
+          this.noDataShow = false;
           this.drawLine(this.resInfo.StuPaperScoreMap);
+        } else {
+          this.noDataShow = true;
         }
       });
     },

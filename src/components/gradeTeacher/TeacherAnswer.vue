@@ -44,13 +44,14 @@
         </vuescroll>
       </div>
       <div class="float-r">
-        <div class="right-btn clearfix">
+        <div v-show="!noDataShow" class="right-btn clearfix">
           <span class="float-l paper-name">{{ PaperName }}</span>
           <span class="float-r paper-checkBtn" @click="dialog(1)">试卷题型得分分析</span>
           <span class="float-r paper-line"></span>
           <span class="float-r paper-checkBtn" @click="dialog(2)">学生成绩单</span>
         </div>
-        <div id="responseCharts"></div>
+        <div v-show="noDataShow" class="noData"></div>
+        <div v-show="!noDataShow" id="responseCharts"></div>
       </div>
     </div>
     <el-dialog
@@ -88,6 +89,7 @@ export default {
       paperList: [],
       PaperID: "",
       PaperName: "",
+      noDataShow: false,
       ops: {
         scrollPanel: {
           scrollingX: false,
@@ -131,11 +133,14 @@ export default {
       GetPublishedPaperDaily_V3(params).then((res) => {
         this.resInfo = res.Data;
         this.timeList = this.resInfo.ReleasedPaperList;
-        this.paperList = this.timeList[0].ReleasedPaperList;
+        this.paperList = this.timeList[this.activeTimeIndex].ReleasedPaperList;
         if (this.paperList.length > 0) {
           this.PaperName = this.paperList[i].PaperName;
           this.PaperID = this.paperList[i].PaperID;
+          this.noDataShow = false;
           this.drawLine(this.resInfo.StuPaperScoreMap);
+        } else {
+          this.noDataShow = true;
         }
       });
     },
@@ -184,7 +189,7 @@ export default {
         this.PaperName = this.paperList[0].PaperName;
         this.PaperID = this.paperList[0].PaperID;
       }
-      this.GetGradePublishedPaperDaily_V3(this.PaperID, 0);
+      this.GetPublishedPaperDaily_V3(this.PaperID, 0);
     },
     chooseActivePaper(i) {
       this.activePaperIndex = i;
@@ -243,5 +248,10 @@ export default {
   border-radius: 4px;
   padding: 16px 24px 0 0;
   overflow: hidden;
+}
+.noData {
+  width: 1040px;
+  height: 210px;
+  background: url("../../assets/img/nodata/ChartsNoData.png") center center no-repeat;
 }
 </style>
