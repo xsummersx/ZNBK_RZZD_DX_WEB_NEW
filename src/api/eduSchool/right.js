@@ -1,7 +1,7 @@
 /*
  * @Author: 吴涛
  * @Date: 2021-12-22 20:20:33
- * @LastEditTime: 2022-01-07 15:30:45
+ * @LastEditTime: 2022-01-14 13:48:35
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 右边部分
@@ -86,6 +86,14 @@ export function GetTrendGrade(data) {
 export function GetTrendTeacher(data) {
   return request({
     url: "/api/TeacherRZZD/GetClassCognitiveTrajectoryChart",
+    method: "GET",
+    params: { ...data },
+  });
+}
+//认知成绩走势图==学生个人
+export function GetTrendStudent(data) {
+  return request({
+    url: "/api/StuRZZD/GetStuCognitiveTrajectoryChart",
     method: "GET",
     params: { ...data },
   });

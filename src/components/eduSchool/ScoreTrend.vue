@@ -1,14 +1,14 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:31:08
- * @LastEditTime: 2022-01-07 15:36:36
+ * @LastEditTime: 2022-01-14 13:55:02
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》认知成绩走势图，图0，图1
 -->
 <template>
-  <div class="Tren" :class="{ teacDis: $route.name == 'gradeRZZD' || $route.name == 'teacherRZZD' }">
-    <div class="title" v-if="!($route.name == 'gradeRZZD' || $route.name == 'teacherRZZD')">认知成绩走势</div>
+  <div class="Tren" :class="{ teacDis: $route.name == 'gradeRZZD' || $route.name == 'teacherRZZD' || $route.name == 'studentRZZD' }">
+    <div class="title" v-if="!($route.name == 'gradeRZZD' || $route.name == 'teacherRZZD' || $route.name == 'studentRZZD')">认知成绩走势</div>
     <div class="top" v-if="userType < 2">
       <div class="TopBox">
         <div class="top3">
@@ -39,7 +39,7 @@
         </ul>
       </div>
     </div>
-    <template v-if="true">
+    <template v-if="chartShow">
       <div class="button">
         <span @click="checkButton(3)" :class="{ active: activeSpan == 3 }">按月</span>
         <span @click="checkButton(2)" :class="{ active: activeSpan == 2 }">按周</span>
@@ -61,12 +61,12 @@
       </div>
       <div class="cont" id="Tre"></div>
     </template>
-    <EduNoData v-if="false" noDataType="2" style="margin-top: 115px"></EduNoData>
+    <EduNoData v-if="!chartShow" noDataType="2" style="margin-top: 115px"></EduNoData>
   </div>
 </template>
 <script>
 import EduNoData from "./eduNoData";
-import { GetTrend, GetTrendSchool, GetTrendGrade, GetTrendTeacher } from "@/api/eduSchool/right.js";
+import { GetTrend, GetTrendSchool, GetTrendGrade, GetTrendTeacher, GetTrendStudent } from "@/api/eduSchool/right.js";
 export default {
   name: "ScoreTrend",
   data() {
@@ -79,6 +79,7 @@ export default {
       // xAxisData: [], //X轴
       BackList: [], //异常班级列表
       ProgList: [], //突出班级列表
+      chartShow: true, //是否显示统计图
     };
   },
   computed: {
@@ -97,6 +98,8 @@ export default {
       this.userType = 2;
     } else if (this.$route.name == "teacherRZZD") {
       this.userType = 3;
+    } else if (this.$route.name == "studentRZZD") {
+      this.userType = 4;
     } else {
       this.userType = 0;
     }
@@ -138,7 +141,11 @@ export default {
               this.ProgList = res.Data.ProgressiveList;
             }
             //提取数据渲染统计图
-            this.putDataNext(res);
+            if (res.Data.TrajectoryChartList.length > 0) {
+              this.putDataNext(res);
+            } else {
+              this.chartShow = false;
+            }
           }
         });
       } else if (this.userType == 1) {
@@ -150,14 +157,22 @@ export default {
             this.ProgList = res.Data.ProgressiveList;
           }
           //提取数据渲染统计图
-          this.putDataNext(res);
+          if (res.Data.TrajectoryChartList.length > 0) {
+            this.putDataNext(res);
+          } else {
+            this.chartShow = false;
+          }
         });
       } else if (this.userType == 2) {
         //年级组长
         params.SchoolID = this.$store.state.SchoolID;
         GetTrendGrade(params).then((res) => {
           //提取数据渲染统计图
-          this.putDataNext(res);
+          if (res.Data.TrajectoryChartList.length > 0) {
+            this.putDataNext(res);
+          } else {
+            this.chartShow = false;
+          }
         });
       } else if (this.userType == 3) {
         //教师
@@ -165,7 +180,23 @@ export default {
         params.SchoolID = this.$store.state.SchoolID;
         GetTrendTeacher(params).then((res) => {
           //提取数据渲染统计图
-          this.putDataNext(res);
+          if (res.Data.TrajectoryChartList.length > 0) {
+            this.putDataNext(res);
+          } else {
+            this.chartShow = false;
+          }
+        });
+      } else if (this.userType == 4) {
+        //学生个人
+        params.SchoolID = this.$store.state.SchoolID;
+        params.StuID = this.$route.query.StuID;
+        GetTrendStudent(params).then((res) => {
+          //提取数据渲染统计图
+          if (res.Data.TrajectoryChartList.length > 0) {
+            this.putDataNext(res);
+          } else {
+            this.chartShow = false;
+          }
         });
       }
     },
