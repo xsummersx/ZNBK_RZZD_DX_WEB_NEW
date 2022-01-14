@@ -109,7 +109,7 @@
                 <div v-if="classContShow" class="classContent">
                   <div class="dotTitle">
                     {{
-                      $route.name == "education RZZD"
+                      $route.name == "educationRZZD"
                         ? "切换年级"
                         : $route.name == "schoolRZZD"
                         ? "切换年级"

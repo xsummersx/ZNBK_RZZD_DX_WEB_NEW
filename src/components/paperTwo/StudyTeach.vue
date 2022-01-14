@@ -11,7 +11,7 @@
     <div class="box-title clearfix">
       <span class="float-l title">学习特点</span>
     </div>
-    <div v-if="resInfo.ClassStudyTimes.GradeAvgStudyTimes != 0" class="main">
+    <div v-show="resInfo.ClassStudyTimes.GradeAvgStudyTimes != 0" class="main">
       <div class="left">
         <div class="masteredCount">
           <span>平均学习时长</span>
@@ -42,7 +42,7 @@
         <span>知识掌握速度</span>
       </div>
     </div>
-    <div v-else class="graImg">
+    <div v-show="resInfo.ClassStudyTimes.GradeAvgStudyTimes == 0" class="graImg">
       <img class="graImgii" src="../../assets/img/nodata/learnNoData1.png" />
       <span>暂无学习时长数据噢~</span>
     </div>
