@@ -1,8 +1,8 @@
 <!--
  * @Author: 柳欢
  * @Date: 2021-12-23 10:39:45
- * @LastEditTime: 2021-12-23 10:39:45
- * @LastEditors: 知识谱
+ * @LastEditTime: 2022-01-13 09:35:13
+ * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\views\dialog\spectrum.vue
 -->
@@ -10,9 +10,7 @@
   <div>
     <div class="bottomBox clearfix">
       <div>
-        基于海量题库、常用教材及课程标准，大数据分析历年{{
-          $store.state.StageNo == "B" ? "中" : "高"
-        }}考共考核知识点{{
+        基于海量题库、常用教材及课程标准，大数据分析历年{{ $store.state.StageNo == "B" ? "中" : "高" }}考共考核知识点{{
           resInfo.FirstTotalCount + resInfo.SecondTotalCount + resInfo.ThirdTotalCount
         }}个:
       </div>
@@ -65,11 +63,7 @@ export default {
 
       GetStuKnowledgeSpectrum(params).then((res) => {
         this.resInfo = res.Data;
-        this.drawLine2(
-          this.resInfo.FirstVocabList,
-          this.resInfo.SecondVocabList,
-          this.resInfo.ThirdVocabList
-        );
+        this.drawLine2(this.resInfo.FirstVocabList, this.resInfo.SecondVocabList, this.resInfo.ThirdVocabList);
       });
     },
     // 获取教师端测试知识点全谱
@@ -85,11 +79,7 @@ export default {
 
       GetClassKnowledgeSpectrum(params).then((res) => {
         this.resInfo = res.Data;
-        this.drawLine2(
-          this.resInfo.FirstVocabList,
-          this.resInfo.SecondVocabList,
-          this.resInfo.ThirdVocabList
-        );
+        this.drawLine2(this.resInfo.FirstVocabList, this.resInfo.SecondVocabList, this.resInfo.ThirdVocabList);
       });
     },
     // 获取年级，学校，教育局端测试知识点全谱
@@ -122,11 +112,7 @@ export default {
       }
       GetCommonKnowledgeSpectrum(params).then((res) => {
         this.resInfo = res.Data;
-        this.drawLine2(
-          this.resInfo.FirstVocabList,
-          this.resInfo.SecondVocabList,
-          this.resInfo.ThirdVocabList
-        );
+        this.drawLine2(this.resInfo.FirstVocabList, this.resInfo.SecondVocabList, this.resInfo.ThirdVocabList);
       });
     },
     drawLine2(list1, list2, list3) {
@@ -566,7 +552,7 @@ export default {
 <style lang="scss" scoped>
 #knownPointBox {
   width: 740px;
-  height: 330px;
+  height: 331px;
   margin: 20px 0;
 }
 
