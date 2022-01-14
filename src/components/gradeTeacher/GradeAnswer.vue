@@ -16,7 +16,7 @@
         </div>
       </div>
     </ArrowTitle>
-    <div class="right-long-box">
+    <div class="right-long-box" v-show="timeList.length > 0">
       <div class="float-l timeText">
         <vuescroll :ops="ops">
           <div
@@ -66,6 +66,9 @@
         <div v-show="noDataShow" class="noData"></div>
         <div v-show="!noDataShow" id="responseCharts"></div>
       </div>
+    </div>
+    <div class="right-long-box" v-show="timeList.length <= 0">
+      <div class="temNoData"></div>
     </div>
     <el-dialog
       :title="dialogTitle"

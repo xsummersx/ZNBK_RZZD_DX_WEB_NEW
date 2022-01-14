@@ -107,7 +107,15 @@
                 class="switchIcon"
               >
                 <div v-if="classContShow" class="classContent">
-                  <div class="dotTitle">切换班级</div>
+                  <div class="dotTitle">
+                    {{
+                      $route.name == "education RZZD"
+                        ? "切换年级"
+                        : $route.name == "schoolRZZD"
+                        ? "切换年级"
+                        : "切换班级"
+                    }}
+                  </div>
                   <ul style="height: 100px" class="clearfix">
                     <vuescroll :ops="ops">
                       <li

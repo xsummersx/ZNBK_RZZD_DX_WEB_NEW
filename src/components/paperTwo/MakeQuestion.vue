@@ -10,7 +10,10 @@
   <div class="right-Long-Box">
     <div class="box-title clearfix">
       <span class="float-l title">各题型正误统计图</span>
-      <span @click="dialog(2)" class="float-r check-icon"
+      <span
+        v-show="resInfo.TypeInfoList.length > 0"
+        @click="dialog(2)"
+        class="float-r check-icon"
         ><i></i>{{ $route.name == "gradeRZZD" ? "班级" : "学生" }}做题特点对比分析</span
       >
     </div>
@@ -22,7 +25,10 @@
         >正确率最低题型: <span>{{ minTypeName }}</span></span
       >
     </div>
-    <div id="questionCharts"></div>
+    <div v-show="resInfo.TypeInfoList.length > 0" id="questionCharts"></div>
+    <div v-show="resInfo.TypeInfoList.length <= 0" class="temNoData">
+      暂无做题特点数据噢~
+    </div>
     <el-dialog
       :title="dialogTitle"
       :visible.sync="dialogVisible"
@@ -361,7 +367,14 @@ export default {
   width: 1220px;
   height: 205px;
 }
-
+.temNoData {
+  width: 1220px;
+  height: 205px;
+  background: url("../../assets/img/nodata/quesNoData.png") center center no-repeat;
+  border-radius: 4px;
+  text-align: center;
+  line-height: 23.5;
+}
 .legend {
   margin: 0 auto;
   text-align: center;

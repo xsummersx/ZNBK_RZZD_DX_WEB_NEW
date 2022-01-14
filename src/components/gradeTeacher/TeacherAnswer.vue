@@ -9,7 +9,7 @@
 <template>
   <div>
     <ArrowTitle titleStr="历次作答统计"></ArrowTitle>
-    <div class="right-long-box">
+    <div class="right-long-box" v-if="timeList.length > 0">
       <div class="float-l timeText">
         <vuescroll :ops="ops">
           <div
@@ -53,6 +53,9 @@
         <div v-show="noDataShow" class="noData"></div>
         <div v-show="!noDataShow" id="responseCharts"></div>
       </div>
+    </div>
+    <div class="right-long-box" v-else>
+      <div class="temNoData"></div>
     </div>
     <el-dialog
       :title="dialogTitle"
@@ -248,6 +251,13 @@ export default {
   border-radius: 4px;
   padding: 16px 24px 0 0;
   overflow: hidden;
+}
+.temNoData {
+  width: 1270px;
+  height: 250px;
+  background: url("../../assets/img/nodata/ChartsNoData.png") center center no-repeat;
+  border-radius: 4px;
+  padding: 16px 24px 0 0;
 }
 .noData {
   width: 1040px;
