@@ -28,6 +28,7 @@
 			:theSecondPre="theSecond.PaperCount"
 			:theSecondClass="theSecond.CourseClassName"
 			:theSecondAvg="theSecond.ClassPaperCount"
+			:isScore="false"
 		/>
 	</div>
 </template>
@@ -106,6 +107,18 @@ export default {
 				GetClassPaperNum(data)
 					.then((res) => {
 						this.info = res.Data;
+						if (res.Data.StuPaperCountList.length === 0) {
+							this.info.StuPaperCountList = [
+								{
+									StuName: "无",
+									PaperCount: 0,
+								},
+								{
+									StuName: "无",
+									PaperCount: 0,
+								},
+							];
+						}
 					})
 					.catch();
 			} else {
@@ -113,6 +126,18 @@ export default {
 				GetGradePaperNum(data)
 					.then((res) => {
 						this.info = res.Data;
+						if (res.Data.ClassList.length === 0) {
+							this.info.ClassList = [
+								{
+									CourseClassName: "无",
+									ClassPaperCount: 0,
+								},
+								{
+									CourseClassName: "无",
+									ClassPaperCount: 0,
+								},
+							];
+						}
 					})
 					.catch();
 			}
