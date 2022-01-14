@@ -116,7 +116,9 @@ export default {
 		},
 		chart() {
 			let chartDom = document.getElementById("eduChart");
-			let myChart = this.$echarts.init(chartDom);
+			let myChart = this.$echarts.init(chartDom, null, {
+				renderer: "svg",
+			});
 			let option;
 			option = {
 				polar: {
