@@ -554,7 +554,7 @@ export default {
 			delete params.UserInfo;
 			GetClassGrammerList(params).then((res) => {
 				this.tableData = res.Data.StuGrammerList;
-				this.pageCount = res.Data.PageCount;
+				this.pageCount = Math.ceil(res.Data.PageCount / 9);
 				this.emptyText = "暂无数据";
 			});
 			// setTimeout(() => {

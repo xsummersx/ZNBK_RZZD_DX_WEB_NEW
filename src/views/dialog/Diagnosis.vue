@@ -185,11 +185,10 @@
 								</div>
 							</div>
 						</div>
-						<img
-							v-if="vocaList.length === 0"
-							class="noDataImg1"
-							src="~@/assets/img/eduSchool/nodata.png"
-						/>
+					</div>
+					<div class="nodataShow" v-if="vocaList.length === 0">
+						<img class="noDataImg1" src="~@/assets/img/diagnosis/noRecom.png" />
+						<span>暂无推荐词汇噢~</span>
 					</div>
 				</div>
 				<div class="bottomContent" v-if="reportType === 'gra'">
@@ -229,11 +228,10 @@
 								</div>
 							</div>
 						</div>
-						<img
-							v-if="graList.length === 0"
-							class="noDataImg1"
-							src="~@/assets/img/eduSchool/nodata.png"
-						/>
+					</div>
+					<div class="nodataShow" v-if="graList.length === 0">
+						<img class="noDataImg1" src="~@/assets/img/diagnosis/noRecom.png" />
+						<span>暂无推荐语法噢~</span>
 					</div>
 				</div>
 				<div class="diagnosisPagination" v-if="false">
@@ -955,9 +953,24 @@ export default {
 		margin: 15px auto 0;
 	}
 }
-.noDataImg1 {
-	width: 64px;
-	height: 64px;
-	margin: 200px auto 0;
+// .noDataImg1 {
+// 	width: 88px;
+// 	height: 88px;
+// 	margin: 180px auto 0;
+// }
+.nodataShow {
+	display: flex;
+	display: -webkit-flex;
+	flex-direction: column;
+	width: 100%;
+	height: 450px;
+	justify-content: center;
+	align-items: center;
+	.noDataImg1 {
+		width: 88px;
+		height: 88px;
+		margin: 0 0 10px;
+		// margin: 180px auto 0;
+	}
 }
 </style>

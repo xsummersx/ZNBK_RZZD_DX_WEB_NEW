@@ -50,7 +50,7 @@ export function GetGradeGrammerZsdMapApplication(data) {
 // 词汇弹窗
 export function GetStuDetailVocabulary(data) {
 	return request({
-		url: "/api/GradeLeaderRZZD/GetStuDetailVocabulary_V3",
+		url: "/api/StuRZZD/GetStuDetailVocabulary_V3",
 		method: "GET",
 		params: {
 			...data,

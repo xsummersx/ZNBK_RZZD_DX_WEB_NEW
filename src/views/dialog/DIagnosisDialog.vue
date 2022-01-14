@@ -78,11 +78,10 @@
 							</div>
 						</div>
 					</div>
-					<img
-						v-if="vocaZsdList.length === 0"
-						class="noDataImg1"
-						src="~@/assets/img/eduSchool/nodata.png"
-					/>
+				</div>
+				<div class="nodataShow" v-if="vocaZsdList.length === 0">
+					<img class="noDataImg1" src="~@/assets/img/diagnosis/noVoca.png" />
+					<span>暂无词汇数据噢~</span>
 				</div>
 			</div>
 			<div
@@ -124,11 +123,10 @@
 							</div>
 						</div>
 					</div>
-					<img
-						v-if="graZsdList.length === 0"
-						class="noDataImg1"
-						src="~@/assets/img/eduSchool/nodata.png"
-					/>
+				</div>
+				<div class="nodataShow" v-if="graZsdList.length === 0">
+					<img class="noDataImg1" src="~@/assets/img/diagnosis/noGra.png" />
+					<span>暂无语法数据噢~</span>
 				</div>
 			</div>
 			<div class="ddPagination" v-if="isShowpPagination">
@@ -595,9 +593,19 @@ export default {
 .ddPagination {
 	margin: 15px 0 0 0;
 }
-.noDataImg1 {
-	width: 64px;
-	height: 64px;
-	margin: 200px auto 0;
+.nodataShow {
+	display: flex;
+	display: -webkit-flex;
+	flex-direction: column;
+	width: 100%;
+	height: 450px;
+	justify-content: center;
+	align-items: center;
+	.noDataImg1 {
+		width: 88px;
+		height: 88px;
+		margin: 0 0 10px;
+		// margin: 180px auto 0;
+	}
 }
 </style>

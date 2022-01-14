@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-12-16 15:14:38
- * @LastEditTime: 2021-12-28 13:47:55
+ * @LastEditTime: 2022-01-13 09:44:18
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\views\dialog\historyDialog.vue
@@ -16,13 +16,7 @@
         </div>
         <div class="float-r" style="position: relative">
           <!-- @input="showDelateIcon2()" -->
-          <input
-            class="stuInput"
-            type="text"
-            placeholder="请输入试卷名称搜索..."
-            v-model="PaperSearchText"
-            v-on:keyup.enter="searchPaper()"
-          />
+          <input class="stuInput" type="text" placeholder="请输入试卷名称搜索..." v-model="PaperSearchText" v-on:keyup.enter="searchPaper()" />
           <span class="searchIcon" @click="searchPaper()"></span>
         </div>
       </div>
@@ -62,15 +56,9 @@
         <div>
           根据您选择的<span class="num">{{ SelectedPaperCount }}</span
           >份试卷，系统生成如下对比分析表:
-          <span class="refreshContent" @click="refresh()">
-            <span class="refreshIcon"></span><span>更新试卷对比分析表</span>
-          </span>
+          <span class="refreshContent" @click="refresh()"> <span class="refreshIcon"></span><span>更新试卷对比分析表</span> </span>
         </div>
-        <div
-          v-if="SelectedPaperList.length"
-          @click="GetExportGradePapersQTypeScore_V3()"
-          class="exportPaper"
-        >
+        <div v-if="SelectedPaperList.length" @click="GetExportGradePapersQTypeScore_V3()" class="exportPaper">
           <span class="exportIcon"></span>
           导出试卷对比分析
         </div>
@@ -176,10 +164,7 @@ export default {
             })
           );
         });
-        this.showPaperList = this.PaperList.slice(
-          (this.PaperNum1 - 1) * 16,
-          this.PaperNum1 * 16
-        );
+        this.showPaperList = this.PaperList.slice((this.PaperNum1 - 1) * 16, this.PaperNum1 * 16);
       });
     },
     // 导出
@@ -197,12 +182,10 @@ export default {
         PaperList: this.postList,
       };
 
-      this.axios
-        .post("api/GradeLeaderRZZD/GetExportGradePapersQTypeScore_V3", params)
-        .then((res) => {
-          window.open(res.Data, "_self");
-          // console.log(res);
-        });
+      this.axios.post("api/GradeLeaderRZZD/GetExportGradePapersQTypeScore_V3", params).then((res) => {
+        window.open(res.Data, "_self");
+        // console.log(res);
+      });
     },
     checkPaper(i) {
       this.SelectedPaperCount = 0;
@@ -251,10 +234,7 @@ export default {
     handleCurrentChange1(val) {
       this.currentPage1 = val;
       this.PaperNum1 = val;
-      this.showPaperList = this.PaperList.slice(
-        (this.PaperNum1 - 1) * 16,
-        this.PaperNum1 * 16
-      );
+      this.showPaperList = this.PaperList.slice((this.PaperNum1 - 1) * 16, this.PaperNum1 * 16);
       // this.GetGradeReleasedPaperList_V3(this.PaperNum1, -1);
     },
     handleCurrentChange2(val) {
@@ -280,19 +260,17 @@ export default {
         SelectedPageSize: this.PageSize2,
         PaperList: this.postList,
       };
-      this.axios
-        .post("api/GradeLeaderRZZD/GetGradeSelectedPaperList_V3", params)
-        .then((res) => {
-          this.showTable = false;
-          this.SelectedPaperList = res.Data.SelectedPaperList;
-          this.allCount = res.Data.SelectedPaperCount;
-          // this.PaperNum2 = this.SelectedPaperList.length;
-          if (this.SelectedPaperList.length > 0) {
-            this.SubjectiveQTypeList = this.SelectedPaperList[0].SubjectiveQTypeList;
-            this.ObjectiveQTypeList = this.SelectedPaperList[0].ObjectiveQTypeList;
-            this.showTable = true;
-          }
-        });
+      this.axios.post("api/GradeLeaderRZZD/GetGradeSelectedPaperList_V3", params).then((res) => {
+        this.showTable = false;
+        this.SelectedPaperList = res.Data.SelectedPaperList;
+        this.allCount = res.Data.SelectedPaperCount;
+        // this.PaperNum2 = this.SelectedPaperList.length;
+        if (this.SelectedPaperList.length > 0) {
+          this.SubjectiveQTypeList = this.SelectedPaperList[0].SubjectiveQTypeList;
+          this.ObjectiveQTypeList = this.SelectedPaperList[0].ObjectiveQTypeList;
+          this.showTable = true;
+        }
+      });
     },
   },
 };
@@ -398,7 +376,6 @@ export default {
     color: #ffffff;
     .num {
       color: #ffcc00;
-      text-decoration: underline;
       margin: 0 5px;
     }
     .refreshContent {

@@ -34,10 +34,10 @@ import { GetStuGrammer } from "@/api/stu/right";
 export default {
 	data() {
 		return {
-			scoreRate: 0.6986,
-			FirstScoreRate: 1.0,
-			SecondScoreRate: 0.9863,
-			ThirdScoreRate: 0.4226,
+			scoreRate: 0,
+			FirstScoreRate: 0,
+			SecondScoreRate: 0,
+			ThirdScoreRate: 0,
 			isShow: true,
 		};
 	},

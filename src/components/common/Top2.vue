@@ -9,22 +9,33 @@
 		<div class="content" v-if="$route.name === 'teacherRZZD'">
 			<div :title="theFirstStu" class="top2Item">
 				<span>· {{ theFirstStu }}</span
-				><span class="top2ItemColor">{{ theFirstPre }}分</span>
+				><span class="top2ItemColor"
+					>{{ theFirstPre }}<span v-if="isScore">分</span
+					><span v-else>份</span></span
+				>
 			</div>
 			<div :title="theSecondStu" class="top2Item">
 				<span>· {{ theSecondStu }}</span
-				><span class="top2ItemColor">{{ theSecondPre }}分</span>
-				<!-- · {{ theSecondStu + "&nbsp;&nbsp;" + theSecondPre }}分 -->
+				><span class="top2ItemColor"
+					>{{ theSecondPre }}<span v-if="isScore">分</span
+					><span v-else>份</span></span
+				>
 			</div>
 		</div>
 		<div class="content" v-else>
 			<div :title="theFirstClass" class="top2Item">
 				<span>· {{ theFirstClass }}</span
-				><span class="top2ItemColor">{{ theFirstAvg }}分</span>
+				><span class="top2ItemColor"
+					>{{ theFirstAvg }}<span v-if="isScore">分</span
+					><span v-else>份</span></span
+				>
 			</div>
 			<div :title="theSecondClass" class="top2Item">
 				<span>· {{ theSecondClass }}</span
-				><span class="top2ItemColor">{{ theSecondAvg }}分</span>
+				><span class="top2ItemColor"
+					>{{ theSecondAvg }}<span v-if="isScore">分</span
+					><span v-else>份</span></span
+				>
 			</div>
 		</div>
 	</div>
@@ -64,6 +75,10 @@ export default {
 		theSecondAvg: {
 			type: Number,
 			default: 0,
+		},
+		isScore: {
+			type: Boolean,
+			default: true,
 		},
 	},
 };
