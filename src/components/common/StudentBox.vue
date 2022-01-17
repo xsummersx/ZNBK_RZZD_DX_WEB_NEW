@@ -9,7 +9,7 @@
 <template>
   <div class="students-box">
     <div class="box-title">{{ titleStr }}<span class="small-title">TOP3</span></div>
-    <div class="clearfix">
+    <div v-if="stulist.length > 0" class="clearfix">
       <div class="float-l stu-box" v-for="(item, index) in stulist" :key="index">
         <span
           :class="
@@ -36,6 +36,7 @@
         </span>
       </div>
     </div>
+    <img v-else class="imgNoData" src="../../assets/img/common/无数据.png" />
   </div>
 </template>
 
@@ -127,6 +128,13 @@ export default {
         background: url("../../assets/img/common/升.png") center left no-repeat;
       }
     }
+  }
+
+  .imgNoData {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto;
+    display: block;
   }
 }
 </style>

@@ -9,7 +9,7 @@
 <template>
   <div>
     <ArrowTitle titleStr="历次作答统计"></ArrowTitle>
-    <div class="right-long-box">
+    <div class="right-long-box" v-if="timeList.length > 0">
       <div class="float-l timeText">
         <vuescroll :ops="ops">
           <div
@@ -208,6 +208,9 @@
         </div>
       </div>
     </div>
+    <div class="right-long-box" v-else>
+      <div class="temNoData">暂无试卷得分人数统计数据噢~</div>
+    </div>
     <el-dialog
       :title="dialogTitle"
       :visible.sync="dialogVisible"
@@ -377,6 +380,15 @@ export default {
   border-radius: 4px;
   padding: 16px 24px 0 0;
   overflow: hidden;
+}
+.temNoData {
+  width: 1270px;
+  height: 205px;
+  background: url("../../assets/img/nodata/暂无试卷得分人数统计数据.png") center center
+    no-repeat;
+  border-radius: 4px;
+  text-align: center;
+  line-height: 23.5;
 }
 .customTable {
   border-collapse: collapse;

@@ -19,7 +19,10 @@
         >正确率最低题型: <span>{{ minTypeName }}</span></span
       >
     </div>
-    <div id="questionCharts"></div>
+    <div v-show="resInfo.TypeInfoList.length > 0" id="questionCharts"></div>
+    <div v-show="resInfo.TypeInfoList.length <= 0" class="temNoData">
+      暂无做题特点数据噢~
+    </div>
     <el-dialog
       :title="dialogTitle"
       :visible.sync="dialogVisible"
@@ -277,6 +280,14 @@ export default {
   height: 205px;
 }
 
+.temNoData {
+  width: 780px;
+  height: 205px;
+  background: url("../../assets/img/nodata/quesNoData.png") center center no-repeat;
+  border-radius: 4px;
+  text-align: center;
+  line-height: 23.5;
+}
 .legend {
   margin: 0 auto;
   text-align: center;

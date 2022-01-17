@@ -11,7 +11,7 @@
     <div class="box-title clearfix">
       <span class="float-l title">学习特点</span>
     </div>
-    <div class="main">
+    <div v-show="resInfo.ClassStudyTimes.GradeAvgStudyTimes != 0" class="main">
       <div class="left">
         <div class="masteredCount">
           <span>平均学习时长</span>
@@ -41,6 +41,10 @@
         <div class="pieChart" id="pieChart2"></div>
         <span>知识掌握速度</span>
       </div>
+    </div>
+    <div v-show="resInfo.ClassStudyTimes.GradeAvgStudyTimes == 0" class="graImg">
+      <img class="graImgii" src="../../assets/img/nodata/learnNoData1.png" />
+      <span>暂无学习时长数据噢~</span>
     </div>
   </div>
 </template>
@@ -474,6 +478,19 @@ export default {
       background: url(~@/assets/img/teacher/底座.png) center 75px no-repeat;
       // margin-bottom: 10px;
     }
+  }
+}
+.graImg {
+  width: 100%;
+  height: 80%;
+  display: flex;
+  display: -webkit-flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  .graImgii {
+    width: 88px;
+    height: 88px;
   }
 }
 </style>

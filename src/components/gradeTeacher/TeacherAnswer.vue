@@ -9,7 +9,7 @@
 <template>
   <div>
     <ArrowTitle titleStr="历次作答统计"></ArrowTitle>
-    <div class="right-long-box">
+    <div class="right-long-box" v-show="timeList.length > 0">
       <div class="float-l timeText">
         <vuescroll :ops="ops">
           <div
@@ -53,6 +53,9 @@
         <div v-show="noDataShow" class="noData"></div>
         <div v-show="!noDataShow" id="responseCharts"></div>
       </div>
+    </div>
+    <div class="right-long-box" v-show="timeList.length <= 0">
+      <div class="temNoData">暂无试卷得分人数统计数据噢~</div>
     </div>
     <el-dialog
       :title="dialogTitle"
@@ -133,7 +136,9 @@ export default {
       GetPublishedPaperDaily_V3(params).then((res) => {
         this.resInfo = res.Data;
         this.timeList = this.resInfo.ReleasedPaperList;
-        this.paperList = this.timeList[this.activeTimeIndex].ReleasedPaperList;
+        if (this.timeList.length > 0) {
+          this.paperList = this.timeList[this.activeTimeIndex].ReleasedPaperList;
+        }
         if (this.paperList.length > 0) {
           this.PaperName = this.paperList[i].PaperName;
           this.PaperID = this.paperList[i].PaperID;
@@ -248,6 +253,14 @@ export default {
   border-radius: 4px;
   padding: 16px 24px 0 0;
   overflow: hidden;
+}
+.temNoData {
+  width: 1270px;
+  height: 250px;
+  background: url("../../assets/img/nodata/ChartsNoData.png") center center no-repeat;
+  border-radius: 4px;
+  text-align: center;
+  line-height: 372px;
 }
 .noData {
   width: 1040px;

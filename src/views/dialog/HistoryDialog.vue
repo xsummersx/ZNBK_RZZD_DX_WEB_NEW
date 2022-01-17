@@ -16,11 +16,17 @@
         </div>
         <div class="float-r" style="position: relative">
           <!-- @input="showDelateIcon2()" -->
-          <input class="stuInput" type="text" placeholder="请输入试卷名称搜索..." v-model="PaperSearchText" v-on:keyup.enter="searchPaper()" />
+          <input
+            class="stuInput"
+            type="text"
+            placeholder="请输入试卷名称搜索..."
+            v-model="PaperSearchText"
+            v-on:keyup.enter="searchPaper()"
+          />
           <span class="searchIcon" @click="searchPaper()"></span>
         </div>
       </div>
-      <div class="paperBox">
+      <div class="paperBox" v-if="showPaperList.length > 0">
         <ul class="clearfix">
           <li
             class="float-l PaperLi"
@@ -37,7 +43,7 @@
           </li>
         </ul>
       </div>
-
+      <div class="temNoData" v-else></div>
       <div class="paginationBox" v-if="PaperCount > 5">
         <el-pagination
           class="pagination"
@@ -56,9 +62,15 @@
         <div>
           根据您选择的<span class="num">{{ SelectedPaperCount }}</span
           >份试卷，系统生成如下对比分析表:
-          <span class="refreshContent" @click="refresh()"> <span class="refreshIcon"></span><span>更新试卷对比分析表</span> </span>
+          <span class="refreshContent" @click="refresh()">
+            <span class="refreshIcon"></span><span>更新试卷对比分析表</span>
+          </span>
         </div>
-        <div v-if="SelectedPaperList.length" @click="GetExportGradePapersQTypeScore_V3()" class="exportPaper">
+        <div
+          v-if="SelectedPaperList.length"
+          @click="GetExportGradePapersQTypeScore_V3()"
+          class="exportPaper"
+        >
           <span class="exportIcon"></span>
           导出试卷对比分析
         </div>
@@ -84,7 +96,7 @@
               <td>{{ item.Index }}</td>
               <td>{{ item.PaperName }}</td>
               <td>{{ item.PaperFullScore }}</td>
-              <td>{{ item.PaperAvgScore }}</td>
+              <td>{{ item.PaperAvgScore.toFixed() }}</td>
               <td v-for="item2 in item.SubjectiveQTypeList" :key="item2.QTypeName">
                 {{ item2.QTypeAvgScore }}
               </td>
@@ -164,7 +176,10 @@ export default {
             })
           );
         });
-        this.showPaperList = this.PaperList.slice((this.PaperNum1 - 1) * 16, this.PaperNum1 * 16);
+        this.showPaperList = this.PaperList.slice(
+          (this.PaperNum1 - 1) * 16,
+          this.PaperNum1 * 16
+        );
       });
     },
     // 导出
@@ -182,10 +197,12 @@ export default {
         PaperList: this.postList,
       };
 
-      this.axios.post("api/GradeLeaderRZZD/GetExportGradePapersQTypeScore_V3", params).then((res) => {
-        window.open(res.Data, "_self");
-        // console.log(res);
-      });
+      this.axios
+        .post("api/GradeLeaderRZZD/GetExportGradePapersQTypeScore_V3", params)
+        .then((res) => {
+          window.open(res.Data, "_self");
+          // console.log(res);
+        });
     },
     checkPaper(i) {
       this.SelectedPaperCount = 0;
@@ -234,7 +251,10 @@ export default {
     handleCurrentChange1(val) {
       this.currentPage1 = val;
       this.PaperNum1 = val;
-      this.showPaperList = this.PaperList.slice((this.PaperNum1 - 1) * 16, this.PaperNum1 * 16);
+      this.showPaperList = this.PaperList.slice(
+        (this.PaperNum1 - 1) * 16,
+        this.PaperNum1 * 16
+      );
       // this.GetGradeReleasedPaperList_V3(this.PaperNum1, -1);
     },
     handleCurrentChange2(val) {
@@ -260,17 +280,19 @@ export default {
         SelectedPageSize: this.PageSize2,
         PaperList: this.postList,
       };
-      this.axios.post("api/GradeLeaderRZZD/GetGradeSelectedPaperList_V3", params).then((res) => {
-        this.showTable = false;
-        this.SelectedPaperList = res.Data.SelectedPaperList;
-        this.allCount = res.Data.SelectedPaperCount;
-        // this.PaperNum2 = this.SelectedPaperList.length;
-        if (this.SelectedPaperList.length > 0) {
-          this.SubjectiveQTypeList = this.SelectedPaperList[0].SubjectiveQTypeList;
-          this.ObjectiveQTypeList = this.SelectedPaperList[0].ObjectiveQTypeList;
-          this.showTable = true;
-        }
-      });
+      this.axios
+        .post("api/GradeLeaderRZZD/GetGradeSelectedPaperList_V3", params)
+        .then((res) => {
+          this.showTable = false;
+          this.SelectedPaperList = res.Data.SelectedPaperList;
+          this.allCount = res.Data.SelectedPaperCount;
+          // this.PaperNum2 = this.SelectedPaperList.length;
+          if (this.SelectedPaperList.length > 0) {
+            this.SubjectiveQTypeList = this.SelectedPaperList[0].SubjectiveQTypeList;
+            this.ObjectiveQTypeList = this.SelectedPaperList[0].ObjectiveQTypeList;
+            this.showTable = true;
+          }
+        });
     },
   },
 };
@@ -315,6 +337,14 @@ export default {
     top: -3px;
     left: 4px;
   }
+}
+.temNoData {
+  width: 920px;
+  height: 198px;
+  background: url("../../assets/img/nodata/ChartsNoData.png") center center no-repeat;
+  border-radius: 4px;
+  text-align: center;
+  line-height: 250px;
 }
 .paperBox {
   height: 198px;
