@@ -68,7 +68,7 @@
       </div>
     </div>
     <div class="right-long-box" v-show="timeList.length <= 0">
-      <div class="temNoData"></div>
+      <div class="temNoData">暂无试卷得分人数统计数据噢~</div>
     </div>
     <el-dialog
       :title="dialogTitle"
@@ -156,7 +156,9 @@ export default {
       GetGradePublishedPaperDaily_V3(params).then((res) => {
         this.resInfo = res.Data;
         this.timeList = this.resInfo.ReleasedPaperList;
-        this.paperList = this.timeList[this.activeTimeIndex].ReleasedPaperList;
+        if (this.timeList.length > 0) {
+          this.paperList = this.timeList[this.activeTimeIndex].ReleasedPaperList;
+        }
         if (this.paperList.length > 0) {
           this.PaperName = this.paperList[i].PaperName;
           this.PaperID = this.paperList[i].PaperID;
@@ -281,7 +283,14 @@ export default {
   padding: 16px 24px 0 0;
   overflow: hidden;
 }
-
+.temNoData {
+  width: 1270px;
+  height: 250px;
+  background: url("../../assets/img/nodata/ChartsNoData.png") center center no-repeat;
+  border-radius: 4px;
+  text-align: center;
+  line-height: 372px;
+}
 .rightOption {
   .checkPaper {
     background: url("../../assets/img/grade/btn.png") -0px -140px no-repeat;

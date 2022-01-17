@@ -7,7 +7,12 @@
  * @FilePath: \znbk_rzzd_zx_web_new\src\App.vue
 -->
 <template>
-  <div id="app" :class="$route.name=='educationRZZD' ? 'eduBack' : 'backRepeat'">
+  <div
+    id="app"
+    :class="$route.name == 'educationRZZD' ? 'eduBack' : 'backRepeat'"
+    v-title
+    data-title="学生大数据认知诊断报告"
+  >
     <router-view />
   </div>
 </template>
@@ -22,4 +27,5 @@
   min-width: 1920px;
   background: url("../src/assets/img/head/整体大BG.png") center center no-repeat;
   background-size: cover;
-}</style>
+}
+</style>
