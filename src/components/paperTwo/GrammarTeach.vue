@@ -14,7 +14,7 @@
 				><i></i>薄弱语法诊断</span
 			>
 		</div>
-		<div class="main">
+		<div class="main" v-show="isShow">
 			<div class="left">
 				<div class="scoreRate">
 					<span>语法平均答对率</span>
@@ -31,6 +31,7 @@
 				<span>语法掌握程度</span>
 			</div>
 		</div>
+		<NoDataVGL v-if="!isShow" type="gra" />
 		<el-dialog
 			:title="dialogTitle"
 			:visible.sync="dialogVisible"
@@ -238,10 +239,14 @@ export default {
 					},
 				],
 			},
+			isShow: true,
 		};
 	},
 	created() {
 		this.init();
+	},
+	components: {
+		NoDataVGL: () => import("../common/NoDataVGL.vue"),
 	},
 	computed: {
 		optionData: function () {
@@ -291,6 +296,11 @@ export default {
 			delete params.UserInfo;
 			GetClassGrammer(params).then((res) => {
 				this.info = res.Data;
+				if (res.Data.GrammerMasteredMapList.length === 0) {
+					this.isShow = false;
+				} else {
+					this.isShow = true;
+				}
 				this.drawInit();
 			});
 		},

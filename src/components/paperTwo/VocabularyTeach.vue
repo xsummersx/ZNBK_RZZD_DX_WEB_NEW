@@ -14,7 +14,7 @@
 				><i></i>薄弱词汇诊断</span
 			>
 		</div>
-		<div class="main">
+		<div class="main" v-show="isShow">
 			<div class="left">
 				<div class="masteredCount">
 					<span>词汇平均掌握量</span>
@@ -39,6 +39,7 @@
 				<span>词汇掌握程度</span>
 			</div>
 		</div>
+		<NoDataVGL v-if="!isShow" type="voca" />
 		<el-dialog
 			:title="dialogTitle"
 			:visible.sync="dialogVisible"
@@ -129,34 +130,34 @@ export default {
 			// 每页显示的数量
 			PageSize: 9,
 			tableData: [
-				{
-					Conclusion: 1,
-					VocaRank: 1,
-					StuName: "1201046",
-					VocaMasterCount: 4077,
-					VocaMaterRate: 0.4497,
-				},
-				{
-					Conclusion: 1,
-					VocaRank: 2,
-					StuName: "1201060",
-					VocaMasterCount: 4077,
-					VocaMaterRate: 0.4497,
-				},
-				{
-					Conclusion: 1,
-					VocaRank: 3,
-					StuName: "1201051",
-					VocaMasterCount: 4024,
-					VocaMaterRate: 0.4439,
-				},
-				{
-					Conclusion: 1,
-					VocaRank: 4,
-					StuName: "1201053",
-					VocaMasterCount: 4024,
-					VocaMaterRate: 0.4439,
-				},
+				// {
+				// 	Conclusion: 1,
+				// 	VocaRank: 1,
+				// 	StuName: "1201046",
+				// 	VocaMasterCount: 4077,
+				// 	VocaMaterRate: 0.4497,
+				// },
+				// {
+				// 	Conclusion: 1,
+				// 	VocaRank: 2,
+				// 	StuName: "1201060",
+				// 	VocaMasterCount: 4077,
+				// 	VocaMaterRate: 0.4497,
+				// },
+				// {
+				// 	Conclusion: 1,
+				// 	VocaRank: 3,
+				// 	StuName: "1201051",
+				// 	VocaMasterCount: 4024,
+				// 	VocaMaterRate: 0.4439,
+				// },
+				// {
+				// 	Conclusion: 1,
+				// 	VocaRank: 4,
+				// 	StuName: "1201053",
+				// 	VocaMasterCount: 4024,
+				// 	VocaMaterRate: 0.4439,
+				// },
 			],
 			option: {},
 			info: {
@@ -228,6 +229,9 @@ export default {
 	mounted() {
 		// this.drawInit();
 	},
+	components: {
+		NoDataVGL: () => import("../common/NoDataVGL.vue"),
+	},
 	methods: {
 		// 初始化
 		init() {
@@ -237,6 +241,11 @@ export default {
 			delete params.UserInfo;
 			GetClassVocabulary(params).then((res) => {
 				this.info = res.Data;
+				if (res.Data.StuList.length === 0) {
+					this.isShow = false;
+				} else {
+					this.isShow = true;
+				}
 				this.drawInit();
 			});
 		},

@@ -55,7 +55,7 @@
       </div>
     </div>
     <div class="right-long-box" v-show="timeList.length <= 0">
-      <div class="temNoData"></div>
+      <div class="temNoData">暂无试卷得分人数统计数据噢~</div>
     </div>
     <el-dialog
       :title="dialogTitle"
@@ -136,7 +136,9 @@ export default {
       GetPublishedPaperDaily_V3(params).then((res) => {
         this.resInfo = res.Data;
         this.timeList = this.resInfo.ReleasedPaperList;
-        this.paperList = this.timeList[this.activeTimeIndex].ReleasedPaperList;
+        if (this.timeList.length > 0) {
+          this.paperList = this.timeList[this.activeTimeIndex].ReleasedPaperList;
+        }
         if (this.paperList.length > 0) {
           this.PaperName = this.paperList[i].PaperName;
           this.PaperID = this.paperList[i].PaperID;
@@ -257,7 +259,8 @@ export default {
   height: 250px;
   background: url("../../assets/img/nodata/ChartsNoData.png") center center no-repeat;
   border-radius: 4px;
-  padding: 16px 24px 0 0;
+  text-align: center;
+  line-height: 372px;
 }
 .noData {
   width: 1040px;

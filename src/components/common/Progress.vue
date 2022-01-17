@@ -28,15 +28,15 @@ export default {
 		},
 		FirstScoreRate: {
 			type: Number,
-			default: 0.435,
+			default: 0,
 		},
 		SecondScoreRate: {
 			type: Number,
-			default: 0.846,
+			default: 0,
 		},
 		ThirdScoreRate: {
 			type: Number,
-			default: 0.9548,
+			default: 0,
 		},
 	},
 	data() {
@@ -83,15 +83,15 @@ export default {
 		percent3: function () {
 			return (this.ThirdScoreRate * 100).toFixed(2);
 		},
-		data1: function () {
-			return 66666;
-		},
-		data2: function () {
-			return 55555;
-		},
-		data3: function () {
-			return 44444;
-		},
+		// data1: function () {
+		// 	return 66666;
+		// },
+		// data2: function () {
+		// 	return 55555;
+		// },
+		// data3: function () {
+		// 	return 44444;
+		// },
 	},
 	methods: {
 		draw1() {
