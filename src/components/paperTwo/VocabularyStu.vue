@@ -87,12 +87,22 @@ export default {
 			};
 			GetStuVocabulary(params)
 				.then((res) => {
-					this.masteredCount = res.Data.MasteredCount;
-					this.scoreRate = res.Data.VocabularyScoreRate;
-					this.FirstScoreRate = res.Data.FirstScoreRate;
-					this.SecondScoreRate = res.Data.SecondScoreRate;
-					this.ThirdScoreRate = res.Data.ThirdScoreRate;
-					this.isShow = true;
+					if (
+						res.Data.MasteredCount === 0 &&
+						res.Data.VocabularyScoreRate === 0 &&
+						res.Data.FirstScoreRate === 0 &&
+						res.Data.SecondScoreRate === 0 &&
+						res.Data.ThirdScoreRate === 0
+					) {
+						this.isShow = false;
+					} else {
+						this.masteredCount = res.Data.MasteredCount;
+						this.scoreRate = res.Data.VocabularyScoreRate;
+						this.FirstScoreRate = res.Data.FirstScoreRate;
+						this.SecondScoreRate = res.Data.SecondScoreRate;
+						this.ThirdScoreRate = res.Data.ThirdScoreRate;
+						this.isShow = true;
+					}
 				})
 				.catch(() => {
 					this.isShow = false;

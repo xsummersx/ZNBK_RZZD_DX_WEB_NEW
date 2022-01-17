@@ -38,7 +38,7 @@ export default {
 			FirstScoreRate: 0,
 			SecondScoreRate: 0,
 			ThirdScoreRate: 0,
-			isShow: true,
+			isShow: false,
 		};
 	},
 	components: {
@@ -59,11 +59,20 @@ export default {
 			};
 			GetStuGrammer(params)
 				.then((res) => {
-					this.scoreRate = res.Data.GrammarScoreRate;
-					this.FirstScoreRate = res.Data.FirstScoreRate;
-					this.SecondScoreRate = res.Data.SecondScoreRate;
-					this.ThirdScoreRate = res.Data.ThirdScoreRate;
-					this.isShow = true;
+					if (
+						res.Data.GrammarScoreRate === 0 &&
+						res.Data.FirstScoreRate === 0 &&
+						res.Data.SecondScoreRate === 0 &&
+						res.Data.ThirdScoreRate === 0
+					) {
+						this.isShow = false;
+					} else {
+						this.scoreRate = res.Data.GrammarScoreRate;
+						this.FirstScoreRate = res.Data.FirstScoreRate;
+						this.SecondScoreRate = res.Data.SecondScoreRate;
+						this.ThirdScoreRate = res.Data.ThirdScoreRate;
+						this.isShow = true;
+					}
 				})
 				.catch(() => {
 					this.isShow = false;

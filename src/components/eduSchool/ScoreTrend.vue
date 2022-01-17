@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:31:08
- * @LastEditTime: 2022-01-14 13:55:02
+ * @LastEditTime: 2022-01-17 14:07:05
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》认知成绩走势图，图0，图1
@@ -236,7 +236,7 @@ export default {
           grid: {
             left: "3%",
             right: "3%",
-            bottom: "15",
+            bottom: "13",
             top: "15",
             containLabel: true,
           },
@@ -514,7 +514,7 @@ export default {
   width: 400px;
   height: 526px;
   margin-left: 10px;
-  margin-top: 10px;
+  margin-top: 20px;
   background: url(~@/assets/img/eduSchool/认知成绩走势_bg.png) center center no-repeat;
 }
 .teacDis {

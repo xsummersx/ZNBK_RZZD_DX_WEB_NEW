@@ -7,7 +7,7 @@
 		<img class="graImgii" src="~@/assets/img/common/暂无词汇认知.png" />
 		<span>暂无词汇认知数据噢~</span>
 	</div>
-    <div class="graImg" v-else-if="type === 'lan'">
+	<div class="graImg" v-else-if="type === 'lan'">
 		<img class="graImgii" src="~@/assets/img/common/暂无语言能力.png" />
 		<span>暂无语言能力数据噢~</span>
 	</div>
@@ -35,6 +35,7 @@ export default {
 	.graImgii {
 		width: 88px;
 		height: 88px;
+		margin: 0 0 10px 0;
 	}
 }
 </style>
