@@ -303,7 +303,7 @@ export default {
 			// 年级名称
 			GradeName: "高中三年级",
 			// 推荐语法/词汇知识点数量
-			recommendCount: "12",
+			recommendCount: 0,
 		};
 	},
 	computed: {
