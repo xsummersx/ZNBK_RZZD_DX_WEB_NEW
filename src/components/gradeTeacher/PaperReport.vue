@@ -396,6 +396,9 @@ export default {
 </script>
 
 <style>
+.schoolReport {
+  height: 402px;
+}
 .rightOption {
   position: relative;
 }

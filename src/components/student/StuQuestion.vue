@@ -11,35 +11,47 @@
     <div class="box-title clearfix">
       <span class="float-l title">学习特点</span>
     </div>
-    <div class="study-box1">
-      <div class="study-box1"></div>
-      <div class="study-box2"></div>
-    </div>
-
-    <div class="study-box2">
-      <div class="study-box">学生学习时长</div>
-      <div class="study-box">学生知识掌握速度</div>
-    </div>
-
-    <div class="study-box3">
-      <div class="study-box yellowFont">
-        <span>{{ resInfo.PerAvgTime.toFixed(2) }}</span
-        >H
+    <div v-show="!showLoading">
+      <div class="study-box1">
+        <div class="study-box1"></div>
+        <div class="study-box2"></div>
       </div>
-      <div class="study-box BlueFont">
-        <span>{{ resInfo.PerAvgSpeed }}</span>
+
+      <div class="study-box2">
+        <div class="study-box">学生学习时长</div>
+        <div class="study-box">学生知识掌握速度</div>
+      </div>
+
+      <div class="study-box3">
+        <div class="study-box yellowFont">
+          <span>{{ resInfo.PerAvgTime.toFixed(2) }}</span
+          >H
+        </div>
+        <div class="study-box BlueFont">
+          <span>{{ resInfo.PerAvgSpeed }}</span>
+        </div>
       </div>
     </div>
+    <Loading
+      v-show="showLoading"
+      style="width: 360px; height: 205px"
+      backSize="80%"
+    ></Loading>
   </div>
 </template>
 
 <script>
 import { GetStuStudyFeature_V3 } from "../../api/student/right";
+import Loading from "../common/Loading.vue";
 export default {
   data() {
     return {
       resInfo: {},
+      showLoading: true,
     };
+  },
+  components: {
+    Loading,
   },
   methods: {
     GetStuStudyFeature_V3() {
@@ -50,6 +62,7 @@ export default {
         StuID: this.$store.state.StuID,
       };
       GetStuStudyFeature_V3(params).then((res) => {
+        this.showLoading = false;
         this.resInfo = res.Data;
       });
     },

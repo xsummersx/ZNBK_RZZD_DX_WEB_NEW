@@ -9,7 +9,7 @@
 <template>
   <div>
     <ArrowTitle titleStr="历次作答统计"></ArrowTitle>
-    <div class="right-long-box" v-if="timeList.length > 0">
+    <div class="right-long-box" v-show="timeList.length > 0 && !showLoading">
       <div class="float-l timeText">
         <vuescroll :ops="ops">
           <div
@@ -208,9 +208,14 @@
         </div>
       </div>
     </div>
-    <div class="right-long-box" v-else>
+    <div class="right-long-box" v-show="timeList.length <= 0 && !showLoading">
       <div class="temNoData">暂无试卷得分人数统计数据噢~</div>
     </div>
+    <Loading
+      v-show="showLoading"
+      style="width: 1270px; height: 250px"
+      backSize="80%"
+    ></Loading>
     <el-dialog
       :title="dialogTitle"
       :visible.sync="dialogVisible"
@@ -232,6 +237,7 @@
 <script>
 import { GetStuPublishedPaperDaily_V3 } from "@/api/student/right";
 import vuescroll from "vuescroll";
+import Loading from "../common/Loading.vue";
 export default {
   data() {
     return {
@@ -247,6 +253,7 @@ export default {
       paperList: [],
       PaperID: "",
       PaperName: "",
+      showLoading: true,
       ops: {
         scrollPanel: {
           scrollingX: false,
@@ -255,7 +262,7 @@ export default {
           showDelay: 500,
           onlyShowBarOnScroll: false,
           keepShow: false,
-          background: "#9cd1ff",
+          background: "transparent",
           opacity: 1,
           hoverStyle: false,
           specifyBorderRadius: false,
@@ -270,6 +277,7 @@ export default {
     ArrowTitle: () => import("../common/ArrowTitle.vue"),
     StuPaper: () => import("../../views/dialog/StuPaper.vue"),
     vuescroll,
+    Loading,
   },
   mounted() {
     this.GetStuPublishedPaperDaily_V3(this.PaperID, 0);
@@ -287,6 +295,7 @@ export default {
         PaperID: PaperID,
       };
       GetStuPublishedPaperDaily_V3(params).then((res) => {
+        this.showLoading = false;
         this.resInfo = res.Data;
         this.timeList = this.resInfo.ReleasedPaperList;
         if (this.timeList.length > 0) {
