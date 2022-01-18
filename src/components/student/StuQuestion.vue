@@ -46,7 +46,9 @@ import Loading from "../common/Loading.vue";
 export default {
   data() {
     return {
-      resInfo: {},
+      resInfo: {
+        PerAvgTime: 0,
+      },
       showLoading: true,
     };
   },
