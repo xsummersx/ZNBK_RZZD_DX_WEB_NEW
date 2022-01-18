@@ -76,7 +76,7 @@ export default {
 			margin: 0 0 0 25px;
 			span {
 				width: 150px;
-				height: 20px;
+				height: 23px;
 				overflow: hidden;
 				white-space: nowrap;
 				text-overflow: ellipsis;
@@ -85,7 +85,7 @@ export default {
 		}
 	}
 	.bottomTitle {
-		margin: 10px 0 10px 10px;
+		margin: 10px 0 8px 10px;
 		padding-left: 20px;
 		font-size: 16px;
 		font-family: YouSheBiaoTiHei;

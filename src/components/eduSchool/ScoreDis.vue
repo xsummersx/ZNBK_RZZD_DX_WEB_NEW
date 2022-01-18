@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:30:34
- * @LastEditTime: 2022-01-18 09:49:54
+ * @LastEditTime: 2022-01-18 13:57:55
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》认知成绩分布
@@ -9,139 +9,126 @@
 <template>
   <div class="Dis" :class="{ teacDis: $route.name == 'gradeRZZD' || $route.name == 'teacherRZZD' }">
     <div class="title" v-if="!($route.name == 'gradeRZZD' || $route.name == 'teacherRZZD')">认知成绩分布</div>
-    <template>
-      <div class="button">
-        <span
-          class="animate__animated"
-          @click="checkButton(0)"
-          v-show="$route.name == 'educationRZZD'"
-          :class="{ active: activeSpan == 0, animate__pulse: activeSpan == 0 }"
-          >学校</span
-        >
-        <span
-          class="animate__animated"
-          @click="checkButton(1)"
-          v-show="$route.name == 'schoolRZZD' || $route.name == 'gradeRZZD'"
-          :class="{ active: activeSpan == 1, animate__pulse: activeSpan == 1 }"
-          >班级</span
-        >
-        <span
-          v-show="$route.name != 'teacherRZZD'"
-          class="animate__animated"
-          @click="checkButton(2)"
-          :class="{ active: activeSpan == 2, animate__pulse: activeSpan == 2 }"
-          >学生</span
-        >
+
+    <div class="button">
+      <span @click="checkButton(0)" v-show="$route.name == 'educationRZZD'" :class="{ active: activeSpan == 0 }"
+        ><i style="display: block" class="animate__animated" :class="{ animate__rubberBand: activeSpan == 0 }">学校</i></span
+      >
+      <span @click="checkButton(1)" v-show="$route.name == 'schoolRZZD' || $route.name == 'gradeRZZD'" :class="{ active: activeSpan == 1 }"
+        ><i style="display: block" class="animate__animated" :class="{ animate__rubberBand: activeSpan == 1 }">班级</i></span
+      >
+      <span v-show="$route.name != 'teacherRZZD'" @click="checkButton(2)" :class="{ active: activeSpan == 2 }"
+        ><i style="display: block" class="animate__animated" :class="{ animate__rubberBand: activeSpan == 2 }">学生</i></span
+      >
+    </div>
+    <div class="tu" v-show="!loading">
+      <div class="tu_Back"></div>
+      <div class="Aline"></div>
+      <div class="Bline"></div>
+      <div class="Cline"></div>
+      <div class="Dline"></div>
+      <div class="Eline"></div>
+      <div class="Acont">
+        <span class="Text">
+          <span class="TextDeng Acolor">A<sup>+</sup></span>
+          <span class="Acolor">
+            <b class="big">{{ List[0].LevelCount }}</b
+            >{{ getText }}</span
+          >
+        </span>
+        <span class="Text">
+          <span class="norColor"
+            >占比<b class="big">{{ List[0].LevelRation | toPercent(2) }}</b
+            >%,</span
+          >
+          <span class="Acolor">
+            <span v-if="List[0].TrastRation >= 0">↑</span>
+            <span v-if="List[0].TrastRation < 0">↓</span>
+            {{ List[0].TrastRation | toPercent(0) }}%
+          </span>
+        </span>
       </div>
-      <div class="tu" v-show="!loading">
-        <div class="tu_Back"></div>
-        <div class="Aline"></div>
-        <div class="Bline"></div>
-        <div class="Cline"></div>
-        <div class="Dline"></div>
-        <div class="Eline"></div>
-        <div class="Acont">
-          <span class="Text">
-            <span class="TextDeng Acolor">A<sup>+</sup></span>
-            <span class="Acolor">
-              <b class="big">{{ List[0].LevelCount }}</b
-              >{{ getText }}</span
-            >
+      <div class="Bcont">
+        <span class="Text">
+          <span class="TextDeng Bcolor">B<sup>+</sup></span>
+          <span class="Bcolor">
+            <b class="big">{{ List[1].LevelCount }}</b
+            >{{ getText }}</span
+          >
+        </span>
+        <span class="Text">
+          <span class="norColor"
+            >占比<b class="big">{{ List[1].LevelRation | toPercent(2) }}</b
+            >%,</span
+          >
+          <span class="Bcolor">
+            <span v-if="List[1].TrastRation >= 0">↑</span>
+            <span v-if="List[1].TrastRation < 0">↓</span>
+            {{ List[1].TrastRation | toPercent(0) }}%
           </span>
-          <span class="Text">
-            <span class="norColor"
-              >占比<b class="big">{{ List[0].LevelRation | toPercent(2) }}</b
-              >%,</span
-            >
-            <span class="Acolor">
-              <span v-if="List[0].TrastRation >= 0">↑</span>
-              <span v-if="List[0].TrastRation < 0">↓</span>
-              {{ List[0].TrastRation | toPercent(0) }}%
-            </span>
-          </span>
-        </div>
-        <div class="Bcont">
-          <span class="Text">
-            <span class="TextDeng Bcolor">B<sup>+</sup></span>
-            <span class="Bcolor">
-              <b class="big">{{ List[1].LevelCount }}</b
-              >{{ getText }}</span
-            >
-          </span>
-          <span class="Text">
-            <span class="norColor"
-              >占比<b class="big">{{ List[1].LevelRation | toPercent(2) }}</b
-              >%,</span
-            >
-            <span class="Bcolor">
-              <span v-if="List[1].TrastRation >= 0">↑</span>
-              <span v-if="List[1].TrastRation < 0">↓</span>
-              {{ List[1].TrastRation | toPercent(0) }}%
-            </span>
-          </span>
-        </div>
-        <div class="Ccont">
-          <span class="Text">
-            <span class="TextDeng Ccolor">C<sup>+</sup></span>
-            <span class="Ccolor">
-              <b class="big">{{ List[2].LevelCount }}</b
-              >{{ getText }}</span
-            >
-          </span>
-          <span class="Text">
-            <span class="norColor"
-              >占比<b class="big">{{ List[2].LevelRation | toPercent(2) }}</b
-              >%,</span
-            >
-            <span class="Ccolor">
-              <span v-if="List[2].TrastRation >= 0">↑</span>
-              <span v-if="List[2].TrastRation < 0">↓</span>
-              {{ List[2].TrastRation | toPercent(0) }}%
-            </span>
-          </span>
-        </div>
-        <div class="Dcont">
-          <span class="Text">
-            <span class="TextDeng Dcolor">D<sup>+</sup></span>
-            <span class="Dcolor">
-              <b class="big">{{ List[3].LevelCount }}</b
-              >{{ getText }}</span
-            >
-          </span>
-          <span class="Text">
-            <span class="norColor"
-              >占比<b class="big">{{ List[3].LevelRation | toPercent(2) }}</b
-              >%,</span
-            >
-            <span class="Dcolor">
-              <span v-if="List[3].TrastRation >= 0">↑</span>
-              <span v-if="List[3].TrastRation < 0">↓</span>
-              {{ List[3].TrastRation | toPercent(0) }}%
-            </span>
-          </span>
-        </div>
-        <div class="Econt">
-          <span class="Text">
-            <span class="TextDeng Ecolor">E<sup>+</sup></span>
-            <span class="Ecolor">
-              <b class="big">{{ List[4].LevelCount }}</b
-              >{{ getText }}</span
-            >
-          </span>
-          <span class="Text">
-            <span class="norColor"
-              >占比<b class="big">{{ List[4].LevelRation | toPercent(2) }}</b
-              >%,</span
-            >
-            <span class="Ecolor">
-              <span v-if="List[4].TrastRation >= 0">↑</span>
-              <span v-if="List[4].TrastRation < 0">↓</span>
-              {{ List[4].TrastRation | toPercent(0) }}%
-            </span>
-          </span>
-        </div>
+        </span>
       </div>
-    </template>
+      <div class="Ccont">
+        <span class="Text">
+          <span class="TextDeng Ccolor">C<sup>+</sup></span>
+          <span class="Ccolor">
+            <b class="big">{{ List[2].LevelCount }}</b
+            >{{ getText }}</span
+          >
+        </span>
+        <span class="Text">
+          <span class="norColor"
+            >占比<b class="big">{{ List[2].LevelRation | toPercent(2) }}</b
+            >%,</span
+          >
+          <span class="Ccolor">
+            <span v-if="List[2].TrastRation >= 0">↑</span>
+            <span v-if="List[2].TrastRation < 0">↓</span>
+            {{ List[2].TrastRation | toPercent(0) }}%
+          </span>
+        </span>
+      </div>
+      <div class="Dcont">
+        <span class="Text">
+          <span class="TextDeng Dcolor">D<sup>+</sup></span>
+          <span class="Dcolor">
+            <b class="big">{{ List[3].LevelCount }}</b
+            >{{ getText }}</span
+          >
+        </span>
+        <span class="Text">
+          <span class="norColor"
+            >占比<b class="big">{{ List[3].LevelRation | toPercent(2) }}</b
+            >%,</span
+          >
+          <span class="Dcolor">
+            <span v-if="List[3].TrastRation >= 0">↑</span>
+            <span v-if="List[3].TrastRation < 0">↓</span>
+            {{ List[3].TrastRation | toPercent(0) }}%
+          </span>
+        </span>
+      </div>
+      <div class="Econt">
+        <span class="Text">
+          <span class="TextDeng Ecolor">E<sup>+</sup></span>
+          <span class="Ecolor">
+            <b class="big">{{ List[4].LevelCount }}</b
+            >{{ getText }}</span
+          >
+        </span>
+        <span class="Text">
+          <span class="norColor"
+            >占比<b class="big">{{ List[4].LevelRation | toPercent(2) }}</b
+            >%,</span
+          >
+          <span class="Ecolor">
+            <span v-if="List[4].TrastRation >= 0">↑</span>
+            <span v-if="List[4].TrastRation < 0">↓</span>
+            {{ List[4].TrastRation | toPercent(0) }}%
+          </span>
+        </span>
+      </div>
+    </div>
     <EduNoData v-if="false" noDataType="1" style="margin-top: 120px"></EduNoData>
     <Loading v-show="loading" style="margin-top: 50px"></Loading>
   </div>
@@ -307,6 +294,9 @@ export default {
     cursor: pointer;
     margin-right: -3px;
     border-radius: 3px;
+    i {
+      font-style: normal;
+    }
   }
   span:hover {
     color: #fff;

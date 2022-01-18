@@ -15,6 +15,7 @@
 			<CompareLastWeek :ChangeScore="info.ChangeIndex" />
 		</div>
 		<Top2
+			v-show="!loading"
 			:theFirstStu="theFirst.StudentName"
 			:theFirstPre="theFirst.CurrentIndex"
 			:theFirstClass="theFirst.CourseClassName"
@@ -24,7 +25,7 @@
 			:theSecondClass="theSecond.CourseClassName"
 			:theSecondAvg="theSecond.ClassAvgIndex"
 		/>
-		<div class="foot">
+		<div class="foot" v-show="!loading">
 			<span class="btn" @click="openDis()">认知成绩分布</span>
 			<i class="line"></i>
 			<span class="btn" @click="openTrend()">认知成绩走势</span>
@@ -93,6 +94,7 @@ export default {
 					},
 				],
 			},
+			loading: true,
 		};
 	},
 	computed: {
@@ -139,15 +141,25 @@ export default {
 				GetClassCognitiveIndex(data)
 					.then((res) => {
 						this.info = res.Data;
+						setTimeout(() => {
+							this.loading = false;
+						}, 200);
 					})
-					.catch();
+					.catch(() => {
+						this.loading = false;
+					});
 			} else {
 				// 年级组长
 				GetGradeCognitiveIndex(data)
 					.then((res) => {
 						this.info = res.Data;
+						setTimeout(() => {
+							this.loading = false;
+						}, 200);
 					})
-					.catch();
+					.catch(() => {
+						this.loading = false;
+					});
 			}
 		},
 		//打开认知成绩分布

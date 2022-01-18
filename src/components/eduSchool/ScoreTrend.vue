@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:31:08
- * @LastEditTime: 2022-01-18 10:01:12
+ * @LastEditTime: 2022-01-18 14:02:53
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》认知成绩走势图，图0，图1
@@ -41,9 +41,15 @@
     </div>
     <template v-if="chartShow">
       <div class="button">
-        <span class="animate__animated" @click="checkButton(3)" :class="{ active: activeSpan == 3, animate__pulse: activeSpan == 3 }">按月</span>
-        <span class="animate__animated" @click="checkButton(2)" :class="{ active: activeSpan == 2, animate__pulse: activeSpan == 2 }">按周</span>
-        <span class="animate__animated" @click="checkButton(1)" :class="{ active: activeSpan == 1, animate__pulse: activeSpan == 1 }">按天</span>
+        <span @click="checkButton(3)" :class="{ active: activeSpan == 3 }">
+          <i style="display: block" :class="{ animate__rubberBand: activeSpan == 3 }" class="animate__animated">按月</i>
+        </span>
+        <span @click="checkButton(2)" :class="{ active: activeSpan == 2 }">
+          <i style="display: block" :class="{ animate__rubberBand: activeSpan == 2 }" class="animate__animated">按周</i>
+        </span>
+        <span @click="checkButton(1)" :class="{ active: activeSpan == 1 }">
+          <i style="display: block" :class="{ animate__rubberBand: activeSpan == 1 }" class="animate__animated">按天</i>
+        </span>
       </div>
       <div class="legend" v-show="!loading">
         <span>
@@ -532,6 +538,7 @@ export default {
   margin-left: 10px;
   margin-top: 20px;
   background: url(~@/assets/img/eduSchool/认知成绩走势_bg.png) center center no-repeat;
+  overflow: hidden;
 }
 .teacDis {
   background-image: none !important;
@@ -634,6 +641,9 @@ export default {
     cursor: pointer;
     margin-right: -3px;
     border-radius: 3px;
+    i {
+      font-style: normal;
+    }
   }
   span:hover {
     color: #fff;

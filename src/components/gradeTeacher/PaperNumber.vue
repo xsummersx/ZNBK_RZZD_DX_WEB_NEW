@@ -9,7 +9,7 @@
 <template>
 	<div class="left-Content-Box">
 		<span class="title">累计作答试卷</span>
-		<div class="main">
+		<div class="main" v-show="!loading">
 			<div class="left">
 				<span
 					><span class="number">{{ count }}</span
@@ -20,6 +20,7 @@
 			<CompareLastWeek :ChangeScore="info.ChangePaperCount" />
 		</div>
 		<Top2
+			v-show="!loading"
 			:theFirstStu="theFirst.StuName"
 			:theFirstPre="theFirst.PaperCount"
 			:theFirstClass="theFirst.CourseClassName"
@@ -63,6 +64,7 @@ export default {
 				],
 				AvgCountPaperInClassAcc: 0,
 			},
+			loading: true,
 		};
 	},
 	created() {
@@ -119,8 +121,13 @@ export default {
 								},
 							];
 						}
+						setTimeout(() => {
+							this.loading = false;
+						}, 200);
 					})
-					.catch();
+					.catch(() => {
+						this.loading = false;
+					});
 			} else {
 				// 年级组长
 				GetGradePaperNum(data)
@@ -138,8 +145,13 @@ export default {
 								},
 							];
 						}
+						setTimeout(() => {
+							this.loading = false;
+						}, 200);
 					})
-					.catch();
+					.catch(() => {
+						this.loading = false;
+					});
 			}
 		},
 	},

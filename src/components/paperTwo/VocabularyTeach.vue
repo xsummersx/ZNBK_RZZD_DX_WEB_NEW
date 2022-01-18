@@ -199,7 +199,7 @@ export default {
 						value: item.StuRatio * 100,
 						count: item.StuCount,
 						itemStyle: {
-							color: "rgba(12,206,7,0.9)",
+							color: "rgba(12,206,7,1)",
 						},
 					});
 				} else if (+item.Conclusion === 3) {
