@@ -24,20 +24,24 @@
             <th>总分</th>
             <th>年级排名</th>
             <th>班级排名</th>
-            <th class="oneTH" v-for="(item, index) in ObjectiveQTypeList" :key="index">
+            <th class="oneTH" v-for="item in ObjectiveQTypeList" :key="item.QTypeName">
               <div class="oneTH1">{{ item.QTypeName }}</div>
               <div class="oneTH2">
                 <span class="oneSpan1">得分率</span
                 ><span class="oneSpan2">年级排名/班级排名</span>
               </div>
             </th>
-            <th v-for="(item, index) in SubjectiveQTypeList" :key="index">
-              {{ item.QTypeName }}
+            <th class="oneTH" v-for="item in SubjectiveQTypeList" :key="item.QTypeName">
+              <div class="oneTH1">{{ item.QTypeName }}</div>
+              <div class="oneTH2">
+                <span class="oneSpan1">得分率</span
+                ><span class="oneSpan2">年级排名/班级排名</span>
+              </div>
             </th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in showList" :key="index">
+          <tr v-for="item in showList" :key="item.QTypeName">
             <td>{{ item.Index }}</td>
             <td>{{ item.StuName }}</td>
             <td>{{ item.CourseClassName }}</td>
@@ -46,22 +50,22 @@
             <td>{{ item.ClassRank }}</td>
             <td
               class="borderTD"
-              v-for="(item2, index2) in item.ObjectiveQTypeList"
-              :key="index2"
+              v-for="item2 in item.ObjectiveQTypeList"
+              :key="item2.QTypeName"
             >
-              <span class="oneSpan1">{{
-                (item2.PaperScoreRate * 100).toFixed() + "%"
-              }}</span>
+              <span class="oneSpan1">{{ toPersent(item2.PaperScoreRate) }}</span>
               <span class="oneSpan2">{{
-                item2.QTypeClassRank + "/" + item2.QTypeGradeRank
+                toLine(item2.QTypeClassRank) + "/" + toLine(item2.QTypeGradeRank)
               }}</span>
             </td>
-            <td v-for="(item2, index2) in item.SubjectiveQTypeList" :key="index2">
-              <span class="oneSpan1">{{
-                (item2.PaperScoreRate * 100).toFixed() + "%"
-              }}</span>
+            <td
+              class="borderTD"
+              v-for="item2 in item.SubjectiveQTypeList"
+              :key="item2.QTypeName"
+            >
+              <span class="oneSpan1">{{ toPersent(item2.PaperScoreRate) }}</span>
               <span class="oneSpan2">{{
-                item2.QTypeClassRank + "/" + item2.QTypeGradeRank
+                toLine(item2.QTypeClassRank) + "/" + toLine(item2.QTypeGradeRank)
               }}</span>
             </td>
           </tr>
@@ -114,6 +118,7 @@ export default {
       this.GetClassPaperScoreReport_V3();
     }
   },
+  computed: {},
   methods: {
     // // 获取年级历次已发布试卷
     GetGradePaperScoreReport_V3() {
@@ -208,6 +213,20 @@ export default {
         GetExportClassPaperScoreReport_V3(params).then((res) => {
           window.open(res.Data, "_self");
         });
+      }
+    },
+    toPersent(params) {
+      if (params == "/") {
+        return "-";
+      } else {
+        return (params * 100).toFixed() + "%";
+      }
+    },
+    toLine(params) {
+      if (params == "/") {
+        return "-";
+      } else {
+        return params;
       }
     },
   },
