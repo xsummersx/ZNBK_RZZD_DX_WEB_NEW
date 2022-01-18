@@ -19,7 +19,7 @@
 			<div class="titleRight"></div>
 		</div>
 		<div class="diagnosisMain">
-			<div class="mainTop">
+			<div class="mainTop" v-if="!loading">
 				<div class="mainTopLeft">
 					<div class="tips">
 						<div>老师您好，</div>
@@ -136,7 +136,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="mainBottom">
+			<div class="mainBottom" v-if="!loading">
 				<div class="bottomTitle">
 					<span class="lightingIcon">今日推荐讲解{{ typeName }}</span>
 				</div>
@@ -245,6 +245,9 @@
 					</el-pagination>
 				</div>
 			</div>
+			<div class="loadingItem" v-show="loading">
+				<Loading />
+			</div>
 		</div>
 		<el-dialog
 			:title="dialogTitle + typeName"
@@ -304,6 +307,7 @@ export default {
 			GradeName: "高中三年级",
 			// 推荐语法/词汇知识点数量
 			recommendCount: 0,
+			loading: true,
 		};
 	},
 	computed: {
@@ -358,6 +362,7 @@ export default {
 	},
 	components: {
 		DiagnosisDialog: () => import("./DIagnosisDialog.vue"),
+		Loading: () => import("@/components/common/Loading.vue"),
 	},
 	methods: {
 		// 初始化
@@ -391,6 +396,9 @@ export default {
 					this.CourseClassName = res.Data.CourseClassName;
 					this.recommendCount = res.Data.VocaRecommendCount;
 					this.focusList = res.Data.StuFocusInfoList;
+					setTimeout(() => {
+						this.loading = false;
+					}, 300);
 				});
 			} else if (this.userType == "grade") {
 				// 年级组长词汇首页
@@ -401,6 +409,9 @@ export default {
 					this.GradeName = res.Data.GradeName;
 					this.recommendCount = res.Data.VocaRecommendCount;
 					this.focusList = res.Data.ClassFocusInfoList;
+					setTimeout(() => {
+						this.loading = false;
+					}, 300);
 				});
 			} else if (this.userType == "stu") {
 				// 个人词汇首页
@@ -409,6 +420,9 @@ export default {
 					this.vocaList = res.Data.VocaRecommendList;
 					this.StuName = res.Data.StuName;
 					this.recommendCount = res.Data.VocaRecommendCount;
+					setTimeout(() => {
+						this.loading = false;
+					}, 300);
 				});
 			}
 		},
@@ -433,6 +447,9 @@ export default {
 					this.CourseClassName = res.Data.CourseClassName;
 					this.recommendCount = res.Data.PageCount;
 					this.focusList = res.Data.StuFocusInfoList;
+					setTimeout(() => {
+						this.loading = false;
+					}, 300);
 				});
 			} else if (this.userType == "grade") {
 				// 年级组长语法
@@ -443,6 +460,9 @@ export default {
 					this.GradeName = res.Data.GradeName;
 					this.recommendCount = res.Data.PageCount;
 					this.focusList = res.Data.ClassFocusInfoList;
+					setTimeout(() => {
+						this.loading = false;
+					}, 300);
 				});
 			} else if (this.userType == "stu") {
 				// 个人语法
@@ -451,6 +471,9 @@ export default {
 					this.graList = res.Data.GrammerZsdList;
 					this.StuName = res.Data.StuName;
 					this.recommendCount = res.Data.PageCount;
+					setTimeout(() => {
+						this.loading = false;
+					}, 300);
 				});
 			}
 		},
@@ -952,6 +975,11 @@ export default {
 	.diagnosisPagination {
 		margin: 15px auto 0;
 	}
+}
+.loadingItem {
+	height: 100%;
+	display: flex;
+	display: -webkit-flex;
 }
 // .noDataImg1 {
 // 	width: 88px;

@@ -7,7 +7,7 @@
 				><i></i>薄弱语法诊断</span
 			>
 		</div>
-		<div class="main" v-if="isShow">
+		<div class="main" v-if="isShow && !loading">
 			<div class="mainTop">
 				<div class="scoreRate">
 					<span class="title">平均答对率</span>
@@ -25,7 +25,8 @@
 				:ThirdScoreRate="ThirdScoreRate"
 			/>
 		</div>
-		<NoDataVGL v-if="!isShow" type="gra" />
+		<NoDataVGL v-if="!isShow && !loading" type="gra" />
+		<Loading v-show="loading" style="margin-top: 20px"/>
 	</div>
 </template>
 
@@ -39,11 +40,13 @@ export default {
 			SecondScoreRate: 0,
 			ThirdScoreRate: 0,
 			isShow: false,
+			loading: true,
 		};
 	},
 	components: {
 		Progress: () => import("../common/Progress.vue"),
 		NoDataVGL: () => import("../common/NoDataVGL.vue"),
+		Loading: () => import("../common/Loading.vue"),
 	},
 	created() {
 		this.init();
@@ -73,9 +76,15 @@ export default {
 						this.ThirdScoreRate = res.Data.ThirdScoreRate;
 						this.isShow = true;
 					}
+					setTimeout(() => {
+						this.loading = false;
+					}, 400);
 				})
 				.catch(() => {
 					this.isShow = false;
+					setTimeout(() => {
+						this.loading = false;
+					}, 400);
 				});
 		},
 		// 跳转薄弱诊断
