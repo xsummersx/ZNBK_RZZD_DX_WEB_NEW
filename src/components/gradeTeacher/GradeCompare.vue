@@ -1,7 +1,7 @@
 <!--
  * @Author: 柳欢
  * @Date: 2021-12-14 15:36:48
- * @LastEditTime: 2021-12-15 14:21:08
+ * @LastEditTime: 2022-01-18 19:39:46
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 班级认知情况对比分析
@@ -191,7 +191,22 @@ export default {
         },
         xAxis: {
           data: xDate,
+          axisLabel: {
+            interval: 0,
+            fontSize: 14,
+          },
         },
+        dataZoom: [
+          {
+            type: "inside",
+            show: true,
+            height: 15,
+            xAxisIndex: [0],
+            start: 1,
+            end: (6 / xDate.length) * 100,
+            zoomOnMouseWheel: false,
+          },
+        ],
         series: [
           {
             name: "作答试卷份数",
