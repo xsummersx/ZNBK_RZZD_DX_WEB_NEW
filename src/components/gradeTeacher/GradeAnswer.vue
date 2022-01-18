@@ -120,7 +120,7 @@ export default {
           showDelay: 500,
           onlyShowBarOnScroll: false,
           keepShow: false,
-          background: "#9cd1ff",
+          background: "transparent",
           opacity: 1,
           hoverStyle: false,
           specifyBorderRadius: false,

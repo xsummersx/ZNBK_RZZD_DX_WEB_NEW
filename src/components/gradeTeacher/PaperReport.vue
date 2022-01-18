@@ -280,7 +280,7 @@ import { GetExportClassScoreReport_V3 } from "@/api/gradeTeacher/right";
 export default {
   data() {
     return {
-      emptyText: "暂无数据",
+      emptyText: "加载中...",
       resInfo: {
         VocalFullIndex: 1000,
         GrammerFullIndex: 1000,

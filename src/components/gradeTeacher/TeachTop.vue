@@ -109,4 +109,7 @@ export default {
 .three-box {
   margin: 0 40px 0 25px;
 }
+.clearfix {
+  height: 90px;
+}
 </style>

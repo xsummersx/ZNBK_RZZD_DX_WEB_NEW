@@ -138,6 +138,9 @@ export default {
             },
           ],
         },
+        grid: {
+          bottom: 30,
+        },
         tooltip: {
           backgroundColor: "rgba(0,32,92,0)",
           borderColor: "rgba(0,242,255,0)",
@@ -224,7 +227,7 @@ export default {
 <style lang="scss" scoped>
 #compareCharts {
   width: 1270px;
-  height: 335px;
+  height: 370px;
 }
 </style>
 <style>

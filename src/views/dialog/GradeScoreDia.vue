@@ -208,6 +208,7 @@ export default {
   }
 }
 .table {
+  min-height: 400px;
   overflow-x: scroll;
   margin: 10px 0 20px;
   table {
