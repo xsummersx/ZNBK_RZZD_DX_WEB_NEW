@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-12-14 09:39:57
- * @LastEditTime: 2021-12-20 09:02:03
+ * @LastEditTime: 2022-01-18 19:22:40
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\views\dialog\AnalyseDialog.vue
@@ -22,11 +22,14 @@
             <th>序号</th>
             <th>题型名称</th>
             <th>平均得分率</th>
-            <th class="oneTH" v-for="(item, index) in QTypeClassList" :key="index">
+            <th
+              class="oneTH"
+              :style="{ width: QTypeClassList.length == 1 ? '599px' : QTypeClassList.length == 2 ? '300px' : '250px' }"
+              v-for="(item, index) in QTypeClassList"
+              :key="index"
+            >
               <div class="oneTH1">{{ item.CourseClassName }}</div>
-              <div class="oneTH2">
-                <span class="oneSpan1">得分率</span><span class="oneSpan2">排名</span>
-              </div>
+              <div class="oneTH2"><span class="oneSpan1">得分率</span><span class="oneSpan2">排名</span></div>
             </th>
           </tr>
         </thead>
@@ -35,14 +38,8 @@
             <td>{{ item.Index }}</td>
             <td>{{ item.QTypeName }}</td>
             <td>{{ (item.PaperScoreRate * 100).toFixed() + "%" }}</td>
-            <td
-              class="borderTD"
-              v-for="(item2, index2) in item.QTypeClassList"
-              :key="index2"
-            >
-              <span class="oneSpan1">{{
-                (item2.PaperScoreRate * 100).toFixed() + "%"
-              }}</span>
+            <td class="borderTD" v-for="(item2, index2) in item.QTypeClassList" :key="index2">
+              <span class="oneSpan1">{{ (item2.PaperScoreRate * 100).toFixed() + "%" }}</span>
               <span class="oneSpan2">{{ item2.GradeRank }}</span>
             </td>
           </tr>
@@ -147,8 +144,7 @@ export default {
     height: 28px;
     line-height: 28px;
     margin-bottom: 10px;
-    background: url("../../assets/img/viewImg/导出试卷题型得分分析.png") -0px -28px
-      no-repeat;
+    background: url("../../assets/img/viewImg/导出试卷题型得分分析.png") -0px -28px no-repeat;
     border-radius: 4px;
     font-size: 14px;
     color: #ffffff;
@@ -163,12 +159,10 @@ export default {
       top: 2px;
     }
     &:active {
-      background: url("../../assets/img/viewImg/导出试卷题型得分分析.png") -0px -0px
-        no-repeat;
+      background: url("../../assets/img/viewImg/导出试卷题型得分分析.png") -0px -0px no-repeat;
     }
     &:hover {
-      background: url("../../assets/img/viewImg/导出试卷题型得分分析.png") -0px -56px
-        no-repeat;
+      background: url("../../assets/img/viewImg/导出试卷题型得分分析.png") -0px -56px no-repeat;
     }
   }
 }
