@@ -49,7 +49,7 @@
             <div class="ZsdAreaBox">
               该报告依据大数据分析的<span @click="switchArea()"
                 >{{ UserInfo.StageNo == "B" ? "中" : "高" }}考测试谱</span
-              >，通过数字化评估学生历次学习轨迹分析得来。
+              >，通过数字化评估学生历次学习轨迹分析得来：
             </div>
           </div>
           <div class="float-l centerHead">{{ centerName }}</div>

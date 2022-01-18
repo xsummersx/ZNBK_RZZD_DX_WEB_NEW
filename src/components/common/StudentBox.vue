@@ -30,7 +30,7 @@
           <span
             class="stu-paperNum"
             :class="arrIndex == 3 ? (item.Num >= 0 ? 'greenNum' : 'redNum') : ''"
-            >{{ item.Num }}<span v-if="arrIndex == 1">份</span
+            >{{ item.Num.toFixed() }}<span v-if="arrIndex == 1">份</span
             ><span v-else-if="arrIndex == 2">分</span><span v-else>名</span></span
           >
         </span>
