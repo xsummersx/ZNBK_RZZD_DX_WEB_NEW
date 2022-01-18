@@ -431,7 +431,7 @@ export default {
 					this.graList = res.Data.GrammerZsdList;
 					this.SchoolName = res.Data.SchoolName;
 					this.CourseClassName = res.Data.CourseClassName;
-					this.recommendCount = res.Data.GrammerZsdCount;
+					this.recommendCount = res.Data.PageCount;
 					this.focusList = res.Data.StuFocusInfoList;
 				});
 			} else if (this.userType == "grade") {
@@ -441,7 +441,7 @@ export default {
 					this.graList = res.Data.GrammerZsdList;
 					this.SchoolName = res.Data.SchoolName;
 					this.GradeName = res.Data.GradeName;
-					this.recommendCount = res.Data.GrammerZsdCount;
+					this.recommendCount = res.Data.PageCount;
 					this.focusList = res.Data.ClassFocusInfoList;
 				});
 			} else if (this.userType == "stu") {
@@ -450,7 +450,7 @@ export default {
 				api.GetStuWeakGrammerDiagnosis(params).then((res) => {
 					this.graList = res.Data.GrammerZsdList;
 					this.StuName = res.Data.StuName;
-					this.recommendCount = res.Data.GrammerZsdCount;
+					this.recommendCount = res.Data.PageCount;
 				});
 			}
 		},
