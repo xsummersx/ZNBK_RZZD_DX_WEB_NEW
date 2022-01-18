@@ -65,6 +65,79 @@ export default {
       var compareCharts = echarts.init(document.getElementById("compareCharts"));
       compareCharts.setOption(this.$optionObj.compareOption);
       compareCharts.setOption({
+        legend: {
+          itemWidth: 11,
+          itemHeight: 11,
+          align: "left",
+          orient: "horizontal",
+          itemGap: 20,
+          textStyle: {
+            color: "#a2afcc",
+            fontSize: 12,
+          },
+          data: [
+            {
+              name: "作答试卷份数",
+              itemStyle: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  {
+                    offset: 0,
+                    color: "#00f0ff",
+                  },
+                  {
+                    offset: 1,
+                    color: "#0036ff",
+                  },
+                ]),
+              },
+            },
+            {
+              name: "平均得分率",
+              itemStyle: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  {
+                    offset: 0,
+                    color: "#37eed6",
+                  },
+                  {
+                    offset: 1,
+                    color: "#009880",
+                  },
+                ]),
+              },
+            },
+            {
+              name: "认知分",
+              itemStyle: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  {
+                    offset: 0,
+                    color: "#ffbb39",
+                  },
+                  {
+                    offset: 1,
+                    color: "#cf5c00",
+                  },
+                ]),
+              },
+            },
+            {
+              name: "预估成绩",
+              itemStyle: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  {
+                    offset: 0,
+                    color: "#61e400",
+                  },
+                  {
+                    offset: 1,
+                    color: "#389500",
+                  },
+                ]),
+              },
+            },
+          ],
+        },
         tooltip: {
           backgroundColor: "rgba(0,32,92,0)",
           borderColor: "rgba(0,242,255,0)",
@@ -118,7 +191,7 @@ export default {
         },
         series: [
           {
-            name: "作答试卷分数",
+            name: "作答试卷份数",
             cursor: "default",
             data: paper,
           },
