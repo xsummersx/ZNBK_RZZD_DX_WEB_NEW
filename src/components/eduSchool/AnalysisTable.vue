@@ -1,131 +1,135 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:29:29
- * @LastEditTime: 2021-12-31 10:12:48
+ * @LastEditTime: 2022-01-18 14:11:49
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 学校校长=》认知情况详情，图1
 -->
 <template>
   <div class="anaBox">
-    <div class="title"><span class="titText">班级认知情况对比分析</span></div>
-    <div id="tableCharts" v-if="true"></div>
-    <EduNoData v-if="false" noDataType="4" style="margin-top: 170px; margin-bottom: 170px"></EduNoData>
-    <div class="title">
-      <span class="titText">认知情况详情</span>
-      <template>
-        <div class="exportScore float-r" @click="exoprtExcel" style="margin-right: 0px">
-          <span class="exportIcon"></span>
-          导出成绩单
-        </div>
-        <div class="btnline"></div>
-        <div class="inputBox">
-          <input class="float-r stuInput" type="text" placeholder="请输入班级名称搜索..." v-model="ClassSearchText" v-on:keyup.enter="searchStu()" />
-          <span class="searchIcon" style="right: 146px" @click="searchStu()"></span>
-        </div>
-        <!-- <div class="inputBox">
+    <div v-show="!loading">
+      <div class="title"><span class="titText">班级认知情况对比分析</span></div>
+      <div id="tableCharts" v-if="true"></div>
+      <EduNoData v-if="false" noDataType="4" style="margin-top: 170px; margin-bottom: 170px"></EduNoData>
+      <div class="title">
+        <span class="titText">认知情况详情</span>
+        <template>
+          <div class="exportScore float-r" @click="exoprtExcel" style="margin-right: 0px">
+            <span class="exportIcon"></span>
+            导出成绩单
+          </div>
+          <div class="btnline"></div>
+          <div class="inputBox">
+            <input class="float-r stuInput" type="text" placeholder="请输入班级名称搜索..." v-model="ClassSearchText" v-on:keyup.enter="searchStu()" />
+            <span class="searchIcon" style="right: 146px" @click="searchStu()"></span>
+          </div>
+          <!-- <div class="inputBox">
           <input class="float-r stuInput" type="text" placeholder="请输入学生姓名搜索..." v-model="ClassSearchText1" v-on:keyup.enter="searchStu()" />
           <span class="searchIcon" style="right: 146px" @click="searchStu()"></span>
         </div> -->
-      </template>
-    </div>
-    <div class="cont" v-if="true">
-      <el-table :empty-text="emptyText" :data="showList" height="280" style="width: 100%; height: 305px" class="bueatyScroll">
-        <el-table-column prop="Index" label="序号" width="53">
-          <template slot-scope="scope">
-            <span class="gray">
-              {{ scope.row.Index }}
-            </span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="CourseClassName" label="班级" width="115">
-          <template slot-scope="scope">
-            <span class="gray">
-              {{ scope.row.CourseClassName }}
-            </span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="PaperNum" label="累计作答试卷" sortable width="115">
-          <template slot-scope="scope">
-            <span class="gray">
-              {{ scope.row.PaperNum }}
-            </span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="ScoreRate" label="平均得分率" sortable width="100">
-          <template slot-scope="scope">
-            <span class="gray"> {{ scope.row.ScoreRate | toPercent(0) }}% </span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="CognitiveScore" label="认知平均分" sortable width="100">
-          <template slot-scope="scope">
-            <span class="gray">
-              {{ scope.row.CognitiveScore }}
-            </span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="EstimateScore" label="预估平均分" sortable width="100">
-          <template slot-scope="scope">
-            <span class="gray">
-              {{ scope.row.EstimateScore }}
-            </span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="FirstRate" label="A+" width="53">
-          <template slot-scope="scope">
-            <span class="gray"> {{ scope.row.FirstRate | toPercent(0) }}% </span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="SecondRate" label="B+" width="53">
-          <template slot-scope="scope">
-            <span class="gray"> {{ scope.row.SecondRate | toPercent(0) }}% </span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="ThirdRate" label="C+" width="53">
-          <template slot-scope="scope">
-            <span class="gray"> {{ scope.row.ThirdRate | toPercent(0) }}% </span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="FourthRate" label="D+" width="53">
-          <template slot-scope="scope">
-            <span class="gray"> {{ scope.row.FourthRate | toPercent(0) }}% </span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="FifthRate" label="E+" width="53">
-          <template slot-scope="scope">
-            <span class="gray"> {{ scope.row.FifthRate | toPercent(0) }}% </span>
-          </template>
-        </el-table-column>
-        <el-table-column label="查看详情" width="70">
-          <template slot-scope="scope">
-            <span class="checkDetail" @click="openClass(scope.row.CourseClassID)"></span>
-          </template>
-        </el-table-column>
-        <template slot="empty" v-if="emptyText == '加载中...'">
-          <div class="table-loading-block">加载中...</div>
         </template>
-        <template slot="empty" v-else>
-          <div class="table-empty-block">暂无认知情况数据噢~</div>
-        </template>
-      </el-table>
-      <div class="paginationBox">
-        <!--v-if="StuCount > 5"-->
-        <el-pagination
-          class="pagination"
-          @current-change="handleCurrentChange"
-          :current-page="currentPage"
-          :page-size="PageSize"
-          layout=" prev, pager, next,total,  jumper"
-          :total="StuCount"
-        >
-        </el-pagination>
+      </div>
+      <div class="cont" v-if="true">
+        <el-table :empty-text="emptyText" :data="showList" height="280" style="width: 100%; height: 305px" class="bueatyScroll">
+          <el-table-column prop="Index" label="序号" width="53">
+            <template slot-scope="scope">
+              <span class="gray">
+                {{ scope.row.Index }}
+              </span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="CourseClassName" label="班级" width="115">
+            <template slot-scope="scope">
+              <span class="gray">
+                {{ scope.row.CourseClassName }}
+              </span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="PaperNum" label="累计作答试卷" sortable width="115">
+            <template slot-scope="scope">
+              <span class="gray">
+                {{ scope.row.PaperNum }}
+              </span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="ScoreRate" label="平均得分率" sortable width="100">
+            <template slot-scope="scope">
+              <span class="gray"> {{ scope.row.ScoreRate | toPercent(0) }}% </span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="CognitiveScore" label="认知平均分" sortable width="100">
+            <template slot-scope="scope">
+              <span class="gray">
+                {{ scope.row.CognitiveScore }}
+              </span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="EstimateScore" label="预估平均分" sortable width="100">
+            <template slot-scope="scope">
+              <span class="gray">
+                {{ scope.row.EstimateScore }}
+              </span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="FirstRate" label="A+" width="53">
+            <template slot-scope="scope">
+              <span class="gray"> {{ scope.row.FirstRate | toPercent(0) }}% </span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="SecondRate" label="B+" width="53">
+            <template slot-scope="scope">
+              <span class="gray"> {{ scope.row.SecondRate | toPercent(0) }}% </span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="ThirdRate" label="C+" width="53">
+            <template slot-scope="scope">
+              <span class="gray"> {{ scope.row.ThirdRate | toPercent(0) }}% </span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="FourthRate" label="D+" width="53">
+            <template slot-scope="scope">
+              <span class="gray"> {{ scope.row.FourthRate | toPercent(0) }}% </span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="FifthRate" label="E+" width="53">
+            <template slot-scope="scope">
+              <span class="gray"> {{ scope.row.FifthRate | toPercent(0) }}% </span>
+            </template>
+          </el-table-column>
+          <el-table-column label="查看详情" width="70">
+            <template slot-scope="scope">
+              <span class="checkDetail" @click="openClass(scope.row.CourseClassID)"></span>
+            </template>
+          </el-table-column>
+          <template slot="empty" v-if="emptyText == '加载中...'">
+            <div class="table-loading-block">加载中...</div>
+          </template>
+          <template slot="empty" v-else>
+            <div class="table-empty-block">暂无认知情况数据噢~</div>
+          </template>
+        </el-table>
+        <div class="paginationBox">
+          <!--v-if="StuCount > 5"-->
+          <el-pagination
+            class="pagination"
+            @current-change="handleCurrentChange"
+            :current-page="currentPage"
+            :page-size="PageSize"
+            layout=" prev, pager, next,total,  jumper"
+            :total="StuCount"
+          >
+          </el-pagination>
+        </div>
       </div>
     </div>
+    <Loading v-show="loading" style="margin-top: 340px"></Loading>
   </div>
 </template>
 <script>
 import { GetAnaChart, GetAnaTable, ExportExcel } from "@/api/eduSchool/right.js";
 import EduNoData from "./eduNoData";
+import Loading from "../common/Loading";
 export default {
   name: "AnalysisTable",
   data() {
@@ -139,10 +143,12 @@ export default {
       // 默认每页显示的条数（可修改）
       PageSize: 5,
       ClassSearchText: "", //班级名称
+      loading: true, //是否加载中
     };
   },
   components: {
     EduNoData,
+    Loading,
   },
   mounted() {
     console.log(this.$store.state);
@@ -160,6 +166,7 @@ export default {
       if (res.Code == 1) {
         this.drawBar(res.Data);
       }
+      this.loading = false;
     });
     //加载表格
     this.getTable(1, 5, "");

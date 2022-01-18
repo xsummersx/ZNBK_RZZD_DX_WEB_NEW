@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:28:29
- * @LastEditTime: 2022-01-17 16:02:04
+ * @LastEditTime: 2022-01-18 14:08:19
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》学校&班级认知情况对比分析，图0，图1
@@ -10,20 +10,22 @@
   <div class="analysis">
     <div class="title">学校认知情况对比</div>
     <template v-if="showData">
-      <div class="button">
+      <div class="button" v-show="!loading">
         <span :class="{ active: activeSpan == 0 }" @click="checkButton(0)">作答试卷份数</span>
         <span :class="{ active: activeSpan == 1 }" @click="checkButton(1)">平均得分率</span>
         <span :class="{ active: activeSpan == 2 }" @click="checkButton(2)">认知分</span>
         <span :class="{ active: activeSpan == 3 }" @click="checkButton(3)">预估成绩</span>
       </div>
-      <div id="optID"></div>
+      <div id="optID" v-show="!loading"></div>
     </template>
     <EduNoData v-if="!showData" noDataType="0" style="margin-top: 70px"></EduNoData>
+    <Loading v-if="loading" style="margin-top: 30px"></Loading>
   </div>
 </template>
 <script>
 import { GetAreaSchoolTrastAnalysis } from "@/api/eduSchool/right.js";
 import EduNoData from "./eduNoData";
+import Loading from "../common/Loading";
 export default {
   name: "Analysis",
   data() {
@@ -31,10 +33,12 @@ export default {
       activeSpan: 0, //选中的按钮
       List: [],
       showData: true, //是否有数据
+      loading: true,
     };
   },
   components: {
     EduNoData,
+    Loading,
   },
   mounted() {
     let params = {
@@ -47,6 +51,7 @@ export default {
       ZsdArea: this.$store.state.ZsdArea,
     };
     GetAreaSchoolTrastAnalysis(params).then((res) => {
+      this.loading = false;
       if (res.Code == 1) {
         this.List = res.Data;
         this.AnaData();
@@ -251,6 +256,7 @@ export default {
   height: 298px;
   background: url(~@/assets/img/eduSchool/学校认知情况对比BG.png) center center no-repeat;
   margin: 0 10px;
+  overflow: hidden;
 }
 #optID {
   width: 920px;

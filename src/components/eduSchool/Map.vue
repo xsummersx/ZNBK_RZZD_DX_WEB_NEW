@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:27:26
- * @LastEditTime: 2022-01-05 11:22:05
+ * @LastEditTime: 2022-01-18 14:01:28
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》地图，图0
@@ -16,11 +16,13 @@
       <div class="legend" v-show="IsHaveMap" :style="{ opacity: IsHaveSchool == false ? 0.2 : 1 }"></div>
       <!-- <div class="btnText"><span class="text">学校认知情况</span><i class="btnIcon"></i></div> -->
     </div>
+    <Loading v-show="!showData" style="margin-top: 200px"></Loading>
   </div>
 </template>
 <script>
 import { getMapJson } from "@/api/eduSchool/right.js";
 import { get_A, get_B, get_C, get_D, get_E, get_F, mapBG0, activeBG } from "@/api/eduSchool/imgPo.js";
+import Loading from "../common/Loading";
 export default {
   name: "Map",
   data() {
@@ -33,6 +35,9 @@ export default {
   },
   mounted() {
     this.drawMap();
+  },
+  components: {
+    Loading,
   },
   methods: {
     //跳转学校点击事件
@@ -476,6 +481,7 @@ export default {
   height: 636px;
   margin: 0 10px;
   position: relative;
+  overflow: hidden;
 }
 #mapID {
   width: 940px;
