@@ -23,7 +23,7 @@
 					><span class="titlePoint"></span>不常考{{ typeName }}</span
 				>
 			</div>
-			<div class="ddtotal">
+			<div class="ddtotal" v-if="!loading">
 				<span class="text1">
 					<span class="point"></span>共有<span
 						class="totalNumber"
@@ -46,7 +46,7 @@
 					@click="searchKnowledgeDD"
 				></span>
 			</div>
-			<div class="ddBottomContent" v-if="typeName === '词汇'">
+			<div class="ddBottomContent" v-if="typeName === '词汇' && !loading">
 				<div class="ddCon">
 					<div
 						class="ddVocaItem"
@@ -79,14 +79,14 @@
 						</div>
 					</div>
 				</div>
-				<div class="nodataShow" v-if="vocaZsdList.length === 0">
+				<div class="nodataShow" v-show="isNDPicShow">
 					<img class="noDataImg1" src="~@/assets/img/diagnosis/noVoca.png" />
 					<span>暂无薄弱{{ currentChoose }}词汇噢~</span>
 				</div>
 			</div>
 			<div
 				class="ddBottomContent"
-				v-if="typeName === '语法'"
+				v-if="typeName === '语法' && !loading"
 				style="min-height: 480px"
 			>
 				<div class="ddCon">
@@ -124,12 +124,12 @@
 						</div>
 					</div>
 				</div>
-				<div class="nodataShow" v-if="graZsdList.length === 0">
+				<div class="nodataShow" v-show="isNDPicShow">
 					<img class="noDataImg1" src="~@/assets/img/diagnosis/noGra.png" />
 					<span>暂无薄弱{{ currentChoose }}语法噢~</span>
 				</div>
 			</div>
-			<div class="ddPagination" v-if="isShowpPagination">
+			<div class="ddPagination" v-if="isShowpPagination && !loading">
 				<el-pagination
 					class="pagination"
 					@current-change="handleCurrentChange"
@@ -139,6 +139,7 @@
 				>
 				</el-pagination>
 			</div>
+			<Loading v-show="loading" style="margin-top: 150px" />
 		</div>
 	</div>
 </template>
@@ -182,7 +183,12 @@ export default {
 			PageSize: 9,
 			// 搜索状态
 			isSearching: false,
+			isNDPicShow: false,
+			loading: true,
 		};
+	},
+	components: {
+		Loading: () => import("@/components/common/Loading.vue"),
 	},
 	computed: {
 		isShowpPagination: function () {
@@ -226,12 +232,14 @@ export default {
 	methods: {
 		init(searchText) {
 			if (this.typeName == "词汇") {
+				this.isNDPicShow = false;
 				this.getVocaDetail(
 					this.currentPage,
 					this.currentChooseLetter,
 					searchText
 				);
 			} else if (this.typeName == "语法") {
+				this.isNDPicShow = false;
 				this.getGraDetail(this.currentPage, this.currentChooseNum, searchText);
 			}
 		},
@@ -250,42 +258,84 @@ export default {
 			if (this.userType == "teacher") {
 				// 老师词汇
 				params["CourseClassID"] = this.$route.query.courseClassID;
-				api.GetClassVocabDetailInfo(params).then((res) => {
-					this.vocaZsdList = res.Data.VocaList;
-					this.zsdCount = res.Data.VocaCount;
-					this.searchCount = res.Data.SearchVocaCount;
-					if (this.isSearching) {
-						this.pageCount = Math.ceil(res.Data.SearchVocaCount / 15);
-					} else {
-						this.pageCount = Math.ceil(res.Data.VocaCount / 15);
-					}
-				});
+				api
+					.GetClassVocabDetailInfo(params)
+					.then((res) => {
+						this.vocaZsdList = res.Data.VocaList;
+						this.zsdCount = res.Data.VocaCount;
+						this.searchCount = res.Data.SearchVocaCount;
+						if (this.isSearching) {
+							this.pageCount = Math.ceil(res.Data.SearchVocaCount / 15);
+						} else {
+							this.pageCount = Math.ceil(res.Data.VocaCount / 15);
+						}
+						if (res.Data.VocaList.length > 0) {
+							this.isNDPicShow = false;
+						} else {
+							this.isNDPicShow = true;
+						}
+						setTimeout(() => {
+							this.loading = false;
+						}, 150);
+					})
+					.catch(() => {
+						this.isNDPicShow = true;
+						this.loading = false;
+					});
 			} else if (this.userType == "grade") {
 				// 年级组长词汇
 				params["GlobalGrade"] = this.$route.query.globalGrade;
-				api.GetGradeVocabDetailInfo(params).then((res) => {
-					this.vocaZsdList = res.Data.VocaList;
-					this.zsdCount = res.Data.VocaCount;
-					this.searchCount = res.Data.SearchVocaCount;
-					if (this.isSearching) {
-						this.pageCount = Math.ceil(res.Data.SearchVocaCount / 15);
-					} else {
-						this.pageCount = Math.ceil(res.Data.VocaCount / 15);
-					}
-				});
+				api
+					.GetGradeVocabDetailInfo(params)
+					.then((res) => {
+						this.vocaZsdList = res.Data.VocaList;
+						this.zsdCount = res.Data.VocaCount;
+						this.searchCount = res.Data.SearchVocaCount;
+						if (this.isSearching) {
+							this.pageCount = Math.ceil(res.Data.SearchVocaCount / 15);
+						} else {
+							this.pageCount = Math.ceil(res.Data.VocaCount / 15);
+						}
+						if (res.Data.VocaList.length > 0) {
+							this.isNDPicShow = false;
+						} else {
+							this.isNDPicShow = true;
+						}
+						setTimeout(() => {
+							this.loading = false;
+						}, 150);
+					})
+					.catch(() => {
+						this.isNDPicShow = true;
+						this.loading = false;
+					});
 			} else if (this.userType == "stu") {
 				// 个人词汇
 				params["StuID"] = this.$route.query.StuID;
-				api.GetStuDetailVocabulary(params).then((res) => {
-					this.vocaZsdList = res.Data.VocaList;
-					this.zsdCount = res.Data.VocaCount;
-					this.searchCount = res.Data.SearchVocaCount;
-					if (this.isSearching) {
-						this.pageCount = Math.ceil(res.Data.SearchVocaCount / 15);
-					} else {
-						this.pageCount = Math.ceil(res.Data.VocaCount / 15);
-					}
-				});
+				api
+					.GetStuDetailVocabulary(params)
+					.then((res) => {
+						this.vocaZsdList = res.Data.VocaList;
+						this.zsdCount = res.Data.VocaCount;
+						this.searchCount = res.Data.SearchVocaCount;
+						if (this.isSearching) {
+							this.pageCount = Math.ceil(res.Data.SearchVocaCount / 15);
+						} else {
+							this.pageCount = Math.ceil(res.Data.VocaCount / 15);
+						}
+						if (res.Data.VocaList.length > 0) {
+							this.isNDPicShow = false;
+						} else {
+							this.isNDPicShow = true;
+						}
+						setTimeout(() => {
+							this.loading = false;
+						}, 150);
+					})
+					.catch(() => {
+						this.isNDPicShow = true;
+						this.loading = false;
+					});
 			}
 		},
 		// 获取语法知识点
@@ -303,46 +353,89 @@ export default {
 			if (this.userType == "teacher") {
 				// 老师语法
 				params["CourseClassID"] = this.$route.query.courseClassID;
-				api.GetGrammerZsdMapApplication(params).then((res) => {
-					this.graZsdList = res.Data.ZsdList;
-					this.zsdCount = res.Data.ZsdCount;
-					this.searchCount = res.Data.PageZsdCount;
-					if (this.isSearching) {
-						this.pageCount = Math.ceil(res.Data.PageZsdCount / 12);
-					} else {
-						this.pageCount = res.Data.TotalPageNum;
-					}
-				});
+				api
+					.GetGrammerZsdMapApplication(params)
+					.then((res) => {
+						this.graZsdList = res.Data.ZsdList;
+						this.zsdCount = res.Data.ZsdCount;
+						this.searchCount = res.Data.PageZsdCount;
+						if (this.isSearching) {
+							this.pageCount = Math.ceil(res.Data.PageZsdCount / 12);
+						} else {
+							this.pageCount = res.Data.TotalPageNum;
+						}
+						if (res.Data.ZsdList.length > 0) {
+							this.isNDPicShow = false;
+						} else {
+							this.isNDPicShow = true;
+						}
+						setTimeout(() => {
+							this.loading = false;
+						}, 150);
+					})
+					.catch(() => {
+						this.isNDPicShow = true;
+						this.loading = false;
+					});
 			} else if (this.userType == "grade") {
 				// 年级组长语法
 				params["GlobalGrade"] = this.$route.query.globalGrade;
-				api.GetGradeGrammerZsdMapApplication(params).then((res) => {
-					this.graZsdList = res.Data.ZsdList;
-					this.zsdCount = res.Data.ZsdCount;
-					this.searchCount = res.Data.PageZsdCount;
-					if (this.isSearching) {
-						this.pageCount = Math.ceil(res.Data.PageZsdCount / 12);
-					} else {
-						this.pageCount = res.Data.TotalPageNum;
-					}
-				});
+				api
+					.GetGradeGrammerZsdMapApplication(params)
+					.then((res) => {
+						this.graZsdList = res.Data.ZsdList;
+						this.zsdCount = res.Data.ZsdCount;
+						this.searchCount = res.Data.PageZsdCount;
+						if (this.isSearching) {
+							this.pageCount = Math.ceil(res.Data.PageZsdCount / 12);
+						} else {
+							this.pageCount = res.Data.TotalPageNum;
+						}
+						if (res.Data.ZsdList.length > 0) {
+							this.isNDPicShow = false;
+						} else {
+							this.isNDPicShow = true;
+						}
+						setTimeout(() => {
+							this.loading = false;
+						}, 150);
+					})
+					.catch(() => {
+						this.isNDPicShow = true;
+						this.loading = false;
+					});
 			} else if (this.userType == "stu") {
 				// 个人语法
 				params["StuID"] = this.$route.query.StuID;
-				api.GetStuGrammerZsdMapApplication(params).then((res) => {
-					this.graZsdList = res.Data.ZsdList;
-					this.zsdCount = res.Data.ZsdCount;
-					this.searchCount = res.Data.PageZsdCount;
-					if (this.isSearching) {
-						this.pageCount = Math.ceil(res.Data.PageZsdCount / 12);
-					} else {
-						this.pageCount = res.Data.TotalPageNum;
-					}
-				});
+				api
+					.GetStuGrammerZsdMapApplication(params)
+					.then((res) => {
+						this.graZsdList = res.Data.ZsdList;
+						this.zsdCount = res.Data.ZsdCount;
+						this.searchCount = res.Data.PageZsdCount;
+						if (this.isSearching) {
+							this.pageCount = Math.ceil(res.Data.PageZsdCount / 12);
+						} else {
+							this.pageCount = res.Data.TotalPageNum;
+						}
+						if (res.Data.ZsdList.length > 0) {
+							this.isNDPicShow = false;
+						} else {
+							this.isNDPicShow = true;
+						}
+						setTimeout(() => {
+							this.loading = false;
+						}, 150);
+					})
+					.catch(() => {
+						this.isNDPicShow = true;
+						this.loading = false;
+					});
 			}
 		},
 		// 改变当前tab的选择
 		changeCurrChoose(val) {
+			this.loading = true;
 			this.searchText = "";
 			this.currentPage = 1;
 			this.currentChoose = val;

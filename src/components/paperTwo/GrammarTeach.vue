@@ -258,7 +258,7 @@ export default {
 						value: item.StuCountProportion * 100,
 						count: item.StuCount,
 						itemStyle: {
-							color: "rgba(12,206,7,0.9)",
+							color: "rgba(12,206,7,1)",
 						},
 					});
 				} else if (+item.MasteredConclusion === 3) {

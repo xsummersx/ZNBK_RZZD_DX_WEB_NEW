@@ -2,7 +2,7 @@
 <template>
 	<div class="left-Content-Box">
 		<span class="title">累计作答试卷</span>
-		<div class="main">
+		<div class="main" v-show="!loading">
 			<div class="left">
 				<span
 					><span class="number">{{ info.PersonTotalPaperCount }}</span
@@ -13,7 +13,7 @@
 			<CompareLastWeek :ChangeScore="info.PaperCountChange" />
 		</div>
 		<CompareAndRank
-			v-if="isShow"
+			v-show="!loading"
 			:isScore="false"
 			:classCompare="info.TrastClassAvgPaper"
 			:gradeCompare="info.TrastGradeAvgPaper"
@@ -37,7 +37,8 @@ export default {
 				ClassRank: 0,
 				GradeRank: 0,
 			},
-			isShow: true,
+			// isShow: true,
+			loading: true,
 		};
 	},
 	created() {
@@ -64,7 +65,10 @@ export default {
 					if (res.Data != null) {
 						this.info = res.Data;
 					}
-					this.isShow = true;
+					// this.isShow = true;
+					setTimeout(() => {
+						this.loading = false;
+					}, 200);
 				})
 				.catch();
 		},
