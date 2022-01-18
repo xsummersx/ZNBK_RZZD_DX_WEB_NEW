@@ -8,32 +8,32 @@
 		>
 		<div class="content" v-if="$route.name === 'teacherRZZD'">
 			<div :title="theFirstStu" class="top2Item">
-				<span>· {{ theFirstStu }}</span
+				<span>&emsp;· {{ theFirstStu }}&emsp;</span
 				><span class="top2ItemColor"
-					>{{ theFirstPre }}<span v-if="isScore">分</span
+					>{{ theFirstPre.toFixed(0) }}<span v-if="isScore">分</span
 					><span v-else>份</span></span
 				>
 			</div>
 			<div :title="theSecondStu" class="top2Item">
-				<span>· {{ theSecondStu }}</span
+				<span>&emsp;· {{ theSecondStu }}&emsp;</span
 				><span class="top2ItemColor"
-					>{{ theSecondPre }}<span v-if="isScore">分</span
+					>{{ theSecondPre.toFixed(0) }}<span v-if="isScore">分</span
 					><span v-else>份</span></span
 				>
 			</div>
 		</div>
 		<div class="content" v-else>
 			<div :title="theFirstClass" class="top2Item">
-				<span>· {{ theFirstClass }}</span
+				<span>&emsp;· {{ theFirstClass }}&emsp;</span
 				><span class="top2ItemColor"
-					>{{ theFirstAvg }}<span v-if="isScore">分</span
+					>{{ theFirstAvg.toFixed(0) }}<span v-if="isScore">分</span
 					><span v-else>份</span></span
 				>
 			</div>
 			<div :title="theSecondClass" class="top2Item">
-				<span>· {{ theSecondClass }}</span
+				<span>&emsp;· {{ theSecondClass }}&emsp;</span
 				><span class="top2ItemColor"
-					>{{ theSecondAvg }}<span v-if="isScore">分</span
+					>{{ theSecondAvg.toFixed(0) }}<span v-if="isScore">分</span
 					><span v-else>份</span></span
 				>
 			</div>
@@ -116,11 +116,17 @@ export default {
 			flex: 1;
 			display: flex;
 			display: -webkit-flex;
-			justify-content: space-around;
+			// justify-content: space-around;
+			span {
+				max-width: 70%;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
 		}
 		.top2ItemColor {
 			// color: #ddd;
-			opacity: 0.8;
+			opacity: 1;
 		}
 	}
 }

@@ -510,7 +510,7 @@ export default {
 			// let that = this;
 			// 监听点击事件，实现弹窗
 			myChart.on("click", (params) => {
-				console.log(params);
+				// console.log(params);
 				this.openDialog(params.seriesName);
 			});
 		},

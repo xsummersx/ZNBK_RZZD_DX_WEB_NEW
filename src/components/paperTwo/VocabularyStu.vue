@@ -7,7 +7,7 @@
 				><i></i>薄弱词汇诊断</span
 			>
 		</div>
-		<div class="main" v-if="isShow">
+		<div class="main" v-if="isShow && !loading">
 			<div class="mainTop">
 				<div class="masteredCount">
 					<span class="title">平均掌握量</span>
@@ -32,7 +32,8 @@
 				:ThirdScoreRate="ThirdScoreRate"
 			/>
 		</div>
-		<NoDataVGL v-if="!isShow" type="voca" />
+		<NoDataVGL v-if="!isShow && !loading" type="voca" />
+		<Loading v-show="loading" style="margin-top: 20px" />
 	</div>
 </template>
 
@@ -52,11 +53,13 @@ export default {
 			// 不常考
 			ThirdScoreRate: 0.0,
 			isShow: false,
+			loading: true,
 		};
 	},
 	components: {
 		Progress: () => import("../common/Progress.vue"),
 		NoDataVGL: () => import("../common/NoDataVGL.vue"),
+		Loading: () => import("../common/Loading.vue"),
 	},
 	created() {
 		this.init();
@@ -103,9 +106,15 @@ export default {
 						this.ThirdScoreRate = res.Data.ThirdScoreRate;
 						this.isShow = true;
 					}
+					setTimeout(() => {
+						this.loading = false;
+					}, 400);
 				})
 				.catch(() => {
 					this.isShow = false;
+					setTimeout(() => {
+						this.loading = false;
+					}, 400);
 				});
 		},
 	},

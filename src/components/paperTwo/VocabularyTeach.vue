@@ -225,6 +225,13 @@ export default {
 			});
 			return arr;
 		},
+		// getBeta: function () {
+		// 	if (this.optionData[0].value < 50) {
+		// 		return 0;
+		// 	} else {
+		// 		return 180;
+		// 	}
+		// },
 	},
 	mounted() {
 		// this.drawInit();
@@ -363,7 +370,7 @@ export default {
 					viewControl: {
 						distance: 230,
 						alpha: 20,
-						beta: 40,
+						beta: 150,
 						rotateSensitivity: [1, 0],
 						zoomSensitivity: 0, //设置为0无法缩放
 						panSensitivity: 0, //设置为0无法平移
@@ -454,7 +461,7 @@ export default {
 		bindListen(myChart) {
 			// 监听点击事件，实现弹窗
 			myChart.on("click", (params) => {
-				console.log(params);
+				// console.log(params);
 				this.openDialog(params.seriesName);
 			});
 		},

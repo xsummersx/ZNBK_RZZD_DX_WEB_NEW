@@ -7,7 +7,7 @@
 		<div class="box-title clearfix">
 			<span class="float-l title">语言能力</span>
 		</div>
-		<div class="main" v-if="isShow">
+		<div class="main" v-if="isShow && !loading">
 			<div class="listenAbility" :class="classToName(lanResInfo.TL)">
 				<div class="abilityLV">
 					{{ numToString(lanResInfo.TL) }}
@@ -39,7 +39,8 @@
 				<div class="ability">综合能力</div>
 			</div>
 		</div>
-		<NoDataVGL v-else type="lan" />
+		<NoDataVGL v-if="!isShow && !loading" type="lan" />
+		<Loading v-show="loading" style="margin-top: 20px" />
 	</div>
 </template>
 
@@ -56,6 +57,7 @@ export default {
 				TL: 0,
 			},
 			isShow: true,
+			loading: true,
 		};
 	},
 
@@ -64,6 +66,7 @@ export default {
 	},
 	components: {
 		NoDataVGL: () => import("../common/NoDataVGL.vue"),
+		Loading: () => import("../common/Loading.vue"),
 	},
 	methods: {
 		init() {
@@ -80,12 +83,21 @@ export default {
 					let { ZH, XZ, KY, YD, TL } = this.lanResInfo;
 					if (ZH == 0 && XZ == 0 && KY == 0 && YD == 0 && TL == 0) {
 						this.isShow = false;
+						setTimeout(() => {
+							this.loading = false;
+						}, 400);
 					} else {
 						this.isShow = true;
+						setTimeout(() => {
+							this.loading = false;
+						}, 400);
 					}
 				})
 				.catch(() => {
 					this.isShow = false;
+					setTimeout(() => {
+						this.loading = false;
+					}, 400);
 				});
 		},
 		// 数字转为字符串

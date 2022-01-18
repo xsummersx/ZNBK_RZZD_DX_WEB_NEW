@@ -81,7 +81,7 @@
 				</div>
 				<div class="nodataShow" v-if="vocaZsdList.length === 0">
 					<img class="noDataImg1" src="~@/assets/img/diagnosis/noVoca.png" />
-					<span>暂无词汇数据噢~</span>
+					<span>暂无薄弱{{ currentChoose }}词汇噢~</span>
 				</div>
 			</div>
 			<div
@@ -126,7 +126,7 @@
 				</div>
 				<div class="nodataShow" v-if="graZsdList.length === 0">
 					<img class="noDataImg1" src="~@/assets/img/diagnosis/noGra.png" />
-					<span>暂无语法数据噢~</span>
+					<span>暂无薄弱{{ currentChoose }}语法噢~</span>
 				</div>
 			</div>
 			<div class="ddPagination" v-if="isShowpPagination">
