@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:30:34
- * @LastEditTime: 2022-01-18 09:49:54
+ * @LastEditTime: 2022-01-18 11:45:18
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》认知成绩分布
@@ -11,26 +11,14 @@
     <div class="title" v-if="!($route.name == 'gradeRZZD' || $route.name == 'teacherRZZD')">认知成绩分布</div>
     <template>
       <div class="button">
-        <span
-          class="animate__animated"
-          @click="checkButton(0)"
-          v-show="$route.name == 'educationRZZD'"
-          :class="{ active: activeSpan == 0, animate__pulse: activeSpan == 0 }"
-          >学校</span
+        <span @click="checkButton(0)" v-show="$route.name == 'educationRZZD'" :class="{ active: activeSpan == 0 }"
+          ><i style="display: block" class="animate__animated" :class="{ animate__rubberBand: activeSpan == 0 }">学校</i></span
         >
-        <span
-          class="animate__animated"
-          @click="checkButton(1)"
-          v-show="$route.name == 'schoolRZZD' || $route.name == 'gradeRZZD'"
-          :class="{ active: activeSpan == 1, animate__pulse: activeSpan == 1 }"
-          >班级</span
+        <span @click="checkButton(1)" v-show="$route.name == 'schoolRZZD' || $route.name == 'gradeRZZD'" :class="{ active: activeSpan == 1 }"
+          ><i style="display: block" class="animate__animated" :class="{ animate__rubberBand: activeSpan == 1 }">班级</i></span
         >
-        <span
-          v-show="$route.name != 'teacherRZZD'"
-          class="animate__animated"
-          @click="checkButton(2)"
-          :class="{ active: activeSpan == 2, animate__pulse: activeSpan == 2 }"
-          >学生</span
+        <span v-show="$route.name != 'teacherRZZD'" @click="checkButton(2)" :class="{ active: activeSpan == 2 }"
+          ><i style="display: block" class="animate__animated" :class="{ animate__rubberBand: activeSpan == 2 }">学生</i></span
         >
       </div>
       <div class="tu" v-show="!loading">
@@ -307,6 +295,9 @@ export default {
     cursor: pointer;
     margin-right: -3px;
     border-radius: 3px;
+    i {
+      font-style: normal;
+    }
   }
   span:hover {
     color: #fff;
