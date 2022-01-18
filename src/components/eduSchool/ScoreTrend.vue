@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:31:08
- * @LastEditTime: 2022-01-17 14:07:05
+ * @LastEditTime: 2022-01-18 10:01:12
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》认知成绩走势图，图0，图1
@@ -41,11 +41,11 @@
     </div>
     <template v-if="chartShow">
       <div class="button">
-        <span @click="checkButton(3)" :class="{ active: activeSpan == 3 }">按月</span>
-        <span @click="checkButton(2)" :class="{ active: activeSpan == 2 }">按周</span>
-        <span @click="checkButton(1)" :class="{ active: activeSpan == 1 }">按天</span>
+        <span class="animate__animated" @click="checkButton(3)" :class="{ active: activeSpan == 3, animate__pulse: activeSpan == 3 }">按月</span>
+        <span class="animate__animated" @click="checkButton(2)" :class="{ active: activeSpan == 2, animate__pulse: activeSpan == 2 }">按周</span>
+        <span class="animate__animated" @click="checkButton(1)" :class="{ active: activeSpan == 1, animate__pulse: activeSpan == 1 }">按天</span>
       </div>
-      <div class="legend">
+      <div class="legend" v-show="!loading">
         <span>
           <i class="icon0"></i>
           <b class="text">已作答试卷份数</b>
@@ -59,14 +59,17 @@
           <b class="text">高考预估成绩</b>
         </span>
       </div>
-      <div class="cont" id="Tre"></div>
+      <div class="cont" id="Tre" v-show="!loading"></div>
     </template>
     <EduNoData v-if="!chartShow" noDataType="2" style="margin-top: 115px"></EduNoData>
+    <Loading v-show="loading" style="margin-top: 40px"></Loading>
   </div>
 </template>
 <script>
 import EduNoData from "./eduNoData";
+import Loading from "../common/Loading";
 import { GetTrend, GetTrendSchool, GetTrendGrade, GetTrendTeacher, GetTrendStudent } from "@/api/eduSchool/right.js";
+import "animate.css"; // npm install animate.css --save安装，再引入
 export default {
   name: "ScoreTrend",
   data() {
@@ -80,6 +83,7 @@ export default {
       BackList: [], //异常班级列表
       ProgList: [], //突出班级列表
       chartShow: true, //是否显示统计图
+      loading: true, //是否加载
     };
   },
   computed: {
@@ -106,6 +110,7 @@ export default {
   },
   components: {
     EduNoData,
+    Loading,
   },
   mounted() {
     //统计图初始化
@@ -115,7 +120,10 @@ export default {
     //切换按钮
     checkButton(n) {
       this.activeSpan = n;
-      this.chartData(n, "other"); //3-按月，2-按周，1-按天==>后台的规则
+      this.loading = true;
+      setTimeout(() => {
+        this.chartData(n, "other"); //3-按月，2-按周，1-按天==>后台的规则
+      }, 300);
     },
     //统计图初始化
     chartData(flag, getType) {
@@ -147,6 +155,7 @@ export default {
               this.chartShow = false;
             }
           }
+          this.loading = false;
         });
       } else if (this.userType == 1) {
         //校长
@@ -162,6 +171,7 @@ export default {
           } else {
             this.chartShow = false;
           }
+          this.loading = false;
         });
       } else if (this.userType == 2) {
         //年级组长
@@ -173,6 +183,7 @@ export default {
           } else {
             this.chartShow = false;
           }
+          this.loading = false;
         });
       } else if (this.userType == 3) {
         //教师
@@ -185,6 +196,7 @@ export default {
           } else {
             this.chartShow = false;
           }
+          this.loading = false;
         });
       } else if (this.userType == 4) {
         //学生个人
@@ -197,6 +209,7 @@ export default {
           } else {
             this.chartShow = false;
           }
+          this.loading = false;
         });
       }
     },
@@ -257,8 +270,8 @@ export default {
                 color: "#ffffff",
               },
               formatter: (val) => {
-                if (val.length > 6) {
-                  return val.slice(0, 6) + "...";
+                if (val.length > 12) {
+                  return val.slice(0, 12) + "...";
                 } else {
                   return val;
                 }
@@ -269,6 +282,7 @@ export default {
             {
               type: "value",
               min: 0,
+              max: Math.max(...optData0) + Math.max(...optData0) * 0.8,
               splitNumber: 5,
               //max: this.optData0.sort((x, y) => y - x)[0],
               splitLine: {
@@ -298,6 +312,7 @@ export default {
             {
               type: "value",
               min: 0,
+              max: Math.max(...optData1) + Math.max(...optData1) * 0.5,
               splitNumber: 5,
               //max: this.optData1.sort((x, y) => y - x)[0],
               splitLine: {
@@ -327,6 +342,7 @@ export default {
             {
               type: "value",
               min: 0,
+              max: Math.max(...optData2) + Math.max(...optData2) * 0.2,
               splitNumber: 5,
               //max: this.optData2.sort((x, y) => y - x)[0],
               splitLine: {
