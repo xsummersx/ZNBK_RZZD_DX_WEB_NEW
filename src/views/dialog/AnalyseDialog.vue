@@ -77,6 +77,7 @@ export default {
       StuCount: 0,
       PageNum: 1,
       PageSize: 8,
+      currentPage: 1,
       SearchText: "",
       showList: [],
       QTypeClassList: [],
@@ -118,8 +119,10 @@ export default {
     handleCurrentChange(val) {
       // 改变默认的页数
       this.currentPage = val;
+      this.PageNum = val;
       this.emptyText = "加载中...";
       // this.showList = [];
+      this.GetGradePaperQTypeReport_V3();
     },
     GetExportGradePaperQTypeReport_V3() {
       let params = {
@@ -173,6 +176,7 @@ export default {
   }
 }
 .table {
+  height: 475px;
   overflow-x: scroll;
   margin: 10px 0 20px;
   table {

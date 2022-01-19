@@ -9,16 +9,23 @@
 <template>
   <div>
     <ArrowTitle titleStr="班级认知情况对比分析"></ArrowTitle>
-    <div id="compareCharts"></div>
+    <div v-show="!showLoading" id="compareCharts"></div>
+    <Loading
+      v-show="showLoading"
+      style="width: 1270px; height: 370px"
+      backSize="80%"
+    ></Loading>
   </div>
 </template>
 
 <script>
 import { GetGradeClassCongnitiveTrastAnalysis_V3 } from "@/api/gradeTeacher/right";
+import Loading from "../common/Loading.vue";
 export default {
   data() {
     return {
       resInfo: {},
+      showLoading: true,
     };
   },
   created() {
@@ -33,6 +40,7 @@ export default {
       ZsdArea: this.$store.state.ZsdArea,
     };
     GetGradeClassCongnitiveTrastAnalysis_V3(params).then((res) => {
+      this.showLoading = false;
       this.resInfo = res.Data;
       this.drawLine();
     });
@@ -40,6 +48,7 @@ export default {
   mounted() {},
   components: {
     ArrowTitle: () => import("../common/ArrowTitle.vue"),
+    Loading,
   },
   methods: {
     drawLine() {
@@ -138,6 +147,17 @@ export default {
             },
           ],
         },
+        dataZoom: [
+          {
+            type: "inside",
+            show: true,
+            height: 15,
+            xAxisIndex: [0],
+            start: 1,
+            end: (4 / xDate.length) * 100,
+            zoomOnMouseWheel: false,
+          },
+        ],
         grid: {
           bottom: 30,
         },
