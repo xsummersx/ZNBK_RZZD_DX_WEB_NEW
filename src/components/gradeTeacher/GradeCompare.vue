@@ -216,17 +216,6 @@ export default {
             fontSize: 14,
           },
         },
-        dataZoom: [
-          {
-            type: "inside",
-            show: true,
-            height: 15,
-            xAxisIndex: [0],
-            start: 1,
-            end: (6 / xDate.length) * 100,
-            zoomOnMouseWheel: false,
-          },
-        ],
         series: [
           {
             name: "作答试卷份数",
