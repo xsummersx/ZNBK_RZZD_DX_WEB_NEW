@@ -7,7 +7,7 @@
  * @FilePath: 教师的重点学生，和认知对比分析
 -->
 <template>
-  <div style="height: 124px">
+  <div style="height: 125px">
     <ArrowTitle titleStr="重点关注学生"></ArrowTitle>
     <div class="clearfix">
       <StudentBox
@@ -68,7 +68,8 @@ export default {
 
   methods: {
     changeToSame(arr, index) {
-      for (let i = 0; i < 3; i++) {
+      let ArrLength = arr.length > 3 ? 3 : arr.length;
+      for (let i = 0; i < ArrLength; i++) {
         var arrObj = {
           Rank: "",
           Name: "",

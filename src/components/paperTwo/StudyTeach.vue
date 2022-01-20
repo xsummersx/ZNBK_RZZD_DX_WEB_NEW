@@ -35,7 +35,7 @@
       </div>
       <div class="right">
         <div class="pieChart" id="pieChart1"></div>
-        <span>知识掌握速度</span>
+        <span>学习时长分布</span>
       </div>
       <div class="right">
         <div class="pieChart" id="pieChart2"></div>
@@ -298,7 +298,7 @@ export default {
             viewControl: {
               distance: 230,
               alpha: 20,
-              beta: 40,
+              beta: 150,
               rotateSensitivity: [1, 0],
               zoomSensitivity: 0, //设置为0无法缩放
               panSensitivity: 0, //设置为0无法平移

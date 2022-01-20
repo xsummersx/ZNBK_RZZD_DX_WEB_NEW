@@ -9,12 +9,26 @@
 <template>
   <div class="DioContent">
     <div class="clearfix">
+      <div
+        @click="chooseType(0)"
+        class="float-l sortBtn"
+        :class="SortType == 0 ? 'activeSortBtn' : ''"
+      >
+        按题型顺序查看
+      </div>
+      <div
+        @click="chooseType(1)"
+        class="float-l sortBtn"
+        :class="SortType == 1 ? 'activeSortBtn' : ''"
+      >
+        按试卷序号查看
+      </div>
       <div @click="GetExportClassPaperQTypeReport_V3()" class="exportBtn float-r">
         <span class="exportIcon"></span>
-        导出班级做题特点对比分析
+        导出试卷题型得分分析
       </div>
     </div>
-    <div class="table" v-if="StuCount != 0">
+    <div class="table">
       <table>
         <thead>
           <tr>
@@ -85,6 +99,7 @@ export default {
       PageNum: 1,
       PageSize: 5,
       SortType: 0,
+      currentPage: 1,
       SearchText: "",
       showList: [],
       QTypeStuMapList: [],
@@ -94,6 +109,12 @@ export default {
     this.GetClassPaperQTypeReport_V3();
   },
   methods: {
+    chooseType(i) {
+      this.SortType = i;
+      this.currentPage = 1;
+      this.PageNum = 1;
+      this.GetClassPaperQTypeReport_V3();
+    },
     // // 获取班级试卷题型对比分析
     GetClassPaperQTypeReport_V3() {
       let params = {
@@ -154,6 +175,28 @@ export default {
 @import "../../assets/css/scroll.scss";
 .DioContent {
   padding: 10px 20px 20px 20px;
+}
+.sortBtn {
+  height: 28px;
+  line-height: 28px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-right: 30px;
+  cursor: pointer;
+}
+.activeSortBtn {
+  color: #fff;
+  position: relative;
+}
+.activeSortBtn::after {
+  display: inline-block;
+  content: "";
+  background-color: #fff;
+  width: 100px;
+  height: 2px;
+  border-radius: 100%;
+  position: absolute;
+  left: 0px;
+  top: 24px;
 }
 .table {
   height: 330px;

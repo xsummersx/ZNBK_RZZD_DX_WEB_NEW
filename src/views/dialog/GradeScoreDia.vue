@@ -8,7 +8,7 @@
 -->
 <template>
   <div class="bottom-box">
-    <div class="clearfix">
+    <div v-show="showList.length > 0 && !noDataShow" class="clearfix">
       <div
         @click="GetExportGradePaperQtypeClassCompareList_V3()"
         class="exportBtn float-r"
@@ -17,7 +17,7 @@
         导出班级成绩对比分析
       </div>
     </div>
-    <div class="table" v-if="StuCount != 0">
+    <div v-show="showList.length > 0 && !noDataShow" class="table">
       <table>
         <thead>
           <tr>
@@ -25,13 +25,13 @@
             <th>班级</th>
             <th>试卷得分</th>
             <th>班级排名</th>
-            <th class="oneTH" v-for="(item, index) in ObjectiveQTypeList" :key="index">
+            <th class="oneTH" v-for="item in ObjectiveQTypeList" :key="item.QTypeName">
               <div class="oneTH1">{{ item.QTypeName }}</div>
               <div class="oneTH2">
                 <span class="oneSpan1">得分率</span><span class="oneSpan2">排名</span>
               </div>
             </th>
-            <th class="oneTH" v-for="(item, index) in SubjectiveQTypeList" :key="index">
+            <th class="oneTH" v-for="item in SubjectiveQTypeList" :key="item.QTypeName">
               <div class="oneTH1">{{ item.QTypeName }}</div>
               <div class="oneTH2">
                 <span class="oneSpan1">得分率</span><span class="oneSpan2">排名</span>
@@ -40,7 +40,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in showList" :key="index">
+          <tr v-for="item in showList" :key="item.CourseClassName">
             <td>{{ item.Index }}</td>
             <td>{{ item.CourseClassName }}</td>
             <td>{{ item.PaperAvgScore }}</td>
@@ -59,8 +59,8 @@
             </td>
             <td
               class="borderTD"
-              v-for="(item2, index2) in item.ObjectiveQTypeList"
-              :key="index2"
+              v-for="item2 in item.ObjectiveQTypeList"
+              :key="item2.QTypeName"
             >
               <span class="oneSpan1">{{
                 (item2.PaperScoreRate * 100).toFixed() + "%"
@@ -69,8 +69,8 @@
             </td>
             <td
               class="borderTD"
-              v-for="(item2, index2) in item.SubjectiveQTypeList"
-              :key="index2"
+              v-for="item2 in item.SubjectiveQTypeList"
+              :key="item2.QTypeName"
             >
               <span class="oneSpan1">{{
                 (item2.PaperScoreRate * 100).toFixed() + "%"
@@ -81,6 +81,15 @@
         </tbody>
       </table>
     </div>
+    <div v-show="showList.length <= 0 && !noDataShow" class="temNoData">
+      <span>暂无班级成绩对比分析数据噢~</span>
+    </div>
+
+    <Loading
+      v-show="showLoading"
+      style="width: 960px; height: 330px"
+      backSize="80%"
+    ></Loading>
     <div class="paginationBox" v-if="StuCount > 8">
       <el-pagination
         class="pagination"
@@ -99,6 +108,7 @@
 <script>
 import { GetGradePaperQtypeClassCompareList_V3 } from "@/api/diolog/stuReportDiolog";
 import { GetExportGradePaperQtypeClassCompareList_V3 } from "@/api/diolog/stuReportDiolog";
+import Loading from "../../components/common/Loading.vue";
 export default {
   props: {
     PaperName: String,
@@ -111,9 +121,14 @@ export default {
       PageSize: 8,
       SearchText: "",
       showList: [],
+      noDataShow: false,
+      showLoading: true,
       ObjectiveQTypeList: [],
       SubjectiveQTypeList: [],
     };
+  },
+  components: {
+    Loading,
   },
 
   mounted() {
@@ -134,10 +149,11 @@ export default {
         SearchText: this.SearchText,
       };
       GetGradePaperQtypeClassCompareList_V3(params).then((res) => {
-        console.log(res);
+        this.showLoading = false;
         this.StuCount = res.Data.PageClassCount;
         this.showList = res.Data.ClassQtypeRateRankList;
-        if (this.StuCount != 0) {
+        if (this.showList.length > 0) {
+          this.noDataShow = false;
           this.ObjectiveQTypeList = this.showList[0].ObjectiveQTypeList;
           this.SubjectiveQTypeList = this.showList[0].SubjectiveQTypeList;
         }
@@ -320,7 +336,7 @@ export default {
 .rank2,
 .rank3 {
   width: 22px;
-  height: 29px;
+  height: 48px;
   margin-right: 5px;
   background: url("~@/assets/img/grade/第一名.png") center center no-repeat;
 }

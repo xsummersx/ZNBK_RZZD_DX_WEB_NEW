@@ -82,7 +82,7 @@
       width="1000px"
       top="0vh"
     >
-      <div v-if="dialogVisible">
+      <div v-if="dialogVisible1">
         <HistoryDialog v-if="dialogIndex == 4"></HistoryDialog>
         <StuReport
           :PaperName="PaperName"
@@ -111,6 +111,7 @@ export default {
       activeTimeIndex: 0,
       activePaperIndex: 0,
       dialogVisible: false, //默认隐藏弹框
+      dialogVisible1: false,
       dialogIndex: 1, //弹窗显示
       dialogTitle: "", //弹窗标题
       timeList: [],
@@ -216,8 +217,9 @@ export default {
     },
     // 弹窗显示
     showDialog(i) {
-      this.dialogVisible = true;
       this.dialogIndex = i;
+      this.dialogVisible1 = true;
+      this.dialogVisible = true;
       switch (i) {
         case 1:
           this.dialogTitle = "班级成绩对比分析-" + this.PaperName;
@@ -237,6 +239,7 @@ export default {
     },
     // 选择日期
     chooseActiveTime(i) {
+      this.dialogVisible1 = !this.dialogVisible1;
       this.activeTimeIndex = i;
       this.activePaperIndex = 0;
       this.paperList = this.timeList[i].ReleasedPaperList;
@@ -248,6 +251,7 @@ export default {
     },
     // 选择试卷
     chooseActivePaper(i) {
+      this.dialogVisible1 = !this.dialogVisible1;
       this.activePaperIndex = i;
       this.PaperID = this.paperList[i].PaperID;
       this.PaperName = this.paperList[i].PaperName;

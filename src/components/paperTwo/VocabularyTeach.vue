@@ -81,11 +81,7 @@
 								</span>
 							</template>
 						</el-table-column>
-						<el-table-column
-							prop="VocaMaterRate"
-							label="词汇答对率"
-							width="140"
-						>
+						<el-table-column prop="VocaMaterRate" label="词汇答对率">
 							<template slot-scope="scope">
 								<span class="gray">
 									{{ (scope.row.VocaMaterRate * 100).toFixed(2) }}%

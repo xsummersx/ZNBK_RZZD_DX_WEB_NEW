@@ -73,11 +73,7 @@
 								</span>
 							</template>
 						</el-table-column>
-						<el-table-column
-							prop="GramScoreRate"
-							label="语法答对率"
-							width="140"
-						>
+						<el-table-column prop="GramScoreRate" label="语法答对率">
 							<template slot-scope="scope">
 								<span class="gray">
 									{{ (scope.row.GramScoreRate * 100).toFixed(2) }}%

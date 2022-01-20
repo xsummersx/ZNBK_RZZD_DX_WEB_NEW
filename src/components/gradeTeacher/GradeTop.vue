@@ -7,7 +7,7 @@
  * @FilePath: 年级组长的重点班级，和认知对比分析
 -->
 <template>
-  <div>
+  <div style="height: 125px">
     <ArrowTitle titleStr="重点关注班级"></ArrowTitle>
     <div class="clearfix">
       <StudentBox
