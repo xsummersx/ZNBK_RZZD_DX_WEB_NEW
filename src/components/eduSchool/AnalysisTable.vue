@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:29:29
- * @LastEditTime: 2022-01-18 14:11:49
+ * @LastEditTime: 2022-01-19 16:53:45
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 学校校长=》认知情况详情，图1
@@ -534,11 +534,15 @@ export default {
 }
 
 //滚动条样式
+.bueatyScroll ::v-deep .el-table__body-wrapper {
+  overflow-x: hidden;
+}
 .bueatyScroll ::v-deep .el-table__body-wrapper::-webkit-scrollbar-track-piece {
   background-color: #04238d;
 }
 .bueatyScroll ::v-deep .el-table__body-wrapper::-webkit-scrollbar {
   width: 4px;
+  height: 4px;
 }
 .bueatyScroll ::v-deep .el-table__body-wrapper::-webkit-scrollbar-thumb {
   background-color: #dddddd;
