@@ -23,7 +23,7 @@
 					><span class="titlePoint"></span>不常考{{ typeName }}</span
 				>
 			</div>
-			<div class="ddtotal" v-if="!loading">
+			<div class="ddtotal" v-if="!loading && !isNDPicShow">
 				<span class="text1">
 					<span class="point"></span>共有<span
 						class="totalNumber"

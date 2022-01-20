@@ -9,7 +9,7 @@
 <template>
 	<div class="left-Content-Box" :style="boxHeight">
 		<span class="title">认知平均分</span>
-		<div class="main" v-if="$route.name === 'educationRZZD'">
+		<div class="main" v-if="$route.name === 'educationRZZD' && !loading">
 			<Ring :FullIndex="info.FullIndex" :avgIndex="info.AreaAvgIndex" />
 			<Middle :level="info.CognitiveGradeName" />
 			<div class="right">
@@ -19,7 +19,7 @@
 				<span class="font12">较上周</span>
 			</div>
 		</div>
-		<div class="main" v-if="$route.name === 'schoolRZZD'">
+		<div class="main" v-if="$route.name === 'schoolRZZD' && !loading">
 			<div class="leader">
 				<span class="textColor font12">全校平均认知分</span>
 				<Ring
@@ -44,17 +44,18 @@
 			</div>
 		</div>
 		<Top
-			v-if="$route.name === 'educationRZZD'"
+			v-if="$route.name === 'educationRZZD' && !loading"
 			:SchoolList="info.SchoolList"
 			:FocusSchoolList="info.FocusSchoolList"
 		/>
 		<RankAndFirst
-			v-if="$route.name === 'schoolRZZD'"
+			v-if="$route.name === 'schoolRZZD' && !loading"
 			:MySchoolRank="info.MySchoolRank"
 			:FirstSchool="info.FirstSchool"
 			:FirstScore="info.FirstScore"
 			:isScore="true"
 		/>
+		<Loading v-if="loading" style="margin-top: 35px" />
 	</div>
 </template>
 
@@ -89,6 +90,7 @@ export default {
 				// 重点关注
 				FocusSchoolList: [],
 			},
+			loading: true,
 		};
 	},
 	created() {
@@ -99,6 +101,7 @@ export default {
 		Top: () => import("../common/Top.vue"),
 		Ring: () => import("../common/Ring.vue"),
 		Middle: () => import("../common/Middle.vue"),
+		Loading: () => import("@/components/common/Loading.vue"),
 	},
 	computed: {
 		// 不同身份不同高度
@@ -138,18 +141,28 @@ export default {
 					.then((res) => {
 						if (res.Data != null) {
 							this.info = res.Data;
+							setTimeout(() => {
+								this.loading = false;
+							}, 400);
 						}
 					})
-					.catch();
+					.catch(() => {
+						this.loading = false;
+					});
 			} else {
 				// 校领导
 				GetSchoolCongnitiveIndex(data)
 					.then((res) => {
 						if (res.Data != null) {
 							this.info = res.Data;
+							setTimeout(() => {
+								this.loading = false;
+							}, 400);
 						}
 					})
-					.catch();
+					.catch(() => {
+						this.loading = false;
+					});
 			}
 		},
 	},

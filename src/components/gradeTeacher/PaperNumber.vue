@@ -31,6 +31,7 @@
 			:theSecondAvg="theSecond.ClassPaperCount"
 			:isScore="false"
 		/>
+		<Loading v-if="loading" style="margin-top: 25px" />
 	</div>
 </template>
 
@@ -73,6 +74,7 @@ export default {
 	components: {
 		CompareLastWeek: () => import("../common/CompareLastWeek.vue"),
 		Top2: () => import("../common/Top2.vue"),
+		Loading: () => import("@/components/common/Loading.vue"),
 	},
 	computed: {
 		isTeacher: function () {
@@ -123,7 +125,7 @@ export default {
 						}
 						setTimeout(() => {
 							this.loading = false;
-						}, 200);
+						}, 400);
 					})
 					.catch(() => {
 						this.loading = false;
@@ -147,7 +149,7 @@ export default {
 						}
 						setTimeout(() => {
 							this.loading = false;
-						}, 200);
+						}, 400);
 					})
 					.catch(() => {
 						this.loading = false;

@@ -9,11 +9,12 @@
 <template>
 	<div class="left-Content-Box">
 		<span class="title">高考预估成绩</span>
-		<div class="main">
+		<div class="main" v-show="!loading">
 			<Polo :FullScore="info.FullScore" :score="score" />
 			<CompareLastWeek :ChangeScore="info.ChangeScore" />
 		</div>
 		<Top2
+			v-show="!loading"
 			:theFirstStu="theFirst.StudentName"
 			:theFirstPre="theFirst.PredictedScore"
 			:theFirstClass="theFirst.CourseClassName"
@@ -23,33 +24,7 @@
 			:theSecondClass="theSecond.CourseClassName"
 			:theSecondAvg="theSecond.ClassAvgScore"
 		/>
-		<!-- <div class="bottom">
-			<span class="bottomTitle" v-if="$route.name === 'gradeRZZD'"
-				>班级排行榜<span class="top2">TOP2</span></span
-			>
-			<span class="bottomTitle" v-if="$route.name === 'teacherRZZD'"
-				>学生排行榜<span class="top2">TOP2</span></span
-			>
-			<div class="content" v-if="$route.name === 'teacherRZZD'">
-				<span :title="theFirst.StudentName"
-					>· {{ theFirst.StudentName + " " + theFirst.PredictedScore }}分</span
-				>
-				<span :title="theSecond.StudentName"
-					>·
-					{{ theSecond.StudentName + " " + theSecond.PredictedScore }}分</span
-				>
-			</div>
-			<div class="content" v-else>
-				<span :title="theFirst.CourseClassName"
-					>·
-					{{ theFirst.CourseClassName + " " + theFirst.ClassAvgScore }}分</span
-				>
-				<span :title="theSecond.CourseClassName"
-					>· {{ theSecond.CourseClassName }}
-					<span class="numberColor">{{ theSecond.ClassAvgScore }}分</span>
-				</span>
-			</div>
-		</div> -->
+		<Loading v-if="loading" style="margin-top: 35px" />
 	</div>
 </template>
 
@@ -98,6 +73,7 @@ export default {
 					},
 				],
 			},
+			loading: true,
 		};
 	},
 	created() {
@@ -107,6 +83,7 @@ export default {
 		CompareLastWeek: () => import("../common/CompareLastWeek.vue"),
 		Polo: () => import("../common/Polo.vue"),
 		Top2: () => import("../common/Top2.vue"),
+		Loading: () => import("@/components/common/Loading.vue"),
 	},
 	computed: {
 		score: function () {
@@ -144,15 +121,25 @@ export default {
 				GetClassPredictedScore(data)
 					.then((res) => {
 						this.info = res.Data;
+						setTimeout(() => {
+							this.loading = false;
+						}, 400);
 					})
-					.catch();
+					.catch(() => {
+						this.loading = false;
+					});
 			} else if (this.$route.name === "gradeRZZD") {
 				// 年级组长
 				GetGradePredictedScore(data)
 					.then((res) => {
 						this.info = res.Data;
+						setTimeout(() => {
+							this.loading = false;
+						}, 400);
 					})
-					.catch();
+					.catch(() => {
+						this.loading = false;
+					});
 			}
 		},
 	},

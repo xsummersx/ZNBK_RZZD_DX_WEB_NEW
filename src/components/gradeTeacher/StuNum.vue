@@ -20,6 +20,7 @@
 			:ClassRank="info.ClassRank"
 			:GradeRank="info.GradeRank"
 		/>
+		<Loading v-if="loading" style="margin-top: 25px" />
 	</div>
 </template>
 
@@ -47,6 +48,7 @@ export default {
 	components: {
 		CompareLastWeek: () => import("../common/CompareLastWeek.vue"),
 		CompareAndRank: () => import("../common/CompareAndRank.vue"),
+		Loading: () => import("@/components/common/Loading.vue"),
 	},
 	computed: {},
 	methods: {
@@ -65,12 +67,13 @@ export default {
 					if (res.Data != null) {
 						this.info = res.Data;
 					}
-					// this.isShow = true;
 					setTimeout(() => {
 						this.loading = false;
-					}, 200);
+					}, 400);
 				})
-				.catch();
+				.catch(() => {
+					this.loading = false;
+				});
 		},
 	},
 };

@@ -81,11 +81,7 @@
 								</span>
 							</template>
 						</el-table-column>
-						<el-table-column
-							prop="VocaMaterRate"
-							label="词汇答对率"
-							width="140"
-						>
+						<el-table-column prop="VocaMaterRate" label="词汇答对率">
 							<template slot-scope="scope">
 								<span class="gray">
 									{{ (scope.row.VocaMaterRate * 100).toFixed(2) }}%
@@ -129,36 +125,7 @@ export default {
 			currentPage: 1,
 			// 每页显示的数量
 			PageSize: 9,
-			tableData: [
-				// {
-				// 	Conclusion: 1,
-				// 	VocaRank: 1,
-				// 	StuName: "1201046",
-				// 	VocaMasterCount: 4077,
-				// 	VocaMaterRate: 0.4497,
-				// },
-				// {
-				// 	Conclusion: 1,
-				// 	VocaRank: 2,
-				// 	StuName: "1201060",
-				// 	VocaMasterCount: 4077,
-				// 	VocaMaterRate: 0.4497,
-				// },
-				// {
-				// 	Conclusion: 1,
-				// 	VocaRank: 3,
-				// 	StuName: "1201051",
-				// 	VocaMasterCount: 4024,
-				// 	VocaMaterRate: 0.4439,
-				// },
-				// {
-				// 	Conclusion: 1,
-				// 	VocaRank: 4,
-				// 	StuName: "1201053",
-				// 	VocaMasterCount: 4024,
-				// 	VocaMaterRate: 0.4439,
-				// },
-			],
+			tableData: [],
 			option: {},
 			info: {
 				Conclusion: 0,

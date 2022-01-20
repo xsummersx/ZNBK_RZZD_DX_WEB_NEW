@@ -2,7 +2,7 @@
 	<!-- 圆环图 -->
 	<div class="left" :style="isMR ? 'margin-right:-32px' : ''">
 		<div class="circleWhite"></div>
-		<div id="ring" style="width: 100%; height: 100%"></div>
+		<div id="ring" style="width: 140px; height: 140px"></div>
 		<div class="text">
 			<span
 				><span class="number">{{ avgIndex }}</span
