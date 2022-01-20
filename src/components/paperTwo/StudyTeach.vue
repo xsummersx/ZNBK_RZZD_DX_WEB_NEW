@@ -33,14 +33,16 @@
           >
         </div>
       </div>
-      <div class="right">
+      <div v-show="!noDataShow1" class="right">
         <div class="pieChart" id="pieChart1"></div>
         <span>学习时长分布</span>
       </div>
-      <div class="right">
+      <div v-show="noDataShow1" class="noData1">暂无学习时长分布数据噢~</div>
+      <div v-show="!noDataShow2" class="right">
         <div class="pieChart" id="pieChart2"></div>
         <span>知识掌握速度</span>
       </div>
+      <div v-show="noDataShow1" class="noData2">暂无知识掌握速度数据噢~</div>
     </div>
     <div v-show="resInfo.ClassStudyTimes.GradeAvgStudyTimes == 0" class="graImg">
       <img class="graImgii" src="../../assets/img/nodata/learnNoData1.png" />
@@ -63,6 +65,8 @@ export default {
           GradeAvgStudySpeeds: 0,
         },
       },
+      noDataShow1: false,
+      noDataShow2: false,
       option1: {},
       option2: {},
     };
@@ -75,12 +79,13 @@ export default {
     optionData1: function () {
       let arr = [
         {
-          name: "优秀人数",
+          name: "大于优秀",
           value:
             (this.resInfo.ClassStudyTimes.ExceStuCount /
               (this.resInfo.ClassStudyTimes.ExceStuCount +
                 this.resInfo.ClassStudyTimes.BetterStuCount +
-                this.resInfo.ClassStudyTimes.NormalStuCount)) *
+                this.resInfo.ClassStudyTimes.NormalStuCount +
+                this.resInfo.ClassStudyTimes.NotLearningStuCount)) *
             100,
           count: this.resInfo.ClassStudyTimes.ExceStuCount,
           itemStyle: {
@@ -88,12 +93,13 @@ export default {
           },
         },
         {
-          name: "较好人数",
+          name: "大于平均",
           value:
             (this.resInfo.ClassStudyTimes.BetterStuCount /
               (this.resInfo.ClassStudyTimes.ExceStuCount +
                 this.resInfo.ClassStudyTimes.BetterStuCount +
-                this.resInfo.ClassStudyTimes.NormalStuCount)) *
+                this.resInfo.ClassStudyTimes.NormalStuCount +
+                this.resInfo.ClassStudyTimes.NotLearningStuCount)) *
             100,
           count: this.resInfo.ClassStudyTimes.BetterStuCount,
           itemStyle: {
@@ -101,14 +107,29 @@ export default {
           },
         },
         {
-          name: "一般人数",
+          name: "大于0",
           value:
             (this.resInfo.ClassStudyTimes.NormalStuCount /
               (this.resInfo.ClassStudyTimes.ExceStuCount +
                 this.resInfo.ClassStudyTimes.BetterStuCount +
-                this.resInfo.ClassStudyTimes.NormalStuCount)) *
+                this.resInfo.ClassStudyTimes.NormalStuCount +
+                this.resInfo.ClassStudyTimes.NotLearningStuCount)) *
             100,
           count: this.resInfo.ClassStudyTimes.NormalStuCount,
+          itemStyle: {
+            color: "rgba(251,122,122,1)",
+          },
+        },
+        {
+          name: "等于0",
+          value:
+            (this.resInfo.ClassStudyTimes.NotLearningStuCount /
+              (this.resInfo.ClassStudyTimes.ExceStuCount +
+                this.resInfo.ClassStudyTimes.BetterStuCount +
+                this.resInfo.ClassStudyTimes.NormalStuCount +
+                this.resInfo.ClassStudyTimes.NotLearningStuCount)) *
+            100,
+          count: this.resInfo.ClassStudyTimes.NotLearningStuCount,
           itemStyle: {
             color: "rgba(193,193,193,1)",
           },
@@ -136,7 +157,7 @@ export default {
           name: "速度一般",
           value:
             (this.resInfo.ClassStudySpeeds.NormalStuCount /
-              (this.resInfo.ClassStudySpeeds.ExceStuCount +
+              (this.resInfo.ClassStudySpeeds.GoodStuCount +
                 this.resInfo.ClassStudySpeeds.NormalStuCount +
                 this.resInfo.ClassStudySpeeds.BadStuCount)) *
             100,
@@ -149,7 +170,7 @@ export default {
           name: "速度较差",
           value:
             (this.resInfo.ClassStudySpeeds.BadStuCount /
-              (this.resInfo.ClassStudySpeeds.ExceStuCount +
+              (this.resInfo.ClassStudySpeeds.GoodStuCount +
                 this.resInfo.ClassStudySpeeds.NormalStuCount +
                 this.resInfo.ClassStudySpeeds.BadStuCount)) *
             100,
@@ -173,6 +194,21 @@ export default {
       };
       GetClassStudyFeature_V3(params).then((res) => {
         this.resInfo = res.Data;
+        if (
+          this.resInfo.ClassStudyTimes.ExceStuCount == 0 &&
+          this.resInfo.ClassStudyTimes.BetterStuCount == 0 &&
+          this.resInfo.ClassStudyTimes.NormalStuCount == 0 &&
+          this.resInfo.ClassStudyTimes.NotLearningStuCount == 0
+        ) {
+          this.noDataShow1 = true;
+        }
+        if (
+          this.resInfo.ClassStudySpeeds.GoodStuCount == 0 &&
+          this.resInfo.ClassStudySpeeds.NormalStuCount == 0 &&
+          this.resInfo.ClassStudySpeeds.BadStuCount == 0
+        ) {
+          this.noDataShow2 = true;
+        }
         this.drawInit();
       });
     },
@@ -478,6 +514,19 @@ export default {
       background: url(~@/assets/img/teacher/底座.png) center 75px no-repeat;
       // margin-bottom: 10px;
     }
+  }
+  .noData1,
+  .noData2 {
+    width: 188px;
+    height: 180px;
+    line-height: 292px;
+    text-align: center;
+    background: url("../../assets/img/nodata/暂无学习时长分布数据.png") center 40px
+      no-repeat;
+  }
+  .noData2 {
+    background: url("../../assets/img/nodata/暂无知识掌握速度数据.png") center 40px
+      no-repeat;
   }
 }
 .graImg {
