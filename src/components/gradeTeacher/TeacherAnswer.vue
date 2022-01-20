@@ -69,7 +69,7 @@
       width="1000px"
       top="0vh"
     >
-      <div v-if="dialogVisible">
+      <div v-if="dialogVisible1">
         <TeachQuesDia
           :PaperName="PaperName"
           :PaperID="PaperID"
@@ -92,6 +92,7 @@ export default {
       activeTimeIndex: 0,
       activePaperIndex: 0,
       dialogVisible: false, //默认隐藏弹框
+      dialogVisible1: false,
       dialogIndex: 1, //弹窗，学生成绩单，
       dialogTitle: "", //弹窗标题
       timeList: [],
@@ -196,6 +197,7 @@ export default {
     },
     // 选择日期
     chooseActiveTime(i) {
+      this.dialogVisible1 = !this.dialogVisible1;
       this.activeTimeIndex = i;
       this.activePaperIndex = 0;
       this.paperList = this.timeList[i].ReleasedPaperList;
@@ -206,12 +208,14 @@ export default {
       this.GetPublishedPaperDaily_V3(this.PaperID, 0);
     },
     chooseActivePaper(i) {
+      this.dialogVisible1 = !this.dialogVisible1;
       this.activePaperIndex = i;
       this.PaperID = this.paperList[i].PaperID;
       this.PaperName = this.paperList[i].PaperName;
       this.GetPublishedPaperDaily_V3(this.paperList[i].PaperID, i);
     },
     dialog(i) {
+      this.dialogVisible1 = true;
       this.dialogVisible = true;
       this.dialogIndex = i;
       switch (i) {

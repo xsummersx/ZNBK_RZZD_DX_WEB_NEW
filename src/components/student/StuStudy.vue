@@ -11,7 +11,7 @@
     <div class="box-title clearfix">
       <span class="float-l title">做题特点</span>
     </div>
-    <div class="legend" v-show="showData">
+    <div class="legend" v-show="showData && !showLoading">
       <span class="maxScore" v-show="maxTypeName"
         >正确率最高题型: <span>{{ maxTypeName }}</span></span
       >
@@ -19,10 +19,19 @@
         >正确率最低题型: <span>{{ minTypeName }}</span></span
       >
     </div>
-    <div v-show="resInfo.TypeInfoList.length > 0" id="questionCharts"></div>
-    <div v-show="resInfo.TypeInfoList.length <= 0" class="temNoData">
+    <div
+      v-show="resInfo.TypeInfoList.length > 0 && !showLoading"
+      id="questionCharts"
+    ></div>
+    <div v-show="resInfo.TypeInfoList.length <= 0 && !showLoading" class="temNoData">
       暂无做题特点数据噢~
     </div>
+    <Loading
+      v-show="showLoading"
+      style="width: 780px; height: 205px"
+      backSize="80%"
+    ></Loading>
+
     <el-dialog
       :title="dialogTitle"
       :visible.sync="dialogVisible"
@@ -43,6 +52,7 @@
 
 <script>
 import { GetStuExerciseTrait_V3 } from "../../api/student/right";
+import Loading from "../common/Loading.vue";
 export default {
   data() {
     return {
@@ -50,6 +60,7 @@ export default {
         TypeInfoList: [],
         PaperCorrectRateList: [],
       },
+      showLoading: true,
       showData: false,
       maxTypeName: "",
       minTypeName: "",
@@ -62,6 +73,7 @@ export default {
   },
   components: {
     QuestionDiolog: () => import("../../views/dialog/QuestionDiolog.vue"),
+    Loading,
   },
   created() {},
   mounted() {
@@ -79,6 +91,7 @@ export default {
         StuID: this.$store.state.StuID,
       };
       GetStuExerciseTrait_V3(params).then((res) => {
+        this.showLoading = false;
         this.resInfo = res.Data;
         if (this.resInfo.MaxRateGenreName.length > 2) {
           this.maxTypeName =

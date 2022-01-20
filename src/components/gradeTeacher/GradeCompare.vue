@@ -1,7 +1,7 @@
 <!--
  * @Author: 柳欢
  * @Date: 2021-12-14 15:36:48
- * @LastEditTime: 2021-12-15 14:21:08
+ * @LastEditTime: 2022-01-18 19:39:46
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 班级认知情况对比分析
@@ -9,16 +9,23 @@
 <template>
   <div>
     <ArrowTitle titleStr="班级认知情况对比分析"></ArrowTitle>
-    <div id="compareCharts"></div>
+    <div v-show="!showLoading" id="compareCharts"></div>
+    <Loading
+      v-show="showLoading"
+      style="width: 1270px; height: 370px"
+      backSize="80%"
+    ></Loading>
   </div>
 </template>
 
 <script>
 import { GetGradeClassCongnitiveTrastAnalysis_V3 } from "@/api/gradeTeacher/right";
+import Loading from "../common/Loading.vue";
 export default {
   data() {
     return {
       resInfo: {},
+      showLoading: true,
     };
   },
   created() {
@@ -33,6 +40,7 @@ export default {
       ZsdArea: this.$store.state.ZsdArea,
     };
     GetGradeClassCongnitiveTrastAnalysis_V3(params).then((res) => {
+      this.showLoading = false;
       this.resInfo = res.Data;
       this.drawLine();
     });
@@ -40,6 +48,7 @@ export default {
   mounted() {},
   components: {
     ArrowTitle: () => import("../common/ArrowTitle.vue"),
+    Loading,
   },
   methods: {
     drawLine() {
@@ -138,6 +147,17 @@ export default {
             },
           ],
         },
+        dataZoom: [
+          {
+            type: "inside",
+            show: true,
+            height: 15,
+            xAxisIndex: [0],
+            start: 1,
+            end: (4 / xDate.length) * 100,
+            zoomOnMouseWheel: false,
+          },
+        ],
         grid: {
           bottom: 30,
         },
@@ -191,6 +211,10 @@ export default {
         },
         xAxis: {
           data: xDate,
+          axisLabel: {
+            interval: 0,
+            fontSize: 14,
+          },
         },
         series: [
           {

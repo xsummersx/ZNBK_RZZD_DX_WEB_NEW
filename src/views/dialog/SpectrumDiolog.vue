@@ -8,9 +8,11 @@
 -->
 <template>
   <div>
-    <div class="bottomBox clearfix">
+    <div v-show="!showLoading" class="bottomBox clearfix">
       <div>
-        基于海量题库、常用教材及课程标准，大数据分析历年{{ $store.state.StageNo == "B" ? "中" : "高" }}考共考核知识点{{
+        基于海量题库、常用教材及课程标准，大数据分析历年{{
+          $store.state.StageNo == "B" ? "中" : "高"
+        }}考共考核知识点{{
           resInfo.FirstTotalCount + resInfo.SecondTotalCount + resInfo.ThirdTotalCount
         }}个:
       </div>
@@ -27,6 +29,11 @@
       </ul>
       <div class="knownPointBox" id="knownPointBox"></div>
     </div>
+    <Loading
+      v-show="showLoading"
+      style="width: 820px; height: 430px"
+      backSize="100%"
+    ></Loading>
   </div>
 </template>
 
@@ -34,9 +41,10 @@
 import { GetStuKnowledgeSpectrum } from "../../api/head/header";
 import { GetClassKnowledgeSpectrum } from "../../api/head/header";
 import { GetCommonKnowledgeSpectrum } from "../../api/head/header";
+import Loading from "../../components/common/Loading.vue";
 export default {
   data() {
-    return { resInfo: {} };
+    return { resInfo: {}, showLoading: true };
   },
   mounted() {
     if (this.$route.name == "studentRZZD") {
@@ -51,6 +59,9 @@ export default {
       this.GetCommonKnowledgeSpectrum(4);
     }
   },
+  components: {
+    Loading,
+  },
   methods: {
     // 获取学生端测试知识点全谱
     GetStuKnowledgeSpectrum() {
@@ -62,8 +73,13 @@ export default {
       };
 
       GetStuKnowledgeSpectrum(params).then((res) => {
+        this.showLoading = false;
         this.resInfo = res.Data;
-        this.drawLine2(this.resInfo.FirstVocabList, this.resInfo.SecondVocabList, this.resInfo.ThirdVocabList);
+        this.drawLine2(
+          this.resInfo.FirstVocabList,
+          this.resInfo.SecondVocabList,
+          this.resInfo.ThirdVocabList
+        );
       });
     },
     // 获取教师端测试知识点全谱
@@ -78,8 +94,13 @@ export default {
       };
 
       GetClassKnowledgeSpectrum(params).then((res) => {
+        this.showLoading = false;
         this.resInfo = res.Data;
-        this.drawLine2(this.resInfo.FirstVocabList, this.resInfo.SecondVocabList, this.resInfo.ThirdVocabList);
+        this.drawLine2(
+          this.resInfo.FirstVocabList,
+          this.resInfo.SecondVocabList,
+          this.resInfo.ThirdVocabList
+        );
       });
     },
     // 获取年级，学校，教育局端测试知识点全谱
@@ -111,8 +132,13 @@ export default {
         };
       }
       GetCommonKnowledgeSpectrum(params).then((res) => {
+        this.showLoading = false;
         this.resInfo = res.Data;
-        this.drawLine2(this.resInfo.FirstVocabList, this.resInfo.SecondVocabList, this.resInfo.ThirdVocabList);
+        this.drawLine2(
+          this.resInfo.FirstVocabList,
+          this.resInfo.SecondVocabList,
+          this.resInfo.ThirdVocabList
+        );
       });
     },
     drawLine2(list1, list2, list3) {

@@ -8,13 +8,13 @@
 -->
 <template>
   <div class="bottom-box">
-    <div class="clearfix">
+    <div v-show="showList.length > 0 && !noDataShow" class="clearfix">
       <div @click="ExportReport()" class="exportBtn float-r">
         <span class="exportIcon"></span>
         导出学生成绩单
       </div>
     </div>
-    <div class="table">
+    <div v-show="showList.length > 0 && !noDataShow" class="table">
       <table>
         <thead>
           <tr>
@@ -72,6 +72,15 @@
         </tbody>
       </table>
     </div>
+    <div v-show="showList.length <= 0 && !noDataShow" class="temNoData">
+      <span>暂无学生成绩单统计数据噢~</span>
+    </div>
+
+    <Loading
+      v-show="showLoading"
+      style="width: 960px; height: 330px"
+      backSize="80%"
+    ></Loading>
     <div class="paginationBox" v-if="StuCount > 5">
       <el-pagination
         class="pagination"
@@ -92,6 +101,7 @@ import { GetGradePaperScoreReport_V3 } from "@/api/diolog/stuReportDiolog";
 import { GetClassPaperScoreReport_V3 } from "@/api/diolog/stuReportDiolog";
 import { GetExportGradePaperScoreReport_V3 } from "@/api/diolog/stuReportDiolog";
 import { GetExportClassPaperScoreReport_V3 } from "@/api/diolog/stuReportDiolog";
+import Loading from "../../components/common/Loading.vue";
 export default {
   props: {
     PaperName: String,
@@ -107,9 +117,14 @@ export default {
       SearchText: "",
       emptyText: "",
       showList: [],
+      noDataShow: false,
+      showLoading: true,
       ObjectiveQTypeList: [],
       SubjectiveQTypeList: [],
     };
+  },
+  components: {
+    Loading,
   },
   mounted() {
     if (this.$route.name == "gradeRZZD") {
@@ -134,13 +149,17 @@ export default {
         SearchText: this.SearchText,
       };
       GetGradePaperScoreReport_V3(params).then((res) => {
+        this.showLoading = false;
         this.StuCount = res.Data.PageStuCount;
         this.showList = res.Data.PaperStuScoreReportDetailList;
-        this.ObjectiveQTypeList = this.showList[0].ObjectiveQTypeList;
-        this.SubjectiveQTypeList = this.showList[0].SubjectiveQTypeList;
+        if (this.showList.length > 0) {
+          this.noDataShow = false;
+          this.ObjectiveQTypeList = this.showList[0].ObjectiveQTypeList;
+          this.SubjectiveQTypeList = this.showList[0].SubjectiveQTypeList;
+        }
       });
     },
-    // // 获取年级历次已发布试卷
+    // // 获取班级历次已发布试卷
     GetClassPaperScoreReport_V3() {
       console.log(this.PaperID);
       let params = {
@@ -155,10 +174,14 @@ export default {
         SearchText: this.SearchText,
       };
       GetClassPaperScoreReport_V3(params).then((res) => {
+        this.showLoading = false;
         this.StuCount = res.Data.PageStuCount;
         this.showList = res.Data.PaperStuScoreReportDetailList;
-        this.ObjectiveQTypeList = this.showList[0].ObjectiveQTypeList;
-        this.SubjectiveQTypeList = this.showList[0].SubjectiveQTypeList;
+        if (this.showList.length > 0) {
+          this.noDataShow = false;
+          this.ObjectiveQTypeList = this.showList[0].ObjectiveQTypeList;
+          this.SubjectiveQTypeList = this.showList[0].SubjectiveQTypeList;
+        }
       });
     },
     handleSizeChange(val) {
@@ -338,6 +361,18 @@ export default {
     td:nth-child(4) {
       color: #51f0ff;
     }
+  }
+}
+.temNoData {
+  width: 940px;
+  height: 320px;
+  background: url("../../assets/img/nodata/ChartsNoData.png") center center no-repeat;
+  border-radius: 4px;
+  text-align: center;
+  color: #fff;
+  span {
+    display: inline-block;
+    margin-top: 212px;
   }
 }
 .oneTH {

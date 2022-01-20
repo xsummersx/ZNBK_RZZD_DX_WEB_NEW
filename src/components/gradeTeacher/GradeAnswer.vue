@@ -16,7 +16,7 @@
         </div>
       </div>
     </ArrowTitle>
-    <div class="right-long-box" v-show="timeList.length > 0">
+    <div class="right-long-box" v-show="timeList.length > 0 && !showLoading">
       <div class="float-l timeText">
         <vuescroll :ops="ops">
           <div
@@ -67,9 +67,14 @@
         <div v-show="!noDataShow" id="responseCharts"></div>
       </div>
     </div>
-    <div class="right-long-box" v-show="timeList.length <= 0">
+    <div class="right-long-box" v-show="timeList.length <= 0 && !showLoading">
       <div class="temNoData">暂无试卷得分人数统计数据噢~</div>
     </div>
+    <Loading
+      v-show="showLoading"
+      style="width: 1270px; height: 250px"
+      backSize="80%"
+    ></Loading>
     <el-dialog
       :title="dialogTitle"
       :visible.sync="dialogVisible"
@@ -77,7 +82,7 @@
       width="1000px"
       top="0vh"
     >
-      <div v-if="dialogVisible">
+      <div v-if="dialogVisible1">
         <HistoryDialog v-if="dialogIndex == 4"></HistoryDialog>
         <StuReport
           :PaperName="PaperName"
@@ -98,6 +103,7 @@
 <script>
 import { GetGradePublishedPaperDaily_V3 } from "@/api/gradeTeacher/right";
 import vuescroll from "vuescroll";
+import Loading from "../common/Loading.vue";
 export default {
   data() {
     return {
@@ -105,6 +111,7 @@ export default {
       activeTimeIndex: 0,
       activePaperIndex: 0,
       dialogVisible: false, //默认隐藏弹框
+      dialogVisible1: false,
       dialogIndex: 1, //弹窗显示
       dialogTitle: "", //弹窗标题
       timeList: [],
@@ -112,6 +119,7 @@ export default {
       PaperID: "",
       PaperName: "",
       noDataShow: false,
+      showLoading: true,
       ops: {
         scrollPanel: {
           scrollingX: false,
@@ -139,6 +147,7 @@ export default {
     StuReport: () => import("../../views/dialog/StuReport.vue"),
     GradeScoreDia: () => import("../../views/dialog/GradeScoreDia.vue"),
     vuescroll,
+    Loading,
   },
   created() {
     this.GetGradePublishedPaperDaily_V3(this.PaperID, 0);
@@ -154,6 +163,7 @@ export default {
         PaperID: PaperID,
       };
       GetGradePublishedPaperDaily_V3(params).then((res) => {
+        this.showLoading = false;
         this.resInfo = res.Data;
         this.timeList = this.resInfo.ReleasedPaperList;
         if (this.timeList.length > 0) {
@@ -207,8 +217,9 @@ export default {
     },
     // 弹窗显示
     showDialog(i) {
-      this.dialogVisible = true;
       this.dialogIndex = i;
+      this.dialogVisible1 = true;
+      this.dialogVisible = true;
       switch (i) {
         case 1:
           this.dialogTitle = "班级成绩对比分析-" + this.PaperName;
@@ -228,6 +239,7 @@ export default {
     },
     // 选择日期
     chooseActiveTime(i) {
+      this.dialogVisible1 = !this.dialogVisible1;
       this.activeTimeIndex = i;
       this.activePaperIndex = 0;
       this.paperList = this.timeList[i].ReleasedPaperList;
@@ -239,6 +251,7 @@ export default {
     },
     // 选择试卷
     chooseActivePaper(i) {
+      this.dialogVisible1 = !this.dialogVisible1;
       this.activePaperIndex = i;
       this.PaperID = this.paperList[i].PaperID;
       this.PaperName = this.paperList[i].PaperName;
