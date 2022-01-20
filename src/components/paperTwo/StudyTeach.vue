@@ -540,6 +540,7 @@ export default {
   .graImgii {
     width: 88px;
     height: 88px;
+    margin: 0 0 10px 0;
   }
 }
 </style>
