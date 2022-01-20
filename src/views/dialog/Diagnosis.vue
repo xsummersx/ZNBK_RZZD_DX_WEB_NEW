@@ -298,13 +298,13 @@ export default {
 			// dialog是否可见
 			dialogVisible: false,
 			// 学校名称
-			SchoolName: "蓝鸽高中",
+			SchoolName: "",
 			// 班级名称
-			CourseClassName: "高三（3）班",
+			CourseClassName: "",
 			// 学生姓名
 			StuName: "",
 			// 年级名称
-			GradeName: "高中三年级",
+			GradeName: "",
 			// 推荐语法/词汇知识点数量
 			recommendCount: 0,
 			loading: true,

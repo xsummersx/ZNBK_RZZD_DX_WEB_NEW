@@ -2,17 +2,18 @@
 <template>
 	<div class="left-Content-Box">
 		<span class="title">高考预估成绩</span>
-		<div class="main">
+		<div class="main" v-show="!loading">
 			<Polo :FullScore="info.FullScore" :score="info.PersonScore" />
 			<CompareLastWeek :ChangeScore="info.ScoreChange" />
 		</div>
 		<CompareAndRank
-			v-if="isShow"
+			v-show="!loading"
 			:classCompare="info.TrastClassAvgScore"
 			:gradeCompare="info.TrastGradeAvgScore"
 			:ClassRank="info.ClassRank"
 			:GradeRank="info.GradeRank"
 		/>
+		<Loading v-if="loading" style="margin-top: 35px" />
 	</div>
 </template>
 
@@ -30,7 +31,7 @@ export default {
 				ClassRank: 0,
 				GradeRank: 0,
 			},
-			isShow: true,
+			loading: true,
 		};
 	},
 	created() {
@@ -40,6 +41,7 @@ export default {
 		CompareLastWeek: () => import("../common/CompareLastWeek.vue"),
 		Polo: () => import("../common/Polo.vue"),
 		CompareAndRank: () => import("../common/CompareAndRank.vue"),
+		Loading: () => import("@/components/common/Loading.vue"),
 	},
 	computed: {},
 	methods: {
@@ -57,9 +59,13 @@ export default {
 					if (res.Data != null) {
 						this.info = res.Data;
 					}
-					this.isShow = true;
+					setTimeout(() => {
+						this.loading = false;
+					}, 400);
 				})
-				.catch();
+				.catch(() => {
+					this.loading = false;
+				});
 		},
 	},
 };

@@ -9,7 +9,7 @@
 <template>
 	<div class="left-Content-Box" :style="boxHeight">
 		<span class="title">高考预估成绩</span>
-		<div class="main" v-if="$route.name === 'educationRZZD'">
+		<div class="main" v-if="$route.name === 'educationRZZD' && !loading">
 			<Polo :FullScore="info.FullScore" :score="info.AreaAvgScore" />
 			<div class="right">
 				<span class="quantity" :class="status === 'up' ? 'up' : 'down'"
@@ -18,7 +18,7 @@
 				<span class="font12">较上周</span>
 			</div>
 		</div>
-		<div class="main" v-if="$route.name === 'schoolRZZD'">
+		<div class="main" v-if="$route.name === 'schoolRZZD' && !loading">
 			<div class="leader">
 				<span class="textColor font12">全校平均预估成绩</span>
 				<Polo :FullScore="info.FullScore" :score="info.SchoolAvgScore" />
@@ -38,17 +38,18 @@
 			</div>
 		</div>
 		<Top
-			v-if="$route.name === 'educationRZZD'"
+			v-if="$route.name === 'educationRZZD' && !loading"
 			:SchoolList="info.SchoolList"
 			:FocusSchoolList="info.FocusSchoolList"
 		/>
 		<RankAndFirst
-			v-if="$route.name === 'schoolRZZD'"
+			v-if="$route.name === 'schoolRZZD' && !loading"
 			:MySchoolRank="info.MySchoolRank"
 			:FirstSchool="info.FirstSchool"
 			:FirstScore="info.FirstScore"
 			:isScore="true"
 		/>
+		<Loading v-if="loading" style="margin-top: 35px" />
 	</div>
 </template>
 
@@ -81,6 +82,7 @@ export default {
 				// 重点关注
 				FocusSchoolList: [],
 			},
+			loading: true,
 		};
 	},
 	created() {
@@ -113,6 +115,7 @@ export default {
 		RankAndFirst: () => import("../common/RankAndFirst.vue"),
 		Top: () => import("../common/Top.vue"),
 		Polo: () => import("../common/Polo.vue"),
+		Loading: () => import("@/components/common/Loading.vue"),
 	},
 	methods: {
 		init() {
@@ -123,17 +126,27 @@ export default {
 					.then((res) => {
 						if (res.Data != null) {
 							this.info = res.Data;
+							setTimeout(() => {
+								this.loading = false;
+							}, 400);
 						}
 					})
-					.catch();
+					.catch(() => {
+						this.loading = false;
+					});
 			} else {
 				GetSchoolPredicted(data)
 					.then((res) => {
 						if (res.Data != null) {
 							this.info = res.Data;
+							setTimeout(() => {
+								this.loading = false;
+							}, 400);
 						}
 					})
-					.catch();
+					.catch(() => {
+						this.loading = false;
+					});
 			}
 		},
 	},

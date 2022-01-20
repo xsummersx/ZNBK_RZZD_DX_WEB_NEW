@@ -9,7 +9,7 @@
 <template>
 	<div class="left-Content-Box">
 		<span class="title">认知平均分</span>
-		<div class="main">
+		<div class="main" v-show="!loading">
 			<Ring :FullIndex="info.FullIndex" :avgIndex="avgIndex" />
 			<Middle :level="info.CognitiveGradeName" />
 			<CompareLastWeek :ChangeScore="info.ChangeIndex" />
@@ -30,6 +30,7 @@
 			<i class="line"></i>
 			<span class="btn" @click="openTrend()">认知成绩走势</span>
 		</div>
+		<Loading v-if="loading" style="margin-top: 35px" />
 		<el-dialog
 			:title="TitleDis"
 			:visible.sync="dialogDis"
@@ -130,6 +131,7 @@ export default {
 		Middle: () => import("../common/Middle.vue"),
 		ScoreDis: () => import("../eduSchool/ScoreDis.vue"),
 		ScoreTrend: () => import("../eduSchool/ScoreTrend.vue"),
+		Loading: () => import("@/components/common/Loading.vue"),
 	},
 	mounted() {},
 	methods: {
@@ -143,7 +145,7 @@ export default {
 						this.info = res.Data;
 						setTimeout(() => {
 							this.loading = false;
-						}, 200);
+						}, 400);
 					})
 					.catch(() => {
 						this.loading = false;
@@ -155,7 +157,7 @@ export default {
 						this.info = res.Data;
 						setTimeout(() => {
 							this.loading = false;
-						}, 200);
+						}, 400);
 					})
 					.catch(() => {
 						this.loading = false;

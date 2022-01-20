@@ -12,9 +12,9 @@
 		:class="$route.name === 'schoolRZZD' ? 'height-leader' : 'none'"
 	>
 		<span class="title">累计作答试卷</span>
-		<div class="paper" v-if="$route.name === 'educationRZZD'">
+		<div class="paper" v-show="$route.name === 'educationRZZD' && !loading">
 			<div id="eduChart" style="width: 122px; height: 122px"></div>
-			<div class="text">
+			<div class="text" v-if="$route.name === 'educationRZZD' && !loading">
 				<span
 					><span class="number">{{ info.AreaAvgCount }}</span
 					><span class="charChar">份</span></span
@@ -23,7 +23,7 @@
 				<span class="avgNum">平均试卷量</span>
 			</div>
 		</div>
-		<div class="main" v-if="$route.name === 'schoolRZZD'">
+		<div class="main" v-if="$route.name === 'schoolRZZD' && !loading">
 			<div class="left">
 				<span
 					><span class="number">{{ info.SchoolCount }}</span
@@ -39,17 +39,18 @@
 			</div>
 		</div>
 		<Top
-			v-if="$route.name === 'educationRZZD'"
+			v-if="$route.name === 'educationRZZD' && !loading"
 			:SchoolList="info.SchoolList"
 			:FocusSchoolList="info.FocusSchoolList"
 		/>
 		<RankAndFirst
-			v-if="$route.name === 'schoolRZZD'"
+			v-if="$route.name === 'schoolRZZD' && !loading"
 			:MySchoolRank="info.MySchoolRank"
 			:FirstSchool="info.FirstSchool"
 			:FirstScore="info.FirstScore"
 			:isScore="false"
 		/>
+		<Loading v-if="loading" style="margin-top: 25px" />
 	</div>
 </template>
 
@@ -78,6 +79,7 @@ export default {
 				// 重点关注
 				FocusSchoolList: [],
 			},
+			loading: true,
 		};
 	},
 	created() {
@@ -86,6 +88,7 @@ export default {
 	components: {
 		RankAndFirst: () => import("../common/RankAndFirst.vue"),
 		Top: () => import("../common/Top.vue"),
+		Loading: () => import("@/components/common/Loading.vue"),
 	},
 	mounted() {
 		if (this.$route.name === "educationRZZD") {
@@ -101,17 +104,27 @@ export default {
 					.then((res) => {
 						if (res.Data != null) {
 							this.info = res.Data;
+							setTimeout(() => {
+								this.loading = false;
+							}, 400);
 						}
 					})
-					.catch();
+					.catch(() => {
+						this.loading = false;
+					});
 			} else {
 				GetSchoolPaperNum(data)
 					.then((res) => {
 						if (res.Data != null) {
 							this.info = res.Data;
+							setTimeout(() => {
+								this.loading = false;
+							}, 400);
 						}
 					})
-					.catch();
+					.catch(() => {
+						this.loading = false;
+					});
 			}
 		},
 		chart() {
