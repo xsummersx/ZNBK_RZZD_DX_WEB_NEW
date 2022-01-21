@@ -319,7 +319,7 @@ export default {
 		.quantity {
 			font-size: 22px;
 			margin-bottom: 5px;
-			font-family: ArialMT;
+			font-family: Oswald;
 		}
 		.char {
 			font-size: 14px;

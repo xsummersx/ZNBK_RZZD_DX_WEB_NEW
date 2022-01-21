@@ -293,7 +293,7 @@ export default {
 						show: false,
 						xAxisIndex: [0],
 						start: 0,
-						end: (5 / this.xdata.length) * 100,
+						end: (3 / this.xdata.length) * 100,
 					},
 				],
 				xAxis: {
