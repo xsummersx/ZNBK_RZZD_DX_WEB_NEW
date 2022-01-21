@@ -31,22 +31,6 @@
       style="width: 780px; height: 205px"
       backSize="80%"
     ></Loading>
-
-    <el-dialog
-      :title="dialogTitle"
-      :visible.sync="dialogVisible"
-      :close-on-click-modal="false"
-      width="1000px"
-      top="0vh"
-    >
-      <div v-if="dialogVisible">
-        <QuestionDiolog
-          :TypeNo="TypeNo"
-          :GenreID="GenreID"
-          v-if="dialogIndex == 1"
-        ></QuestionDiolog>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
@@ -64,15 +48,9 @@ export default {
       showData: false,
       maxTypeName: "",
       minTypeName: "",
-      TypeNo: "",
-      GenreID: "",
-      dialogTitle: "", //弹窗标题
-      dialogVisible: false, //默认隐藏弹框
-      dialogIndex: 1, //弹窗，学生成绩单，
     };
   },
   components: {
-    QuestionDiolog: () => import("../../views/dialog/QuestionDiolog.vue"),
     Loading,
   },
   created() {},
@@ -114,12 +92,6 @@ export default {
         this.drawLine();
         this.showData = true;
       });
-    },
-    dialog(i) {
-      this.dialogVisible = true;
-      this.dialogIndex = i;
-      this.dialogTitle =
-        this.$route.name == "gradeRZZD" ? "班级" : "学生" + "做题特点对比分析";
     },
     //统计图最大标注
     markPontMax() {
@@ -263,16 +235,6 @@ export default {
           },
         ],
       });
-      // questionCharts.off("click");
-      // questionCharts.on("click", function (params) {
-      //   that.dialogVisible = false;
-      //   that.dialogIndex = 1;
-      //   that.GenreID = that.resInfo.TypeInfoList[params.dataIndex].GenreID;
-      //   that.TypeNo = that.resInfo.TypeInfoList[params.dataIndex].TypeNo;
-      //   that.dialogVisible = true;
-      //   that.dialogTitle = params.name + "对比分析";
-      //   //
-      // });
     },
   },
 };

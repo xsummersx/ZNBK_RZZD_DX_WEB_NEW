@@ -88,9 +88,14 @@ export default {
       );
       questionDiologCharts.setOption(this.$optionObj.questionDiologOption);
       questionDiologCharts.setOption({
-        cursor: "default",
         xAxis: {
           data: xData,
+        },
+        grid: {
+          left: 60,
+          right: 80,
+          top: 40,
+          bottom: 40,
         },
         dataZoom: [
           {
