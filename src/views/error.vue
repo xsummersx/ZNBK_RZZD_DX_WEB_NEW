@@ -15,8 +15,8 @@
       <p class="err_text3">
         如果需要继续访问，您可以尝试以下操作
         <button @click="toLogin()">重新登录</button>
-        或
-        <a href="javascript:location.reload()">刷新页面</a>
+        <!-- 或
+        <a href="javascript:location.reload()">刷新页面</a> -->
       </p>
     </div>
   </div>
