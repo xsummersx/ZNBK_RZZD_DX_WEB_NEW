@@ -346,4 +346,16 @@ export default {
 .rank3 {
   background: url("~@/assets/img/grade/第三名.png") center center no-repeat;
 }
+.temNoData {
+  width: 960px;
+  height: 400px;
+  background: url("../../assets/img/nodata/ChartsNoData.png") center center no-repeat;
+  border-radius: 4px;
+  text-align: center;
+  color: #ffffff;
+  span {
+    display: inline-block;
+    margin-top: 250px;
+  }
+}
 </style>

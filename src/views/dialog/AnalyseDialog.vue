@@ -24,12 +24,21 @@
             <th>平均得分率</th>
             <th
               class="oneTH"
-              :style="{ width: QTypeClassList.length == 1 ? '599px' : QTypeClassList.length == 2 ? '300px' : '250px' }"
+              :style="{
+                width:
+                  QTypeClassList.length == 1
+                    ? '598px'
+                    : QTypeClassList.length == 2
+                    ? '300px'
+                    : '250px',
+              }"
               v-for="(item, index) in QTypeClassList"
               :key="index"
             >
               <div class="oneTH1">{{ item.CourseClassName }}</div>
-              <div class="oneTH2"><span class="oneSpan1">得分率</span><span class="oneSpan2">排名</span></div>
+              <div class="oneTH2">
+                <span class="oneSpan1">得分率</span><span class="oneSpan2">排名</span>
+              </div>
             </th>
           </tr>
         </thead>
@@ -38,8 +47,14 @@
             <td>{{ item.Index }}</td>
             <td>{{ item.QTypeName }}</td>
             <td>{{ (item.PaperScoreRate * 100).toFixed() + "%" }}</td>
-            <td class="borderTD" v-for="(item2, index2) in item.QTypeClassList" :key="index2">
-              <span class="oneSpan1">{{ (item2.PaperScoreRate * 100).toFixed() + "%" }}</span>
+            <td
+              class="borderTD"
+              v-for="(item2, index2) in item.QTypeClassList"
+              :key="index2"
+            >
+              <span class="oneSpan1">{{
+                (item2.PaperScoreRate * 100).toFixed() + "%"
+              }}</span>
               <span class="oneSpan2">{{ item2.GradeRank }}</span>
             </td>
           </tr>
@@ -147,7 +162,8 @@ export default {
     height: 28px;
     line-height: 28px;
     margin-bottom: 10px;
-    background: url("../../assets/img/viewImg/导出试卷题型得分分析.png") -0px -28px no-repeat;
+    background: url("../../assets/img/viewImg/导出试卷题型得分分析.png") -0px -28px
+      no-repeat;
     border-radius: 4px;
     font-size: 14px;
     color: #ffffff;
@@ -162,10 +178,12 @@ export default {
       top: 2px;
     }
     &:active {
-      background: url("../../assets/img/viewImg/导出试卷题型得分分析.png") -0px -0px no-repeat;
+      background: url("../../assets/img/viewImg/导出试卷题型得分分析.png") -0px -0px
+        no-repeat;
     }
     &:hover {
-      background: url("../../assets/img/viewImg/导出试卷题型得分分析.png") -0px -56px no-repeat;
+      background: url("../../assets/img/viewImg/导出试卷题型得分分析.png") -0px -56px
+        no-repeat;
     }
   }
 }
@@ -217,11 +235,11 @@ export default {
         display: inline-block;
       }
       .oneSpan1 {
-        width: 120px;
+        width: 50%;
         color: #fff600;
       }
       .oneSpan2 {
-        width: 120px;
+        width: 50%;
       }
     }
     td:nth-child(1) {
@@ -253,13 +271,14 @@ export default {
   .oneTH2 {
     span {
       display: inline-block;
+      box-sizing: border-box;
     }
     .oneSpan1 {
-      width: 120px;
+      width: 50%;
       border-right: 1px solid rgba(255, 255, 255, 0.1);
     }
     .oneSpan2 {
-      width: 120px;
+      width: 50%;
     }
   }
 }

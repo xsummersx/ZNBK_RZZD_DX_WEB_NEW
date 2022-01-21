@@ -583,6 +583,7 @@ export default {
 }
 
 .bottomBox {
+  overflow: hidden;
   position: relative;
   padding: 20px 40px;
   color: #fff;

@@ -300,7 +300,7 @@ export default {
         this.resInfo = res.Data;
         this.timeList = this.resInfo.ReleasedPaperList;
         if (this.timeList.length > 0) {
-          this.paperList = this.timeList[0].ReleasedPaperList;
+          this.paperList = this.timeList[this.activeTimeIndex].ReleasedPaperList;
           if (this.paperList.length > 0) {
             this.PaperName = this.paperList[i].PaperName;
             this.PaperID = this.paperList[i].PaperID;
@@ -354,7 +354,8 @@ export default {
         this.PaperName = this.paperList[0].PaperName;
         this.PaperID = this.paperList[0].PaperID;
       }
-      this.GetGradePublishedPaperDaily_V3(this.PaperID, 0);
+      console.log(this.PaperID);
+      this.GetStuPublishedPaperDaily_V3(this.PaperID, 0);
     },
     chooseActivePaper(i) {
       this.dialogVisible1 = !this.dialogVisible1;
