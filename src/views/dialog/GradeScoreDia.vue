@@ -17,7 +17,7 @@
         导出班级成绩对比分析
       </div>
     </div>
-    <div v-show="showList.length > 0 && !noDataShow" class="table">
+    <div v-show="showList.length > 0 && !noDataShow && !showLoading" class="table">
       <table>
         <thead>
           <tr>
@@ -81,7 +81,7 @@
         </tbody>
       </table>
     </div>
-    <div v-show="showList.length <= 0 && !noDataShow" class="temNoData">
+    <div v-show="showList.length <= 0 && !noDataShow && !showLoading" class="temNoData">
       <span>暂无班级成绩对比分析数据噢~</span>
     </div>
 
@@ -152,6 +152,7 @@ export default {
         this.showLoading = false;
         this.StuCount = res.Data.PageClassCount;
         this.showList = res.Data.ClassQtypeRateRankList;
+        this.showList = [];
         if (this.showList.length > 0) {
           this.noDataShow = false;
           this.ObjectiveQTypeList = this.showList[0].ObjectiveQTypeList;

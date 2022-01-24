@@ -252,7 +252,7 @@
         </template>
       </el-table-column>
       <template slot="empty" v-if="emptyText == '加载中...'">
-        <div class="table-loading-block">加载中...</div>
+        <div class="table-loading-block"></div>
       </template>
       <template slot="empty" v-else>
         <div class="table-empty-block">暂无学生认知成绩单数据噢</div>
@@ -470,7 +470,25 @@ export default {
 }
 .table-loading-block {
   background: url("../../assets/img/nodata/reportLoad.png") center center no-repeat;
-  padding-top: 130px;
+  padding-top: 235px;
+  animation: turn 1s linear infinite;
+}
+@keyframes turn {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  25% {
+    -webkit-transform: rotate(90deg);
+  }
+  50% {
+    -webkit-transform: rotate(180deg);
+  }
+  75% {
+    -webkit-transform: rotate(270deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
 }
 .table-empty-block {
   background: url("../../assets/img/nodata/tableNoData.png") center center no-repeat;

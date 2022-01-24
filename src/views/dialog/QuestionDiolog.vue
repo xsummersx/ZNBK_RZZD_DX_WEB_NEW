@@ -1,7 +1,7 @@
 <!--
  * @Author: 柳欢
  * @Date: 2021-12-15 15:08:54
- * @LastEditTime: 2021-12-27 11:03:00
+ * @LastEditTime: 2022-01-21 16:23:14
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\views\dialog\QuestionDiolog.vue
@@ -88,8 +88,10 @@ export default {
       );
       questionDiologCharts.setOption(this.$optionObj.questionDiologOption);
       questionDiologCharts.setOption({
+        cursor: "default",
         xAxis: {
           data: xData,
+          name: "学生",
         },
         grid: {
           left: 60,

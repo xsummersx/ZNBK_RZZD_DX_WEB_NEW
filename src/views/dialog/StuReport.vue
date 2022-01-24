@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-12-14 13:56:07
- * @LastEditTime: 2021-12-28 14:06:17
+ * @LastEditTime: 2022-01-21 17:17:00
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\views\dialog\StuReport.vue
@@ -14,7 +14,7 @@
         导出学生成绩单
       </div>
     </div>
-    <div v-show="showList.length > 0 && !noDataShow" class="table">
+    <div v-show="showList.length > 0 && !noDataShow && !showLoading" class="table">
       <table>
         <thead>
           <tr>
@@ -72,7 +72,7 @@
         </tbody>
       </table>
     </div>
-    <div v-show="showList.length <= 0 && !noDataShow" class="temNoData">
+    <div v-show="showList.length <= 0 && !noDataShow && !showLoading" class="temNoData">
       <span>暂无学生成绩单统计数据噢~</span>
     </div>
 

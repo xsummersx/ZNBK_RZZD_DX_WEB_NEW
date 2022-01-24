@@ -84,7 +84,9 @@
                       openPopUp(item.TypeNo, item.GenreName,item.TypeName, item.GenreID, 1)
                     " -->
               <span>
-                {{ (item.PerAvgRate * 100).toFixed() + "%" }}
+                {{
+                  item.PerAvgRate == -1 ? "/" : (item.PerAvgRate * 100).toFixed() + "%"
+                }}
               </span>
             </td>
           </tr>
@@ -121,7 +123,9 @@
                     ? 'ThirdRank'
                     : ''
                 "
-                >{{ item.ClassRank > 3 ? item.ClassRank : "" }}</span
+                >{{
+                  item.ClassRank > 3 ? item.ClassRank : item.ClassRank > 0 ? "" : "/"
+                }}</span
               >
             </td>
           </tr>
@@ -158,7 +162,9 @@
                     ? 'ThirdRank'
                     : ''
                 "
-                >{{ item.GradeRank > 3 ? item.GradeRank : "" }}</span
+                >{{
+                  item.GradeRank > 3 ? item.GradeRank : item.GradeRank > 0 ? "" : "/"
+                }}</span
               >
             </td>
           </tr>
@@ -255,6 +261,7 @@ export default {
     height: 29px;
     line-height: 26px;
     margin-top: 8px;
+    color: rgba(255, 255, 255, 0.7);
   }
   .FirstRank {
     background: url("~@/assets/img/grade/第一名.png") center center no-repeat;

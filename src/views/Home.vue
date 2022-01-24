@@ -28,6 +28,7 @@
                     ? 'highProduct'
                     : 'middleProduct'
                 "
+                @click="toHome()"
               ></span>
               <span
                 v-if="$route.name == 'educationRZZD' || $route.name == 'schoolRZZD'"
@@ -605,6 +606,10 @@ export default {
         }
         // this.GetCommonKnowledgeSpectrum();
       });
+    },
+    toHome() {
+      window.open(window.location.hostname);
+      // window.open(this.$baseUrl);
     },
     // 打开弹窗
     switchArea() {

@@ -1,7 +1,7 @@
 <!--
  * @Author: 柳欢
  * @Date: 2021-11-30 14:58:43
- * @LastEditTime: 2021-12-16 11:51:28
+ * @LastEditTime: 2022-01-21 16:55:28
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教师，学习特点
@@ -28,8 +28,7 @@
           <span class="count"
             ><span class="number">{{
               resInfo.ClassStudySpeeds.GradeAvgStudySpeeds.toFixed(2)
-            }}</span
-            >%</span
+            }}</span></span
           >
         </div>
       </div>
@@ -224,8 +223,8 @@ export default {
       this.option2 = this.getPie3D(this.optionData2, 0.6);
       myChart1.setOption(this.option1);
       myChart2.setOption(this.option2);
-      this.bindListen(myChart1);
-      this.bindListen(myChart2);
+      // this.bindListen(myChart1);
+      // this.bindListen(myChart2);
     },
     getPie3D(pieData, internalDiameterRatio) {
       let series = [];
@@ -454,12 +453,12 @@ export default {
         },
       };
     },
-    bindListen(myChart) {
-      // 监听点击事件，实现弹窗
-      myChart.on("click", function (params) {
-        console.log(params);
-      });
-    },
+    // bindListen(myChart) {
+    //   // 监听点击事件，实现弹窗
+    //   myChart.on("click", function (params) {
+    //     console.log(params);
+    //   });
+    // },
     getCount1(d) {
       return this.optionData1.filter((item) => item.name === d)[0].count;
     },
