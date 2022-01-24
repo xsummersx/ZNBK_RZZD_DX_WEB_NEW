@@ -62,12 +62,9 @@
 						</el-table-column>
 						<el-table-column prop="StuName" label="姓名" width="88">
 							<template slot-scope="scope">
-								<div>
-									<!-- <img class="stuPhoto" :src="scope.row.PhotoPath" alt="" /> -->
-									<span class="stuname" :title="scope.row.StuName">{{
-										scope.row.StuName
-									}}</span>
-								</div>
+								<span class="stuName" :title="scope.row.StuName">{{
+									scope.row.StuName
+								}}</span>
 							</template>
 						</el-table-column>
 						<el-table-column
@@ -565,6 +562,14 @@ export default {
 .dialogContent {
 	width: 500px;
 	height: 400px;
+	.stuName {
+		display: inline-block;
+		width: 65px;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		vertical-align: middle;
+	}
 }
 .dialogMain {
 	// margin: 0px 0;
