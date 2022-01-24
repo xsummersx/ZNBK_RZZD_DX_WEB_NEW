@@ -18,8 +18,8 @@
       </div>
       <div id="optID" v-show="!loading"></div>
     </template>
-    <EduNoData v-if="!showData" noDataType="0" style="margin-top: 70px"></EduNoData>
-    <Loading v-if="loading" style="margin-top: 30px"></Loading>
+    <EduNoData v-if="!showData" noDataType="0" style="margin-top: 70px;"></EduNoData>
+    <Loading v-if="loading" style="margin-top: 30px;"></Loading>
   </div>
 </template>
 <script>

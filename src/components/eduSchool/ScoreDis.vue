@@ -1,24 +1,50 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:30:34
- * @LastEditTime: 2022-01-19 16:59:56
+ * @LastEditTime: 2022-01-24 08:54:28
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》认知成绩分布
 -->
 <template>
   <div class="Dis" :class="{ teacDis: $route.name == 'gradeRZZD' || $route.name == 'teacherRZZD' }">
-    <div class="title" v-if="!($route.name == 'gradeRZZD' || $route.name == 'teacherRZZD')">认知成绩分布</div>
+    <div class="title" v-if="!($route.name == 'gradeRZZD' || $route.name == 'teacherRZZD')">
+      认知成绩分布
+    </div>
 
     <div class="button">
-      <span @click="checkButton(0)" v-show="$route.name == 'educationRZZD'" :class="{ active: activeSpan == 0 }"
-        ><i style="display: block" class="animate__animated" :class="{ animate__rubberBand: activeSpan == 0 }">学校</i></span
+      <span
+        @click="checkButton(0)"
+        v-show="$route.name == 'educationRZZD'"
+        :class="{ active: activeSpan == 0 }"
+        ><i
+          style="display: block;"
+          class="animate__animated"
+          :class="{ animate__rubberBand: activeSpan == 0 }"
+          >学校</i
+        ></span
       >
-      <span @click="checkButton(1)" v-show="$route.name == 'schoolRZZD' || $route.name == 'gradeRZZD'" :class="{ active: activeSpan == 1 }"
-        ><i style="display: block" class="animate__animated" :class="{ animate__rubberBand: activeSpan == 1 }">班级</i></span
+      <span
+        @click="checkButton(1)"
+        v-show="$route.name == 'schoolRZZD' || $route.name == 'gradeRZZD'"
+        :class="{ active: activeSpan == 1 }"
+        ><i
+          style="display: block;"
+          class="animate__animated"
+          :class="{ animate__rubberBand: activeSpan == 1 }"
+          >班级</i
+        ></span
       >
-      <span v-show="$route.name != 'teacherRZZD'" @click="checkButton(2)" :class="{ active: activeSpan == 2 }"
-        ><i style="display: block" class="animate__animated" :class="{ animate__rubberBand: activeSpan == 2 }">学生</i></span
+      <span
+        v-show="$route.name != 'teacherRZZD'"
+        @click="checkButton(2)"
+        :class="{ active: activeSpan == 2 }"
+        ><i
+          style="display: block;"
+          class="animate__animated"
+          :class="{ animate__rubberBand: activeSpan == 2 }"
+          >学生</i
+        ></span
       >
     </div>
     <div class="tu" v-show="!loading">
@@ -30,7 +56,13 @@
       <div class="Eline"></div>
       <div class="Acont">
         <span class="Text">
-          <span class="TextDeng Acolor">A<sup>+</sup></span>
+          <span
+            class="TextDeng Acolor"
+            :title="
+              '认知平均分：' + List[0].DistreIndex + '，对应预估成绩区间：' + List[0].DistreScore
+            "
+            >A<sup>+</sup></span
+          >
           <span class="Acolor">
             <b class="big">{{ List[0].LevelCount }}</b
             >{{ getText }}</span
@@ -50,7 +82,13 @@
       </div>
       <div class="Bcont">
         <span class="Text">
-          <span class="TextDeng Bcolor">B<sup>+</sup></span>
+          <span
+            class="TextDeng Bcolor"
+            :title="
+              '认知平均分：' + List[1].DistreIndex + '，对应预估成绩区间：' + List[1].DistreScore
+            "
+            >B<sup>+</sup></span
+          >
           <span class="Bcolor">
             <b class="big">{{ List[1].LevelCount }}</b
             >{{ getText }}</span
@@ -70,7 +108,13 @@
       </div>
       <div class="Ccont">
         <span class="Text">
-          <span class="TextDeng Ccolor">C<sup>+</sup></span>
+          <span
+            class="TextDeng Ccolor"
+            :title="
+              '认知平均分：' + List[2].DistreIndex + '，对应预估成绩区间：' + List[2].DistreScore
+            "
+            >C<sup>+</sup></span
+          >
           <span class="Ccolor">
             <b class="big">{{ List[2].LevelCount }}</b
             >{{ getText }}</span
@@ -90,7 +134,13 @@
       </div>
       <div class="Dcont">
         <span class="Text">
-          <span class="TextDeng Dcolor">D<sup>+</sup></span>
+          <span
+            class="TextDeng Dcolor"
+            :title="
+              '认知平均分：' + List[3].DistreIndex + '，对应预估成绩区间：' + List[3].DistreScore
+            "
+            >D<sup>+</sup></span
+          >
           <span class="Dcolor">
             <b class="big">{{ List[3].LevelCount }}</b
             >{{ getText }}</span
@@ -110,7 +160,13 @@
       </div>
       <div class="Econt">
         <span class="Text">
-          <span class="TextDeng Ecolor">E<sup>+</sup></span>
+          <span
+            class="TextDeng Ecolor"
+            :title="
+              '认知平均分：' + List[4].DistreIndex + '，对应预估成绩区间：' + List[4].DistreScore
+            "
+            >E<sup>+</sup></span
+          >
           <span class="Ecolor">
             <b class="big">{{ List[4].LevelCount }}</b
             >{{ getText }}</span
@@ -129,8 +185,8 @@
         </span>
       </div>
     </div>
-    <EduNoData v-if="false" noDataType="1" style="margin-top: 120px"></EduNoData>
-    <Loading v-show="loading" style="margin-top: 50px"></Loading>
+    <EduNoData v-if="false" noDataType="1" style="margin-top: 120px;"></EduNoData>
+    <Loading v-show="loading" style="margin-top: 50px;"></Loading>
   </div>
 </template>
 <script>
@@ -368,6 +424,7 @@ export default {
   .TextDeng {
     font-size: 20px;
     margin-right: 5px;
+    cursor: default;
   }
   .big {
     font-size: 13px;
