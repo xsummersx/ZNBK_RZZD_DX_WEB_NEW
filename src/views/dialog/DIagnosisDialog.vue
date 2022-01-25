@@ -66,7 +66,13 @@
 								<span class="littleTitle">
 									<span class="point"></span>认知分</span
 								>
-								<span class="score">{{ item.ClassScore }}分</span>
+								<span class="score" v-if="userType === 'teacher'"
+									>{{ item.ClassScore }}分</span
+								>
+								<span class="score" v-else-if="userType === 'grade'"
+									>{{ item.GradeScore }}分</span
+								>
+								<span class="score" v-else>{{ item.PersonalScore }}分</span>
 							</div>
 							<div class="contentItem">
 								<span class="littleTitle">
