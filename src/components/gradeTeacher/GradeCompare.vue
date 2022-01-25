@@ -78,6 +78,7 @@ export default {
           itemWidth: 11,
           itemHeight: 11,
           align: "left",
+          selectedMode: false,
           orient: "horizontal",
           itemGap: 20,
           textStyle: {
