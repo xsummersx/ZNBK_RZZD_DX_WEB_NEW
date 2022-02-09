@@ -30,7 +30,7 @@
           <span
             class="stu-paperNum"
             :class="arrIndex == 3 ? (item.Num >= 0 ? 'greenNum' : 'redNum') : ''"
-            >{{ item.Num.toFixed() }}<span v-if="arrIndex == 1">份</span
+            >{{ Math.abs(item.Num.toFixed()) }}<span v-if="arrIndex == 1">份</span
             ><span v-else-if="arrIndex == 2">分</span><span v-else>名</span></span
           >
         </span>
@@ -125,7 +125,7 @@ export default {
       .redNum {
         color: #ff8080;
         padding-left: 10px;
-        background: url("../../assets/img/common/升.png") center left no-repeat;
+        background: url("../../assets/img/common/降.png") center left no-repeat;
       }
     }
   }

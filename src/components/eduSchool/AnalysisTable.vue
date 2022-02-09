@@ -14,12 +14,12 @@
       <EduNoData
         v-if="false"
         noDataType="4"
-        style="margin-top: 170px; margin-bottom: 170px;"
+        style="margin-top: 170px; margin-bottom: 170px"
       ></EduNoData>
       <div class="title">
         <span class="titText">认知情况详情</span>
         <template>
-          <div class="exportScore float-r" @click="exoprtExcel" style="margin-right: 0px;">
+          <div class="exportScore float-r" @click="exoprtExcel" style="margin-right: 0px">
             <span class="exportIcon"></span>
             导出成绩单
           </div>
@@ -33,7 +33,7 @@
               v-on:keyup.enter="searchStu()"
               v-on:input="SearChange"
             />
-            <span class="searchIcon" style="right: 146px;" @click="searchStu()"></span>
+            <span class="searchIcon" style="right: 146px" @click="searchStu()"></span>
           </div>
           <!-- <div class="inputBox">
           <input class="float-r stuInput" type="text" placeholder="请输入学生姓名搜索..." v-model="ClassSearchText1" v-on:keyup.enter="searchStu()" />
@@ -46,7 +46,7 @@
           :empty-text="emptyText"
           :data="showList"
           height="280"
-          style="width: 100%; height: 305px;"
+          style="width: 100%; height: 305px"
           class="bueatyScroll"
         >
           <el-table-column prop="Index" label="序号" width="53">
@@ -116,7 +116,10 @@
           </el-table-column>
           <el-table-column label="查看详情" width="70">
             <template slot-scope="scope">
-              <span class="checkDetail" @click="openClass(scope.row.CourseClassID)"></span>
+              <span
+                class="checkDetail"
+                @click="openClass(scope.row.CourseClassID)"
+              ></span>
             </template>
           </el-table-column>
           <template slot="empty" v-if="emptyText == '加载中...'">
@@ -140,7 +143,7 @@
         </div>
       </div>
     </div>
-    <Loading v-show="loading" style="margin-top: 340px;"></Loading>
+    <Loading v-show="loading" style="margin-top: 340px"></Loading>
   </div>
 </template>
 <script>

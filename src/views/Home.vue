@@ -608,8 +608,9 @@ export default {
       });
     },
     toHome() {
-      window.open(window.location.hostname);
-      // window.open(this.$baseUrl);
+      console.log(window.location.hostname);
+      // window.open(window.location.hostname);
+      window.open(this.$baseUrl);
     },
     // 打开弹窗
     switchArea() {
