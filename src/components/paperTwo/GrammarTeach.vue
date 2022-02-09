@@ -122,22 +122,22 @@ export default {
 			option: {},
 			// 接口返回数据
 			info: {
-				GrammarScoreRate: 0.6985816,
+				GrammarScoreRate: 0,
 				GrammerMasteredMapList: [
 					{
 						MasteredConclusion: 1,
-						StuCount: 10,
-						StuCountProportion: 0.2,
+						StuCount: 0,
+						StuCountProportion: 0.0,
 					},
 					{
 						MasteredConclusion: 2,
-						StuCount: 35,
-						StuCountProportion: 0.32,
+						StuCount: 0,
+						StuCountProportion: 0.0,
 					},
 					{
 						MasteredConclusion: 3,
-						StuCount: 15,
-						StuCountProportion: 0.48,
+						StuCount: 0,
+						StuCountProportion: 0.0,
 					},
 				],
 			},
@@ -445,33 +445,29 @@ export default {
 		// 显示第几页
 		handleCurrentChange(val) {
 			// 改变默认的页数
-			this.emptyText = "加载中...";
 			this.currentPage = val;
-			this.tableData = [];
 			this.getStuList(val);
 		},
 		// 获取学校名单
 		getStuList(PageNum) {
+			this.emptyText = "加载中...";
+			this.tableData = [];
 			let params = {
-				// SchoolID: "S4-000020-9AB3",
-				// CourseClassID: "6A04CCDA-0598-4D6E-9A06-C7155E8BD8F5",
-				// TID: "T1014003",
-				// Token: "02020590-babb-43b7-81b2-64ed8a94d848",
-				// ZsdArea: "C",
 				...this.$store.state,
 				MasterType: this.currentType,
 				PageNum: PageNum,
 				PageSize: this.PageSize,
 			};
 			delete params.UserInfo;
-			GetClassGrammerList(params).then((res) => {
-				this.tableData = res.Data.StuGrammerList;
-				this.pageCount = Math.ceil(res.Data.PageCount / 9);
-				this.emptyText = "暂无数据";
-			});
-			// setTimeout(() => {
-			// 		this.emptyText = "暂无数据";
-			// }, 1500);
+			GetClassGrammerList(params)
+				.then((res) => {
+					this.tableData = res.Data.StuGrammerList;
+					this.pageCount = Math.ceil(res.Data.PageCount / 9);
+					this.emptyText = "暂无数据";
+				})
+				.catch(() => {
+					this.emptyText = "暂无数据";
+				});
 		},
 		// 跳转薄弱诊断
 		toDiagnosis() {
