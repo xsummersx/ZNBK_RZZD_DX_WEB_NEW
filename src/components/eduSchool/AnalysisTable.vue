@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:29:29
- * @LastEditTime: 2022-01-24 09:01:14
+ * @LastEditTime: 2022-02-09 10:44:56
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 学校校长=》认知情况详情，图1
@@ -14,12 +14,12 @@
       <EduNoData
         v-if="false"
         noDataType="4"
-        style="margin-top: 170px; margin-bottom: 170px"
+        style="margin-top: 170px; margin-bottom: 170px;"
       ></EduNoData>
       <div class="title">
         <span class="titText">认知情况详情</span>
         <template>
-          <div class="exportScore float-r" @click="exoprtExcel" style="margin-right: 0px">
+          <div class="exportScore float-r" @click="exoprtExcel" style="margin-right: 0px;">
             <span class="exportIcon"></span>
             导出成绩单
           </div>
@@ -31,8 +31,9 @@
               placeholder="请输入班级名称搜索..."
               v-model="ClassSearchText"
               v-on:keyup.enter="searchStu()"
+              v-on:input="SearChange"
             />
-            <span class="searchIcon" style="right: 146px" @click="searchStu()"></span>
+            <span class="searchIcon" style="right: 146px;" @click="searchStu()"></span>
           </div>
           <!-- <div class="inputBox">
           <input class="float-r stuInput" type="text" placeholder="请输入学生姓名搜索..." v-model="ClassSearchText1" v-on:keyup.enter="searchStu()" />
@@ -45,7 +46,7 @@
           :empty-text="emptyText"
           :data="showList"
           height="280"
-          style="width: 100%; height: 305px"
+          style="width: 100%; height: 305px;"
           class="bueatyScroll"
         >
           <el-table-column prop="Index" label="序号" width="53">
@@ -115,10 +116,7 @@
           </el-table-column>
           <el-table-column label="查看详情" width="70">
             <template slot-scope="scope">
-              <span
-                class="checkDetail"
-                @click="openClass(scope.row.CourseClassID)"
-              ></span>
+              <span class="checkDetail" @click="openClass(scope.row.CourseClassID)"></span>
             </template>
           </el-table-column>
           <template slot="empty" v-if="emptyText == '加载中...'">
@@ -142,11 +140,12 @@
         </div>
       </div>
     </div>
-    <Loading v-show="loading" style="margin-top: 340px"></Loading>
+    <Loading v-show="loading" style="margin-top: 340px;"></Loading>
   </div>
 </template>
 <script>
 import { GetAnaChart, GetAnaTable, ExportExcel } from "@/api/eduSchool/right.js";
+import { useDebounce } from "@/utils/debounce.js";
 import EduNoData from "./eduNoData";
 import Loading from "../common/Loading";
 export default {
@@ -410,6 +409,16 @@ export default {
       this.currentPage = 1;
       this.getTable(1, 5, this.ClassSearchText);
     },
+    //搜索内容，发生变化监听，如果变为空则重新获取
+    SearChange() {
+      useDebounce(() => {
+        if (this.ClassSearchText == "") {
+          this.emptyText = "加载中...";
+          this.currentPage = 1;
+          this.getTable(1, 5, this.ClassSearchText);
+        }
+      }, 800)();
+    },
     // 显示第几页
     handleCurrentChange(val) {
       // 改变默认的页数
@@ -452,7 +461,7 @@ export default {
           "&ZsdArea=" +
           this.$store.state.ZsdArea +
           "&CountyID=" +
-          this.$store.state.CountyID
+          this.$store.state.CountyID,
       );
     },
   },
@@ -581,5 +590,8 @@ export default {
   padding-right: 25px;
   padding-top: 5px;
   background: url("../../assets/img/grade/柱状图弹窗BG.png") center center no-repeat;
+}
+#tableCharts > div > canvas:hover {
+  cursor: default;
 }
 </style>
