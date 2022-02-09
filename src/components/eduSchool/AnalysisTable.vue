@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:29:29
- * @LastEditTime: 2022-01-24 09:01:14
+ * @LastEditTime: 2022-02-09 10:20:59
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 学校校长=》认知情况详情，图1
@@ -31,6 +31,7 @@
               placeholder="请输入班级名称搜索..."
               v-model="ClassSearchText"
               v-on:keyup.enter="searchStu()"
+              v-on:input="SearChange"
             />
             <span class="searchIcon" style="right: 146px;" @click="searchStu()"></span>
           </div>
@@ -144,6 +145,7 @@
 </template>
 <script>
 import { GetAnaChart, GetAnaTable, ExportExcel } from "@/api/eduSchool/right.js";
+import { useDebounce } from "@/utils/debounce.js";
 import EduNoData from "./eduNoData";
 import Loading from "../common/Loading";
 export default {
@@ -407,6 +409,12 @@ export default {
       this.currentPage = 1;
       this.getTable(1, 5, this.ClassSearchText);
     },
+    //搜索内容，发生变化监听，如果变为空则重新获取
+    SearChange() {
+      useDebounce(() => {
+        console.log(this.ClassSearchText);
+      }, 1000);
+    },
     // 显示第几页
     handleCurrentChange(val) {
       // 改变默认的页数
@@ -449,7 +457,7 @@ export default {
           "&ZsdArea=" +
           this.$store.state.ZsdArea +
           "&CountyID=" +
-          this.$store.state.CountyID
+          this.$store.state.CountyID,
       );
     },
   },
@@ -578,5 +586,8 @@ export default {
   padding-right: 25px;
   padding-top: 5px;
   background: url("../../assets/img/grade/柱状图弹窗BG.png") center center no-repeat;
+}
+#tableCharts > div > canvas:hover {
+  cursor: default;
 }
 </style>
