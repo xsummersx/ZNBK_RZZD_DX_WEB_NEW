@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-12-09 14:11:40
- * @LastEditTime: 2021-12-30 09:10:24
+ * @LastEditTime: 2022-02-09 15:37:22
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\assets\js\ChartsOption\option.js
@@ -370,7 +370,7 @@ var learnOption = {
 
     data: [
       {
-        name: '学习速度'
+        name: '学习时长'
       },
       {
         name: '知识掌握速度'
@@ -431,7 +431,7 @@ var learnOption = {
   series: [
     {
       cursor: "default",
-      name: '学习速度',
+      name: '学习时长',
       type: 'line',
       symbol: 'circle', // 默认是空心圆（中间是白色的），改成实心圆
       showAllSymbol: true,

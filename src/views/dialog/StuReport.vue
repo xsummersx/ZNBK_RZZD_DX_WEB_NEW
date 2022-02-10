@@ -1,20 +1,20 @@
 <!--
  * @Author: your name
  * @Date: 2021-12-14 13:56:07
- * @LastEditTime: 2022-01-21 17:17:00
+ * @LastEditTime: 2022-02-09 15:24:45
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\views\dialog\StuReport.vue
 -->
 <template>
   <div class="bottom-box">
-    <div v-show="showList.length > 0 && !noDataShow" class="clearfix">
+    <div v-show="showList.length > 0" class="clearfix">
       <div @click="ExportReport()" class="exportBtn float-r">
         <span class="exportIcon"></span>
         导出学生成绩单
       </div>
     </div>
-    <div v-show="showList.length > 0 && !noDataShow && !showLoading" class="table">
+    <div v-show="showList.length > 0 && !showLoading" class="table">
       <table>
         <thead>
           <tr>
@@ -72,7 +72,7 @@
         </tbody>
       </table>
     </div>
-    <div v-show="showList.length <= 0 && !noDataShow && !showLoading" class="temNoData">
+    <div v-show="showList.length <= 0 && !showLoading" class="temNoData">
       <span>暂无学生成绩单统计数据噢~</span>
     </div>
 
@@ -117,7 +117,6 @@ export default {
       SearchText: "",
       emptyText: "",
       showList: [],
-      noDataShow: false,
       showLoading: true,
       ObjectiveQTypeList: [],
       SubjectiveQTypeList: [],
@@ -153,7 +152,6 @@ export default {
         this.StuCount = res.Data.PageStuCount;
         this.showList = res.Data.PaperStuScoreReportDetailList;
         if (this.showList.length > 0) {
-          this.noDataShow = false;
           this.ObjectiveQTypeList = this.showList[0].ObjectiveQTypeList;
           this.SubjectiveQTypeList = this.showList[0].SubjectiveQTypeList;
         }
@@ -178,7 +176,6 @@ export default {
         this.StuCount = res.Data.PageStuCount;
         this.showList = res.Data.PaperStuScoreReportDetailList;
         if (this.showList.length > 0) {
-          this.noDataShow = false;
           this.ObjectiveQTypeList = this.showList[0].ObjectiveQTypeList;
           this.SubjectiveQTypeList = this.showList[0].SubjectiveQTypeList;
         }
