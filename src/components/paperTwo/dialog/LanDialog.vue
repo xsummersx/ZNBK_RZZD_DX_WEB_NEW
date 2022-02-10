@@ -37,6 +37,7 @@ export default {
 					},
 				},
 				legend: {
+					selectedMode: false,
 					data: [
 						{
 							name: "听力",

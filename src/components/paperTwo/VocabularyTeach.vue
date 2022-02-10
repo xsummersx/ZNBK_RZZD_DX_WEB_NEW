@@ -85,6 +85,9 @@
 								</span>
 							</template>
 						</el-table-column>
+						<template slot="empty">
+							<Loading style="margin-top: 50px" />
+						</template>
 					</el-table>
 					<div class="paginationBox" v-if="pageCount > 1">
 						<el-pagination
@@ -202,6 +205,7 @@ export default {
 	},
 	components: {
 		NoDataVGL: () => import("../common/NoDataVGL.vue"),
+		Loading: () => import("@/components/common/Loading.vue"),
 	},
 	methods: {
 		// 初始化
@@ -297,6 +301,8 @@ export default {
 
 				// legendData.push(series[i].name);
 			}
+			console.log(series);
+			// let boxHeight = 16; //通过传参设定3d饼/环的高度
 			let boxHeight = this.getHeight3D(series, 40); //通过传参设定3d饼/环的高度
 			// 配置
 			let option = {
@@ -334,7 +340,7 @@ export default {
 					viewControl: {
 						distance: 230,
 						alpha: 20,
-						beta: 150,
+						beta: 90,
 						rotateSensitivity: [1, 0],
 						zoomSensitivity: 0, //设置为0无法缩放
 						panSensitivity: 0, //设置为0无法平移

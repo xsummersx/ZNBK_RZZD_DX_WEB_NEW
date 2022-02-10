@@ -111,9 +111,9 @@ export function GetStuVocabInfoList(data) {
 	});
 }
 // 词汇导出报告
-export function GetExportStuGrammerPlans(data) {
+export function GetExportStuVocabPlans(data) {
 	return request({
-		url: "/api/StuRZZD/GetExportStuGrammerPlans",
+		url: "/api/StuRZZD/GetExportStuVocabPlans",
 		method: "GET",
 		params: {
 			...data,

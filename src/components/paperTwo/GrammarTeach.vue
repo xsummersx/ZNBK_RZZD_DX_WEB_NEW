@@ -77,6 +77,9 @@
 								</span>
 							</template>
 						</el-table-column>
+						<template slot="empty">
+							<Loading style="margin-top: 50px" />
+						</template>
 					</el-table>
 					<div class="paginationBox" v-if="pageCount > 1">
 						<el-pagination
@@ -125,7 +128,7 @@ export default {
 				GrammarScoreRate: 0,
 				GrammerMasteredMapList: [
 					{
-						MasteredConclusion: 1,
+						MasteredConclusion: 3,
 						StuCount: 0,
 						StuCountProportion: 0.0,
 					},
@@ -135,7 +138,7 @@ export default {
 						StuCountProportion: 0.0,
 					},
 					{
-						MasteredConclusion: 3,
+						MasteredConclusion: 1,
 						StuCount: 0,
 						StuCountProportion: 0.0,
 					},
@@ -149,6 +152,7 @@ export default {
 	},
 	components: {
 		NoDataVGL: () => import("../common/NoDataVGL.vue"),
+		Loading: () => import("@/components/common/Loading.vue"),
 	},
 	computed: {
 		optionData: function () {
@@ -319,7 +323,7 @@ export default {
 					viewControl: {
 						distance: 140,
 						alpha: 20,
-						beta: 150,
+						beta: 90,
 						rotateSensitivity: [1, 0],
 						zoomSensitivity: 0, //设置为0无法缩放
 						panSensitivity: 0, //设置为0无法平移

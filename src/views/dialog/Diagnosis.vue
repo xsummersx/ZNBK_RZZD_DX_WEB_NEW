@@ -111,6 +111,15 @@
 							@click="searchKnowledge"
 						></span>
 						<i class="line"></i>
+						<!-- <div
+							class="exportScore"
+							style="margin-right: 0px"
+							@click="exportReport"
+							v-if="userType === 'stu'"
+						>
+							<span class="exportIcon"></span>
+							导出学习计划
+						</div> -->
 						<div
 							class="exportScore"
 							style="margin-right: 0px"
@@ -151,7 +160,7 @@
 						>查看所有薄弱{{ typeName }}</span
 					>
 				</div>
-				<div class="bottomContent" v-if="reportType === 'voca'">
+				<div class="bottomContent" v-if="reportType === 'voca' && !searching">
 					<div class="bcCon">
 						<div
 							class="vocaItem"
@@ -173,8 +182,12 @@
 									<span class="littleTitle">
 										<span class="point"></span>认知分</span
 									>
-									<span class="score" v-if="userType === 'teacher'">{{ item.ClassScore }}分</span>
-									<span class="score" v-else-if="userType === 'grade'">{{ item.GradeScore }}分</span>
+									<span class="score" v-if="userType === 'teacher'"
+										>{{ item.ClassScore }}分</span
+									>
+									<span class="score" v-else-if="userType === 'grade'"
+										>{{ item.GradeScore }}分</span
+									>
 									<span class="score" v-else>{{ item.PersonalScore }}分</span>
 								</div>
 								<div class="contentItem">
@@ -193,7 +206,7 @@
 						<span>暂无推荐词汇噢~</span>
 					</div>
 				</div>
-				<div class="bottomContent" v-if="reportType === 'gra'">
+				<div class="bottomContent" v-if="reportType === 'gra' && !searching">
 					<div class="bcCon">
 						<div
 							class="graItem"
@@ -236,6 +249,9 @@
 						<span>暂无推荐语法噢~</span>
 					</div>
 				</div>
+				<div class="searchingItem" v-if="searching">
+					<Loading />
+				</div>
 				<div class="diagnosisPagination" v-if="false">
 					<el-pagination
 						class="pagination"
@@ -269,6 +285,7 @@
 
 <script>
 import * as api from "@/api/diagnosis";
+// import { useDebounce } from "@/utils/debounce";
 export default {
 	props: {
 		resInfo: {
@@ -310,6 +327,7 @@ export default {
 			// 推荐语法/词汇知识点数量
 			recommendCount: 0,
 			loading: true,
+			searching: false,
 		};
 	},
 	computed: {
@@ -358,6 +376,16 @@ export default {
 			}
 		},
 	},
+	watch: {
+		searchText: function () {
+			clearTimeout(this.timer);
+			this.timer = setTimeout(() => {
+				if (this.searchText.length == 0) {
+					this.searchKnowledge();
+				}
+			}, 800);
+		},
+	},
 	created() {
 		this.init("");
 		this.initBase();
@@ -392,40 +420,61 @@ export default {
 			if (this.userType == "teacher") {
 				// 老师词汇首页
 				params["CourseClassID"] = this.$route.query.courseClassID;
-				api.GetClassRecommendVoca(params).then((res) => {
-					this.vocaList = res.Data.VocaRecommendList;
-					this.SchoolName = res.Data.SchoolName;
-					this.CourseClassName = res.Data.CourseClassName;
-					this.recommendCount = res.Data.VocaRecommendCount;
-					this.focusList = res.Data.StuFocusInfoList;
-					setTimeout(() => {
+				api
+					.GetClassRecommendVoca(params)
+					.then((res) => {
+						this.vocaList = res.Data.VocaRecommendList;
+						this.SchoolName = res.Data.SchoolName;
+						this.CourseClassName = res.Data.CourseClassName;
+						this.recommendCount = res.Data.VocaRecommendCount;
+						this.focusList = res.Data.StuFocusInfoList;
+						setTimeout(() => {
+							this.loading = false;
+							this.searching = false;
+						}, 300);
+					})
+					.catch(() => {
 						this.loading = false;
-					}, 300);
-				});
+						this.searching = false;
+					});
 			} else if (this.userType == "grade") {
 				// 年级组长词汇首页
 				params["GlobalGrade"] = this.$route.query.globalGrade;
-				api.GetGradeRecommendVoca(params).then((res) => {
-					this.vocaList = res.Data.VocaRecommendList;
-					this.SchoolName = res.Data.SchoolName;
-					this.GradeName = res.Data.GradeName;
-					this.recommendCount = res.Data.VocaRecommendCount;
-					this.focusList = res.Data.ClassFocusInfoList;
-					setTimeout(() => {
+				api
+					.GetGradeRecommendVoca(params)
+					.then((res) => {
+						this.vocaList = res.Data.VocaRecommendList;
+						this.SchoolName = res.Data.SchoolName;
+						this.GradeName = res.Data.GradeName;
+						this.recommendCount = res.Data.VocaRecommendCount;
+						this.focusList = res.Data.ClassFocusInfoList;
+						setTimeout(() => {
+							this.loading = false;
+							this.searching = false;
+						}, 300);
+					})
+					.catch(() => {
 						this.loading = false;
-					}, 300);
-				});
+						this.searching = false;
+					});
 			} else if (this.userType == "stu") {
 				// 个人词汇首页
 				params["StuID"] = this.$route.query.StuID;
-				api.GetStuVocabInfoList(params).then((res) => {
-					this.vocaList = res.Data.VocaRecommendList;
-					this.StuName = res.Data.StuName;
-					this.recommendCount = res.Data.VocaRecommendCount;
-					setTimeout(() => {
+				api
+					.GetStuVocabInfoList(params)
+					.then((res) => {
+						this.vocaList = res.Data.VocaRecommendList;
+						this.StuName = res.Data.StuName;
+						this.recommendCount = res.Data.VocaRecommendCount;
+						setTimeout(() => {
+							this.loading = false;
+							this.searching = false;
+						}, 300);
+					})
+					.catch(() => {
 						this.loading = false;
-					}, 300);
-				});
+						this.searching = false;
+					});
 			}
 		},
 		// 语法首页
@@ -443,40 +492,61 @@ export default {
 			if (this.userType == "teacher") {
 				// 老师语法
 				params["CourseClassID"] = this.$route.query.courseClassID;
-				api.GetClassWeakGrammerDiagnosis(params).then((res) => {
-					this.graList = res.Data.GrammerZsdList;
-					this.SchoolName = res.Data.SchoolName;
-					this.CourseClassName = res.Data.CourseClassName;
-					this.recommendCount = res.Data.PageCount;
-					this.focusList = res.Data.StuFocusInfoList;
-					setTimeout(() => {
+				api
+					.GetClassWeakGrammerDiagnosis(params)
+					.then((res) => {
+						this.graList = res.Data.GrammerZsdList;
+						this.SchoolName = res.Data.SchoolName;
+						this.CourseClassName = res.Data.CourseClassName;
+						this.recommendCount = res.Data.PageCount;
+						this.focusList = res.Data.StuFocusInfoList;
+						setTimeout(() => {
+							this.loading = false;
+							this.searching = false;
+						}, 300);
+					})
+					.catch(() => {
 						this.loading = false;
-					}, 300);
-				});
+						this.searching = false;
+					});
 			} else if (this.userType == "grade") {
 				// 年级组长语法
 				params["GlobalGrade"] = this.$route.query.globalGrade;
-				api.GetGradeWeakGrammerDiagnosis(params).then((res) => {
-					this.graList = res.Data.GrammerZsdList;
-					this.SchoolName = res.Data.SchoolName;
-					this.GradeName = res.Data.GradeName;
-					this.recommendCount = res.Data.PageCount;
-					this.focusList = res.Data.ClassFocusInfoList;
-					setTimeout(() => {
+				api
+					.GetGradeWeakGrammerDiagnosis(params)
+					.then((res) => {
+						this.graList = res.Data.GrammerZsdList;
+						this.SchoolName = res.Data.SchoolName;
+						this.GradeName = res.Data.GradeName;
+						this.recommendCount = res.Data.PageCount;
+						this.focusList = res.Data.ClassFocusInfoList;
+						setTimeout(() => {
+							this.loading = false;
+							this.searching = false;
+						}, 300);
+					})
+					.catch(() => {
 						this.loading = false;
-					}, 300);
-				});
+						this.searching = false;
+					});
 			} else if (this.userType == "stu") {
 				// 个人语法
 				params["StuID"] = this.$route.query.StuID;
-				api.GetStuWeakGrammerDiagnosis(params).then((res) => {
-					this.graList = res.Data.GrammerZsdList;
-					this.StuName = res.Data.StuName;
-					this.recommendCount = res.Data.PageCount;
-					setTimeout(() => {
+				api
+					.GetStuWeakGrammerDiagnosis(params)
+					.then((res) => {
+						this.graList = res.Data.GrammerZsdList;
+						this.StuName = res.Data.StuName;
+						this.recommendCount = res.Data.PageCount;
+						setTimeout(() => {
+							this.loading = false;
+							this.searching = false;
+						}, 300);
+					})
+					.catch(() => {
 						this.loading = false;
-					}, 300);
-				});
+						this.searching = false;
+					});
 			}
 		},
 		// 打开dialog
@@ -517,7 +587,7 @@ export default {
 			} else if (this.userType == "stu") {
 				// 个人词汇
 				params["StuID"] = this.$route.query.StuID;
-				api.GetExportStuGrammerPlans(params).then((res) => {
+				api.GetExportStuVocabPlans(params).then((res) => {
 					window.open(res.Data, "_self");
 				});
 			}
@@ -554,8 +624,17 @@ export default {
 		// 搜索知识点
 		searchKnowledge() {
 			// this.currentPage = 1;
+			this.searching = true;
 			this.init(this.searchText);
 		},
+		// 搜索内容变为空时重新调用接口
+		// emptyChange() {
+		// 	useDebounce(() => {
+		// 		if (this.searchText == "") {
+		// 			this.searchKnowledge();
+		// 		}
+		// 	}, 300)();
+		// },
 		// 显示第几页
 		handleCurrentChange(val) {
 			// 改变页数
@@ -807,6 +886,9 @@ export default {
 			text-shadow: 1px 1px 2px rgba(20, 48, 152, 0.6);
 		}
 	}
+	.searchingItem {
+		margin: 120px 0 0;
+	}
 	.total {
 		margin: 0 auto;
 		width: 1044px;
@@ -878,6 +960,10 @@ export default {
 					// margin-bottom: 15px;
 					color: #fff;
 					font-size: 16px;
+					width: 180px;
+					overflow: hidden;
+					white-space: nowrap;
+					text-overflow: ellipsis;
 				}
 				.contentItem {
 					margin: 12px auto 0;

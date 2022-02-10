@@ -46,7 +46,10 @@
 					@click="searchKnowledgeDD"
 				></span>
 			</div>
-			<div class="ddBottomContent" v-if="typeName === '词汇' && !loading">
+			<div
+				class="ddBottomContent"
+				v-if="typeName === '词汇' && !loading && !searching"
+			>
 				<div class="ddCon">
 					<div
 						class="ddVocaItem"
@@ -92,7 +95,7 @@
 			</div>
 			<div
 				class="ddBottomContent"
-				v-if="typeName === '语法' && !loading"
+				v-if="typeName === '语法' && !loading && !searching"
 				style="min-height: 480px"
 			>
 				<div class="ddCon">
@@ -135,6 +138,14 @@
 					<span>暂无薄弱{{ currentChoose }}语法噢~</span>
 				</div>
 			</div>
+			<Loading
+				v-if="(loading || searching) && typeName === '语法'"
+				style="margin-top: 150px; margin-bottom: 139px"
+			/>
+			<Loading
+				v-if="(loading || searching) && typeName === '词汇'"
+				style="margin-top: 150px; margin-bottom: 109px"
+			/>
 			<div class="ddPagination" v-if="isShowpPagination && !loading">
 				<el-pagination
 					class="pagination"
@@ -145,13 +156,13 @@
 				>
 				</el-pagination>
 			</div>
-			<Loading v-show="loading" style="margin-top: 150px" />
 		</div>
 	</div>
 </template>
 
 <script>
 import * as api from "@/api/diagnosis/dialog";
+// import { useDebounce } from "@/utils/debounce";
 export default {
 	props: {
 		typeName: {
@@ -191,6 +202,7 @@ export default {
 			isSearching: false,
 			isNDPicShow: false,
 			loading: true,
+			searching: false,
 		};
 	},
 	components: {
@@ -231,7 +243,16 @@ export default {
 			}
 		},
 	},
-	watch: {},
+	watch: {
+		searchText: function () {
+			clearTimeout(this.timer);
+			this.timer = setTimeout(() => {
+				if (this.searchText.length == 0) {
+					this.searchKnowledgeDD();
+				}
+			}, 800);
+		},
+	},
 	created() {
 		this.init("");
 	},
@@ -282,11 +303,13 @@ export default {
 						}
 						setTimeout(() => {
 							this.loading = false;
+							this.searching = false;
 						}, 150);
 					})
 					.catch(() => {
 						this.isNDPicShow = true;
 						this.loading = false;
+						this.searching = false;
 					});
 			} else if (this.userType == "grade") {
 				// 年级组长词汇
@@ -309,11 +332,13 @@ export default {
 						}
 						setTimeout(() => {
 							this.loading = false;
+							this.searching = false;
 						}, 150);
 					})
 					.catch(() => {
 						this.isNDPicShow = true;
 						this.loading = false;
+						this.searching = false;
 					});
 			} else if (this.userType == "stu") {
 				// 个人词汇
@@ -336,11 +361,13 @@ export default {
 						}
 						setTimeout(() => {
 							this.loading = false;
+							this.searching = false;
 						}, 150);
 					})
 					.catch(() => {
 						this.isNDPicShow = true;
 						this.loading = false;
+						this.searching = false;
 					});
 			}
 		},
@@ -377,11 +404,13 @@ export default {
 						}
 						setTimeout(() => {
 							this.loading = false;
+							this.searching = false;
 						}, 150);
 					})
 					.catch(() => {
 						this.isNDPicShow = true;
 						this.loading = false;
+						this.searching = false;
 					});
 			} else if (this.userType == "grade") {
 				// 年级组长语法
@@ -404,11 +433,13 @@ export default {
 						}
 						setTimeout(() => {
 							this.loading = false;
+							this.searching = false;
 						}, 150);
 					})
 					.catch(() => {
 						this.isNDPicShow = true;
 						this.loading = false;
+						this.searching = false;
 					});
 			} else if (this.userType == "stu") {
 				// 个人语法
@@ -431,11 +462,13 @@ export default {
 						}
 						setTimeout(() => {
 							this.loading = false;
+							this.searching = false;
 						}, 150);
 					})
 					.catch(() => {
 						this.isNDPicShow = true;
 						this.loading = false;
+						this.searching = false;
 					});
 			}
 		},
@@ -453,6 +486,7 @@ export default {
 		},
 		// 搜索知识点
 		searchKnowledgeDD() {
+			this.searching = true;
 			this.currentPage = 1;
 			if (this.searchText != "") {
 				this.isSearching = true;
@@ -461,8 +495,41 @@ export default {
 			}
 			this.init(this.searchText);
 		},
+		// 搜索内容变为空时重新调用接口
+		// emptyChange() {
+		// 	useDebounce(() => {
+		// 		if (this.searchText == "") {
+		// 			this.searchKnowledgeDD();
+		// 		}
+		// 	}, 500)();
+		// },
+		// searchKnowledgeDD() {
+		// 	let that = this;
+		// 	clearTimeout(this.timer);
+		// 	this.timer = setTimeout(function () {
+		// 		console.log(that.searchText);
+		// 	}, 400);
+		// 	// this.currentPage = 1;
+		// 	// if (this.searchText != "") {
+		// 	// 	this.isSearching = true;
+		// 	// } else {
+		// 	// 	this.isSearching = false;
+		// 	// }
+		// 	// this.init(this.searchText);
+		// 	// console.log(this.searchText);
+		// },
+		// debounce(func, delay) {
+		// 	let timeout;
+		// 	return () => {
+		// 		if (timeout) {
+		// 			clearTimeout(timeout);
+		// 		}
+		// 		timeout = setTimeout(func, delay);
+		// 	};
+		// },
 		// 显示第几页
 		handleCurrentChange(val) {
+			this.searching = true;
 			// 改变默认的页数
 			this.currentPage = val;
 			if (this.isSearching) {
@@ -593,6 +660,10 @@ export default {
 				// margin-bottom: 15px;
 				color: #fff;
 				font-size: 16px;
+				width: 180px;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
 			}
 			.contentItem {
 				margin: 12px auto 0;
