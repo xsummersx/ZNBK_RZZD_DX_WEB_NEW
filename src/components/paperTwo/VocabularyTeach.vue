@@ -126,24 +126,24 @@ export default {
 			option: {},
 			info: {
 				Conclusion: 0,
-				VocabularyTotalCount: 9066,
-				MasteredCount: 4003,
-				VocabularyScoreRate: 0.447262049,
+				VocabularyTotalCount: 0,
+				MasteredCount: 0,
+				VocabularyScoreRate: 0,
 				StuList: [
 					{
 						Conclusion: 3,
-						StuCount: 23,
-						StuRatio: 0.45,
+						StuCount: 0,
+						StuRatio: 0.0,
 					},
 					{
 						Conclusion: 2,
-						StuCount: 17,
-						StuRatio: 0.35,
+						StuCount: 0,
+						StuRatio: 0.0,
 					},
 					{
 						Conclusion: 1,
-						StuCount: 10,
-						StuRatio: 0.2,
+						StuCount: 0,
+						StuRatio: 0.0,
 					},
 				],
 			},
@@ -455,31 +455,27 @@ export default {
 			// 改变默认的页数
 			this.getStuList(val);
 			this.currentPage = val;
-			this.emptyText = "加载中...";
 		},
 		// 获取学校名单
 		getStuList(PageNum) {
+			this.emptyText = "加载中...";
+			this.tableData = [];
 			let params = {
-				// SchoolID: "S4-000020-9AB3",
-				// CourseClassID: "6A04CCDA-0598-4D6E-9A06-C7155E8BD8F5",
-				// TID: "T1014003",
-				// Token: "02020590-babb-43b7-81b2-64ed8a94d848",
-				// ZsdArea: "C",
 				...this.$store.state,
 				MasterType: this.currentType,
 				PageNum: PageNum,
 				PageSize: this.PageSize,
 			};
 			delete params.UserInfo;
-			// console.log(params);
-			GetClassVocaConclusionDetail(params).then((res) => {
-				this.tableData = res.Data.StuVocaList;
-				this.pageCount = Math.ceil(res.Data.PageCount / 9);
-				this.emptyText = "暂无数据";
-			});
-			// setTimeout(() => {
-			// 	this.emptyText = "暂无数据";
-			// }, 1500);
+			GetClassVocaConclusionDetail(params)
+				.then((res) => {
+					this.tableData = res.Data.StuVocaList;
+					this.pageCount = Math.ceil(res.Data.PageCount / 9);
+					this.emptyText = "暂无数据";
+				})
+				.catch(() => {
+					this.emptyText = "暂无数据";
+				});
 		},
 		// 跳转薄弱诊断
 		toDiagnosis() {
