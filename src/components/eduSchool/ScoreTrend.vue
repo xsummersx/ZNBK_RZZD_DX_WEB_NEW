@@ -1,14 +1,31 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:31:08
- * @LastEditTime: 2022-01-19 16:57:02
+ * @LastEditTime: 2022-02-09 11:49:16
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》认知成绩走势图，图0，图1
 -->
 <template>
-  <div class="Tren" :class="{ teacDis: $route.name == 'gradeRZZD' || $route.name == 'teacherRZZD' || $route.name == 'studentRZZD' }">
-    <div class="title" v-if="!($route.name == 'gradeRZZD' || $route.name == 'teacherRZZD' || $route.name == 'studentRZZD')">认知成绩走势</div>
+  <div
+    class="Tren"
+    :class="{
+      teacDis:
+        $route.name == 'gradeRZZD' || $route.name == 'teacherRZZD' || $route.name == 'studentRZZD',
+    }"
+  >
+    <div
+      class="title"
+      v-if="
+        !(
+          $route.name == 'gradeRZZD' ||
+          $route.name == 'teacherRZZD' ||
+          $route.name == 'studentRZZD'
+        )
+      "
+    >
+      认知成绩走势
+    </div>
     <div class="top" v-if="userType < 2">
       <div class="TopBox">
         <div class="top3">
@@ -27,13 +44,13 @@
       <div class="TopBox">
         <div class="top3">
           <i class="top3Icon1"></i>
-          <span class="top3Text">退步{{ getTitName }}</span>
+          <span class="top3Text">异常{{ getTitName }}</span>
           <span class="top3SubText">Top3</span>
         </div>
         <ul>
           <li v-for="(item, index) in BackList" :key="index">
             <div class="itemName">·&nbsp;{{ item.SchoolClassName }}</div>
-            <div class="itemScore0">{{ item.ChangeScore }}分</div>
+            <div class="itemScore0" style="color: #ff8080;">{{ item.ChangeScore }}分</div>
           </li>
           <li v-if="BackList.length == 0" class="noDataIcon"></li>
         </ul>
@@ -42,13 +59,28 @@
     <template v-if="chartShow">
       <div class="button">
         <span @click="checkButton(3)" :class="{ active: activeSpan == 3 }">
-          <i style="display: block" :class="{ animate__rubberBand: activeSpan == 3 }" class="animate__animated">按月</i>
+          <i
+            style="display: block;"
+            :class="{ animate__rubberBand: activeSpan == 3 }"
+            class="animate__animated"
+            >按月</i
+          >
         </span>
         <span @click="checkButton(2)" :class="{ active: activeSpan == 2 }">
-          <i style="display: block" :class="{ animate__rubberBand: activeSpan == 2 }" class="animate__animated">按周</i>
+          <i
+            style="display: block;"
+            :class="{ animate__rubberBand: activeSpan == 2 }"
+            class="animate__animated"
+            >按周</i
+          >
         </span>
         <span @click="checkButton(1)" :class="{ active: activeSpan == 1 }">
-          <i style="display: block" :class="{ animate__rubberBand: activeSpan == 1 }" class="animate__animated">按天</i>
+          <i
+            style="display: block;"
+            :class="{ animate__rubberBand: activeSpan == 1 }"
+            class="animate__animated"
+            >按天</i
+          >
         </span>
       </div>
       <div class="legend" v-show="!loading">
@@ -67,14 +99,20 @@
       </div>
       <div class="cont" id="Tre" v-show="!loading"></div>
     </template>
-    <EduNoData v-if="!chartShow" noDataType="2" style="margin-top: 115px"></EduNoData>
-    <Loading v-show="loading" style="margin-top: 40px"></Loading>
+    <EduNoData v-if="!chartShow" noDataType="2" style="margin-top: 115px;"></EduNoData>
+    <Loading v-show="loading" style="margin-top: 40px;"></Loading>
   </div>
 </template>
 <script>
 import EduNoData from "./eduNoData";
 import Loading from "../common/Loading";
-import { GetTrend, GetTrendSchool, GetTrendGrade, GetTrendTeacher, GetTrendStudent } from "@/api/eduSchool/right.js";
+import {
+  GetTrend,
+  GetTrendSchool,
+  GetTrendGrade,
+  GetTrendTeacher,
+  GetTrendStudent,
+} from "@/api/eduSchool/right.js";
 import "animate.css"; // npm install animate.css --save安装，再引入
 export default {
   name: "ScoreTrend",
@@ -421,7 +459,7 @@ export default {
                         color: "rgba(0,240,255,0)",
                       },
                     ],
-                    false
+                    false,
                   ),
                 },
               },
@@ -467,7 +505,7 @@ export default {
                         color: "rgba(254,143,10,0)",
                       },
                     ],
-                    false
+                    false,
                   ),
                 },
               },
@@ -517,7 +555,7 @@ export default {
                         color: "rgba(79,231,76,0)",
                       },
                     ],
-                    false
+                    false,
                   ),
                 },
               },
@@ -525,7 +563,7 @@ export default {
             },
           ],
         },
-        true
+        true,
       );
     },
   },

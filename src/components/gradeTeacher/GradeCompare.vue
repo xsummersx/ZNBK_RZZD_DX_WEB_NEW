@@ -1,7 +1,7 @@
 <!--
  * @Author: 柳欢
  * @Date: 2021-12-14 15:36:48
- * @LastEditTime: 2022-01-18 19:39:46
+ * @LastEditTime: 2022-02-10 09:25:12
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 班级认知情况对比分析
@@ -74,6 +74,7 @@ export default {
       var compareCharts = echarts.init(document.getElementById("compareCharts"));
       compareCharts.setOption(this.$optionObj.compareOption);
       compareCharts.setOption({
+        cursor: "default",
         legend: {
           itemWidth: 11,
           itemHeight: 11,
@@ -223,7 +224,6 @@ export default {
             cursor: "default",
             data: paper,
           },
-
           {
             name: "平均得分率",
             data: score,
@@ -262,5 +262,9 @@ export default {
   padding-left: 20px;
   padding-right: 25px;
   background: url("../../assets/img/grade/柱状图弹窗BG.png") center center no-repeat;
+}
+
+#compareCharts > div > canvas:hover {
+  cursor: default;
 }
 </style>

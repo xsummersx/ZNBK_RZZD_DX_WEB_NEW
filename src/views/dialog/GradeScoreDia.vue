@@ -1,14 +1,14 @@
 <!--
  * @Author: your name
  * @Date: 2021-12-29 09:31:22
- * @LastEditTime: 2021-12-29 09:31:22
- * @LastEditors: your name
+ * @LastEditTime: 2022-02-09 15:26:07
+ * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\views\dialog\TeachScore.vue
 -->
 <template>
   <div class="bottom-box">
-    <div v-show="showList.length > 0 && !noDataShow" class="clearfix">
+    <div v-show="showList.length > 0" class="clearfix">
       <div
         @click="GetExportGradePaperQtypeClassCompareList_V3()"
         class="exportBtn float-r"
@@ -17,7 +17,7 @@
         导出班级成绩对比分析
       </div>
     </div>
-    <div v-show="showList.length > 0 && !noDataShow && !showLoading" class="table">
+    <div v-show="showList.length > 0 && !showLoading" class="table">
       <table>
         <thead>
           <tr>
@@ -81,7 +81,7 @@
         </tbody>
       </table>
     </div>
-    <div v-show="showList.length <= 0 && !noDataShow && !showLoading" class="temNoData">
+    <div v-show="showList.length <= 0 && !showLoading" class="temNoData">
       <span>暂无班级成绩对比分析数据噢~</span>
     </div>
 
@@ -121,7 +121,6 @@ export default {
       PageSize: 8,
       SearchText: "",
       showList: [],
-      noDataShow: false,
       showLoading: true,
       ObjectiveQTypeList: [],
       SubjectiveQTypeList: [],
@@ -152,9 +151,7 @@ export default {
         this.showLoading = false;
         this.StuCount = res.Data.PageClassCount;
         this.showList = res.Data.ClassQtypeRateRankList;
-        this.showList = [];
         if (this.showList.length > 0) {
-          this.noDataShow = false;
           this.ObjectiveQTypeList = this.showList[0].ObjectiveQTypeList;
           this.SubjectiveQTypeList = this.showList[0].SubjectiveQTypeList;
         }

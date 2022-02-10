@@ -1,7 +1,7 @@
 <!--
  * @Author: 柳欢
  * @Date: 2021-12-10 15:21:45
- * @LastEditTime: 2021-12-28 11:25:30
+ * @LastEditTime: 2022-02-10 10:25:00
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\components\gradeTeacher\PaperReport.vue
@@ -25,6 +25,7 @@
           placeholder="请输入学生名称搜索..."
           v-model="SearchText"
           v-on:keyup.enter="searchStu()"
+          v-on:input="SearChange"
         />
         <span class="searchIcon" style="right: 146px" @click="searchStu()"></span>
       </div>
@@ -275,6 +276,7 @@
 </template>
 
 <script>
+import { useDebounce } from "@/utils/debounce.js";
 import { GetClassScoreReport_V3 } from "@/api/gradeTeacher/right";
 import { GetExportClassScoreReport_V3 } from "@/api/gradeTeacher/right";
 export default {
@@ -356,6 +358,12 @@ export default {
       this.emptyText = "加载中...";
       this.currentPage = 1;
       this.GetClassScoreReport_V3();
+    },
+    //搜索内容，发生变化监听，如果变为空则重新获取
+    SearChange() {
+      useDebounce(() => {
+        this.searchStu();
+      }, 800)();
     },
     renderHeader(h, { column }) {
       let header = column.label.split(" ");

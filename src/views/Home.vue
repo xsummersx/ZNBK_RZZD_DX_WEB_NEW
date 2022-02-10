@@ -1,7 +1,7 @@
 <!--
  * @Author: 主页面
  * @Date: 2021-11-29 09:20:26
- * @LastEditTime: 2021-12-28 10:24:45
+ * @LastEditTime: 2022-02-10 10:13:47
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 主页面，柳欢
@@ -108,7 +108,7 @@
                 class="switchIcon"
               >
                 <div v-if="classContShow" class="classContent">
-                  <div class="dotTitle">
+                  <div class="dotTitle dot">
                     {{
                       $route.name == "educationRZZD"
                         ? "切换年级"
@@ -209,10 +209,15 @@ export default {
     this.getUserInfo();
     window.addEventListener("click", (e) => {
       let thisClassName = e.target.className;
+      console.log(thisClassName);
       if (thisClassName == "className" || thisClassName == "switchIcon") {
         this.classContShow = !this.classContShow;
       } else if (thisClassName != "className" || thisClassName != "switchIcon") {
-        if (thisClassName == "float-l classItem activeClass") {
+        if (
+          thisClassName == "float-l classItem activeClass" ||
+          thisClassName == "__view" ||
+          thisClassName == "dotTitle dot"
+        ) {
           this.classContShow = true;
         } else {
           this.classContShow = false;
