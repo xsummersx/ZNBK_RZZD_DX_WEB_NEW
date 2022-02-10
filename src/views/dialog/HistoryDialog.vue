@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-12-16 15:14:38
- * @LastEditTime: 2022-01-13 09:44:18
+ * @LastEditTime: 2022-02-10 10:24:34
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\views\dialog\historyDialog.vue
@@ -22,6 +22,7 @@
             placeholder="请输入试卷名称搜索..."
             v-model="PaperSearchText"
             v-on:keyup.enter="searchPaper()"
+            v-on:input="SearChange"
           />
           <span class="searchIcon" @click="searchPaper()"></span>
         </div>
@@ -126,6 +127,7 @@
 
 <script>
 import { GetGradeReleasedPaperList_V3 } from "@/api/diolog/historyDiolog";
+import { useDebounce } from "@/utils/debounce.js";
 export default {
   data() {
     return {
@@ -234,6 +236,14 @@ export default {
       this.checkedAll = false;
       this.SelectedPaperCount = 0;
       this.GetGradeReleasedPaperList_V3(-1, -1);
+    },
+
+    //搜索内容，发生变化监听，如果变为空则重新获取
+    SearChange() {
+      console.log(1);
+      useDebounce(() => {
+        this.searchPaper();
+      }, 800)();
     },
     handleSizeChange1(val) {
       // 改变每页显示的条数

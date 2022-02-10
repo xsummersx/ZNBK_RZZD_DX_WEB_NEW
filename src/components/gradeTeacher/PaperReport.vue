@@ -1,7 +1,7 @@
 <!--
  * @Author: 柳欢
  * @Date: 2021-12-10 15:21:45
- * @LastEditTime: 2022-02-10 10:18:47
+ * @LastEditTime: 2022-02-10 10:25:00
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\components\gradeTeacher\PaperReport.vue
@@ -361,10 +361,9 @@ export default {
     },
     //搜索内容，发生变化监听，如果变为空则重新获取
     SearChange() {
-      console.log(1);
       useDebounce(() => {
         this.searchStu();
-      }, 1000);
+      }, 800)();
     },
     renderHeader(h, { column }) {
       let header = column.label.split(" ");
