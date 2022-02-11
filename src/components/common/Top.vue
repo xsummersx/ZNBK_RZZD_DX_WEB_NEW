@@ -10,7 +10,7 @@
       </div>
       <!-- <img v-else class="imgNoData" src="~@/assets/img/common/无数据.png" /> -->
       <div v-else class="TextNoData">
-        无~
+        无
       </div>
     </div>
     <!-- 重点关注 -->
@@ -26,7 +26,7 @@
       </div>
       <!-- <img v-else class="imgNoData" src="~@/assets/img/common/无数据.png" /> -->
       <div v-else class="TextNoData">
-        无~
+        无
       </div>
     </div>
   </div>
@@ -65,8 +65,9 @@ export default {
       margin: 0 auto;
     }
     .TextNoData {
-      margin-left: 30px;
       font-size: 12px;
+      text-align: center;
+      padding-right: 10px;
     }
     .content {
       display: flex;

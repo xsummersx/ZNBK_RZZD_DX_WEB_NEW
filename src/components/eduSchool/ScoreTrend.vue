@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:31:08
- * @LastEditTime: 2022-02-11 11:05:57
+ * @LastEditTime: 2022-02-11 11:24:39
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》认知成绩走势图，图0，图1
@@ -40,7 +40,7 @@
             </div>
             <div class="itemScore0">{{ item.ChangeScore }}分</div>
           </li>
-          <li v-if="ProgList.length == 0" class="noDataIcon">无~</li>
+          <li v-if="ProgList.length == 0" class="noDataIcon">无</li>
         </ul>
       </div>
       <div class="TopBox">
@@ -56,7 +56,7 @@
             </div>
             <div class="itemScore0" style="color: #ff8080;">{{ item.ChangeScore }}分</div>
           </li>
-          <li v-if="BackList.length == 0" class="noDataIcon">无~</li>
+          <li v-if="BackList.length == 0" class="noDataIcon">无</li>
         </ul>
       </div>
     </div>
@@ -739,9 +739,9 @@ export default {
 .noDataIcon {
   width: 100%;
   height: 24px;
-  text-align: left;
+  text-align: center;
   margin-top: 12px;
-  margin-left: 30px;
+  padding-right: 30px;
   font-size: 12px;
 }
 </style>
