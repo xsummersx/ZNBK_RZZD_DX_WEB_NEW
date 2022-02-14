@@ -12,7 +12,7 @@
 		<div class="main" v-show="!loading">
 			<div class="left">
 				<span
-					><span class="number">{{ count }}</span
+					><span class="number">{{ count.toFixed(0) }}</span
 					><span class="charChar">份</span></span
 				>
 				<span class="totalNum">总量</span>
@@ -37,6 +37,7 @@
 
 <script>
 import { GetClassPaperNum, GetGradePaperNum } from "@/api/gradeTeacher/left.js";
+import gsap from "gsap";
 export default {
 	data() {
 		return {
@@ -65,6 +66,7 @@ export default {
 				],
 				AvgCountPaperInClassAcc: 0,
 			},
+			count: 0,
 			loading: true,
 		};
 	},
@@ -80,13 +82,13 @@ export default {
 		isTeacher: function () {
 			return this.$route.name === "teacherRZZD";
 		},
-		count: function () {
-			if (this.isTeacher) {
-				return this.info.ClassTotalPaperCount;
-			} else {
-				return this.info.AvgCountPaperInClassAcc;
-			}
-		},
+		// count: function () {
+		// 	if (this.isTeacher) {
+		// 		return this.info.ClassTotalPaperCount;
+		// 	} else {
+		// 		return this.info.AvgCountPaperInClassAcc;
+		// 	}
+		// },
 		theFirst: function () {
 			if (this.isTeacher) {
 				return this.info.StuPaperCountList[0];
@@ -125,6 +127,10 @@ export default {
 						}
 						setTimeout(() => {
 							this.loading = false;
+							gsap.to(this, {
+								duration: 1.5,
+								count: res.Data.ClassTotalPaperCount,
+							});
 						}, 400);
 					})
 					.catch(() => {
@@ -149,6 +155,10 @@ export default {
 						}
 						setTimeout(() => {
 							this.loading = false;
+							gsap.to(this, {
+								duration: 1.5,
+								count: res.Data.AvgCountPaperInClassAcc,
+							});
 						}, 400);
 					})
 					.catch(() => {

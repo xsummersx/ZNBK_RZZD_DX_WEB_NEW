@@ -5,13 +5,13 @@
 			<div class="inner">
 				<div class="percent">
 					<span
-						><span class="number">{{ score }}</span
+						><span class="number">{{ count.toFixed(0) }}</span
 						><span class="charChar">分</span></span
 					>
 					<br />
 					<span class="fullScore">满分:{{ FullScore }}分</span>
 				</div>
-				<div class="water"></div>
+				<div class="water animation-go-up" id="poloWater"></div>
 				<div class="glare"></div>
 			</div>
 		</div>
@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import gsap from "gsap";
 export default {
 	props: {
 		FullScore: {
@@ -30,13 +31,31 @@ export default {
 			default: 150,
 		},
 	},
+	data() {
+		return {
+			count: 0,
+		};
+	},
+	mounted() {
+		// setTimeout(() => {
+		// 	let ani = this.$("#poloWater");
+		// 	ani.removeClass("animation-go-up");
+		// 	ani.addClass("animation-spin");
+		// }, 2000);
+		let ani = this.$("#poloWater");
+		ani.on("animationend webkitAnimationEnd", function () {
+			ani.removeClass("animation-go-up");
+			ani.addClass("animation-spin");
+		});
+		gsap.to(this, { duration: 1.5, count: this.score });
+	},
 	methods: {
 		// 可修改液体占比
-		changePercent(waterPercent) {
-			this.$(".water").css({
-				top: 100 - waterPercent + "%",
-			});
-		},
+		// changePercent(waterPercent) {
+		// 	this.$(".water").css({
+		// 		top: 100 - waterPercent + "%",
+		// 	});
+		// },
 	},
 };
 </script>
@@ -62,6 +81,33 @@ export default {
 
 	to {
 		transform: rotate(360deg);
+	}
+}
+@-webkit-keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+
+	to {
+		transform: rotate(360deg);
+	}
+}
+@keyframes go-up {
+	from {
+		top: 100%;
+	}
+
+	to {
+		top: 55%;
+	}
+}
+@-webkit-keyframes go-up {
+	from {
+		top: 100%;
+	}
+
+	to {
+		top: 55%;
 	}
 }
 .progress {
@@ -104,10 +150,15 @@ export default {
 			left: -50%;
 			border: 1px solid transparent;
 			border-radius: 40% !important;
+		}
+		.animation-spin {
 			animation-duration: 10s;
 			animation-name: spin;
 			animation-iteration-count: infinite;
 			animation-timing-function: linear;
+		}
+		.animation-go-up {
+			animation: go-up 2s;
 		}
 
 		.glare {

@@ -5,7 +5,7 @@
 		<div class="main" v-show="!loading">
 			<div class="left">
 				<span
-					><span class="number">{{ info.PersonTotalPaperCount }}</span
+					><span class="number">{{ count.toFixed(0) }}</span
 					><span class="charChar">份</span></span
 				>
 				<span class="fullInfexxx">总量</span>
@@ -26,6 +26,7 @@
 
 <script>
 import { GetStuPaperNum } from "@/api/stu/left.js";
+import gsap from "gsap";
 export default {
 	data() {
 		return {
@@ -38,7 +39,7 @@ export default {
 				ClassRank: 0,
 				GradeRank: 0,
 			},
-			// isShow: true,
+			count: 0,
 			loading: true,
 		};
 	},
@@ -69,6 +70,10 @@ export default {
 					}
 					setTimeout(() => {
 						this.loading = false;
+						gsap.to(this, {
+							duration: 1.5,
+							count: res.Data.PersonTotalPaperCount,
+						});
 					}, 400);
 				})
 				.catch(() => {
