@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:31:08
- * @LastEditTime: 2022-02-09 11:49:16
+ * @LastEditTime: 2022-02-11 11:24:39
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》认知成绩走势图，图0，图1
@@ -35,10 +35,12 @@
         </div>
         <ul>
           <li v-for="(item, index) in ProgList" :key="index">
-            <div class="itemName">·&nbsp;{{ item.SchoolClassName }}</div>
+            <div class="itemName" :title="item.SchoolClassName">
+              ·&nbsp;{{ item.SchoolClassName }}
+            </div>
             <div class="itemScore0">{{ item.ChangeScore }}分</div>
           </li>
-          <li v-if="ProgList.length == 0" class="noDataIcon"></li>
+          <li v-if="ProgList.length == 0" class="noDataIcon">无</li>
         </ul>
       </div>
       <div class="TopBox">
@@ -49,10 +51,12 @@
         </div>
         <ul>
           <li v-for="(item, index) in BackList" :key="index">
-            <div class="itemName">·&nbsp;{{ item.SchoolClassName }}</div>
+            <div class="itemName" :title="item.SchoolClassName">
+              ·&nbsp;{{ item.SchoolClassName }}
+            </div>
             <div class="itemScore0" style="color: #ff8080;">{{ item.ChangeScore }}分</div>
           </li>
-          <li v-if="BackList.length == 0" class="noDataIcon"></li>
+          <li v-if="BackList.length == 0" class="noDataIcon">无</li>
         </ul>
       </div>
     </div>
@@ -734,9 +738,10 @@ export default {
 }
 .noDataIcon {
   width: 100%;
-  height: 64px;
+  height: 24px;
   text-align: center;
-  margin-top: 25px;
-  background: url(~@/assets/img/eduSchool/nodata.png) no-repeat center center;
+  margin-top: 12px;
+  padding-right: 30px;
+  font-size: 12px;
 }
 </style>

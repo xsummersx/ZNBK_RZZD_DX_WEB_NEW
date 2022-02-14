@@ -1,7 +1,7 @@
 <!--
  * @Author: 柳欢
  * @Date: 2021-11-30 14:58:43
- * @LastEditTime: 2022-02-10 10:09:20
+ * @LastEditTime: 2022-02-11 09:03:12
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教师，学习特点
@@ -78,7 +78,7 @@ export default {
     optionData1: function () {
       let arr = [
         {
-          name: "大于优秀",
+          name: "优秀学生",
           value:
             (this.resInfo.ClassStudyTimes.ExceStuCount /
               (this.resInfo.ClassStudyTimes.ExceStuCount +
@@ -92,7 +92,7 @@ export default {
           },
         },
         {
-          name: "大于平均",
+          name: "教好学生",
           value:
             (this.resInfo.ClassStudyTimes.BetterStuCount /
               (this.resInfo.ClassStudyTimes.ExceStuCount +
@@ -106,7 +106,7 @@ export default {
           },
         },
         {
-          name: "大于0",
+          name: "一般学生",
           value:
             (this.resInfo.ClassStudyTimes.NormalStuCount /
               (this.resInfo.ClassStudyTimes.ExceStuCount +
@@ -120,7 +120,7 @@ export default {
           },
         },
         {
-          name: "等于0",
+          name: "未学习学生",
           value:
             (this.resInfo.ClassStudyTimes.NotLearningStuCount /
               (this.resInfo.ClassStudyTimes.ExceStuCount +
