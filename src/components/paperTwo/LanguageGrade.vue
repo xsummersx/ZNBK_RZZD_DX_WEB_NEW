@@ -15,31 +15,46 @@
 			>
 		</div>
 		<div class="main" v-if="isShow">
-			<div class="listenAbility" :class="classToName(lanResInfo.TL)">
+			<div
+				class="listenAbility animation-move"
+				:class="classToName(lanResInfo.TL)"
+			>
 				<div class="abilityLV">
 					{{ numToString(lanResInfo.TL) }}
 				</div>
 				<div class="ability">听力能力</div>
 			</div>
-			<div class="readAbility" :class="classToName(lanResInfo.YD)">
+			<div
+				class="readAbility animation-move"
+				:class="classToName(lanResInfo.YD)"
+			>
 				<div class="abilityLV">
 					{{ numToString(lanResInfo.YD) }}
 				</div>
 				<div class="ability">阅读能力</div>
 			</div>
-			<div class="speakAbility" :class="classToName(lanResInfo.KY)">
+			<div
+				class="speakAbility animation-move"
+				:class="classToName(lanResInfo.KY)"
+			>
 				<div class="abilityLV">
 					{{ numToString(lanResInfo.KY) }}
 				</div>
 				<div class="ability">口语能力</div>
 			</div>
-			<div class="writeAbility" :class="classToName(lanResInfo.XZ)">
+			<div
+				class="writeAbility animation-move"
+				:class="classToName(lanResInfo.XZ)"
+			>
 				<div class="abilityLV">
 					{{ numToString(lanResInfo.XZ) }}
 				</div>
 				<div class="ability">写作能力</div>
 			</div>
-			<div class="allAbility" :class="classToName(lanResInfo.ZH)">
+			<div
+				class="allAbility animation-move-reverse"
+				:class="classToName(lanResInfo.ZH)"
+			>
 				<div class="abilityLV">
 					{{ numToString(lanResInfo.ZH) }}
 				</div>
@@ -145,16 +160,18 @@ export default {
 				...this.$store.state,
 			};
 			delete params.UserInfo;
-			GetGradeLanguage(params).then((res) => {
-				this.lanResInfo = res.Data.Conlusion;
-				this.ClassList = res.Data.ClassList;
-				let { ZH, XZ, KY, YD, TL } = this.lanResInfo;
-				if (ZH == 0 && XZ == 0 && KY == 0 && YD == 0 && TL == 0) {
-					this.isShow = false;
-				} else {
-					this.isShow = true;
-				}
-			}).catch(() => {
+			GetGradeLanguage(params)
+				.then((res) => {
+					this.lanResInfo = res.Data.Conlusion;
+					this.ClassList = res.Data.ClassList;
+					let { ZH, XZ, KY, YD, TL } = this.lanResInfo;
+					if (ZH == 0 && XZ == 0 && KY == 0 && YD == 0 && TL == 0) {
+						this.isShow = false;
+					} else {
+						this.isShow = true;
+					}
+				})
+				.catch(() => {
 					this.isShow = false;
 				});
 		},
@@ -283,5 +300,45 @@ export default {
 	.abilityLV {
 		font-size: 16px;
 	}
+}
+@keyframes move {
+	0% {
+		transform: translateY(0px);
+	}
+	25% {
+		transform: translateY(3px);
+	}
+	50% {
+		transform: translateY(0px);
+	}
+	75% {
+		transform: translateY(-3px);
+	}
+	100% {
+		transform: translateY(0px);
+	}
+}
+@keyframes move-reverse {
+	0% {
+		transform: translateY(0px);
+	}
+	25% {
+		transform: translateY(-3px);
+	}
+	50% {
+		transform: translateY(0px);
+	}
+	75% {
+		transform: translateY(3px);
+	}
+	100% {
+		transform: translateY(0px);
+	}
+}
+.animation-move {
+	animation: move 4s linear infinite;
+}
+.animation-move-reverse {
+	animation: move-reverse 4s linear infinite;
 }
 </style>

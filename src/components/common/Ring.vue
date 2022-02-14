@@ -38,7 +38,7 @@ export default {
 	},
 	mounted() {
 		this.chart();
-		this.numAni(this.avgIndex);
+		gsap.to(this, { duration: 1.5, avg: this.avgIndex });
 	},
 	methods: {
 		chart() {
@@ -136,9 +136,9 @@ export default {
 			};
 			myChart.setOption(option);
 		},
-		numAni(newVal) {
-			gsap.to(this, { duration: 1.5, avg: newVal });
-		},
+		// numAni(newVal) {
+		// 	gsap.to(this, { duration: 1.5, avg: newVal });
+		// },
 	},
 };
 </script>
