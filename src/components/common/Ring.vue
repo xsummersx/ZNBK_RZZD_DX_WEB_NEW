@@ -5,7 +5,7 @@
 		<div id="ring" style="width: 140px; height: 140px"></div>
 		<div class="text">
 			<span
-				><span class="number">{{ avgIndex }}</span
+				><span class="number">{{ avg.toFixed(0) }}</span
 				><span class="charChar">分</span></span
 			>
 			<br />
@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import gsap from "gsap";
 export default {
 	props: {
 		FullIndex: {
@@ -23,15 +24,21 @@ export default {
 		},
 		avgIndex: {
 			type: Number,
-			default: 5000,
+			default: 0,
 		},
 		isMR: {
 			type: Boolean,
 			default: true,
 		},
 	},
+	data() {
+		return {
+			avg: 0,
+		};
+	},
 	mounted() {
 		this.chart();
+		gsap.to(this, { duration: 1.5, avg: this.avgIndex });
 	},
 	methods: {
 		chart() {
@@ -95,6 +102,7 @@ export default {
 						},
 						data: [(100 * 2) / 3],
 						coordinateSystem: "polar",
+						animationDuration: 1500,
 					},
 					{
 						type: "pie",
@@ -128,6 +136,9 @@ export default {
 			};
 			myChart.setOption(option);
 		},
+		// numAni(newVal) {
+		// 	gsap.to(this, { duration: 1.5, avg: newVal });
+		// },
 	},
 };
 </script>

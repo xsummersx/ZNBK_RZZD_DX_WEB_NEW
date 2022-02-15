@@ -16,7 +16,7 @@
 			<div id="eduChart" style="width: 122px; height: 122px"></div>
 			<div class="text" v-if="$route.name === 'educationRZZD' && !loading">
 				<span
-					><span class="number">{{ info.AreaAvgCount }}</span
+					><span class="number">{{ count.toFixed(0) }}</span
 					><span class="charChar">份</span></span
 				>
 				<br />
@@ -26,7 +26,7 @@
 		<div class="main" v-if="$route.name === 'schoolRZZD' && !loading">
 			<div class="left">
 				<span
-					><span class="number">{{ info.SchoolCount }}</span
+					><span class="number">{{ count.toFixed(0) }}</span
 					><span class="charChar">份</span></span
 				>
 				<span class="textColor font12">总量</span>
@@ -56,7 +56,7 @@
 
 <script>
 import { GetSchoolPaperNum, GetAreaPaperNum } from "@/api/eduSchool/left.js";
-
+import gsap from "gsap";
 export default {
 	data() {
 		return {
@@ -80,6 +80,7 @@ export default {
 				FocusSchoolList: [],
 			},
 			loading: true,
+			count: 0,
 		};
 	},
 	created() {
@@ -106,6 +107,10 @@ export default {
 							this.info = res.Data;
 							setTimeout(() => {
 								this.loading = false;
+								gsap.to(this, {
+									duration: 1.5,
+									count: res.Data.AreaAvgCount,
+								});
 							}, 400);
 						}
 					})
@@ -119,6 +124,10 @@ export default {
 							this.info = res.Data;
 							setTimeout(() => {
 								this.loading = false;
+								gsap.to(this, {
+									duration: 1.5,
+									count: res.Data.SchoolCount,
+								});
 							}, 400);
 						}
 					})
