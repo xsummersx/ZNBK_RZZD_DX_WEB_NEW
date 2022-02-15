@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-11-24 09:50:11
- * @LastEditTime: 2022-01-18 09:20:59
+ * @LastEditTime: 2022-02-15 11:48:10
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\main.js
@@ -11,6 +11,8 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import "../src/assets/css/home.scss";
+//粒子动画效果
+import VueParticles from "vue-particles";
 // import "../src/utils/request";
 import "../src/assets/css/global.css";
 import "../src/assets/css/common.scss";
@@ -42,6 +44,8 @@ Vue.prototype.$echarts = echarts;
 Vue.prototype.$baseUrl = "http://172.16.41.237";
 // 调用本地exe所需
 Vue.prototype.$com = com;
+//使用例子效果
+Vue.use(VueParticles);
 //tab标签页名字
 Vue.directive("title", {
   inserted: function (el) {
