@@ -1,27 +1,63 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:27:26
- * @LastEditTime: 2022-01-18 14:01:28
+ * @LastEditTime: 2022-02-15 13:51:15
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》地图，图0
 -->
 <template>
   <div class="map">
-    <div v-show="showData">
+    <div v-show="showData" style="z-index: 5; position: absolute;">
       <div class="noData" v-show="IsHaveSchool == false || IsHaveMap == false">
         {{ noDataText0 }}
       </div>
-      <div id="mapID" v-show="IsHaveMap" :style="{ opacity: IsHaveSchool == false ? 0.2 : 1 }"></div>
-      <div class="legend" v-show="IsHaveMap" :style="{ opacity: IsHaveSchool == false ? 0.2 : 1 }"></div>
+      <div
+        id="mapID"
+        v-show="IsHaveMap"
+        :style="{ opacity: IsHaveSchool == false ? 0.2 : 1 }"
+      ></div>
+      <div
+        class="legend"
+        v-show="IsHaveMap"
+        :style="{ opacity: IsHaveSchool == false ? 0.2 : 1 }"
+      ></div>
       <!-- <div class="btnText"><span class="text">学校认知情况</span><i class="btnIcon"></i></div> -->
     </div>
-    <Loading v-show="!showData" style="margin-top: 200px"></Loading>
+    <vue-particles
+      color="#04aed8"
+      :particleOpacity="0.4"
+      :particlesNumber="100"
+      shapeType="triangle"
+      :particleSize="4"
+      linesColor="#39878a"
+      :linesWidth="1"
+      :lineLinked="true"
+      :lineOpacity="0.4"
+      :linesDistance="150"
+      :moveSpeed="3"
+      :hoverEffect="true"
+      hoverMode="grab"
+      :clickEffect="true"
+      clickMode="push"
+      id="particles-js"
+    ></vue-particles>
+    <Loading v-show="!showData" style="margin-top: 200px;"></Loading>
   </div>
 </template>
 <script>
 import { getMapJson } from "@/api/eduSchool/right.js";
-import { get_A, get_B, get_C, get_D, get_E, get_F, mapBG0, activeBG } from "@/api/eduSchool/imgPo.js";
+import "@/assets/css/particless.css";
+import {
+  get_A,
+  get_B,
+  get_C,
+  get_D,
+  get_E,
+  get_F,
+  mapBG0,
+  activeBG,
+} from "@/api/eduSchool/imgPo.js";
 import Loading from "../common/Loading";
 export default {
   name: "Map",
@@ -171,7 +207,12 @@ export default {
                 '</span><i class="toolTipIcon" title="点击跳转该学校认知质量大数据报告" onclick="javascript:window.open(\'' +
                 url +
                 "')\"></i></div>";
-              let divNone = '<div class="toolTipTop"><span class="toolTipTitle" title="' + params.data.name + '">' + params.data.name + "</span></div>";
+              let divNone =
+                '<div class="toolTipTop"><span class="toolTipTitle" title="' +
+                params.data.name +
+                '">' +
+                params.data.name +
+                "</span></div>";
               let divList =
                 '<div class="toolTipItem"><span class="toolTipTitleContLeft">累计作答试卷</span><span class="toolTipTitleContRight">' +
                 params.data.AnsweredPaperNum +
@@ -184,7 +225,9 @@ export default {
                 "分</span></div>";
 
               if (params.data.datas != "F") {
-                return '<div class="toolTip' + params.data.datas + 'BG">' + divTop + divList + "</div>";
+                return (
+                  '<div class="toolTip' + params.data.datas + 'BG">' + divTop + divList + "</div>"
+                );
               } else {
                 return '<div class="toolTip' + params.data.datas + 'BG">' + divNone + "</div>";
               }
