@@ -1,56 +1,310 @@
 .Main-content {
+  width: 1920px;
+  height: 1080px;
+  padding: 0 80px;
+  position: relative;
+  margin: 0 auto;
+  overflow: hidden;
+  .contentBack{
+    height: 106px;
     width: 1920px;
-    height: 1080px;
-    padding: 0 80px;
+    padding: 0 20px;
+    margin-left: -80px;
+    background: url("../img/head/productName_l2.png") center center no-repeat;
     position: relative;
-    margin: 0 auto;
-    overflow: hidden;
-    .ContentHeader {
-      height: 106px;
-      width: 1920px;
-      padding: 0 20px;
-      margin-left: -80px;
-      background: url("../img/head/productName_l2.png") center center no-repeat;
-      position: relative;
-      z-index: 22;
-      .leftHead {
-        width: 630px;
-        .ZsdAreaBox {
-          position: absolute;
-          top: 80px;
-          left: 80px;
-          span {
-            color: #fffc00;
-            text-decoration: underline;
-            cursor: pointer;
-          }
-          span:hover {
-            color: #ffd100;
-          }
-        }
-        .highProduct,
-        .middleProduct,
-        .schoolProduct,
-        .eduProduct {
-          display: inline-block;
-          width: 250px;
-          height: 52px;
-          background: url("../img/head/schoolProduct.png") left center no-repeat;
-          vertical-align: middle;
+    z-index: 22;
+  }
+  .ContentHeader {
+    // height: 106px;
+    height: 0;
+    width: 1920px;
+    padding: 0 20px;
+    margin-left: -80px;
+    // background: url("../img/head/productName_l2.png") center center no-repeat;
+    position: relative;
+    z-index: 22;
+    .leftHead {
+      width: 630px;
+      .ZsdAreaBox {
+        position: absolute;
+        top: 80px;
+        left: 80px;
+        span {
+          color: #fffc00;
+          text-decoration: underline;
           cursor: pointer;
         }
-        .middleProduct {
-          width: 348px;
-          background: url("../img/head/产品名_中考.png") left center no-repeat;
+        span:hover {
+          color: #ffd100;
         }
-        .highProduct {
-          width: 348px;
-          background: url("../img/head/产品名_高考.png") left center no-repeat;
+      }
+      .highProduct,
+      .middleProduct,
+      .schoolProduct,
+      .eduProduct {
+        display: inline-block;
+        width: 250px;
+        height: 52px;
+        background: url("../img/head/schoolProduct.png") left center no-repeat;
+        vertical-align: middle;
+        cursor: pointer;
+      }
+      .middleProduct {
+        width: 348px;
+        background: url("../img/head/产品名_中考.png") left center no-repeat;
+      }
+      .highProduct {
+        width: 348px;
+        background: url("../img/head/产品名_高考.png") left center no-repeat;
+      }
+      .eduProduct {
+        width: 280px;
+        background: url("../img/head/eduProduct.png") left center no-repeat;
+      }
+      .lineIcon {
+        display: inline-block;
+        width: 3px;
+        margin-right: 10px;
+        height: 52px;
+        background: url("../img/head/lineIcon.png") center center no-repeat;
+        vertical-align: middle;
+      }
+      .timeText {
+        color: #fff;
+      }
+    }
+    .centerHead {
+      height: 106px;
+      line-height: 74px;
+      width: 625px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      margin: 0 auto;
+      text-align: center;
+      font-size: 30px;
+      font-weight: bold;
+      position: relative;
+      text-shadow: 4px 7px 10px rgba(0, 0, 0, 0.6);
+      &::after {
+        position: absolute;
+        display: block;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        content: attr(data-content);
+        background: linear-gradient(to bottom, #c0e0ff, #ffffff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: none;
+      }
+
+      // background: linear-gradient(to bottom, #c0e0ff, #ffffff);
+      // -webkit-background-clip: text;
+      // color: transparent;
+      // -webkit-text-fill-color: transparent;
+      // text-fill-color: transparent;
+      // text-shadow:2px 3px 1px  #000;
+    }
+    .rightHead {
+      height: 52px;
+      line-height: 52px;
+      span {
+        display: inline-block;
+        vertical-align: middle;
+      }
+      .RZZDName {
+        text-align: right;
+        float: right;
+        font-size: 14px;
+        position: relative;
+        margin-right: 15px;
+        padding-right: 15px;
+        background: url(../img/head/lineR.png) center right no-repeat;
+        left: 0;
+        .checkClassIcon,
+        .scholIcon {
+          display: inline-block;
+          width: 26px;
+          height: 26px;
+          background: url(../img/head/classcheckIcon.png) center center no-repeat;
+          vertical-align: middle;
         }
-        .eduProduct {
-          width: 280px;
-          background: url("../img/head/eduProduct.png") left center no-repeat;
+        .scholIcon {
+          height: 22px;
+          width: 20px;
+          margin-top: 5px;
+          background: url(../img/head/schoolIcon3.png) center center no-repeat;
         }
+        .className {
+          cursor: pointer;
+          margin-right: 5px;
+          margin-left: 5px;
+          max-width: 170px;
+          overflow: hidden;
+          color: #fff;
+          opacity: 0.7;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          vertical-align: middle;
+        }
+        .className1 {
+          cursor: default;
+          margin-left: 5px;
+          margin-right: 5px;
+          max-width: 170px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          vertical-align: middle;
+        }
+        .className:hover {
+          color: #fff;
+          opacity: 1;
+        }
+        .className1:hover {
+          color: #fff;
+          opacity: 0.7;
+        }
+        .switchIcon {
+          display: inline-block;
+          width: 14px;
+          height: 10px;
+          position: relative;
+          cursor: pointer;
+          background: url("../img/head/classSwitch2.png") center center no-repeat;
+          .classContent {
+            z-index: 10005;
+            width: 400px;
+            height: 146px;
+            line-height: 30px;
+            overflow: hidden;
+            background: url("../img/head/switchClassBack.png") center center no-repeat;
+            //background-color: rgba(0, 0, 0, 0.83);
+            position: absolute;
+            top: 20px;
+            left: -190px;
+            padding: 12px 16px 16px 20px;
+            border-radius: 8px;
+            -webkit-border-radius: 8px;
+            -moz-border-radius: 8px;
+            -ms-border-radius: 8px;
+            -o-border-radius: 8px;
+            .dotTitle {
+              margin-bottom: 0px;
+            }
+            ul {
+              font-size: 12px;
+              color: #653000;
+              font-weight: bold;
+              li {
+                margin-right: 10px;
+                margin-bottom: 10px;
+                text-align: center;
+                line-height: 32px;
+                cursor: pointer;
+              }
+              .activeClass {
+                width: 80px;
+                height: 32px;
+                background-image: linear-gradient(90deg, #ffa201 0%, #ffe56e 100%);
+                border-radius: 4px;
+                color: #653000;
+              }
+              .normalClass {
+                width: 80px;
+                height: 32px;
+                background-color: #163389;
+                border-radius: 4px;
+                span {
+                  color: #ffffff;
+                  opacity: 0.5;
+                }
+              }
+              .normalClass:hover {
+                span {
+                  opacity: 1;
+                }
+              }
+            }
+          }
+        }
+        .switchIcon:hover {
+          background: url("../img/head/classSwitch2_h.png") center center no-repeat;
+        }
+      }
+      .userInfo {
+        text-align: right;
+        float: right;
+        .teacherHead {
+          width: 28px;
+          height: 28px;
+          cursor: pointer;
+          margin-right: 8px;
+          object-fit: cover;
+          border-radius: 100%;
+          -webkit-border-radius: 100%;
+          -moz-border-radius: 100%;
+          -ms-border-radius: 100%;
+          -o-border-radius: 100%;
+          vertical-align: middle;
+        }
+        .teacherName {
+          color: #ffffff;
+          opacity: 0.85;
+          cursor: pointer;
+        }
+        .teacherName:hover {
+          text-decoration: underline;
+          opacity: 1;
+        }
+        .gradeLeader,
+        .teacherIcon,
+        .schoolIcon {
+          width: 65px;
+          margin: 0 5px;
+          height: 16px;
+          background: url("../img/head/schoolLeaderIcon.png") center center no-repeat;
+          vertical-align: middle;
+        }
+        .gradeLeader {
+          background: url("../img/head/gradeLeaderIcon.png") center center no-repeat;
+        }
+        .eduIcon {
+          width: 76px;
+          margin: 0 5px;
+          height: 16px;
+          background: url("../img/head/eduIcon.png") center center no-repeat;
+          vertical-align: middle;
+        }
+
+        .teacherIcon {
+          background: url("../img/head/teacherIcon.png") center center no-repeat;
+        }
+        .exitIcon {
+          width: 15px;
+          cursor: pointer;
+          height: 15px;
+          background: url("../img/head/exitIcon.png") center center no-repeat;
+          vertical-align: middle;
+        }
+        .exitIcon:hover {
+          background: url("../img/head/exitIcon_h.png") center center no-repeat;
+        }
+
+        .questionIcon {
+          width: 15px;
+          height: 15px;
+          margin-right: 12px;
+          cursor: pointer;
+          background: url("../img/head/questionIcon.png") center center no-repeat;
+          vertical-align: middle;
+          display: none;
+        }
+        .questionIcon:hover {
+          background: url("../img/head/questionIcon_h.png") center center no-repeat;
+        }
+
         .lineIcon {
           display: inline-block;
           width: 3px;
@@ -58,291 +312,61 @@
           height: 52px;
           background: url("../img/head/lineIcon.png") center center no-repeat;
           vertical-align: middle;
-        }
-        .timeText{
-          color: #fff;
+          display: none;
         }
       }
-      .centerHead {
-        height: 106px;
-        line-height: 74px;
-        width: 625px;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        margin: 0 auto;
-        text-align: center;
-        font-size: 30px;
-        font-weight: bold;
-        position: relative;
-        text-shadow:4px 7px 10px  rgba(0,0,0,0.6);
-        &::after{
-          position: absolute;
-          display: block;
-          width: 100%;
-          height: 100%;
-          top: 0;
-          content: attr(data-content);
-        background: linear-gradient(to bottom, #c0e0ff, #ffffff);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        text-shadow:none;
-          
-        }
-
-
-        // background: linear-gradient(to bottom, #c0e0ff, #ffffff);
-        // -webkit-background-clip: text;
-        // color: transparent;
-        // -webkit-text-fill-color: transparent;
-        // text-fill-color: transparent;
-        // text-shadow:2px 3px 1px  #000;
-      }
-      .rightHead {
-        height: 52px;
-        line-height: 52px;
-        span {
-          display: inline-block;
-          vertical-align: middle;
-        }
-        .RZZDName {
-          text-align: right;
-          float: right;
-          font-size: 14px;
-          position: relative;
-          margin-right: 15px;
-          padding-right: 15px;
-          background: url(../img/head/lineR.png) center right no-repeat;
-          left: 0;
-          .checkClassIcon,
-          .scholIcon {
-            display: inline-block;
-            width: 26px;
-            height: 26px;
-            background: url(../img/head/classcheckIcon.png) center center no-repeat;
-            vertical-align: middle;
-          }
-          .scholIcon {
-            height: 22px;
-            width: 20px;
-            margin-top: 5px;
-            background: url(../img/head/schoolIcon3.png) center center no-repeat;
-          }
-          .className {
-            cursor: pointer;
-            margin-right: 5px;
-            margin-left: 5px;
-            max-width: 170px;
-            overflow: hidden;
-            color: #fff;
-            opacity: 0.7;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            vertical-align: middle;
-          }
-          .className1 {
-            cursor: default;
-            margin-left: 5px;
-            margin-right: 5px;
-            max-width: 170px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            vertical-align: middle;
-          }
-          .className:hover {
-            color: #fff;
-            opacity: 1;
-          }
-          .className1:hover {
-            color: #fff;
-            opacity: 0.7;
-          }
-          .switchIcon {
-            display: inline-block;
-            width: 14px;
-            height: 10px;
-            position: relative;
-            cursor: pointer;
-            background: url("../img/head/classSwitch2.png") center center no-repeat;
-            .classContent {
-              z-index: 10005;
-              width: 400px;
-              height: 146px;
-              line-height: 30px;
-              overflow: hidden;
-              background: url("../img/head/switchClassBack.png") center center no-repeat;
-              //background-color: rgba(0, 0, 0, 0.83);
-              position: absolute;
-              top: 20px;
-              left: -190px;
-              padding: 12px 16px 16px 20px;
-              border-radius: 8px;
-              -webkit-border-radius: 8px;
-              -moz-border-radius: 8px;
-              -ms-border-radius: 8px;
-              -o-border-radius: 8px;
-              .dotTitle {
-                margin-bottom: 0px;
-              }
-              ul {
-                font-size: 12px;
-                color: #653000;
-                font-weight: bold;
-                li {
-                  margin-right: 10px;
-                  margin-bottom: 10px;
-                  text-align: center;
-                  line-height: 32px;
-                  cursor: pointer;
-                }
-                .activeClass {
-                  width: 80px;
-                  height: 32px;
-                  background-image: linear-gradient(90deg, #ffa201 0%, #ffe56e 100%);
-                  border-radius: 4px;
-                  color: #653000;
-                }
-                .normalClass {
-                  width: 80px;
-                  height: 32px;
-                  background-color: #163389;
-                  border-radius: 4px;
-                  span {
-                    color: #ffffff;
-                    opacity: 0.5;
-                  }
-                }
-                .normalClass:hover {
-                  span {
-                    opacity: 1;
-                  }
-                }
-              }
-            }
-          }
-          .switchIcon:hover {
-            background: url("../img/head/classSwitch2_h.png") center center no-repeat;
-          }
-        }
-        .userInfo {
-          text-align: right;
-          float: right;
-          .teacherHead {
-            width: 28px;
-            height: 28px;
-            cursor: pointer;
-            margin-right: 8px;
-            object-fit: cover;
-            border-radius: 100%;
-            -webkit-border-radius: 100%;
-            -moz-border-radius: 100%;
-            -ms-border-radius: 100%;
-            -o-border-radius: 100%;
-            vertical-align: middle;
-          }
-          .teacherName {
-            color: #ffffff;
-            opacity: 0.85;
-            cursor: pointer;
-          }
-          .teacherName:hover {
-            text-decoration: underline;
-            opacity: 1;
-          }
-          .gradeLeader,
-          .teacherIcon,
-          .schoolIcon {
-            width: 65px;
-            margin: 0 5px;
-            height: 16px;
-            background: url("../img/head/schoolLeaderIcon.png") center center no-repeat;
-            vertical-align: middle;
-          }
-          .gradeLeader {
-            background: url("../img/head/gradeLeaderIcon.png") center center no-repeat;
-          }
-          .eduIcon {
-            width: 76px;
-            margin: 0 5px;
-            height: 16px;
-            background: url("../img/head/eduIcon.png") center center no-repeat;
-            vertical-align: middle;
-          }
-  
-          .teacherIcon {
-            background: url("../img/head/teacherIcon.png") center center no-repeat;
-          }
-          .exitIcon {
-            width: 15px;
-            cursor: pointer;
-            height: 15px;
-            background: url("../img/head/exitIcon.png") center center no-repeat;
-            vertical-align: middle;
-          }
-          .exitIcon:hover {
-            background: url("../img/head/exitIcon_h.png") center center no-repeat;
-          }
-  
-          .questionIcon {
-            width: 15px;
-            height: 15px;
-            margin-right: 12px;
-            cursor: pointer;
-            background: url("../img/head/questionIcon.png") center center no-repeat;
-            vertical-align: middle;
-            display: none;
-          }
-          .questionIcon:hover {
-            background: url("../img/head/questionIcon_h.png") center center no-repeat;
-          }
-  
-          .lineIcon {
-            display: inline-block;
-            width: 3px;
-            margin-right: 10px;
-            height: 52px;
-            background: url("../img/head/lineIcon.png") center center no-repeat;
-            vertical-align: middle;
-            display: none;
-          }
-        }
-        .markWord{
-          width: 12px;
-	        height: 12px;
-          display: inline-block;
-          background: url(../img/head/分辨率提示.png) center center no-repeat;
-
-        }
-      }
-    }
-    .bottomfont {
-      width: 100%;
-      height: 10px;
-      text-align: center;
-      margin-top: 13px;
-      color: #ffffff;
-      opacity: 0.5;
-      font-size: 12px;
-    }
-    .bottomContent {
-      transition: all 1s ease;
-      -webkit-transition: all 1s ease; /* Safari */
-    }
-    .teacherHead {
-      width: 28px;
-      height: 28px;
-      cursor: pointer;
-      margin-right: 8px;
-      img {
-        width: 28px;
-        height: 28px;
-        object-fit: cover;
-        border-radius: 100%;
-        -webkit-border-radius: 100%;
-        -moz-border-radius: 100%;
-        -ms-border-radius: 100%;
-        -o-border-radius: 100%;
+      .markWord {
+        width: 12px;
+        height: 12px;
+        display: inline-block;
+        background: url(../img/head/分辨率提示.png) center center no-repeat;
       }
     }
   }
+  .bottomfont {
+    width: 100%;
+    height: 10px;
+    text-align: center;
+    margin-top: 13px;
+    color: #ffffff;
+    opacity: 0.5;
+    font-size: 12px;
+  }
+  .bottomContent {
+    transition: all 1s ease;
+    -webkit-transition: all 1s ease; /* Safari */
+  }
+  .teacherHead {
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    margin-right: 8px;
+    img {
+      width: 28px;
+      height: 28px;
+      object-fit: cover;
+      border-radius: 100%;
+      -webkit-border-radius: 100%;
+      -moz-border-radius: 100%;
+      -ms-border-radius: 100%;
+      -o-border-radius: 100%;
+    }
+  }
+}
+
+.contentBack {
+  animation: breathCss 2s linear infinite;
+  -webkit-animation: breathCss 2s linear infinite;
+}
+//关闭按钮动画效果
+@keyframes breathCss {
+  0% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.45;
+  }
+}
