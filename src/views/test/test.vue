@@ -8,6 +8,13 @@
 <template>
   <div>
     <div id="knownPointBox"></div>
+    <div class="flexBox">
+      <li v-for="item in list" :key="item.index">
+        <div>姓名：{{ item.name }}</div>
+        <div>年龄：{{ item.age }}</div>
+        <div>性别：{{ item.gender }}</div>
+      </li>
+    </div>
   </div>
 </template>
 <script>
@@ -15,7 +22,17 @@
 // import { saveInfo } from "./../../api/head/test.js";
 export default {
   data() {
-    return {};
+    return {
+      list: [
+        { name: "张三", index: 0, age: 18, gender: "男" },
+        { name: "李四", index: 1, age: 111, gender: "男" },
+        { name: "王五", index: 2, age: 222, gender: "男" },
+        { name: "赵六", index: 3, age: 33, gender: "男" },
+        { name: "张麻子", index: 4, age: 11, gender: "男" },
+        { name: "李四字", index: 5, age: 22, gender: "男" },
+        { name: "星星", index: 6, age: 33, gender: "男" },
+      ],
+    };
   },
   mounted() {
     this.drawline();
@@ -280,5 +297,18 @@ export default {
   width: 740px;
   height: 331px;
   margin: 0 auto;
+}
+.flexBox {
+  display: flex;
+  align-content: center;
+  flex-direction: row;
+  width: 900px;
+  height: 150px;
+  li {
+    width: 400px;
+    height: 150px;
+    margin: 0 25px;
+    background-color: aqua;
+  }
 }
 </style>

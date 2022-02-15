@@ -78,7 +78,6 @@ export default {
 	from {
 		transform: rotate(0deg);
 	}
-
 	to {
 		transform: rotate(360deg);
 	}
@@ -87,7 +86,6 @@ export default {
 	from {
 		transform: rotate(0deg);
 	}
-
 	to {
 		transform: rotate(360deg);
 	}
@@ -95,19 +93,21 @@ export default {
 @keyframes go-up {
 	from {
 		top: 100%;
+		transform: rotate(0deg);
 	}
-
 	to {
 		top: 55%;
+		transform: rotate(90deg);
 	}
 }
 @-webkit-keyframes go-up {
 	from {
 		top: 100%;
+		transform: rotate(0deg);
 	}
-
 	to {
 		top: 55%;
+		transform: rotate(90deg);
 	}
 }
 .progress {

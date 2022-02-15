@@ -141,6 +141,7 @@
             <div class="ZsdAreaBox"><i></i>最佳分辨率 1920 * 1080; 按F11键可全屏</div>
           </div>
         </div>
+        <div class="contentBack"></div>
         <router-view v-if="openView"></router-view>
       </div>
       <div class="bottomfont float-l">蓝鸽科技 版权所有</div>
