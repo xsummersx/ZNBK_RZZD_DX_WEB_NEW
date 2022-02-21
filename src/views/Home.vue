@@ -1,7 +1,7 @@
 <!--
  * @Author: 主页面
  * @Date: 2021-11-29 09:20:26
- * @LastEditTime: 2022-02-10 10:13:47
+ * @LastEditTime: 2022-02-21 09:28:41
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 主页面，柳欢
@@ -15,7 +15,10 @@
         src="../assets/video/back.mp4"
       ></video> -->
       <div class="Second-content">
-        <div class="ContentHeader clearfix">
+        <div
+          class="ContentHeader clearfix"
+          :class="{ AnimationTop: $route.name == 'educationRZZD' }"
+        >
           <div class="float-l leftHead">
             <div>
               <span
@@ -58,12 +61,7 @@
             <div class="userInfo" style="float: right">
               <span class="questionIcon"></span>
               <span class="lineIcon"></span>
-              <img
-                class="teacherHead"
-                :src="UserInfo.PhotoPath"
-                @click="toUserInfo()"
-                alt=""
-              />
+              <img class="teacherHead" :src="UserInfo.PhotoPath" @click="toUserInfo()" alt="" />
               <span class="teacherName" @click="toUserInfo()">
                 {{ UserInfo.UserName }}
               </span>
@@ -95,9 +93,7 @@
                   $route.name == 'teacherRZZD'
                 "
                 class="className"
-                >{{
-                  UserInfo.CourseClassName ? UserInfo.CourseClassName : className
-                }}</span
+                >{{ UserInfo.CourseClassName ? UserInfo.CourseClassName : className }}</span
               >
               <span
                 v-if="
@@ -144,7 +140,9 @@
         <div class="contentBack"></div>
         <router-view v-if="openView"></router-view>
       </div>
-      <div class="bottomfont float-l">蓝鸽科技 版权所有</div>
+      <div class="bottomfont float-l" :class="{ AnimationBottom: $route.name == 'educationRZZD' }">
+        蓝鸽科技 版权所有
+      </div>
       <!-- <div id="move"></div> -->
     </div>
     <el-dialog
@@ -331,7 +329,7 @@ export default {
             "确定",
             () => {
               window.close();
-            }
+            },
           );
         } else if (this.resInfo.StuCount == 0) {
           this.$znbkLayer.znbkConfirmWithNoButton(
@@ -339,7 +337,7 @@ export default {
             "确定",
             () => {
               window.close();
-            }
+            },
           );
         } else {
           for (let i = 0; i < this.resInfo.SwitchInfoList.length; i++) {
@@ -368,7 +366,7 @@ export default {
             "&CourseClassID=" +
             CourseClassID +
             "&Flag=" +
-            0
+            0,
         )
         .then((res) => {
           this.resInfo4 = res.Data;
@@ -683,9 +681,7 @@ export default {
       };
       GetSubSystemInfo(params).then((res) => {
         let url =
-          res.Data.BaseSysID +
-          "usermgr/personalmgr/default.aspx?lg_tk=" +
-          this.$route.query.token;
+          res.Data.BaseSysID + "usermgr/personalmgr/default.aspx?lg_tk=" + this.$route.query.token;
         window.open(url, "_blank");
       });
     },
@@ -723,5 +719,71 @@ export default {
   font-weight: 700;
   text-align: left;
   margin-bottom: 10px;
+}
+.AnimationTop {
+  animation: topInit 2s ease-in;
+  -ms-animation: topInit 2s ease-in; /* IE 9 */
+  -moz-animation: topInit 2s ease-in; /* Firefox */
+  -webkit-animation: topInit 2s ease-in; /* Safari 和 Chrome */
+  -o-animation: topInit 2s ease-in; /* Opera */
+}
+@keyframes topInit {
+  0% {
+    opacity: 0;
+    transform: translateY(-106px);
+    -ms-transform: translateY(-106px); /* IE 9 */
+    -moz-transform: translateY(-106px); /* Firefox */
+    -webkit-transform: translateY(-106px); /* Safari 和 Chrome */
+    -o-transform: translateY(-106px); /* Opera */
+  }
+  50% {
+    opacity: 0;
+    transform: translateY(-106px);
+    -ms-transform: translateY(-106px); /* IE 9 */
+    -moz-transform: translateY(-106px); /* Firefox */
+    -webkit-transform: translateY(-106px); /* Safari 和 Chrome */
+    -o-transform: translateY(-106px); /* Opera */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+    -ms-transform: translateY(0px); /* IE 9 */
+    -moz-transform: translateY(0px); /* Firefox */
+    -webkit-transform: translateY(0px); /* Safari 和 Chrome */
+    -o-transform: translateY(0px); /* Opera */
+  }
+}
+.AnimationBottom {
+  animation: bottomInit 2s ease-in;
+  -ms-animation: bottomInit 2s ease-in; /* IE 9 */
+  -moz-animation: bottomInit 2s ease-in; /* Firefox */
+  -webkit-animation: bottomInit 2s ease-in; /* Safari 和 Chrome */
+  -o-animation: bottomInit 2s ease-in; /* Opera */
+}
+@keyframes bottomInit {
+  0% {
+    opacity: 0;
+    transform: translateY(106px);
+    -ms-transform: translateY(106px); /* IE 9 */
+    -moz-transform: translateY(106px); /* Firefox */
+    -webkit-transform: translateY(106px); /* Safari 和 Chrome */
+    -o-transform: translateY(106px); /* Opera */
+  }
+  50% {
+    opacity: 0;
+    transform: translateY(53px);
+    -ms-transform: translateY(53px); /* IE 9 */
+    -moz-transform: translateY(53px); /* Firefox */
+    -webkit-transform: translateY(53px); /* Safari 和 Chrome */
+    -o-transform: translateY(53px); /* Opera */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+    -ms-transform: translateY(0px); /* IE 9 */
+    -moz-transform: translateY(0px); /* Firefox */
+    -webkit-transform: translateY(0px); /* Safari 和 Chrome */
+    -o-transform: translateY(0px); /* Opera */
+  }
 }
 </style>
