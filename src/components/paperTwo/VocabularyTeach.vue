@@ -525,7 +525,7 @@ export default {
 		.masteredCount {
 			width: 201px;
 			height: 74px;
-			background: url(~@/assets/img/teacher/词汇平均掌握量.png) 0px center
+			background: url(~@/assets/img/teacher/掌握1_iSpt.png) 0px center
 				no-repeat;
 			padding-left: 90px;
 			.count {
@@ -537,7 +537,7 @@ export default {
 		.scoreRate {
 			width: 201px;
 			height: 74px;
-			background: url(~@/assets/img/teacher/平均答对率.png) 0px center no-repeat;
+			background: url(~@/assets/img/teacher/答对1_iSpt.png) 0px center no-repeat;
 			padding-left: 90px;
 			.rate {
 				display: block;

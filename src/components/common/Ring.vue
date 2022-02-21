@@ -38,7 +38,9 @@ export default {
 	},
 	mounted() {
 		this.chart();
-		gsap.to(this, { duration: 1.5, avg: this.avgIndex });
+		setTimeout(() => {
+			gsap.to(this, { duration: 1.5, avg: this.avgIndex });
+		}, 250);
 	},
 	methods: {
 		chart() {

@@ -204,7 +204,7 @@ export default {
 		align-items: center;
 		width: 128px;
 		height: 122px;
-		background: url(~@/assets/img/teacher/较上周底座.png) center center
+		background: url(~@/assets/img/teacher/较上周_iSpt.png) center center
 			no-repeat;
 	}
 	.quantity {

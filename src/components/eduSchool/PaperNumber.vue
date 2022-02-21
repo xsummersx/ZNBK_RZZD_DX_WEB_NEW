@@ -13,7 +13,7 @@
 	>
 		<span class="title">累计作答试卷</span>
 		<div class="paper" v-show="$route.name === 'educationRZZD' && !loading">
-			<div id="eduChart" style="width: 122px; height: 122px"></div>
+			<!-- <div id="eduChart" style="width: 122px; height: 122px"></div> -->
 			<div class="text" v-if="$route.name === 'educationRZZD' && !loading">
 				<span
 					><span class="number">{{ count.toFixed(0) }}</span
@@ -92,9 +92,9 @@ export default {
 		Loading: () => import("@/components/common/Loading.vue"),
 	},
 	mounted() {
-		if (this.$route.name === "educationRZZD") {
-			this.chart();
-		}
+		// if (this.$route.name === "educationRZZD") {
+		// 	this.chart();
+		// }
 	},
 	methods: {
 		init() {
@@ -136,97 +136,97 @@ export default {
 					});
 			}
 		},
-		chart() {
-			let chartDom = document.getElementById("eduChart");
-			let myChart = this.$echarts.init(chartDom, null, {
-				renderer: "svg",
-			});
-			let option;
-			option = {
-				polar: {
-					radius: ["80%", "86%"],
-					center: ["50%", "50%"],
-				},
-				color: [
-					{
-						type: "linear",
-						x: 0,
-						y: 0,
-						x2: 0,
-						y2: 1,
-						colorStops: [
-							{
-								offset: 0,
-								color: "#005811",
-							},
-							{
-								offset: 0.6,
-								color: "#00ff12",
-							},
-							{
-								offset: 1,
-								color: "#00ff12",
-							},
-						],
-					},
-				],
-				angleAxis: {
-					max: 100,
-					// startAngle: 210,
-					show: false,
-				},
-				radiusAxis: {
-					type: "category",
-					show: false,
-					axisLabel: {
-						show: false,
-					},
-					axisLine: {
-						show: false,
-					},
-					axisTick: {
-						show: false,
-					},
-				},
-				series: [
-					{
-						name: "",
-						type: "bar",
-						roundCap: true,
-						z: 10,
-						data: [25],
-						coordinateSystem: "polar",
-					},
-					{
-						type: "pie",
-						name: "1",
-						roundCap: true,
-						radius: ["80%", "85%"],
-						hoverAnimation: false,
-						itemStyle: {
-							color: {
-								type: "linear",
-								x: 0,
-								y: 0,
-								x2: 0,
-								y2: 1,
-								colorStops: [
-									{
-										offset: 0,
-										color: "#005811",
-									},
-								],
-							},
-						},
-						label: {
-							show: false,
-						},
-						data: [75],
-					},
-				],
-			};
-			myChart.setOption(option);
-		},
+		// chart() {
+		// 	let chartDom = document.getElementById("eduChart");
+		// 	let myChart = this.$echarts.init(chartDom, null, {
+		// 		renderer: "svg",
+		// 	});
+		// 	let option;
+		// 	option = {
+		// 		polar: {
+		// 			radius: ["80%", "86%"],
+		// 			center: ["50%", "50%"],
+		// 		},
+		// 		color: [
+		// 			{
+		// 				type: "linear",
+		// 				x: 0,
+		// 				y: 0,
+		// 				x2: 0,
+		// 				y2: 1,
+		// 				colorStops: [
+		// 					{
+		// 						offset: 0,
+		// 						color: "#005811",
+		// 					},
+		// 					{
+		// 						offset: 0.6,
+		// 						color: "#00ff12",
+		// 					},
+		// 					{
+		// 						offset: 1,
+		// 						color: "#00ff12",
+		// 					},
+		// 				],
+		// 			},
+		// 		],
+		// 		angleAxis: {
+		// 			max: 100,
+		// 			// startAngle: 210,
+		// 			show: false,
+		// 		},
+		// 		radiusAxis: {
+		// 			type: "category",
+		// 			show: false,
+		// 			axisLabel: {
+		// 				show: false,
+		// 			},
+		// 			axisLine: {
+		// 				show: false,
+		// 			},
+		// 			axisTick: {
+		// 				show: false,
+		// 			},
+		// 		},
+		// 		series: [
+		// 			{
+		// 				name: "",
+		// 				type: "bar",
+		// 				roundCap: true,
+		// 				z: 10,
+		// 				data: [25],
+		// 				coordinateSystem: "polar",
+		// 			},
+		// 			{
+		// 				type: "pie",
+		// 				name: "1",
+		// 				roundCap: true,
+		// 				radius: ["80%", "85%"],
+		// 				hoverAnimation: false,
+		// 				itemStyle: {
+		// 					color: {
+		// 						type: "linear",
+		// 						x: 0,
+		// 						y: 0,
+		// 						x2: 0,
+		// 						y2: 1,
+		// 						colorStops: [
+		// 							{
+		// 								offset: 0,
+		// 								color: "#005811",
+		// 							},
+		// 						],
+		// 					},
+		// 				},
+		// 				label: {
+		// 					show: false,
+		// 				},
+		// 				data: [75],
+		// 			},
+		// 		],
+		// 	};
+		// 	myChart.setOption(option);
+		// },
 	},
 };
 </script>
@@ -271,7 +271,7 @@ export default {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	background: url(~@/assets/img/eduSchool/平均试卷量bg.png) no-repeat center;
+	background: url(~@/assets/img/eduSchool/平均试卷量_iSpt.png) no-repeat center;
 	background-size: 100% 100%;
 	background-color: rgba(255, 255, 255, 0.05);
 	position: relative;

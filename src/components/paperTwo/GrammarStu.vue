@@ -136,7 +136,7 @@ export default {
 		.scoreRate {
 			width: 170px;
 			height: 60px;
-			background: url(~@/assets/img/teacher/词汇答对率.png) 0px center no-repeat;
+			background: url(~@/assets/img/teacher/答对2_iSpt.png) 0px center no-repeat;
 			padding-left: 70px;
 			.rate {
 				display: block;
