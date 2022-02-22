@@ -1,14 +1,14 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:27:26
- * @LastEditTime: 2022-02-15 13:51:15
+ * @LastEditTime: 2022-02-22 20:03:01
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》地图，图0
 -->
 <template>
   <div class="map">
-    <div v-show="showData" style="z-index: 5; position: absolute;">
+    <div v-show="showData" style="z-index: 5; position: absolute">
       <div class="noData" v-show="IsHaveSchool == false || IsHaveMap == false">
         {{ noDataText0 }}
       </div>
@@ -22,7 +22,9 @@
         v-show="IsHaveMap"
         :style="{ opacity: IsHaveSchool == false ? 0.2 : 1 }"
       ></div>
-      <!-- <div class="btnText"><span class="text">学校认知情况</span><i class="btnIcon"></i></div> -->
+      <div class="btnText">
+        <span class="text" @click="dialogVisible = true">学校认知情况</span><i class="btnIcon"></i>
+      </div>
     </div>
     <vue-particles
       color="#04aed8"
@@ -42,11 +44,23 @@
       clickMode="push"
       id="particles-js"
     ></vue-particles>
-    <Loading v-show="!showData" style="margin-top: 200px;"></Loading>
+    <Loading v-show="!showData" style="margin-top: 200px"></Loading>
+    <el-dialog
+      title="学校认知情况"
+      :visible.sync="dialogVisible"
+      :close-on-click-modal="false"
+      width="820px"
+      top="0vh"
+    >
+      <div>
+        <SchoolInfoTable :TabList="SchoolTableList"></SchoolInfoTable>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
 import { getMapJson } from "@/api/eduSchool/right.js";
+import SchoolInfoTable from "./SchoolInfoTable";
 import "@/assets/css/particless.css";
 import {
   get_A,
@@ -67,6 +81,8 @@ export default {
       IsHaveSchool: false, //是否有学校
       IsHaveMap: false, //是否有地图
       showData: false, //是否接口异步请求完成
+      dialogVisible: false,
+      SchoolTableList: [],
     };
   },
   mounted() {
@@ -74,12 +90,17 @@ export default {
   },
   components: {
     Loading,
+    SchoolInfoTable,
   },
   methods: {
     //跳转学校点击事件
     // SchoolClick(id) {
     //   this.$store.commit("updateSchoolID", id);
-    //   window.open(window.location.origin + "/Web/index.html#/home/schoolRZZD?token=" + this.$store.state.token);
+    //   window.open(
+    //     window.location.origin +
+    //       "/Web/index.html#/home/schoolRZZD?token=" +
+    //       this.$store.state.token,
+    //   );
     // },
     //统计图绘制
     drawMap() {
@@ -107,6 +128,16 @@ export default {
           mapDate.push({
             SchoolID: item.SchoolID,
             name: item.SchoolName,
+            value: [item.Longitude, item.Latitude],
+            datas: item.CognitiveGradeName,
+            CurrentIndex: item.CurrentIndex, //认知指数
+            PredictedScore: item.PredictedScore, //预估成绩
+            PaperScoreRate: (item.PaperScoreRate * 100).toFixed(0), //已作答试卷平均得分率
+            AnsweredPaperNum: item.AnsweredPaperNum, //累计作答试卷份数
+          });
+          this.SchoolTableList.push({
+            SchoolID: item.SchoolID,
+            SchoolName: item.SchoolName,
             value: [item.Longitude, item.Latitude],
             datas: item.CognitiveGradeName,
             CurrentIndex: item.CurrentIndex, //认知指数
