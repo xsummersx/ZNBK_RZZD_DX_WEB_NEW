@@ -1,13 +1,17 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-22 19:44:50
- * @LastEditTime: 2022-02-22 20:20:48
+ * @LastEditTime: 2022-02-22 20:30:26
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\components\eduSchool\SchoolInfoTable.vue
 -->
 <template>
   <div style="padding: 20px">
+    <div class="exportScore float-r" style="margin-bottom: 10px; margin-right: 0px; color: #fff">
+      <span class="exportIcon"></span>
+      导出成绩单
+    </div>
     <el-table
       :empty-text="emptyText"
       :data="showList"
@@ -103,7 +107,7 @@ export default {
       this.getTable(val, 5, "");
     },
     getTable(nowNum, isAll) {
-      this.showList = this.TabList.slice(nowNum * isAll, (nowNum + 1) * isAll);
+      this.showList = this.TabList.slice((nowNum - 1) * isAll, nowNum * isAll);
     },
   },
 };
