@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-22 19:44:50
- * @LastEditTime: 2022-02-22 20:30:26
+ * @LastEditTime: 2022-02-22 20:31:59
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\components\eduSchool\SchoolInfoTable.vue
@@ -21,7 +21,7 @@
     >
       <el-table-column prop="SchoolName" label="学校名称" width="218">
         <template slot-scope="scope">
-          <span class="gray">
+          <span class="gray noWrap">
             {{ scope.row.SchoolName }}
           </span>
         </template>
@@ -115,5 +115,10 @@ export default {
 <style scoped>
 .el-table ::v-deep .el-table__cell {
   padding: 11px 0 !important;
+}
+.noWrap {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>
