@@ -267,7 +267,7 @@ export default {
 		width: 162px;
 		height: 142px;
 		margin-left: -32px;
-		background: url(~@/assets/img/eduSchool/全区平均统计.png) center center
+		background: url(~@/assets/img/eduSchool/全区平均统计_iSpt.png) center center
 			no-repeat;
 		.score {
 			font-size: 24px;
