@@ -1,7 +1,7 @@
 <!--
  * @Author: 主页面
  * @Date: 2021-11-29 09:20:26
- * @LastEditTime: 2022-02-21 09:28:41
+ * @LastEditTime: 2022-02-22 10:25:01
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 主页面，柳欢
@@ -17,7 +17,7 @@
       <div class="Second-content">
         <div
           class="ContentHeader clearfix"
-          :class="{ AnimationTop: $route.name == 'educationRZZD' }"
+          :class="{ AnimationTop: $route.name == 'educationRZZD' || $route.name == 'schoolRZZD' }"
         >
           <div class="float-l leftHead">
             <div>
@@ -140,7 +140,10 @@
         <div class="contentBack"></div>
         <router-view v-if="openView"></router-view>
       </div>
-      <div class="bottomfont float-l" :class="{ AnimationBottom: $route.name == 'educationRZZD' }">
+      <div
+        class="bottomfont float-l"
+        :class="{ AnimationBottom: $route.name == 'educationRZZD' || $route.name == 'schoolRZZD' }"
+      >
         蓝鸽科技 版权所有
       </div>
       <!-- <div id="move"></div> -->
