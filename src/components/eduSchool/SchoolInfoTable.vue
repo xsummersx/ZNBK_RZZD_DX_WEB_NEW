@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-22 19:44:50
- * @LastEditTime: 2022-02-23 10:21:24
+ * @LastEditTime: 2022-02-23 11:32:07
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\components\eduSchool\SchoolInfoTable.vue
@@ -97,9 +97,6 @@
 <script>
 import { ExportSchool, AllSchoolInfo } from "@/api/eduSchool/right.js";
 export default {
-  props: {
-    TabList: Array,
-  },
   data() {
     return {
       emptyText: "暂无数据",
@@ -120,6 +117,7 @@ export default {
   methods: {
     // 显示第几页
     handleCurrentChange(val) {
+      console.log(val);
       // 改变默认的页数
       this.currentPage = val;
       this.emptyText = "加载中...";
@@ -145,6 +143,7 @@ export default {
       };
       AllSchoolInfo(params).then((res) => {
         let List = res.Data.SchoolReportDetailInfoList;
+        this.TabListList = List;
         this.showList = List.slice(0, 5);
         this.StuCount = List.length;
       });

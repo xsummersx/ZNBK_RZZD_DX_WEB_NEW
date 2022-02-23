@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:27:26
- * @LastEditTime: 2022-02-22 20:03:01
+ * @LastEditTime: 2022-02-23 11:33:23
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》地图，图0
@@ -53,7 +53,7 @@
       top="0vh"
     >
       <div>
-        <SchoolInfoTable :TabList="SchoolTableList"></SchoolInfoTable>
+        <SchoolInfoTable></SchoolInfoTable>
       </div>
     </el-dialog>
   </div>
@@ -82,7 +82,6 @@ export default {
       IsHaveMap: false, //是否有地图
       showData: false, //是否接口异步请求完成
       dialogVisible: false,
-      SchoolTableList: [],
     };
   },
   mounted() {
@@ -128,16 +127,6 @@ export default {
           mapDate.push({
             SchoolID: item.SchoolID,
             name: item.SchoolName,
-            value: [item.Longitude, item.Latitude],
-            datas: item.CognitiveGradeName,
-            CurrentIndex: item.CurrentIndex, //认知指数
-            PredictedScore: item.PredictedScore, //预估成绩
-            PaperScoreRate: (item.PaperScoreRate * 100).toFixed(0), //已作答试卷平均得分率
-            AnsweredPaperNum: item.AnsweredPaperNum, //累计作答试卷份数
-          });
-          this.SchoolTableList.push({
-            SchoolID: item.SchoolID,
-            SchoolName: item.SchoolName,
             value: [item.Longitude, item.Latitude],
             datas: item.CognitiveGradeName,
             CurrentIndex: item.CurrentIndex, //认知指数
