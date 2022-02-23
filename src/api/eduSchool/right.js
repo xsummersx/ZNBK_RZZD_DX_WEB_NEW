@@ -1,7 +1,7 @@
 /*
  * @Author: 吴涛
  * @Date: 2021-12-22 20:20:33
- * @LastEditTime: 2022-01-14 13:48:35
+ * @LastEditTime: 2022-02-23 10:05:43
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 右边部分
@@ -119,6 +119,22 @@ export function GetAnaTable(data) {
 export function ExportExcel(data) {
   return request({
     url: "/api/SchoolMasterRZZD/GetExportSchoolCognitiveLevel_V3",
+    method: "GET",
+    params: { ...data },
+  });
+}
+//学校认知情况弹窗列表
+export function AllSchoolInfo(data) {
+  return request({
+    url: "/api/DirectorRZZD/GetDirectorCognitiveLevel_V3",
+    method: "GET",
+    params: { ...data },
+  });
+}
+//学校认知情况导出
+export function ExportSchool(data) {
+  return request({
+    url: "/api/DirectorRZZD/GetExportDirectorCognitiveLevel_V3",
     method: "GET",
     params: { ...data },
   });

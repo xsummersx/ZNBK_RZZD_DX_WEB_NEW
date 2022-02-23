@@ -1,14 +1,18 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-22 19:44:50
- * @LastEditTime: 2022-02-22 20:31:59
+ * @LastEditTime: 2022-02-23 10:21:24
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\components\eduSchool\SchoolInfoTable.vue
 -->
 <template>
   <div style="padding: 20px">
-    <div class="exportScore float-r" style="margin-bottom: 10px; margin-right: 0px; color: #fff">
+    <div
+      class="exportScore float-r"
+      @click="exoprtExcel"
+      style="margin-bottom: 10px; margin-right: 0px; color: #fff"
+    >
       <span class="exportIcon"></span>
       导出成绩单
     </div>
@@ -19,37 +23,53 @@
       style="width: 100%; height: 305px"
       class="bueatyScroll"
     >
-      <el-table-column prop="SchoolName" label="学校名称" width="218">
+      <el-table-column prop="SchoolName" label="学校名称" width="160">
         <template slot-scope="scope">
           <span class="gray noWrap">
             {{ scope.row.SchoolName }}
           </span>
         </template>
       </el-table-column>
-      <el-table-column prop="AnsweredPaperNum" label="累计作答试卷" width="140">
+      <el-table-column prop="PaperNum" label="累计作答试卷" width="110">
         <template slot-scope="scope">
-          <span class="gray">
-            {{ scope.row.AnsweredPaperNum }}
+          <span class="gray" style="color: #51f0ff">
+            {{ scope.row.PaperNum }}
           </span>
         </template>
       </el-table-column>
-      <el-table-column prop="PaperScoreRate" label="平均正确率" width="140">
+      <el-table-column prop="ScoreRate" label="平均正确率" width="108">
         <template slot-scope="scope">
-          <span class="gray">
-            {{ scope.row.PaperScoreRate }}
-          </span>
+          <span class="gray" style="color: #fff600"> {{ scope.row.ScoreRate | toPercent }}% </span>
         </template>
       </el-table-column>
-      <el-table-column prop="CurrentIndex" label="认知平均分" width="140">
+      <el-table-column prop="CognitiveScore" label="认知平均分" width="110">
         <template slot-scope="scope">
-          <span class="gray"> {{ scope.row.CurrentIndex }} </span>
+          <span class="gray" style="color: #60ff60"> {{ scope.row.CognitiveScore }} </span>
         </template>
       </el-table-column>
-      <el-table-column prop="PredictedScore" label="高考预估成绩" width="140">
+      <el-table-column prop="FirstRate" label="A+" width="58">
         <template slot-scope="scope">
-          <span class="gray">
-            {{ scope.row.PredictedScore }}
-          </span>
+          <span class="gray"> {{ scope.row.FirstRate | toPercent }}% </span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="SecondRate" label="B+" width="58">
+        <template slot-scope="scope">
+          <span class="gray"> {{ scope.row.SecondRate | toPercent }}% </span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="ThirdRate" label="C+" width="58">
+        <template slot-scope="scope">
+          <span class="gray"> {{ scope.row.ThirdRate | toPercent }}% </span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="FourthRate" label="D+" width="58">
+        <template slot-scope="scope">
+          <span class="gray"> {{ scope.row.FourthRate | toPercent }}% </span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="FifthRate" label="E+" width="58">
+        <template slot-scope="scope">
+          <span class="gray"> {{ scope.row.FifthRate | toPercent }}% </span>
         </template>
       </el-table-column>
       <template slot="empty" v-if="emptyText == '加载中...'">
@@ -75,6 +95,7 @@
   </div>
 </template>
 <script>
+import { ExportSchool, AllSchoolInfo } from "@/api/eduSchool/right.js";
 export default {
   props: {
     TabList: Array,
@@ -93,9 +114,7 @@ export default {
   },
 
   mounted() {
-    let List = this.TabList;
-    this.showList = List.slice(0, 5);
-    this.StuCount = List.length;
+    this.getSchoolInfo();
   },
 
   methods: {
@@ -108,6 +127,43 @@ export default {
     },
     getTable(nowNum, isAll) {
       this.showList = this.TabList.slice((nowNum - 1) * isAll, nowNum * isAll);
+    },
+    //获取学校表格信息
+    getSchoolInfo() {
+      let params = {
+        Token: this.$store.state.token,
+        TID: this.$store.state.TID,
+        ProvinceID: this.$store.state.ProvinceID,
+        CityID: this.$store.state.CityID,
+        CountyID: this.$store.state.CountyID,
+        GlobalGrade: this.$store.state.GlobalGrade,
+        ZsdArea: this.$store.state.ZsdArea,
+        StageNo: this.$store.state.StageNo,
+        PageNum: -1,
+        PageSize: -1,
+        SearchText: "",
+      };
+      AllSchoolInfo(params).then((res) => {
+        let List = res.Data.SchoolReportDetailInfoList;
+        this.showList = List.slice(0, 5);
+        this.StuCount = List.length;
+      });
+    },
+    //导出excel
+    exoprtExcel() {
+      let params = {
+        Token: this.$store.state.token,
+        TID: this.$store.state.TID,
+        ProvinceID: this.$store.state.ProvinceID,
+        CityID: this.$store.state.CityID,
+        CountyID: this.$store.state.CountyID,
+        GlobalGrade: this.$store.state.GlobalGrade,
+        ZsdArea: this.$store.state.ZsdArea,
+        StageNo: this.$store.state.StageNo,
+      };
+      ExportSchool(params).then((res) => {
+        window.open(res.Data, "_self");
+      });
     },
   },
 };
