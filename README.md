@@ -1,24 +1,8 @@
-# znbk_rzzd_zx_web_new
+## 关于分支的描述
 
-## Project setup
-```
-npm install
-```
+master 为**【中高考】**稳定的发布 237 的版本
+develop 当前**【中高考】**最新需求且稳定版本
+feature 当前**【中高考】**最新需求开发中的版本
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+dev-universty 当前**【大学版本】**最新需求且稳定版本
+feat-universty 当前**【大学版本】**最新需求开发中的版本
