@@ -115,7 +115,7 @@ export default {
 		align-items: center;
 		width: 128px;
 		height: 122px;
-		background: url(~@/assets/img/teacher/总量表达.png) center center no-repeat;
+		background: url(~@/assets/img/teacher/总量表达_iSpt.png) center center no-repeat;
 		.number {
 			font-size: 32px;
 			font-family: Oswald;
