@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-12-14 13:56:07
- * @LastEditTime: 2022-02-09 15:24:45
+ * @LastEditTime: 2022-03-02 15:27:44
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\views\dialog\StuReport.vue
@@ -15,72 +15,62 @@
       </div>
     </div>
     <div v-show="showList.length > 0 && !showLoading" class="table">
-      <table>
-        <thead>
-          <tr>
-            <th>序号</th>
-            <th>姓名</th>
-            <th>班级</th>
-            <th>总分</th>
-            <th>年级排名</th>
-            <th>班级排名</th>
-            <th class="oneTH" v-for="item in ObjectiveQTypeList" :key="item.QTypeName">
-              <div class="oneTH1">{{ item.QTypeName }}</div>
-              <div class="oneTH2">
-                <span class="oneSpan1">得分率</span
-                ><span class="oneSpan2">年级排名/班级排名</span>
-              </div>
-            </th>
-            <th class="oneTH" v-for="item in SubjectiveQTypeList" :key="item.QTypeName">
-              <div class="oneTH1">{{ item.QTypeName }}</div>
-              <div class="oneTH2">
-                <span class="oneSpan1">得分率</span
-                ><span class="oneSpan2">年级排名/班级排名</span>
-              </div>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="item in showList" :key="item.QTypeName">
-            <td>{{ item.Index }}</td>
-            <td>{{ item.StuName }}</td>
-            <td>{{ item.CourseClassName }}</td>
-            <td>{{ item.StuPaperScore }}</td>
-            <td>{{ item.GradeRank }}</td>
-            <td>{{ item.ClassRank }}</td>
-            <td
-              class="borderTD"
-              v-for="item2 in item.ObjectiveQTypeList"
-              :key="item2.QTypeName"
-            >
-              <span class="oneSpan1">{{ toPersent(item2.PaperScoreRate) }}</span>
-              <span class="oneSpan2">{{
-                toLine(item2.QTypeClassRank) + "/" + toLine(item2.QTypeGradeRank)
-              }}</span>
-            </td>
-            <td
-              class="borderTD"
-              v-for="item2 in item.SubjectiveQTypeList"
-              :key="item2.QTypeName"
-            >
-              <span class="oneSpan1">{{ toPersent(item2.PaperScoreRate) }}</span>
-              <span class="oneSpan2">{{
-                toLine(item2.QTypeClassRank) + "/" + toLine(item2.QTypeGradeRank)
-              }}</span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <vuescroll :ops="ops">
+        <table>
+          <thead>
+            <tr>
+              <th>序号</th>
+              <th>姓名</th>
+              <th>班级</th>
+              <th>总分</th>
+              <th>年级排名</th>
+              <th>班级排名</th>
+              <th class="oneTH" v-for="item in ObjectiveQTypeList" :key="item.QTypeName">
+                <div class="oneTH1">{{ item.QTypeName }}</div>
+                <div class="oneTH2">
+                  <span class="oneSpan1">得分率</span
+                  ><span class="oneSpan2">年级排名/班级排名</span>
+                </div>
+              </th>
+              <th class="oneTH" v-for="item in SubjectiveQTypeList" :key="item.QTypeName">
+                <div class="oneTH1">{{ item.QTypeName }}</div>
+                <div class="oneTH2">
+                  <span class="oneSpan1">得分率</span
+                  ><span class="oneSpan2">年级排名/班级排名</span>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in showList" :key="item.QTypeName">
+              <td>{{ item.Index }}</td>
+              <td>{{ item.StuName }}</td>
+              <td>{{ item.CourseClassName }}</td>
+              <td>{{ item.StuPaperScore }}</td>
+              <td>{{ item.GradeRank }}</td>
+              <td>{{ item.ClassRank }}</td>
+              <td class="borderTD" v-for="item2 in item.ObjectiveQTypeList" :key="item2.QTypeName">
+                <span class="oneSpan1">{{ toPersent(item2.PaperScoreRate) }}</span>
+                <span class="oneSpan2">{{
+                  toLine(item2.QTypeClassRank) + "/" + toLine(item2.QTypeGradeRank)
+                }}</span>
+              </td>
+              <td class="borderTD" v-for="item2 in item.SubjectiveQTypeList" :key="item2.QTypeName">
+                <span class="oneSpan1">{{ toPersent(item2.PaperScoreRate) }}</span>
+                <span class="oneSpan2">{{
+                  toLine(item2.QTypeClassRank) + "/" + toLine(item2.QTypeGradeRank)
+                }}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </vuescroll>
     </div>
     <div v-show="showList.length <= 0 && !showLoading" class="temNoData">
       <span>暂无学生成绩单统计数据噢~</span>
     </div>
 
-    <Loading
-      v-show="showLoading"
-      style="width: 960px; height: 330px"
-      backSize="80%"
-    ></Loading>
+    <Loading v-show="showLoading" style="width: 960px; height: 330px" backSize="80%"></Loading>
     <div class="paginationBox" v-if="StuCount > 5">
       <el-pagination
         class="pagination"
@@ -101,6 +91,7 @@ import { GetGradePaperScoreReport_V3 } from "@/api/diolog/stuReportDiolog";
 import { GetClassPaperScoreReport_V3 } from "@/api/diolog/stuReportDiolog";
 import { GetExportGradePaperScoreReport_V3 } from "@/api/diolog/stuReportDiolog";
 import { GetExportClassPaperScoreReport_V3 } from "@/api/diolog/stuReportDiolog";
+import vuescroll from "vuescroll";
 import Loading from "../../components/common/Loading.vue";
 export default {
   props: {
@@ -120,10 +111,17 @@ export default {
       showLoading: true,
       ObjectiveQTypeList: [],
       SubjectiveQTypeList: [],
+      ops: {
+        bar: {
+          keepShow: true,
+          background: "#98c8ff",
+        },
+      },
     };
   },
   components: {
     Loading,
+    vuescroll,
   },
   mounted() {
     if (this.$route.name == "gradeRZZD") {
@@ -261,8 +259,7 @@ export default {
     height: 28px;
     line-height: 28px;
     margin-bottom: 0;
-    background: url("../../assets/img/viewImg/导出试卷题型得分分析.png") -0px -28px
-      no-repeat;
+    background: url("../../assets/img/viewImg/导出试卷题型得分分析.png") -0px -28px no-repeat;
     border-radius: 4px;
     font-size: 14px;
     color: #ffffff;
@@ -277,19 +274,16 @@ export default {
       top: 2px;
     }
     &:active {
-      background: url("../../assets/img/viewImg/导出试卷题型得分分析.png") -0px -0px
-        no-repeat;
+      background: url("../../assets/img/viewImg/导出试卷题型得分分析.png") -0px -0px no-repeat;
     }
     &:hover {
-      background: url("../../assets/img/viewImg/导出试卷题型得分分析.png") -0px -56px
-        no-repeat;
+      background: url("../../assets/img/viewImg/导出试卷题型得分分析.png") -0px -56px no-repeat;
     }
   }
 }
 
 .table {
   height: 330px;
-  overflow-x: scroll;
   margin: 10px 0 20px;
   table {
     border-collapse: collapse;
