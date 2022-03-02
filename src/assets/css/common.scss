@@ -1,286 +1,303 @@
 .right-small-box {
-	display: inline-block;
-	width: 620px;
-	height: 260px;
-	background-color: rgba(255, 255, 255, 0.05);
-	border-radius: 4px;
-	margin-top: 30px;
-	padding: 18px 20px 0 30px;
+  display: inline-block;
+  width: 620px;
+  height: 260px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  margin-top: 30px;
+  padding: 18px 20px 0 30px;
 }
 .box-title {
-	.title {
-		font-size: 16px;
-		color: #ffffff;
-		font-weight: bold;
-	}
-	.title::before {
-		content: "";
-		display: inline-block;
-		width: 6px;
-		height: 6px;
-		margin-right: 4px;
-		background-color: #ffffff;
-		position: relative;
-		top: -3px;
-		border-radius: 100%;
-		-webkit-border-radius: 100%;
-		-moz-border-radius: 100%;
-		-ms-border-radius: 100%;
-		-o-border-radius: 100%;
-	}
-	.check-icon {
-		cursor: pointer;
-		font-size: 14px;
-		color: rgba(255, 255, 255, 0.8);
-		i {
-			display: inline-block;
-			width: 17px;
-			height: 18px;
-			margin-right: 4px;
-			vertical-align: middle;
-			background: url("../img/teacher/查看_默认.png") center center no-repeat;
-		}
-	}
-	.check-icon:hover {
-		color: rgb(255, 255, 255);
-		i {
-			width: 17px;
-			height: 18px;
-			background: url("../img/teacher/查看_悬停.png") center center no-repeat;
-		}
-	}
+  .title {
+    font-size: 16px;
+    color: #ffffff;
+    font-weight: bold;
+  }
+  .title::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin-right: 4px;
+    background-color: #ffffff;
+    position: relative;
+    top: -3px;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    -ms-border-radius: 100%;
+    -o-border-radius: 100%;
+  }
+  .check-icon {
+    cursor: pointer;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+    i {
+      display: inline-block;
+      width: 17px;
+      height: 18px;
+      margin-right: 4px;
+      vertical-align: middle;
+      background: url("../img/teacher/查看_默认.png") center center no-repeat;
+    }
+  }
+  .check-icon:hover {
+    color: rgb(255, 255, 255);
+    i {
+      width: 17px;
+      height: 18px;
+      background: url("../img/teacher/查看_悬停.png") center center no-repeat;
+    }
+  }
 }
 .grayBox {
-	color: rgba(153, 155, 160, 0.8);
-	// background-image: Radial-gradient(
-	// 	rgba(153, 155, 160, 0.2) 0%,
-	// 	rgba(153, 155, 160, 0.2) 50%,
-	// 	rgba(153, 155, 160, 0.9) 100%
-	// );
-	background: url("../img/common/无数据大号.png") center center / 100% no-repeat;
+  color: rgba(153, 155, 160, 0.8);
+  // background-image: Radial-gradient(
+  // 	rgba(153, 155, 160, 0.2) 0%,
+  // 	rgba(153, 155, 160, 0.2) 50%,
+  // 	rgba(153, 155, 160, 0.9) 100%
+  // );
+  background: url("../img/common/无数据大号.png") center center / 100% no-repeat;
 }
 .redBox {
-	color: #ff8080;
-	// background-image: Radial-gradient(
-	// 	rgba(251, 131, 131, 0.2) 0%,
-	// 	rgba(251, 131, 131, 0.2) 50%,
-	// 	rgba(251, 131, 131, 0.9) 100%
-	// );
-	background: url("../img/common/较差.png") center center / 100% no-repeat;
+  color: #ff8080;
+  // background-image: Radial-gradient(
+  // 	rgba(251, 131, 131, 0.2) 0%,
+  // 	rgba(251, 131, 131, 0.2) 50%,
+  // 	rgba(251, 131, 131, 0.9) 100%
+  // );
+  background: url("../img/common/较差.png") center center / 100% no-repeat;
 }
 .greenBox {
-	color: #60ff60;
-	// background-image: Radial-gradient(rgba(2, 102, 0, 0.8) 0%, rgba(2, 102, 0, 0.8) 40%, rgba(6, 192, 3,1) 100%);
-	background: url("../img/common/一般.png") center center / 100% no-repeat;
+  color: #60ff60;
+  // background-image: Radial-gradient(rgba(2, 102, 0, 0.8) 0%, rgba(2, 102, 0, 0.8) 40%, rgba(6, 192, 3,1) 100%);
+  background: url("../img/common/一般.png") center center / 100% no-repeat;
 }
 .blueBox {
-	color: #00c6ff;
-	// background-image: Radial-gradient(
-	// 	rgba(12, 92, 238, 0.2) 0%,
-	// 	rgba(12, 92, 238, 0.4) 50%,
-	// 	rgba(80, 141, 250, 1) 100%
-	// );
-	background: url("../img/common/较好.png") center center / 100% no-repeat;
+  color: #00c6ff;
+  // background-image: Radial-gradient(
+  // 	rgba(12, 92, 238, 0.2) 0%,
+  // 	rgba(12, 92, 238, 0.4) 50%,
+  // 	rgba(80, 141, 250, 1) 100%
+  // );
+  background: url("../img/common/较好.png") center center / 100% no-repeat;
 }
 
 .stuInput {
-	width: 240px;
-	height: 28px;
-	background-color: rgba(229, 238, 247, 0.15);
-	border-radius: 2px;
-	padding: 8px 47px 8px 11px;
-	border: transparent;
-	color: #6994f0;
+  width: 240px;
+  height: 28px;
+  background-color: rgba(229, 238, 247, 0.15);
+  border-radius: 2px;
+  padding: 8px 47px 8px 11px;
+  border: transparent;
+  color: #6994f0;
 }
 .searchIcon {
-	display: inline-block;
-	width: 16px;
-	height: 16px;
-	background: url("../img/common/searchIcon.png") center center no-repeat;
-	position: absolute;
-	right: 200px;
-	top: 7px;
-	cursor: pointer;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background: url("../img/common/searchIcon.png") center center no-repeat;
+  position: absolute;
+  right: 200px;
+  top: 7px;
+  cursor: pointer;
 }
 .searchIcon:hover {
-	background: url("../img/common/searchIcon_h.png") center center no-repeat;
+  background: url("../img/common/searchIcon_h.png") center center no-repeat;
+}
+.searchIconClear {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background: url("../img/common/clear.png") center center no-repeat;
+  position: absolute;
+  right: 200px;
+  top: 7px;
+  cursor: pointer;
+}
+.searchIconClear:hover {
+  background: url("../img/common/clearH.png") center center no-repeat;
 }
 .splitLine {
-	display: inline-block;
-	width: 1px;
-	height: 26px;
-	background-image: linear-gradient(
-		0deg,
-		rgba(255, 255, 255, 0.3) 0%,
-		rgba(255, 255, 255, 1) 50%,
-		rgba(255, 255, 255, 0.3) 100%
-	);
-	opacity: 0.3;
-	margin: 0 12px;
+  display: inline-block;
+  width: 1px;
+  height: 26px;
+  background-image: linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 1) 50%,
+    rgba(255, 255, 255, 0.3) 100%
+  );
+  opacity: 0.3;
+  margin: 0 12px;
 }
 
 .exportScore {
-	width: 110px;
-	height: 28px;
-	background: url("../../assets/img/grade/btn.png") -0px -28px no-repeat;
-	border-radius: 4px;
-	text-align: center;
-	line-height: 28px;
-	cursor: pointer;
-	margin-right: 56px;
-	font-size: 14px;
-	.exportIcon {
-		display: inline-block;
-		width: 14px;
-		height: 14px;
-		background: url("../img/common/exportIcon.png") center center no-repeat;
-		position: relative;
-		top: 2px;
-	}
+  width: 110px;
+  height: 28px;
+  background: url("../../assets/img/grade/btn.png") -0px -28px no-repeat;
+  border-radius: 4px;
+  text-align: center;
+  line-height: 28px;
+  cursor: pointer;
+  margin-right: 56px;
+  font-size: 14px;
+  .exportIcon {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    background: url("../img/common/exportIcon.png") center center no-repeat;
+    position: relative;
+    top: 2px;
+  }
 }
 .exportScore:hover {
-	background: url("../../assets/img/grade/btn.png") -0px -56px no-repeat;
+  background: url("../../assets/img/grade/btn.png") -0px -56px no-repeat;
 }
 .exportScore:active {
-	background: url("../../assets/img/grade/btn.png") -0px -0px no-repeat;
+  background: url("../../assets/img/grade/btn.png") -0px -0px no-repeat;
 }
 .timeText {
-	width: 100px;
-	height: 225px;
-	color: #a2afcc;
-	font-size: 14px;
-	text-align: center;
-	vertical-align: middle;
-	.timeItem {
-		width: 90%;
-		margin: 22px 0;
-		cursor: pointer;
-		z-index: 100;
-		position: relative;
-	}
-	.active-timeItem {
-		position: relative;
-		color: #00bbff;
-	}
-	.normal-timeItem {
-		color: #a2afcc;
-		position: relative;
-	}
-	.normal-timeItem::after {
-		content: "";
-		width: 9px;
-		height: 9px;
-		border: solid 1px #a2afcc;
-		border-radius: 100%;
-		position: absolute;
-		top: 12px;
-		right: -6px;
-		display: inline-block;
-		background-color: rgb(17, 34, 128);
-	}
-	.active-timeItem::after {
-		content: "";
-		width: 30px;
-		height: 40px;
-		position: absolute;
-		top: -5px;
-		right: -15px;
-		display: inline-block;
-		background: url("~@/assets/img/teacher/选中.png") center center no-repeat;
-	}
+  width: 100px;
+  height: 225px;
+  color: #a2afcc;
+  font-size: 14px;
+  text-align: center;
+  vertical-align: middle;
+  .timeItem {
+    width: 90%;
+    margin: 22px 0;
+    cursor: pointer;
+    z-index: 100;
+    position: relative;
+  }
+  .active-timeItem {
+    position: relative;
+    color: #00bbff;
+  }
+  .normal-timeItem {
+    color: #a2afcc;
+    position: relative;
+  }
+  .normal-timeItem::after {
+    content: "";
+    width: 9px;
+    height: 9px;
+    border: solid 1px #a2afcc;
+    border-radius: 100%;
+    position: absolute;
+    top: 12px;
+    right: -6px;
+    display: inline-block;
+    background-color: rgb(17, 34, 128);
+  }
+  .active-timeItem::after {
+    content: "";
+    width: 30px;
+    height: 40px;
+    position: absolute;
+    top: -5px;
+    right: -15px;
+    display: inline-block;
+    background: url("~@/assets/img/teacher/选中.png") center center no-repeat;
+  }
 }
 .timeLine {
-	width: 1px;
-	height: 225px;
-	background-image: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
-	z-index: 1;
-	position: relative;
-	left: -10px;
+  width: 1px;
+  height: 225px;
+  background-image: linear-gradient(
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0.1)
+  );
+  z-index: 1;
+  position: relative;
+  left: -10px;
 }
 .paperText {
-	width: 100px;
-	height: 225px;
-	.paperItem {
-		width: 46px;
-		height: 50px;
-		line-height: 65px;
-		font-family: "Oswald";
-		background: url("../../assets/img/teacher/试卷_未选.png") center center no-repeat;
-		margin: 10px auto;
-		text-align: center;
-		cursor: pointer;
-		color: #0078ff;
-		font-size: 16px;
-	}
-	.active-paperItem {
-		background: url("../../assets/img/teacher/试卷_选中.png") center center no-repeat;
-		position: relative;
-	}
-	.normal-paperItem {
-		position: relative;
-	}
-	.normal-paperItem::after {
-		content: "";
-	}
-	.active-paperItem::after {
-		content: "";
-		width: 30px;
-		height: 40px;
-		position: absolute;
-		top: 6px;
-		right: -30px;
-		display: inline-block;
-		background: url("../../assets/img/teacher/选中.png") center center no-repeat;
-	}
+  width: 100px;
+  height: 225px;
+  .paperItem {
+    width: 46px;
+    height: 50px;
+    line-height: 65px;
+    font-family: "Oswald";
+    background: url("../../assets/img/teacher/试卷_未选.png") center center no-repeat;
+    margin: 10px auto;
+    text-align: center;
+    cursor: pointer;
+    color: #0078ff;
+    font-size: 16px;
+  }
+  .active-paperItem {
+    background: url("../../assets/img/teacher/试卷_选中.png") center center no-repeat;
+    position: relative;
+  }
+  .normal-paperItem {
+    position: relative;
+  }
+  .normal-paperItem::after {
+    content: "";
+  }
+  .active-paperItem::after {
+    content: "";
+    width: 30px;
+    height: 40px;
+    position: absolute;
+    top: 6px;
+    right: -30px;
+    display: inline-block;
+    background: url("../../assets/img/teacher/选中.png") center center no-repeat;
+  }
 }
 .right-btn {
-	height: 18px;
-	.paper-name {
-		font-weight: bold;
-		font-size: 14px;
-		font-stretch: normal;
-		letter-spacing: 0px;
-		color: #ffffff;
-	}
-	.paper-line {
-		display: inline-block;
-		width: 1px;
-		height: 20px;
-		background-image: linear-gradient(0deg, #ffffff 0%, #ffffff 50%, #ffffff 100%);
-		opacity: 0.3;
-	}
-	.paper-line {
-		display: inline-block;
-		width: 1px;
-		height: 20px;
-		background-image: linear-gradient(
-			0deg,
-			rgba(255, 255, 255, 0.3) 0%,
-			rgba(255, 255, 255, 1) 50%,
-			rgba(255, 255, 255, 0.3) 100%
-		);
-		margin: 0 10px;
-	}
-	.paper-checkBtn {
-		height: 18px;
-		line-height: 20px;
-		font-family: MicrosoftYaHei;
-		font-size: 14px;
-		cursor: pointer;
-		color: rgba(255, 255, 255, 0.8);
-		padding-left: 20px;
-		background: url("../../assets/img/teacher/查看_默认.png") center left no-repeat;
-		&:hover {
-			color: rgba(255, 255, 255, 1);
-			background: url("../../assets/img/teacher/查看_悬停.png") center left no-repeat;
-		}
-	}
-	.paper-analyse:hover {
-		color: rgba(255, 255, 255, 1);
-		background: url("../../assets/img/teacher/查看_悬停.png") center left no-repeat;
-	}
+  height: 18px;
+  .paper-name {
+    font-weight: bold;
+    font-size: 14px;
+    font-stretch: normal;
+    letter-spacing: 0px;
+    color: #ffffff;
+  }
+  .paper-line {
+    display: inline-block;
+    width: 1px;
+    height: 20px;
+    background-image: linear-gradient(0deg, #ffffff 0%, #ffffff 50%, #ffffff 100%);
+    opacity: 0.3;
+  }
+  .paper-line {
+    display: inline-block;
+    width: 1px;
+    height: 20px;
+    background-image: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(255, 255, 255, 1) 50%,
+      rgba(255, 255, 255, 0.3) 100%
+    );
+    margin: 0 10px;
+  }
+  .paper-checkBtn {
+    height: 18px;
+    line-height: 20px;
+    font-family: MicrosoftYaHei;
+    font-size: 14px;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.8);
+    padding-left: 20px;
+    background: url("../../assets/img/teacher/查看_默认.png") center left no-repeat;
+    &:hover {
+      color: rgba(255, 255, 255, 1);
+      background: url("../../assets/img/teacher/查看_悬停.png") center left no-repeat;
+    }
+  }
+  .paper-analyse:hover {
+    color: rgba(255, 255, 255, 1);
+    background: url("../../assets/img/teacher/查看_悬停.png") center left no-repeat;
+  }
 }
 #responseCharts {
-	width: 1040px;
-	height: 210px;
+  width: 1040px;
+  height: 210px;
 }
