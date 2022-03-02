@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:29:29
- * @LastEditTime: 2022-03-02 11:54:57
+ * @LastEditTime: 2022-03-02 14:19:45
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 学校校长=》认知情况详情，图1
@@ -148,9 +148,10 @@
 </template>
 <script>
 import { GetAnaChart, GetAnaTable, ExportExcel } from "@/api/eduSchool/right.js";
-import { useDebounce } from "@/utils/debounce.js";
+//import { useDebounce } from "@/utils/debounce.js";
 import EduNoData from "./eduNoData";
 import Loading from "../common/Loading";
+let timers = null;
 export default {
   name: "AnalysisTable",
   data() {
@@ -165,6 +166,7 @@ export default {
       PageSize: 5,
       ClassSearchText: "", //班级名称
       loading: true, //是否加载中
+      timer: null,
     };
   },
   components: {
@@ -419,13 +421,29 @@ export default {
     },
     //搜索内容，发生变化监听，如果变为空则重新获取
     SearChange() {
-      useDebounce(() => {
+      // console.log(this.timer);
+      // useDebounce(
+      //   this.timer,
+      //   () => {
+      //     // if (this.ClassSearchText == "") {
+      //     //   this.emptyText = "加载中...";
+      //     //   this.currentPage = 1;
+      //     //   this.getTable(1, 5, this.ClassSearchText);
+      //     // }
+      //     this.getTable(1, 5, this.ClassSearchText);
+      //   },
+      //   800,
+      // )();
+      if (timers) {
+        clearTimeout(timers);
+      }
+      timers = setTimeout(() => {
         if (this.ClassSearchText == "") {
           this.emptyText = "加载中...";
           this.currentPage = 1;
           this.getTable(1, 5, this.ClassSearchText);
         }
-      }, 800)();
+      }, 800);
     },
     // 显示第几页
     handleCurrentChange(val) {
