@@ -1,7 +1,7 @@
 <!--
  * @Author: 柳欢
  * @Date: 2021-12-29 09:05:28
- * @LastEditTime: 2022-02-11 09:56:41
+ * @LastEditTime: 2022-03-02 16:04:14
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\views\studentRZZD.vue
@@ -28,7 +28,7 @@
           >h
         </div>
         <div class="study-box BlueFont">
-          <span>{{ resInfo.PerAvgSpeed }}</span
+          <span>{{ resInfo.PerAvgSpeed.toFixed(2) }}</span
           ><span style="font-size: 14px; color: #4bf3f9; vertical-align: middle"
             >（速度{{ resInfo.PerStudySpeedConclusion }}）</span
           >
