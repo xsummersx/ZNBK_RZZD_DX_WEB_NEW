@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:29:29
- * @LastEditTime: 2022-03-02 14:19:45
+ * @LastEditTime: 2022-03-02 14:39:32
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 学校校长=》认知情况详情，图1
@@ -33,7 +33,12 @@
               v-on:keyup.enter="searchStu()"
               v-on:input="SearChange"
             />
-            <span class="searchIconClear" style="left: 195px" @click="clearInput()"></span>
+            <span
+              v-show="ClassSearchText != ''"
+              class="searchIconClear"
+              style="left: 195px"
+              @click="clearInput()"
+            ></span>
             <span class="searchIcon" style="right: 146px" @click="searchStu()"></span>
           </div>
           <!-- <div class="inputBox">
