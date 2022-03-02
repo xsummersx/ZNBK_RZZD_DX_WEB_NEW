@@ -1,7 +1,7 @@
 <!--
  * @Author: 柳欢
  * @Date: 2021-12-14 15:36:48
- * @LastEditTime: 2022-02-10 09:25:12
+ * @LastEditTime: 2022-03-02 11:52:44
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 班级认知情况对比分析
@@ -10,11 +10,7 @@
   <div>
     <ArrowTitle titleStr="班级认知情况对比分析"></ArrowTitle>
     <div v-show="!showLoading" id="compareCharts"></div>
-    <Loading
-      v-show="showLoading"
-      style="width: 1270px; height: 370px"
-      backSize="80%"
-    ></Loading>
+    <Loading v-show="showLoading" style="width: 1270px; height: 370px" backSize="80%"></Loading>
   </div>
 </template>
 
@@ -164,52 +160,60 @@ export default {
           bottom: 30,
         },
         tooltip: {
-          backgroundColor: "rgba(0,32,92,0)",
-          borderColor: "rgba(0,242,255,0)",
-          borderWidth: 0,
-          textStyle: {
-            color: "#a2afcc",
+          trigger: "axis",
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: "shadow", // 默认为直线，可选为：'line' | 'shadow'
+            shadowStyle: {
+              color: "rgba(0,0,0,0.1)",
+            },
           },
-          extraCssText: "box-shadow: 0 0 3px rgba(0, 0, 0, 0);",
-          padding: [20, 20, 20, 20],
-          formatter: function (param) {
-            var resultTooltip =
-              "<div class='toolImg clearfix' style=''>" +
-              "<div class='float-l' style='line-height:25px'>" +
-              "<div style=''> " +
-              param[0].seriesName +
-              "</div>" +
-              "<div style=''> " +
-              param[1].seriesName +
-              "</div>" +
-              "<div style=''> " +
-              param[2].seriesName +
-              "</div>" +
-              "<div style=''> " +
-              param[3].seriesName +
-              "</div>" +
-              "</div>" +
-              "<div  class='float-r' style='text-align:right;line-height:23px''>" +
-              "<div style='color: #00ccff;font-family: ArialMT;font-size: 18px;'> " +
-              param[0].value +
-              "<span style='font-family: MicrosoftYaHei;font-size: 12px;'>份</span>" +
-              "</div>" +
-              "<div style='color: #00ffd8;font-family: ArialMT;font-size: 18px;'> " +
-              param[1].value +
-              "<span style='font-family: MicrosoftYaHei;font-size: 12px;'>%</span>" +
-              "</div>" +
-              "<div style='color: #ff8900;font-family: ArialMT;font-size: 18px;'> " +
-              param[2].value +
-              "<span style='font-family: MicrosoftYaHei;font-size: 12px;'>分</span>" +
-              "</div>" +
-              "<div style='color: #3fff3f;font-family: ArialMT;font-size: 18px;'> " +
-              param[3].value +
-              "<span style='font-family: MicrosoftYaHei;font-size: 12px;'>分</span>" +
-              "</div>" +
-              "</div>" +
-              "</div>";
-            return resultTooltip;
-          },
+          // backgroundColor: "rgba(0,32,92,0)",
+          // borderColor: "rgba(0,242,255,0)",
+          // borderWidth: 0,
+          // textStyle: {
+          //   color: "#a2afcc",
+          // },
+          // extraCssText: "box-shadow: 0 0 3px rgba(0, 0, 0, 0);",
+          // padding: [20, 20, 20, 20],
+          // formatter: function (param) {
+          //   var resultTooltip =
+          //     "<div class='toolImg clearfix' style=''>" +
+          //     "<div class='float-l' style='line-height:25px'>" +
+          //     "<div style=''> " +
+          //     param[0].seriesName +
+          //     "</div>" +
+          //     "<div style=''> " +
+          //     param[1].seriesName +
+          //     "</div>" +
+          //     "<div style=''> " +
+          //     param[2].seriesName +
+          //     "</div>" +
+          //     "<div style=''> " +
+          //     param[3].seriesName +
+          //     "</div>" +
+          //     "</div>" +
+          //     "<div  class='float-r' style='text-align:right;line-height:23px''>" +
+          //     "<div style='color: #00ccff;font-family: ArialMT;font-size: 18px;'> " +
+          //     param[0].value +
+          //     "<span style='font-family: MicrosoftYaHei;font-size: 12px;'>份</span>" +
+          //     "</div>" +
+          //     "<div style='color: #00ffd8;font-family: ArialMT;font-size: 18px;'> " +
+          //     param[1].value +
+          //     "<span style='font-family: MicrosoftYaHei;font-size: 12px;'>%</span>" +
+          //     "</div>" +
+          //     "<div style='color: #ff8900;font-family: ArialMT;font-size: 18px;'> " +
+          //     param[2].value +
+          //     "<span style='font-family: MicrosoftYaHei;font-size: 12px;'>分</span>" +
+          //     "</div>" +
+          //     "<div style='color: #3fff3f;font-family: ArialMT;font-size: 18px;'> " +
+          //     param[3].value +
+          //     "<span style='font-family: MicrosoftYaHei;font-size: 12px;'>分</span>" +
+          //     "</div>" +
+          //     "</div>" +
+          //     "</div>";
+          //   return resultTooltip;
+          // },
         },
         xAxis: {
           data: xDate,

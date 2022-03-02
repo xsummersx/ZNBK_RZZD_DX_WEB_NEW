@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-29 09:29:31
- * @LastEditTime: 2022-02-22 10:23:55
+ * @LastEditTime: 2022-03-02 11:45:43
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 吴涛=》校长框架
@@ -51,11 +51,11 @@ export default {
 .left-Content {
   width: 400px;
   height: 934px;
-  animation: leftInit 2s ease-in;
-  -ms-animation: leftInit 2s ease-in; /* IE 9 */
-  -moz-animation: leftInit 2s ease-in; /* Firefox */
-  -webkit-animation: leftInit 2s ease-in; /* Safari 和 Chrome */
-  -o-animation: leftInit 2s ease-in; /* Opera */
+  animation: leftInit 3s ease-in;
+  -ms-animation: leftInit 3s ease-in; /* IE 9 */
+  -moz-animation: leftInit 3s ease-in; /* Firefox */
+  -webkit-animation: leftInit 3s ease-in; /* Safari 和 Chrome */
+  -o-animation: leftInit 3s ease-in; /* Opera */
 }
 @keyframes leftInit {
   0% {
@@ -90,11 +90,11 @@ export default {
 .right-Content {
   width: 410px;
   height: 934px;
-  animation: rightsInit 2s ease-in;
-  -ms-animation: rightInit 2s ease-in; /* IE 9 */
-  -moz-animation: rightInit 2s ease-in; /* Firefox */
-  -webkit-animation: rightInit 2s ease-in; /* Safari 和 Chrome */
-  -o-animation: rightInit 2s ease-in; /* Opera */
+  animation: rightsInit 3s ease-in;
+  -ms-animation: rightInit 3s ease-in; /* IE 9 */
+  -moz-animation: rightInit 3s ease-in; /* Firefox */
+  -webkit-animation: rightInit 3s ease-in; /* Safari 和 Chrome */
+  -o-animation: rightInit 3s ease-in; /* Opera */
 }
 @keyframes rightInit {
   0% {
@@ -123,11 +123,11 @@ export default {
   }
 }
 .AnimationBottom {
-  animation: bottomInit 2s ease-in;
-  -ms-animation: bottomInit 2s ease-in; /* IE 9 */
-  -moz-animation: bottomInit 2s ease-in; /* Firefox */
-  -webkit-animation: bottomInit 2s ease-in; /* Safari 和 Chrome */
-  -o-animation: bottomInit 2s ease-in; /* Opera */
+  animation: bottomInit 3s ease-in;
+  -ms-animation: bottomInit 3s ease-in; /* IE 9 */
+  -moz-animation: bottomInit 3s ease-in; /* Firefox */
+  -webkit-animation: bottomInit 3s ease-in; /* Safari 和 Chrome */
+  -o-animation: bottomInit 3s ease-in; /* Opera */
 }
 @keyframes bottomInit {
   0% {

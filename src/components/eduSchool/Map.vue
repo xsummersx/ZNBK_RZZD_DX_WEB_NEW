@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:27:26
- * @LastEditTime: 2022-02-23 16:15:30
+ * @LastEditTime: 2022-03-02 11:41:00
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》地图，图0
@@ -29,8 +29,8 @@
     <vue-particles
       color="#04aed8"
       :particleOpacity="0.4"
-      :particlesNumber="100"
-      shapeType="triangle"
+      :particlesNumber="50"
+      shapeType="circle"
       :particleSize="4"
       linesColor="#39878a"
       :linesWidth="1"

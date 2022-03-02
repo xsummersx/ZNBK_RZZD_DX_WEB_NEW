@@ -137,8 +137,8 @@
   -o-border-radius: 10px;
 }
 .el-dialog__header {
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: px;
   padding: 0 20px;
   height: 48px;
   background: -webkit-linear-gradient(top, #003bd1, #0042d6);
@@ -149,8 +149,8 @@
   border-bottom: 1px solid #2c62dc;
 }
 .el-dialog .el-dialog__body {
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
   background: -webkit-linear-gradient(top, #0042d6, #0073f5, #0042d5);
   background: -o-linear-gradient(bottom, #0042d6, #0073f5, #0042d5);
   background: -moz-linear-gradient(bottom, #0042d6, #0073f5, #0042d5);
