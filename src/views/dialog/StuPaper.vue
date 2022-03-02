@@ -1,19 +1,19 @@
 <!--
  * @Author: your name
  * @Date: 2022-01-07 11:24:08
- * @LastEditTime: 2022-01-07 11:24:09
- * @LastEditors: your name
+ * @LastEditTime: 2022-03-02 16:06:20
+ * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\views\dialog\StuPaper.vue
 -->
 <template>
   <div class="bottom-box">
     <div
-      style="width: 965px; overflow-y: hidden"
-      :style="{
-        'overflow-x': resInfo.QuesList.length > 10 ? 'scroll' : 'auto',
-      }"
+      style="width: 965px;height:200px"
+      
     >
+      <vuescroll :ops="ops">
+
       <table
         v-if="resInfo.QuesList.length != 0"
         class="customTable"
@@ -171,12 +171,14 @@
         </tbody>
       </table>
       <div style="width: 1120px" class="tableNoData" v-else></div>
+      </vuescroll>
     </div>
   </div>
 </template>
 
 <script>
 import { GetStuPaperQTypeReport_V3 } from "@/api/student/right";
+import vuescroll from "vuescroll";
 export default {
   props: {
     PaperName: String,
@@ -187,7 +189,20 @@ export default {
       resInfo: {
         QuesList: [],
       },
+      ops: {
+        rail: {
+          background: "#98c8ff",
+          opacity: 0.5,
+        },
+        bar: {
+          keepShow: true,
+          background: "#98c8ff",
+        },
+      },
     };
+  },
+  components: {
+    vuescroll,
   },
   methods: {
     // 学生查看试卷作答详情
