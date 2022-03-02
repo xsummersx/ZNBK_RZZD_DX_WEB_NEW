@@ -52,31 +52,35 @@
 }
 .grayBox {
 	color: rgba(153, 155, 160, 0.8);
-	background-image: Radial-gradient(
-		rgba(153, 155, 160, 0.2) 0%,
-		rgba(153, 155, 160, 0.2) 50%,
-		rgba(153, 155, 160, 0.9) 100%
-	);
+	// background-image: Radial-gradient(
+	// 	rgba(153, 155, 160, 0.2) 0%,
+	// 	rgba(153, 155, 160, 0.2) 50%,
+	// 	rgba(153, 155, 160, 0.9) 100%
+	// );
+	background: url("../img/common/无数据大号.png") center center / 100% no-repeat;
 }
 .redBox {
 	color: #ff8080;
-	background-image: Radial-gradient(
-		rgba(251, 131, 131, 0.2) 0%,
-		rgba(251, 131, 131, 0.2) 50%,
-		rgba(251, 131, 131, 0.9) 100%
-	);
+	// background-image: Radial-gradient(
+	// 	rgba(251, 131, 131, 0.2) 0%,
+	// 	rgba(251, 131, 131, 0.2) 50%,
+	// 	rgba(251, 131, 131, 0.9) 100%
+	// );
+	background: url("../img/common/较差.png") center center / 100% no-repeat;
 }
 .greenBox {
 	color: #60ff60;
-	background-image: Radial-gradient(rgba(2, 102, 0, 0.8) 0%, rgba(2, 102, 0, 0.8) 40%, rgba(6, 192, 3,1) 100%);
+	// background-image: Radial-gradient(rgba(2, 102, 0, 0.8) 0%, rgba(2, 102, 0, 0.8) 40%, rgba(6, 192, 3,1) 100%);
+	background: url("../img/common/一般.png") center center / 100% no-repeat;
 }
 .blueBox {
 	color: #00c6ff;
-	background-image: Radial-gradient(
-		rgba(12, 92, 238, 0.2) 0%,
-		rgba(12, 92, 238, 0.4) 50%,
-		rgba(80, 141, 250, 1) 100%
-	);
+	// background-image: Radial-gradient(
+	// 	rgba(12, 92, 238, 0.2) 0%,
+	// 	rgba(12, 92, 238, 0.4) 50%,
+	// 	rgba(80, 141, 250, 1) 100%
+	// );
+	background: url("../img/common/较好.png") center center / 100% no-repeat;
 }
 
 .stuInput {

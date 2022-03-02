@@ -129,7 +129,7 @@ export default {
 									fontSize: 18,
 								},
 							},
-							color: "rgba(80,162,250,1)",
+							color: "rgba(0, 198, 255,1)",
 						},
 						itemStyle: {
 							color: {
@@ -145,15 +145,15 @@ export default {
 									},
 									{
 										offset: 0.6,
-										color: "rgba(80,162,250,0.5)",
+										color: "rgba(96, 169, 247,0.6)",
 									},
 									{
 										offset: 0.97,
-										color: "rgba(80,162,250,1)",
+										color: "rgba(36, 189, 255,1)",
 									},
 									{
 										offset: 1,
-										color: "rgba(134,192,253,1)",
+										color: "rgba(153, 202, 255,1)",
 									},
 								],
 							},
@@ -230,7 +230,7 @@ export default {
 									fontSize: 18,
 								},
 							},
-							color: "rgba(221,116,35, 1)",
+							color: "rgba(247, 190, 55, 1)",
 						},
 						itemStyle: {
 							color: {
@@ -246,15 +246,15 @@ export default {
 									},
 									{
 										offset: 0.6,
-										color: "rgba(221,116,35,0.5)",
+										color: "rgba(247, 108, 6,0.5)",
 									},
 									{
 										offset: 0.97,
-										color: "rgba(221,116,35,1)",
+										color: "rgba(247, 108, 6,1)",
 									},
 									{
 										offset: 1,
-										color: "rgba(253,170,104,1)",
+										color: "rgba(247, 190, 55,1)",
 									},
 								],
 							},
@@ -335,7 +335,7 @@ export default {
 									fontSize: 18,
 								},
 							},
-							color: "rgba(113,233,157,1)",
+							color: "rgba(87, 231, 158,1)",
 						},
 						itemStyle: {
 							color: {
@@ -355,11 +355,11 @@ export default {
 									},
 									{
 										offset: 0.97,
-										color: "rgba(113,233,157,1)",
+										color: "rgba(18, 255, 135,1)",
 									},
 									{
 										offset: 1,
-										color: "rgba(167,253,198,1)",
+										color: "rgba(142, 250, 195,1)",
 									},
 								],
 							},

@@ -37,7 +37,7 @@ const routes = [
   {
     path: "/home",
     name: "home",
-    component: () => import("../views/home.vue"), //教育局RZZD
+    component: () => import("../views/Home.vue"), //教育局RZZD
     meta: { title: "大数据认知质量评估" },
     children: [
       {

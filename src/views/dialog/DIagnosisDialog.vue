@@ -24,7 +24,7 @@
 				>
 			</div>
 			<div class="ddtotal" v-if="!loading">
-				<span class="text1">
+				<span class="text1" v-if="!showResult">
 					<span class="point"></span>共有<span
 						class="totalNumber"
 						v-if="!isSearching"
@@ -32,6 +32,16 @@
 					><span class="totalNumber" v-else>{{ searchCount }}</span> 个{{
 						currentChoose + typeName
 					}}</span
+				>
+				<span class="text1" v-else>
+					<span class="point"></span>共找到<span
+						class="totalNumber"
+						v-if="!isSearching"
+						>{{ zsdCount }}</span
+					><span class="totalNumber" v-else>{{ searchCount }}</span> 个<span
+						class="totalNumber"
+						>{{ tipText }}</span
+					>相关的{{ currentChoose + typeName }}</span
 				>
 				<input
 					class="stuInput"
@@ -203,6 +213,10 @@ export default {
 			isNDPicShow: false,
 			loading: true,
 			searching: false,
+			// 搜索后左上角文本的显示
+			showResult: false,
+			// 搜索后左上角显示的文本
+			tipText: "",
 		};
 	},
 	components: {
@@ -486,7 +500,9 @@ export default {
 		},
 		// 搜索知识点
 		searchKnowledgeDD() {
+			this.tipText = this.searchText;
 			this.searching = true;
+			this.showResult = this.searchText === "" ? false : true;
 			this.currentPage = 1;
 			if (this.searchText != "") {
 				this.isSearching = true;

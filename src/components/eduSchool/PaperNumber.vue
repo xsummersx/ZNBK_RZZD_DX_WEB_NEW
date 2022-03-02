@@ -273,7 +273,7 @@ export default {
 	align-items: center;
 	background: url(~@/assets/img/eduSchool/平均试卷量_iSpt.png) no-repeat center;
 	background-size: 100% 100%;
-	background-color: rgba(255, 255, 255, 0.05);
+	// background-color: rgba(255, 255, 255, 0.05);
 	position: relative;
 	.text {
 		position: absolute;

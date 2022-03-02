@@ -150,11 +150,18 @@
 					<span class="lightingIcon">今日推荐讲解{{ typeName }}</span>
 				</div>
 				<div class="total">
-					<span class="text1"
+					<span class="text1" v-if="!showResult"
 						><span class="point"></span>共推荐<span class="totalNumber">{{
 							recommendCount
 						}}</span
 						>个讲解{{ typeName }}</span
+					>
+					<span class="text1" v-else
+						><span class="point"></span>共找到<span class="totalNumber">{{
+							recommendCount
+						}}</span
+						>个<span class="totalNumber">{{ tipText }}</span
+						>相关的讲解{{ typeName }}</span
 					>
 					<span class="btn" @click="openDialog"
 						>查看所有薄弱{{ typeName }}</span
@@ -328,6 +335,10 @@ export default {
 			recommendCount: 0,
 			loading: true,
 			searching: false,
+			// 搜索后左上角文本的显示
+			showResult: false,
+			// 搜索后左上角显示的文本
+			tipText: "",
 		};
 	},
 	computed: {
@@ -624,7 +635,9 @@ export default {
 		// 搜索知识点
 		searchKnowledge() {
 			// this.currentPage = 1;
+			this.tipText = this.searchText;
 			this.searching = true;
+			this.showResult = this.searchText === "" ? false : true;
 			this.init(this.searchText);
 		},
 		// 搜索内容变为空时重新调用接口
