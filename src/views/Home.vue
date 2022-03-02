@@ -1,7 +1,7 @@
 <!--
  * @Author: 主页面
  * @Date: 2021-11-29 09:20:26
- * @LastEditTime: 2022-02-22 10:25:01
+ * @LastEditTime: 2022-03-02 11:06:54
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 主页面，柳欢
@@ -17,7 +17,9 @@
       <div class="Second-content">
         <div
           class="ContentHeader clearfix"
-          :class="{ AnimationTop: $route.name == 'educationRZZD' || $route.name == 'schoolRZZD' }"
+          :class="{
+            AnimationTop: $route.name == 'educationRZZD' || $route.name == 'schoolRZZD',
+          }"
         >
           <div class="float-l leftHead">
             <div>
@@ -61,7 +63,12 @@
             <div class="userInfo" style="float: right">
               <span class="questionIcon"></span>
               <span class="lineIcon"></span>
-              <img class="teacherHead" :src="UserInfo.PhotoPath" @click="toUserInfo()" alt="" />
+              <img
+                class="teacherHead"
+                :src="UserInfo.PhotoPath"
+                @click="toUserInfo()"
+                alt=""
+              />
               <span class="teacherName" @click="toUserInfo()">
                 {{ UserInfo.UserName }}
               </span>
@@ -86,6 +93,8 @@
               <span v-if="$route.name == 'gradeRZZD'" class="className className1">{{
                 UserInfo.SchoolName
               }}</span>
+              <span class="hoverItem">
+
               <span
                 v-if="
                   $route.name == 'educationRZZD' ||
@@ -93,7 +102,9 @@
                   $route.name == 'teacherRZZD'
                 "
                 class="className"
-                >{{ UserInfo.CourseClassName ? UserInfo.CourseClassName : className }}</span
+                >{{
+                  UserInfo.CourseClassName ? UserInfo.CourseClassName : className
+                }}</span
               >
               <span
                 v-if="
@@ -128,9 +139,10 @@
                   </ul>
                 </div></span
               >
+              </span>
               <span
                 v-if="$route.name == 'educationRZZD' || $route.name == 'schoolRZZD'"
-                class="className"
+                class="className className2"
                 >(共{{ resInfo.ClassCount }}个班级,{{ resInfo.StuCount }}个学生)</span
               >
             </div>
@@ -142,7 +154,9 @@
       </div>
       <div
         class="bottomfont float-l"
-        :class="{ AnimationBottom: $route.name == 'educationRZZD' || $route.name == 'schoolRZZD' }"
+        :class="{
+          AnimationBottom: $route.name == 'educationRZZD' || $route.name == 'schoolRZZD',
+        }"
       >
         蓝鸽科技 版权所有
       </div>
@@ -211,7 +225,6 @@ export default {
     this.getUserInfo();
     window.addEventListener("click", (e) => {
       let thisClassName = e.target.className;
-      console.log(thisClassName);
       if (thisClassName == "className" || thisClassName == "switchIcon") {
         this.classContShow = !this.classContShow;
       } else if (thisClassName != "className" || thisClassName != "switchIcon") {
@@ -332,7 +345,7 @@ export default {
             "确定",
             () => {
               window.close();
-            },
+            }
           );
         } else if (this.resInfo.StuCount == 0) {
           this.$znbkLayer.znbkConfirmWithNoButton(
@@ -340,7 +353,7 @@ export default {
             "确定",
             () => {
               window.close();
-            },
+            }
           );
         } else {
           for (let i = 0; i < this.resInfo.SwitchInfoList.length; i++) {
@@ -369,7 +382,7 @@ export default {
             "&CourseClassID=" +
             CourseClassID +
             "&Flag=" +
-            0,
+            0
         )
         .then((res) => {
           this.resInfo4 = res.Data;
@@ -684,7 +697,9 @@ export default {
       };
       GetSubSystemInfo(params).then((res) => {
         let url =
-          res.Data.BaseSysID + "usermgr/personalmgr/default.aspx?lg_tk=" + this.$route.query.token;
+          res.Data.BaseSysID +
+          "usermgr/personalmgr/default.aspx?lg_tk=" +
+          this.$route.query.token;
         window.open(url, "_blank");
       });
     },
