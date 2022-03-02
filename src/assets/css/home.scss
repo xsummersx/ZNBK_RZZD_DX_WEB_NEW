@@ -43,23 +43,23 @@
       .schoolProduct,
       .eduProduct {
         display: inline-block;
-        width: 250px;
+        width: 238px;
         height: 52px;
-        background: url("../img/head/schoolProduct.png") left center no-repeat;
+        background: url("../img/head/schoolProduct.png") -20px center no-repeat;
         vertical-align: middle;
         cursor: pointer;
       }
       .middleProduct {
         width: 348px;
-        background: url("../img/head/产品名_中考.png") left center no-repeat;
+        background: url("../img/head/产品名_中考.png") 0 center no-repeat;
       }
       .highProduct {
         width: 348px;
-        background: url("../img/head/产品名_高考.png") left center no-repeat;
+        background: url("../img/head/产品名_高考.png") 0 center no-repeat;
       }
       .eduProduct {
-        width: 280px;
-        background: url("../img/head/eduProduct.png") left center no-repeat;
+        width: 258px;
+        background: url("../img/head/eduProduct.png") -20px center no-repeat;
       }
       .lineIcon {
         display: inline-block;
@@ -136,6 +136,16 @@
           margin-top: 5px;
           background: url(../img/head/schoolIcon3.png) center center no-repeat;
         }
+        .hoverItem:hover{
+          .className{
+            color: #fff;
+            opacity: 1;
+          }
+          .switchIcon{
+          background: url("../img/head/classSwitch2_h.png") center center no-repeat;
+
+          }
+        }
         .className {
           cursor: pointer;
           margin-right: 5px;
@@ -148,6 +158,9 @@
           white-space: nowrap;
           vertical-align: middle;
         }
+        .className2{
+          cursor: default;
+        }
         .className1 {
           cursor: default;
           margin-left: 5px;
@@ -158,9 +171,13 @@
           white-space: nowrap;
           vertical-align: middle;
         }
-        .className:hover {
+        // .className:hover {
+        //   color: #fff;
+        //   opacity: 1;
+        // }
+        .className2:hover {
           color: #fff;
-          opacity: 1;
+          opacity: 0.7;
         }
         .className1:hover {
           color: #fff;
@@ -229,9 +246,9 @@
             }
           }
         }
-        .switchIcon:hover {
-          background: url("../img/head/classSwitch2_h.png") center center no-repeat;
-        }
+        // .switchIcon:hover {
+        //   background: url("../img/head/classSwitch2_h.png") center center no-repeat;
+        // }
       }
       .userInfo {
         text-align: right;

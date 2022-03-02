@@ -12,17 +12,17 @@
       <span class="float-l title">学习特点</span>
     </div>
     <div v-show="!showLoading">
-      <div class="study-box1">
+      <div class="study-Box1">
         <div class="study-box1"></div>
         <div class="study-box2"></div>
       </div>
 
-      <div class="study-box2">
+      <div class="study-Box2">
         <div class="study-box">学生学习时长</div>
         <div class="study-box">学生知识掌握速度</div>
       </div>
 
-      <div class="study-box3">
+      <div class="study-Box3">
         <div class="study-box yellowFont">
           <span>{{ resInfo.PerAvgTime.toFixed(2) }}</span
           >h
@@ -90,9 +90,9 @@ export default {
   margin-top: 20px;
   padding: 18px 20px 0 30px;
 }
-.study-box1,
-.study-box2,
-.study-box3 {
+.study-Box1,
+.study-Box2,
+.study-Box3 {
   display: flex;
   margin: 10px 0 0 0;
   .study-box,
@@ -126,8 +126,11 @@ export default {
       no-repeat;
   }
 }
-.study-box3 {
-  margin: 0;
+.study-Box2 {
+  margin: 8px 0 0 0;
+}
+.study-Box3 {
+  margin: -6px 0 0 0;
   .study-box {
     height: 36px;
   }
