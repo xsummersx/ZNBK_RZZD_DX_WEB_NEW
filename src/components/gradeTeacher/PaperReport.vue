@@ -1,7 +1,7 @@
 <!--
  * @Author: 柳欢
  * @Date: 2021-12-10 15:21:45
- * @LastEditTime: 2022-02-10 10:25:00
+ * @LastEditTime: 2022-03-02 14:34:20
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\components\gradeTeacher\PaperReport.vue
@@ -27,11 +27,20 @@
           v-on:keyup.enter="searchStu()"
           v-on:input="SearChange"
         />
-        <span class="searchIcon" style="right: 146px" @click="searchStu()"></span>
+        <span
+          class="searchIcon"
+          style="right: 146px"
+          @click="searchStu()"
+        ></span>
+        <span v-show="SearchText!=''" @click="handleClear()" class="searchIconClear"></span>
       </div>
     </ArrowTitle>
 
-    <el-table :empty-text="emptyText" :data="showList" style="width: 100%; height: 330px">
+    <el-table
+      :empty-text="emptyText"
+      :data="showList"
+      style="width: 100%; height: 330px"
+    >
       <el-table-column prop="Index" label="序号" width="80">
         <template slot-scope="scope">
           <span class="gray">
@@ -52,7 +61,9 @@
       <el-table-column prop="PaperCount" label="累计作答试卷" width="70">
         <template slot-scope="scope">
           <span class="blueText">
-            {{ scope.row.PaperCount == "--" ? "--" : scope.row.PaperCount + "份" }}
+            {{
+              scope.row.PaperCount == "--" ? "--" : scope.row.PaperCount + "份"
+            }}
           </span>
         </template>
       </el-table-column>
@@ -245,7 +256,11 @@
           <span
             class="checkDetail"
             @click="
-              toStudentRZZD(scope.row.StuID, scope.row.StuName, scope.row.CourseClassID)
+              toStudentRZZD(
+                scope.row.StuID,
+                scope.row.StuName,
+                scope.row.CourseClassID
+              )
             "
           >
             {{ scope.row.GenreName || scope.row.TypeName }}
@@ -276,9 +291,11 @@
 </template>
 
 <script>
-import { useDebounce } from "@/utils/debounce.js";
+// import { useDebounce } from "@/utils/debounce.js";
 import { GetClassScoreReport_V3 } from "@/api/gradeTeacher/right";
 import { GetExportClassScoreReport_V3 } from "@/api/gradeTeacher/right";
+
+let timers = null;
 export default {
   data() {
     return {
@@ -353,6 +370,13 @@ export default {
         window.open(res.Data, "_self");
       });
     },
+    handleClear(){
+      this.emptyText = "加载中...";
+      this.currentPage = 1;
+      this.SearchText = "";
+      this.GetClassScoreReport_V3();
+
+    },
     // 搜索学生
     searchStu() {
       this.emptyText = "加载中...";
@@ -361,9 +385,10 @@ export default {
     },
     //搜索内容，发生变化监听，如果变为空则重新获取
     SearChange() {
-      useDebounce(() => {
-        this.searchStu();
-      }, 800)();
+      clearTimeout(timers);
+      timers = setTimeout(() => {
+        this.searchStu(); //需要防抖的函数
+      }, 1000);
     },
     renderHeader(h, { column }) {
       let header = column.label.split(" ");
@@ -471,13 +496,19 @@ export default {
   cursor: pointer;
   width: 18px;
   height: 18px;
-  background: url("../../assets/img/teacher/查看_默认.png") center center no-repeat;
+  background: url("../../assets/img/teacher/查看_默认.png") center center
+    no-repeat;
+}
+.searchIconClear{
+  right: 166px;
 }
 .checkDetail:hover {
-  background: url("../../assets/img/teacher/查看_悬停.png") center center no-repeat;
+  background: url("../../assets/img/teacher/查看_悬停.png") center center
+    no-repeat;
 }
 .table-loading-block {
-  background: url("../../assets/img/nodata/reportLoad.png") center center no-repeat;
+  background: url("../../assets/img/nodata/reportLoad.png") center center
+    no-repeat;
   padding-top: 235px;
   animation: turn 1s linear infinite;
 }
@@ -499,7 +530,8 @@ export default {
   }
 }
 .table-empty-block {
-  background: url("../../assets/img/nodata/tableNoData.png") center center no-repeat;
+  background: url("../../assets/img/nodata/tableNoData.png") center center
+    no-repeat;
   padding-top: 130px;
 }
 .paginationBox {
