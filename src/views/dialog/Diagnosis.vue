@@ -106,6 +106,12 @@
 							@keyup.enter="searchKnowledge"
 						/>
 						<span
+							class="searchIconClear"
+							style="left: 195px"
+							v-show="showClear"
+							@click="clearInput"
+						></span>
+						<span
 							class="searchIcon"
 							style="right: 140px"
 							@click="searchKnowledge"
@@ -137,6 +143,12 @@
 							v-model="searchText"
 							@keyup.enter="searchKnowledge"
 						/>
+						<span
+							class="searchIconClear"
+							style="left: 195px"
+							v-show="showClear"
+							@click="clearInput"
+						></span>
 						<span
 							class="searchIcon"
 							style="right: 10px"
@@ -339,6 +351,8 @@ export default {
 			showResult: false,
 			// 搜索后左上角显示的文本
 			tipText: "",
+			// 显示清除
+			showClear: false,
 		};
 	},
 	computed: {
@@ -392,7 +406,11 @@ export default {
 			clearTimeout(this.timer);
 			this.timer = setTimeout(() => {
 				if (this.searchText.length == 0) {
+					this.showClear = false;
 					this.searchKnowledge();
+				}
+				if (this.searchText.length > 0){
+					this.showClear = true;
 				}
 			}, 800);
 		},
@@ -712,6 +730,10 @@ export default {
 				}
 			}
 		},
+		// 清空input
+		clearInput(){
+			this.searchText = "";
+		}
 	},
 };
 </script>

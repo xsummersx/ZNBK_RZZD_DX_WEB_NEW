@@ -51,6 +51,12 @@
 					@keyup.enter="searchKnowledgeDD"
 				/>
 				<span
+					class="searchIconClear"
+					style="right: 30px"
+					v-show="showClear"
+					@click="clearInput"
+				></span>
+				<span
 					class="searchIcon"
 					style="right: 10px"
 					@click="searchKnowledgeDD"
@@ -217,6 +223,8 @@ export default {
 			showResult: false,
 			// 搜索后左上角显示的文本
 			tipText: "",
+			// 清空是否显示
+			showClear: false,
 		};
 	},
 	components: {
@@ -262,7 +270,11 @@ export default {
 			clearTimeout(this.timer);
 			this.timer = setTimeout(() => {
 				if (this.searchText.length == 0) {
+					this.showClear = false;
 					this.searchKnowledgeDD();
+				}
+				if (this.searchText.length > 0) {
+					this.showClear = true;
 				}
 			}, 800);
 		},
@@ -557,6 +569,10 @@ export default {
 		// 点击调用exe弹窗
 		handleDDClick(id) {
 			this.$emit("handleClickItem", id);
+		},
+		// 清空input
+		clearInput() {
+			this.searchText = "";
 		},
 	},
 };
