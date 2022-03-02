@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-12-14 13:56:07
- * @LastEditTime: 2022-03-02 15:27:44
+ * @LastEditTime: 2022-03-02 15:53:16
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\views\dialog\StuReport.vue
@@ -112,6 +112,8 @@ export default {
       ObjectiveQTypeList: [],
       SubjectiveQTypeList: [],
       ops: {
+        rail: {
+      background: '#01a99a',},
         bar: {
           keepShow: true,
           background: "#98c8ff",
@@ -283,7 +285,7 @@ export default {
 }
 
 .table {
-  height: 330px;
+  height: 320px;
   margin: 10px 0 20px;
   table {
     border-collapse: collapse;

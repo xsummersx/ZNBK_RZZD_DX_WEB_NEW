@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-12-27 13:55:30
- * @LastEditTime: 2021-12-27 15:56:07
+ * @LastEditTime: 2022-03-02 15:49:57
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\views\dialog\gradeQuesDia.vue
@@ -15,36 +15,50 @@
       </div>
     </div>
     <div class="table">
-      <table>
-        <thead>
-          <tr>
-            <th class="firstTH">{{ $route.name == "gradeRZZD" ? "班级" : "学生" }}</th>
-            <th v-for="(item, index) in questionList" :key="index">
-              <div class="twoTH twoTH1">{{ item.QTypeName }}</div>
-              <div class="twoTH">
-                <div><span class="oneSpan">得分率</span><span>年级排名</span></div>
-              </div>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item, index) in showList" :key="index">
-            <td>
-              {{ $route.name == "gradeRZZD" ? item.CourseClassName : item.StuName }}
-            </td>
-            <td class="TD" v-for="(item2, index2) in item.QTypeList" :key="index2">
-              <div class="twoTH">
-                <span>{{
-                  item2.PaperScoreRate == "/"
-                    ? "/"
-                    : (item2.PaperScoreRate * 100).toFixed() + "%"
-                }}</span>
-                <span>{{ item2.QTypeGradeRank }}</span>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <vuescroll :ops="ops">
+        <table>
+          <thead>
+            <tr>
+              <th class="firstTH">
+                {{ $route.name == "gradeRZZD" ? "班级" : "学生" }}
+              </th>
+              <th v-for="(item, index) in questionList" :key="index">
+                <div class="twoTH twoTH1">{{ item.QTypeName }}</div>
+                <div class="twoTH">
+                  <div>
+                    <span class="oneSpan">得分率</span><span>年级排名</span>
+                  </div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item, index) in showList" :key="index">
+              <td>
+                {{
+                  $route.name == "gradeRZZD"
+                    ? item.CourseClassName
+                    : item.StuName
+                }}
+              </td>
+              <td
+                class="TD"
+                v-for="(item2, index2) in item.QTypeList"
+                :key="index2"
+              >
+                <div class="twoTH">
+                  <span>{{
+                    item2.PaperScoreRate == "/"
+                      ? "/"
+                      : (item2.PaperScoreRate * 100).toFixed() + "%"
+                  }}</span>
+                  <span>{{ item2.QTypeGradeRank }}</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </vuescroll>
     </div>
     <div class="paginationBox" v-if="StuCount > 3">
       <el-pagination
@@ -66,6 +80,7 @@ import { GetGradeQtypeRateRank_V3 } from "../../api/diolog/questionDiolog";
 import { GetClassQtypeRateRank_V3 } from "../../api/diolog/questionDiolog";
 import { GetExportGradeQtypeRateRank_V3 } from "../../api/diolog/questionDiolog";
 import { GetExportClassQtypeRateRank_V3 } from "../../api/diolog/questionDiolog";
+import vuescroll from "vuescroll";
 export default {
   data() {
     return {
@@ -78,7 +93,16 @@ export default {
       StuCount: "",
       questionList: [],
       resInfo: {},
+      ops: {
+        bar: {
+          keepShow: true,
+          background: "#98c8ff",
+        },
+      },
     };
+  },
+  components: {
+    vuescroll,
   },
   mounted() {
     if (this.$route.name == "gradeRZZD") {
@@ -184,8 +208,7 @@ export default {
   padding: 10px 20px 20px 20px;
 }
 .table {
-  height: 333px;
-  overflow-x: scroll;
+  height: 322px;
   margin-top: 10px;
   table {
     border-collapse: collapse;
@@ -280,7 +303,8 @@ export default {
     display: inline-block;
     width: 14px;
     height: 14px;
-    background: url("../../assets/img/common/exportIcon.png") center center no-repeat;
+    background: url("../../assets/img/common/exportIcon.png") center center
+      no-repeat;
     position: relative;
     top: 2px;
   }

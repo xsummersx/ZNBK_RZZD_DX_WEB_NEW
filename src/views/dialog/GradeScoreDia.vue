@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-12-29 09:31:22
- * @LastEditTime: 2022-02-09 15:26:07
+ * @LastEditTime: 2022-03-02 15:39:50
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\views\dialog\TeachScore.vue
@@ -18,6 +18,7 @@
       </div>
     </div>
     <div v-show="showList.length > 0 && !showLoading" class="table">
+      <vuescroll :ops="ops">
       <table>
         <thead>
           <tr>
@@ -80,6 +81,7 @@
           </tr>
         </tbody>
       </table>
+      </vuescroll>
     </div>
     <div v-show="showList.length <= 0 && !showLoading" class="temNoData">
       <span>暂无班级成绩对比分析数据噢~</span>
@@ -109,6 +111,7 @@
 import { GetGradePaperQtypeClassCompareList_V3 } from "@/api/diolog/stuReportDiolog";
 import { GetExportGradePaperQtypeClassCompareList_V3 } from "@/api/diolog/stuReportDiolog";
 import Loading from "../../components/common/Loading.vue";
+import vuescroll from "vuescroll";
 export default {
   props: {
     PaperName: String,
@@ -124,10 +127,17 @@ export default {
       showLoading: true,
       ObjectiveQTypeList: [],
       SubjectiveQTypeList: [],
+      ops: {
+        bar: {
+          keepShow: true,
+          background: "#98c8ff",
+        },
+      },
     };
   },
   components: {
     Loading,
+    vuescroll,
   },
 
   mounted() {
@@ -222,8 +232,7 @@ export default {
   }
 }
 .table {
-  min-height: 400px;
-  overflow-x: scroll;
+  height: 400px;
   margin: 10px 0 20px;
   table {
     border-collapse: collapse;

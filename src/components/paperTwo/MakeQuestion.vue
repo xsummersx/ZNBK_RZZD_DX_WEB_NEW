@@ -1,7 +1,7 @@
 <!--
  * @Author: 柳欢
  * @Date: 2021-11-30 14:58:43
- * @LastEditTime: 2021-12-27 19:04:51
+ * @LastEditTime: 2022-03-02 15:49:28
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 年级组长，教师，做题特点
@@ -153,7 +153,7 @@ export default {
       this.dialogVisible1 = true;
       this.dialogIndex = i;
       this.dialogTitle =
-        this.$route.name == "gradeRZZD" ? "班级" : "学生" + "做题特点对比分析";
+        (this.$route.name == "gradeRZZD" ? "班级" : "学生") + "做题特点对比分析";
     },
     //统计图最大标注
     markPontMax() {

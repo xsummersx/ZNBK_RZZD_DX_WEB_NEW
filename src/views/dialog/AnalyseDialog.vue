@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-12-14 09:39:57
- * @LastEditTime: 2022-01-18 19:22:40
+ * @LastEditTime: 2022-03-02 15:42:58
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\views\dialog\AnalyseDialog.vue
@@ -9,57 +9,63 @@
 <template>
   <div class="bottom-box">
     <div class="clearfix">
-      <div @click="GetExportGradePaperQTypeReport_V3()" class="exportBtn float-r">
+      <div
+        @click="GetExportGradePaperQTypeReport_V3()"
+        class="exportBtn float-r"
+      >
         <span class="exportIcon"></span>
         导出试卷题型得分分析
       </div>
     </div>
 
     <div class="table" v-if="StuCount != 0">
-      <table>
-        <thead>
-          <tr>
-            <th>序号</th>
-            <th>题型名称</th>
-            <th>平均得分率</th>
-            <th
-              class="oneTH"
-              :style="{
-                width:
-                  QTypeClassList.length == 1
-                    ? '598px'
-                    : QTypeClassList.length == 2
-                    ? '300px'
-                    : '250px',
-              }"
-              v-for="(item, index) in QTypeClassList"
-              :key="index"
-            >
-              <div class="oneTH1">{{ item.CourseClassName }}</div>
-              <div class="oneTH2">
-                <span class="oneSpan1">得分率</span><span class="oneSpan2">排名</span>
-              </div>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item, index) in showList" :key="index">
-            <td>{{ item.Index }}</td>
-            <td>{{ item.QTypeName }}</td>
-            <td>{{ (item.PaperScoreRate * 100).toFixed() + "%" }}</td>
-            <td
-              class="borderTD"
-              v-for="(item2, index2) in item.QTypeClassList"
-              :key="index2"
-            >
-              <span class="oneSpan1">{{
-                (item2.PaperScoreRate * 100).toFixed() + "%"
-              }}</span>
-              <span class="oneSpan2">{{ item2.GradeRank }}</span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <vuescroll :ops="ops">
+        <table>
+          <thead>
+            <tr>
+              <th>序号</th>
+              <th>题型名称</th>
+              <th>平均得分率</th>
+              <th
+                class="oneTH"
+                :style="{
+                  width:
+                    QTypeClassList.length == 1
+                      ? '598px'
+                      : QTypeClassList.length == 2
+                      ? '300px'
+                      : '250px',
+                }"
+                v-for="(item, index) in QTypeClassList"
+                :key="index"
+              >
+                <div class="oneTH1">{{ item.CourseClassName }}</div>
+                <div class="oneTH2">
+                  <span class="oneSpan1">得分率</span
+                  ><span class="oneSpan2">排名</span>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item, index) in showList" :key="index">
+              <td>{{ item.Index }}</td>
+              <td>{{ item.QTypeName }}</td>
+              <td>{{ (item.PaperScoreRate * 100).toFixed() + "%" }}</td>
+              <td
+                class="borderTD"
+                v-for="(item2, index2) in item.QTypeClassList"
+                :key="index2"
+              >
+                <span class="oneSpan1">{{
+                  (item2.PaperScoreRate * 100).toFixed() + "%"
+                }}</span>
+                <span class="oneSpan2">{{ item2.GradeRank }}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </vuescroll>
     </div>
     <div class="paginationBox" v-if="StuCount > 8">
       <el-pagination
@@ -79,6 +85,7 @@
 <script>
 import { GetGradePaperQTypeReport_V3 } from "@/api/diolog/stuReportDiolog";
 import { GetExportGradePaperQTypeReport_V3 } from "@/api/diolog/stuReportDiolog";
+import vuescroll from "vuescroll";
 export default {
   props: {
     PaperName: String,
@@ -92,8 +99,16 @@ export default {
       currentPage: 1,
       SearchText: "",
       showList: [],
-      QTypeClassList: [],
+      QTypeClassList: [],ops: {
+        bar: {
+          keepShow: true,
+          background: "#98c8ff",
+        },
+      },
     };
+  },
+  components: {
+    vuescroll,
   },
   mounted() {
     this.GetGradePaperQTypeReport_V3();
@@ -173,7 +188,8 @@ export default {
       display: inline-block;
       width: 14px;
       height: 14px;
-      background: url("../../assets/img/common/exportIcon.png") center center no-repeat;
+      background: url("../../assets/img/common/exportIcon.png") center center
+        no-repeat;
       position: relative;
       top: 2px;
     }
@@ -189,7 +205,6 @@ export default {
 }
 .table {
   height: 475px;
-  overflow-x: scroll;
   margin: 10px 0 20px;
   table {
     border-collapse: collapse;
