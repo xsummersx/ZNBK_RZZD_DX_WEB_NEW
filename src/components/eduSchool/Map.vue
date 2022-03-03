@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:27:26
- * @LastEditTime: 2022-03-02 17:24:53
+ * @LastEditTime: 2022-03-03 16:13:14
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》地图，图0
@@ -13,9 +13,11 @@
       alt=""
     /> -->
     <div v-show="showData" style="z-index: 5; position: absolute">
+      <!-- 无数据占位图 -->
       <div class="noData" v-show="IsHaveSchool == false || IsHaveMap == false">
         {{ noDataText0 }}
       </div>
+      <!-- 地图 -->
       <div
         id="mapID"
         v-show="IsHaveMap"
@@ -26,6 +28,7 @@
         v-show="IsHaveMap"
         :style="{ opacity: IsHaveSchool == false ? 0.2 : 1 }"
       ></div>
+      <!-- 按钮 -->
       <div class="btnText">
         <span class="text" @click="dialogVisible = true">学校认知情况</span><i class="btnIcon"></i>
       </div>
@@ -117,7 +120,6 @@ export default {
         StageNo: this.$store.state.StageNo,
         ZsdArea: this.$store.state.ZsdArea,
       };
-
       getMapJson(params).then((res) => {
         this.showData = true;
         if (res.Data.MapResources.features.length > 0) {
@@ -139,14 +141,23 @@ export default {
             AnsweredPaperNum: item.AnsweredPaperNum, //累计作答试卷份数
           });
         });
-        res.Data.OtherSchoolList.map((item) => {
-          mapDate.push({
-            SchoolID: item.SchoolID,
-            name: item.SchoolName,
-            value: [item.Longitude, item.Latitude],
-            datas: "F",
-          });
+        let CountyName = "";
+        let centerPoint = [];
+        res.Data.MapResources.features.map((mapItem) => {
+          if (mapItem.properties.adcode == res.Data.adcode) {
+            CountyName = mapItem.properties.name;
+            centerPoint = mapItem.properties.centroid;
+          }
         });
+        //不在需要本区的学校了
+        // res.Data.OtherSchoolList.map((item) => {
+        //   mapDate.push({
+        //     SchoolID: item.SchoolID,
+        //     name: item.SchoolName,
+        //     value: [item.Longitude, item.Latitude],
+        //     datas: "F",
+        //   });
+        // });
         // let quyuData = [];
         // res.Data.MapResources.features.map((item) => {
         //   quyuData.push({ name: item.properties.name, tipData: 50 });
@@ -262,15 +273,16 @@ export default {
             map: "bd",
             aspectScale: 1,
             layoutCenter: ["50%", "50.5%"],
-            layoutSize: "100%",
+            layoutSize: "250%",
+            center: centerPoint, //从地图最中心地方发散
             silent: false,
-            roam: false,
-            zoom: 1.22,
+            roam: false, //是否支持拖拽和缩放
+            zoom: 1,
             zlevel: 1,
             regions: [
               {
                 // 重点 部分 ,在这里给大家模拟一个省份颜色与界线颜色的修改,如果想修改多个省份就在后面多添加几个对象即可.
-                name: "南湖区", // 对应的是import "./china"  数据中的名称如: name: "广东省"(下面有截图)
+                name: CountyName, // 对应的是import "./china"  数据中的名称如: name: "广东省"(下面有截图)
                 itemStyle: {
                   normal: {
                     opacity: 1, // 透明度
@@ -343,12 +355,12 @@ export default {
                 normal: {
                   show: true,
                   textStyle: {
-                    color: "#24aefa",
+                    color: "#024ccc",
                   },
                 },
                 emphasis: {
                   textStyle: {
-                    color: "#24aefa",
+                    color: "#024ccc",
                   },
                 },
               },
@@ -367,12 +379,14 @@ export default {
                   label: {
                     show: true,
                   },
+                  opacity: 0.5, //地图的透明度
                 },
                 emphasis: {
                   areaColor: {
                     image: mapBG0(),
                     repeat: "repeat",
                   },
+                  opacity: 0.5, //地图的透明度
                   //areaColor: "#013797",
                 },
               },

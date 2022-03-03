@@ -1,7 +1,7 @@
 /*
  * @Author: 共同负责
  * @Date: 2021-11-24 09:50:11
- * @LastEditTime: 2021-12-31 10:45:51
+ * @LastEditTime: 2022-03-03 14:15:17
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 路由
@@ -26,6 +26,11 @@ const routes = [
     path: "/Messagebox",
     name: "Messagebox",
     component: () => import("../views/test/Messagebox.vue"),
+  },
+  {
+    path: "/MapOnly",
+    name: "MapOnly",
+    component: () => import("../components/eduSchool/MapOnly.vue"),
   },
   /*=====测试使用======*/
   {
