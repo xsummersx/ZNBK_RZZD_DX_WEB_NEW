@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-12-09 14:11:40
- * @LastEditTime: 2022-02-09 15:37:22
+ * @LastEditTime: 2022-03-03 15:07:51
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\assets\js\ChartsOption\option.js
@@ -1164,7 +1164,7 @@ var compareOption = {
           color: 'rgba(255,255,255,0.2)'
         },
       },
-      max:100,
+      max: 100,
       splitNumber: 4,
       interval: 25,
       splitLine: {
@@ -1265,6 +1265,10 @@ var compareOption = {
         ])
         return {
           type: 'group',
+          // 自定义动画
+          enterFrom: {
+            y: -80
+          },
           children: [{
             type: 'CubeLeft1',
             shape: {
@@ -1349,6 +1353,10 @@ var compareOption = {
         ])
         return {
           type: 'group',
+          // 自定义动画
+          enterFrom: {
+            y: -80
+          },
           children: [{
             type: 'CubeLeft2',
             shape: {
@@ -1433,6 +1441,10 @@ var compareOption = {
         ])
         return {
           type: 'group',
+          // 自定义动画
+          enterFrom: {
+            y: -80
+          },
           children: [{
             type: 'CubeLeft3',
             shape: {
@@ -1517,6 +1529,10 @@ var compareOption = {
         ])
         return {
           type: 'group',
+          // 自定义动画
+          enterFrom: {
+            y: -80
+          },
           children: [{
             type: 'CubeLeft4',
             shape: {
@@ -1649,9 +1665,9 @@ var questionDiologOption = {
     },
   },
   yAxis: {
-    name:'题型得分率(%)',
+    name: '题型得分率(%)',
     show: true,
-    max:100,
+    max: 100,
     splitNumber: 4,
     interval: 25,
     axisLine: {
