@@ -11,7 +11,7 @@
     <div class="box-title clearfix">
       <span class="float-l title">学习特点</span>
     </div>
-    <div v-show="resInfo.ClassStudyTimes.GradeAvgStudyTimes != 0" class="main">
+    <div v-show="moduleState == 'hasData'" class="main">
       <div class="left">
         <div class="masteredCount">
           <span>平均学习时长</span>
@@ -43,15 +43,21 @@
       </div>
       <div v-show="noDataShow1" class="noData2">暂无知识掌握速度数据噢~</div>
     </div>
-    <div v-show="resInfo.ClassStudyTimes.GradeAvgStudyTimes == 0" class="graImg">
+    <div v-show="moduleState == 'noData'" class="graImg">
       <img class="graImgii" src="../../assets/img/nodata/learnNoData1.png" />
       <span>暂无学习时长数据噢~</span>
     </div>
+    <Loading
+      v-show="moduleState == 'loading'"
+      style="width: 550px; height: 220px"
+      backSize="80%"
+    ></Loading>
   </div>
 </template>
 
 <script>
 import { GetClassStudyFeature_V3 } from "../../api/paperTwo/gradeQuestion";
+import Loading from "../common/Loading.vue";
 import "echarts-gl";
 export default {
   data() {
@@ -64,6 +70,7 @@ export default {
           GradeAvgStudySpeeds: 0,
         },
       },
+      moduleState: "loading",
       noDataShow1: false,
       noDataShow2: false,
       option1: {},
@@ -73,7 +80,9 @@ export default {
   mounted() {
     this.init();
   },
-
+  components: {
+    Loading,
+  },
   computed: {
     optionData1: function () {
       let arr = [
@@ -207,6 +216,11 @@ export default {
           this.resInfo.ClassStudySpeeds.BadStuCount == 0
         ) {
           this.noDataShow2 = true;
+        }
+        if (this.resInfo.ClassStudyTimes.GradeAvgStudyTimes == 0) {
+          this.moduleState = "noData";
+        } else {
+          this.moduleState = "hasData";
         }
         this.drawInit();
       });

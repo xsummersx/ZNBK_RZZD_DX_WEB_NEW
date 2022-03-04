@@ -17,7 +17,7 @@
         ><i></i>{{ $route.name == "gradeRZZD" ? "班级" : "学生" }}做题特点对比分析</span
       >
     </div>
-    <div class="legend" v-show="showData">
+    <div class="legend" v-show="moduleState == 'hasData'">
       <span class="maxScore" v-show="maxTypeName"
         >正确率最高题型: <span>{{ maxTypeName }}</span></span
       >
@@ -25,10 +25,14 @@
         >正确率最低题型: <span>{{ minTypeName }}</span></span
       >
     </div>
-    <div v-show="resInfo.TypeInfoList.length > 0" id="questionCharts"></div>
-    <div v-show="resInfo.TypeInfoList.length <= 0" class="temNoData">
-      暂无做题特点数据噢~
-    </div>
+    <div v-show="moduleState == 'hasData'" id="questionCharts"></div>
+    <div v-show="moduleState == 'noData'" class="temNoData">暂无做题特点数据噢~</div>
+
+    <Loading
+      v-show="moduleState == 'loading'"
+      style="width: 1270px; height: 250px"
+      backSize="80%"
+    ></Loading>
     <el-dialog
       :title="dialogTitle"
       :visible.sync="dialogVisible"
@@ -51,6 +55,7 @@
 <script>
 import { GetGradeExerciseTrait_V3 } from "../../api/paperTwo/gradeQuestion";
 import { GetClassExerciseTrait_V3 } from "../../api/paperTwo/gradeQuestion";
+import Loading from "../common/Loading.vue";
 export default {
   data() {
     return {
@@ -58,7 +63,7 @@ export default {
         TypeInfoList: [],
         PaperCorrectRateList: [],
       },
-      showData: false,
+      moduleState: "loading",
       maxTypeName: "",
       minTypeName: "",
       TypeNo: "",
@@ -72,6 +77,7 @@ export default {
   components: {
     QuestionDiolog: () => import("../../views/dialog/QuestionDiolog.vue"),
     GradeQuesDia: () => import("../../views/dialog/GradeQuesDia.vue"),
+    Loading,
   },
   created() {},
   mounted() {
@@ -112,7 +118,11 @@ export default {
           this.minTypeName = this.resInfo.MinRateGenreName.join("、");
         }
         this.drawLine();
-        this.showData = true;
+        if (this.resInfo.TypeInfoList.length > 0) {
+          this.moduleState = "hasData";
+        } else {
+          this.moduleState = "noData";
+        }
       });
     },
     // 教师
@@ -145,7 +155,11 @@ export default {
           this.minTypeName = this.resInfo.MinRateGenreName.join("、");
         }
         this.drawLine();
-        this.showData = true;
+        if (this.resInfo.TypeInfoList.length > 0) {
+          this.moduleState = "hasData";
+        } else {
+          this.moduleState = "noData";
+        }
       });
     },
     dialog(i) {
