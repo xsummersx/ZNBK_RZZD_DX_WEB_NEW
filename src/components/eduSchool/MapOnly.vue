@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-03 14:08:41
- * @LastEditTime: 2022-03-03 15:23:38
+ * @LastEditTime: 2022-03-04 10:05:58
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\components\eduSchool\MapOnly.vue
@@ -26,21 +26,24 @@ import {
 } from "@/api/eduSchool/imgPo.js";
 export default {
   name: "MapOnly",
+  props: {
+    params: Object,
+  },
   data() {
     return {};
   },
   mounted() {
-    let params = {
-      Token: "95f5bf2a-87ff-47fd-96f4-6153bdd788fa",
-      TID: "EZ4001",
-      ProvinceID: "330000",
-      CityID: "330400",
-      CountyID: "330402",
-      GlobalGrade: "K12",
-      StageNo: "C",
-      ZsdArea: "C",
-    };
-    getMapJson(params).then((res) => {
+    // params = {
+    //   Token: "95f5bf2a-87ff-47fd-96f4-6153bdd788fa",
+    //   TID: "EZ4001",
+    //   ProvinceID: "330000",
+    //   CityID: "330400",
+    //   CountyID: "330402",
+    //   GlobalGrade: "K12",
+    //   StageNo: "C",
+    //   ZsdArea: "C",
+    // };
+    getMapJson(this.params).then((res) => {
       let mapDate = [];
       res.Data.SchoolList.map((item) => {
         mapDate.push({
@@ -508,7 +511,7 @@ export default {
 #mapID_only,
 #mapID_All {
   width: 940px;
-  height: 620px;
+  height: 636px;
   z-index: 5;
   position: relative;
 }

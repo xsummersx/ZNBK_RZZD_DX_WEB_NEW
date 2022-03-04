@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:27:26
- * @LastEditTime: 2022-03-03 16:13:14
+ * @LastEditTime: 2022-03-04 10:56:30
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》地图，图0
@@ -18,11 +18,18 @@
         {{ noDataText0 }}
       </div>
       <!-- 地图 -->
-      <div
+      <!-- <div
         id="mapID"
         v-show="IsHaveMap"
         :style="{ opacity: IsHaveSchool == false ? 0.2 : 1 }"
-      ></div>
+      ></div> -->
+      <MapOnly
+        v-if="false"
+        :params="params"
+        v-show="IsHaveMap"
+        :style="{ opacity: IsHaveSchool == false ? 0.2 : 1 }"
+      ></MapOnly>
+      <MapBack :params="params" v-show="IsHaveMap"></MapBack>>
       <div
         class="legend"
         v-show="IsHaveMap"
@@ -66,37 +73,31 @@
   </div>
 </template>
 <script>
-import { getMapJson } from "@/api/eduSchool/right.js";
+import MapOnly from "./MapOnly";
+import MapBack from "./MapBack";
 import SchoolInfoTable from "./SchoolInfoTable";
 import "@/assets/css/particless.css";
-import {
-  get_A,
-  get_B,
-  get_C,
-  get_D,
-  get_E,
-  get_F,
-  mapBG0,
-  activeBG,
-} from "@/api/eduSchool/imgPo.js";
 import Loading from "../common/Loading";
 export default {
   name: "Map",
   data() {
     return {
       noDataText0: "暂无教育局地图数据噢~",
-      IsHaveSchool: false, //是否有学校
-      IsHaveMap: false, //是否有地图
-      showData: false, //是否接口异步请求完成
+      IsHaveSchool: true, //是否有学校
+      IsHaveMap: true, //是否有地图
+      showData: true, //是否接口异步请求完成
       dialogVisible: false,
+      params: {},
     };
   },
-  mounted() {
+  created() {
     this.drawMap();
   },
   components: {
     Loading,
     SchoolInfoTable,
+    MapOnly,
+    MapBack,
   },
   methods: {
     //跳转学校点击事件
@@ -110,7 +111,7 @@ export default {
     // },
     //统计图绘制
     drawMap() {
-      let params = {
+      this.params = {
         Token: this.$store.state.token,
         TID: this.$store.state.TID,
         ProvinceID: this.$store.state.ProvinceID,
@@ -120,423 +121,6 @@ export default {
         StageNo: this.$store.state.StageNo,
         ZsdArea: this.$store.state.ZsdArea,
       };
-      getMapJson(params).then((res) => {
-        this.showData = true;
-        if (res.Data.MapResources.features.length > 0) {
-          this.IsHaveMap = true;
-        }
-        let mapDate = [];
-        res.Data.SchoolList.map((item) => {
-          if (item.Longitude != -1 && item.Latitude != -1) {
-            this.IsHaveSchool = true; //有学校信息的
-          }
-          mapDate.push({
-            SchoolID: item.SchoolID,
-            name: item.SchoolName,
-            value: [item.Longitude, item.Latitude],
-            datas: item.CognitiveGradeName,
-            CurrentIndex: item.CurrentIndex, //认知指数
-            PredictedScore: item.PredictedScore, //预估成绩
-            PaperScoreRate: (item.PaperScoreRate * 100).toFixed(0), //已作答试卷平均得分率
-            AnsweredPaperNum: item.AnsweredPaperNum, //累计作答试卷份数
-          });
-        });
-        let CountyName = "";
-        let centerPoint = [];
-        res.Data.MapResources.features.map((mapItem) => {
-          if (mapItem.properties.adcode == res.Data.adcode) {
-            CountyName = mapItem.properties.name;
-            centerPoint = mapItem.properties.centroid;
-          }
-        });
-        //不在需要本区的学校了
-        // res.Data.OtherSchoolList.map((item) => {
-        //   mapDate.push({
-        //     SchoolID: item.SchoolID,
-        //     name: item.SchoolName,
-        //     value: [item.Longitude, item.Latitude],
-        //     datas: "F",
-        //   });
-        // });
-        // let quyuData = [];
-        // res.Data.MapResources.features.map((item) => {
-        //   quyuData.push({ name: item.properties.name, tipData: 50 });
-        // });
-        let echarts = require("echarts");
-        let mapEchart = echarts.init(document.getElementById("mapID"));
-        echarts.registerMap("bd", res.Data.MapResources);
-        // let only = {
-        //   type: "FeatureCollection",
-        //   features: [],
-        // };
-        // res.Data.MapResources.features.map((item, index) => {
-        //   if (index > 0) {
-        //     only.features.push(item);
-        //   }
-        // });
-        // echarts.registerMap("only", only);
-        let option = {
-          // visualMap: {
-          //   show: true,
-          //   min: 0,
-          //   max: 200,
-          //   left: "10%",
-          //   top: "bottom",
-          //   calculable: true,
-          //   seriesIndex: [1],
-          //   inRange: {
-          //     color: ["#0643a5", "#0634a1"], // 蓝绿#0643a5", //0634a1
-          //   },
-          // },
-          //tooltip: {
-          //show: true,
-          // formatter: function (params) {
-          //   console.log(params);
-          //   return "<div style='color:red'>学校</div>";
-          // },
-          //},
-          tooltip: {
-            zlevel: 100,
-            show: true,
-            triggerOn: "mousemove",
-            enterable: true,
-            trigger: "item",
-            alwaysShowContent: true,
-            position: "right",
-            renderMode: "html",
-            // position: function (point, params, dom, rect, size) {
-            //   console.log(point, params, dom, rect, size);
-            //   return [rect];
-            // },
-            backgroundColor: "transparent", //让geo的点击实现为空白
-            textStyle: {
-              //让geo的点击实现为空白
-              color: "transparent",
-            },
-            borderWidth: 0, //让geo的点击实现为空白
-            shadowBlur: 0, //让geo的点击实现为空白
-            shadowColor: "transparent", //让geo的点击实现为空白
-            // hideDelay:10000,
-            // formatter: function (params) {
-            //   console.log(params);
-            //   if (params) {
-            //     option.tooltip.show = true;
-            //     var info = '<div class="tipBG">学校</div>';
-            //     return info;
-            //   }
-            //   //   return "<div style='color:red'>学校</div>";
-            // },
-            formatter: function (params) {
-              console.log(params);
-              let url =
-                window.location.origin +
-                "/Web/index.html#/home/schoolRZZD?token=" +
-                window.location.hash.split("?")[1].split("=")[1] +
-                "&SchoolID=" +
-                params.data.SchoolID;
-              let divTop =
-                '<div class="toolTipTop"><span class="toolTipTitle" title="' +
-                params.data.name +
-                '">' +
-                params.data.name +
-                '</span><i class="toolTipIcon" title="点击跳转该学校认知质量大数据报告" onclick="javascript:window.open(\'' +
-                url +
-                "')\"></i></div>";
-              let divNone =
-                '<div class="toolTipTop"><span class="toolTipTitle" title="' +
-                params.data.name +
-                '">' +
-                params.data.name +
-                "</span></div>";
-              let divList =
-                '<div class="toolTipItem"><span class="toolTipTitleContLeft">累计作答试卷</span><span class="toolTipTitleContRight">' +
-                params.data.AnsweredPaperNum +
-                '份</span></div><div class="toolTipItem"><span class="toolTipTitleContLeft">平均正确率</span><span class="toolTipTitleContRight">' +
-                params.data.PaperScoreRate +
-                '%</span></div><div class="toolTipItem"><span class="toolTipTitleContLeft">认知平均分</span><span class="toolTipTitleContRight">' +
-                params.data.CurrentIndex +
-                '分</span></div><div class="toolTipItem"><span class="toolTipTitleContLeft">高考成绩预估</span><span class="toolTipTitleContRight">' +
-                params.data.PredictedScore +
-                "分</span></div>";
-
-              if (params.data.datas != "F") {
-                return (
-                  '<div class="toolTip' + params.data.datas + 'BG">' + divTop + divList + "</div>"
-                );
-              } else {
-                return '<div class="toolTip' + params.data.datas + 'BG">' + divNone + "</div>";
-              }
-            },
-          },
-          geo: {
-            show: true,
-            map: "bd",
-            aspectScale: 1,
-            layoutCenter: ["50%", "50.5%"],
-            layoutSize: "250%",
-            center: centerPoint, //从地图最中心地方发散
-            silent: false,
-            roam: false, //是否支持拖拽和缩放
-            zoom: 1,
-            zlevel: 1,
-            regions: [
-              {
-                // 重点 部分 ,在这里给大家模拟一个省份颜色与界线颜色的修改,如果想修改多个省份就在后面多添加几个对象即可.
-                name: CountyName, // 对应的是import "./china"  数据中的名称如: name: "广东省"(下面有截图)
-                itemStyle: {
-                  normal: {
-                    opacity: 1, // 透明度
-                    borderColor: "#18ff00", // 省份界线颜色
-                    borderWidth: 4, // 省份界线的宽度
-                    areaColor: {
-                      image: activeBG(),
-                      repeat: "repeat",
-                    }, //"#045323", // 整个省份的颜色
-                    shadowColor: "rgba(0,0,0,0.5)",
-                    shadowBlur: 10,
-                    shadowOffsetX: 0,
-                    shadowOffsetY: 0,
-                  },
-                  emphasis: {
-                    borderColor: "#18ff00", // 省份界线颜色
-                    borderWidth: 4, // 省份界线的宽度
-                    areaColor: {
-                      image: activeBG(),
-                      repeat: "repeat",
-                    }, //"#045323", // 整个省份的颜色
-                  },
-                },
-              },
-            ],
-            itemStyle: {
-              normal: {
-                areaColor: "transparent",
-                borderWidth: 0,
-                shadowColor: "rgba(10,76,139,1)",
-                shadowOffsetY: 0,
-                shadowBlur: 60,
-              },
-              emphasis: {
-                borderWidth: 0,
-                areaColor: "transparent",
-              },
-            },
-            label: {
-              normal: {
-                show: false,
-              },
-              emphasis: {
-                show: false,
-              },
-            },
-          },
-          series: [
-            {
-              name: "散点",
-              type: "scatter",
-              coordinateSystem: "geo",
-            },
-            // {
-            //   type: "map",
-            //   map: "bd",
-            //   geoIndex: 0,
-            //   aspectScale: 0.75, //长宽比
-            //   data: quyuData,
-            // },
-            {
-              zlevel: 0,
-              type: "map",
-              selectedMode: false, //默认关闭选中状态
-              //data: quyuData,
-              silent: false,
-              aspectScale: 1,
-              roam: false,
-              label: {
-                normal: {
-                  show: true,
-                  textStyle: {
-                    color: "#024ccc",
-                  },
-                },
-                emphasis: {
-                  textStyle: {
-                    color: "#024ccc",
-                  },
-                },
-              },
-              itemStyle: {
-                normal: {
-                  borderColor: "#00b4ff",
-                  borderWidth: 3,
-                  areaColor: {
-                    image: mapBG0(),
-                    repeat: "repeat",
-                  },
-                  shadowColor: "#23074d",
-                  shadowBlur: 30,
-                  shadowOffsetX: -2,
-                  shadowOffsetY: 5,
-                  label: {
-                    show: true,
-                  },
-                  opacity: 0.5, //地图的透明度
-                },
-                emphasis: {
-                  areaColor: {
-                    image: mapBG0(),
-                    repeat: "repeat",
-                  },
-                  opacity: 0.5, //地图的透明度
-                  //areaColor: "#013797",
-                },
-              },
-              zoom: 1.1,
-              map: "bd",
-            },
-            // gif动画
-            {
-              tooltip: {
-                show: false,
-              },
-              type: "effectScatter",
-              coordinateSystem: "geo",
-              rippleEffect: {
-                scale: 7,
-                brushType: "stroke",
-              },
-              showEffectOn: "render",
-              itemStyle: {
-                normal: {
-                  shadowColor: "#0ff",
-                  shadowBlur: 5,
-                  shadowOffsetX: 0,
-                  shadowOffsetY: 0,
-                  color: function (params) {
-                    var colorList = [
-                      new echarts.graphic.LinearGradient(1, 0, 0, 0, [
-                        {
-                          offset: 0,
-                          color: "#009cff",
-                        },
-                        {
-                          offset: 1,
-                          color: "#2deeff",
-                        },
-                      ]),
-                      new echarts.graphic.LinearGradient(1, 0, 0, 0, [
-                        {
-                          offset: 0,
-                          color: "#009e09",
-                        },
-                        {
-                          offset: 1,
-                          color: "#48ff4d",
-                        },
-                      ]),
-                      new echarts.graphic.LinearGradient(1, 0, 0, 0, [
-                        {
-                          offset: 0,
-                          color: "#00ffd7",
-                        },
-                        {
-                          offset: 1,
-                          color: "#00b095",
-                        },
-                      ]),
-                      new echarts.graphic.LinearGradient(1, 0, 0, 0, [
-                        {
-                          offset: 0,
-                          color: "#ffc334",
-                        },
-                        {
-                          offset: 1,
-                          color: "#ff9000",
-                        },
-                      ]),
-                      new echarts.graphic.LinearGradient(1, 0, 0, 0, [
-                        {
-                          offset: 0,
-                          color: "#ff9090",
-                        },
-                        {
-                          offset: 1,
-                          color: "#ff5b5b",
-                        },
-                      ]),
-                      new echarts.graphic.LinearGradient(1, 0, 0, 0, [
-                        {
-                          offset: 0,
-                          color: "#d6d6d6",
-                        },
-                        {
-                          offset: 1,
-                          color: "#969696",
-                        },
-                      ]),
-                    ];
-                    if (params.data.datas == "A") {
-                      return colorList[0];
-                    } else if (params.data.datas == "B") {
-                      return colorList[1];
-                    } else if (params.data.datas == "C") {
-                      return colorList[2];
-                    } else if (params.data.datas == "D") {
-                      return colorList[3];
-                    } else if (params.data.datas == "E") {
-                      return colorList[4];
-                    } else if (params.data.datas == "F") {
-                      return colorList[5];
-                    }
-                  },
-                },
-              },
-              label: {
-                normal: {
-                  color: "#fff",
-                },
-              },
-              symbol: "circle",
-              symbolSize: [7, 3],
-              data: mapDate,
-              zlevel: 1,
-            },
-            //地域图标
-            {
-              zlevel: 100,
-              type: "scatter",
-              coordinateSystem: "geo",
-              itemStyle: {
-                color: "#fff",
-              },
-              symbol: function (value, params) {
-                if (params.data.datas == "A") {
-                  return get_A();
-                } else if (params.data.datas == "B") {
-                  return get_B();
-                } else if (params.data.datas == "C") {
-                  return get_C();
-                } else if (params.data.datas == "D") {
-                  return get_D();
-                } else if (params.data.datas == "E") {
-                  return get_E();
-                } else if (params.data.datas == "F") {
-                  return get_F();
-                }
-              },
-              symbolSize: [20, 23],
-              symbolOffset: [0, -14],
-              z: 9999,
-              data: mapDate,
-            },
-          ],
-        };
-        mapEchart.setOption(option);
-
-        // mapEchart.on("click", function (params) {
-        //   //点击事件
-        //   console.log(params);
-        // });
-      });
     },
   },
 };
