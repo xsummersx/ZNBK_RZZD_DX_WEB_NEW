@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-04 10:06:33
- * @LastEditTime: 2022-03-04 11:50:03
+ * @LastEditTime: 2022-03-04 15:24:16
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\components\eduSchool\MapBack.vue
@@ -22,6 +22,9 @@
           @mouseover="handleOver(index)"
           @mouseleave="handleAve"
         >
+          <div class="schoolNameText" :class="school.CognitiveGradeName + '_Color'">
+            {{ school.SchoolName }}
+          </div>
           <div
             class="animat"
             :class="'toolTip' + school.CognitiveGradeName + 'BG'"
@@ -202,6 +205,34 @@ export default {
   top: 160px;
   cursor: pointer;
 }
+.schoolNameText {
+  width: 60px;
+  height: 20px;
+  position: absolute;
+  top: -18px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+  font-size: 12px;
+  color: 12px;
+  text-shadow: 0 0 4px #000;
+}
+.A_Color {
+  color: #009cff;
+}
+.B_Color {
+  color: #18ff00;
+}
+.C_Color {
+  color: #00ffd8;
+}
+.D_Color {
+  color: #ffc334;
+}
+.E_Color {
+  color: #ff8080;
+}
 .Ap {
   background: url(~@/assets/img/newMap/A+默认.png) center center no-repeat;
 }
@@ -235,11 +266,11 @@ export default {
 </style>
 <style scoped>
 .animat {
-  animation: leftInit 1.5s ease-in;
-  -ms-animation: leftInit 1.5s ease-in; /* IE 9 */
-  -moz-animation: leftInit 1.5s ease-in; /* Firefox */
-  -webkit-animation: leftInit 1.5s ease-in; /* Safari 和 Chrome */
-  -o-animation: leftInit 1.5s ease-in; /* Opera */
+  animation: leftInit 1s ease-in;
+  -ms-animation: leftInit 1s ease-in; /* IE 9 */
+  -moz-animation: leftInit 1s ease-in; /* Firefox */
+  -webkit-animation: leftInit 1s ease-in; /* Safari 和 Chrome */
+  -o-animation: leftInit 1s ease-in; /* Opera */
 }
 @keyframes leftInit {
   0% {
