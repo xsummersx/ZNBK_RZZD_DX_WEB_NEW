@@ -1,7 +1,7 @@
 /*
  * @Author: 吴涛
  * @Date: 2021-12-22 20:20:33
- * @LastEditTime: 2022-02-23 10:05:43
+ * @LastEditTime: 2022-03-04 11:13:02
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 右边部分
@@ -15,6 +15,14 @@ export function getMapJson(data) {
     method: "GET",
     params: { ...data },
   });
+}
+//获取地图信息
+export function getMapInfo(data) {
+  return request({
+    url: "/api/DirectorRZZD/GetCountyMapImageOutput",
+    method: 'GET',
+    params: { ...data }
+  })
 }
 
 //学校认知对比分析
