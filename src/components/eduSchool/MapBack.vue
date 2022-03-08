@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-04 10:06:33
- * @LastEditTime: 2022-03-04 15:32:01
+ * @LastEditTime: 2022-03-08 11:37:11
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\components\eduSchool\MapBack.vue
@@ -130,11 +130,7 @@ export default {
     //定时器
     OpenTime() {
       this.timer = setInterval(() => {
-        if (this.activeIndex < this.schoolList.length - 1) {
-          this.activeIndex++;
-        } else {
-          this.activeIndex = 0;
-        }
+        this.jumpNext();
       }, 8000);
     },
     //鼠标悬浮
@@ -142,8 +138,17 @@ export default {
       clearInterval(this.timer);
       this.activeIndex = index;
     },
+    //跳转下一个学校显示
+    jumpNext() {
+      if (this.activeIndex < this.schoolList.length - 1) {
+        this.activeIndex++;
+      } else {
+        this.activeIndex = 0;
+      }
+    },
     //鼠标离开
     handleAve() {
+      this.jumpNext();
       this.OpenTime();
     },
     //数据格式化
