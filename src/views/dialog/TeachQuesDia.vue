@@ -33,11 +33,8 @@
 		</div>
 		<div class="table">
 			<table
-				style="
-					display: inline-block;
-					border: 0;
-					vertical-align: top;
-				"
+				class="ttable"
+				style="display: inline-block; border: 0; vertical-align: top"
 			>
 				<thead
 					style="height: 65px; border-right: solid 1px rgba(225, 225, 225, 0.2)"
@@ -62,7 +59,10 @@
 					</tr>
 				</tbody>
 			</table>
-			<vuescroll :ops="ops" style=" width: calc(100% - 331px); display: inline-block">
+			<vuescroll
+				:ops="ops"
+				style="width: calc(100% - 331px); display: inline-block"
+			>
 				<!-- <vuescroll :ops="ops"> -->
 				<table>
 					<thead>
@@ -315,18 +315,18 @@ export default {
 			background-color: rgba(126, 172, 255, 0.2);
 			border: solid 1px rgba(255, 255, 255, 0.1);
 		}
-		th:nth-child(1) {
-			width: 90px;
-		}
-		th:nth-child(2) {
-			width: 130px;
-		}
-		th:nth-child(3) {
-			width: 80px;
-		}
-		td:nth-child(5) {
-			border-left: solid 1px rgba(255, 255, 255, 0.1);
-		}
+		// th:nth-child(1) {
+		// 	width: 90px;
+		// }
+		// th:nth-child(2) {
+		// 	width: 130px;
+		// }
+		// th:nth-child(3) {
+		// 	width: 80px;
+		// }
+		// td:nth-child(5) {
+		// 	border-left: solid 1px rgba(255, 255, 255, 0.1);
+		// }
 		.borderTD {
 			border-right: 1px solid rgba(255, 255, 255, 0.1);
 			border-left: 1px solid rgba(255, 255, 255, 0.1);
@@ -348,19 +348,43 @@ export default {
 				text-overflow: ellipsis;
 			}
 		}
-		td:nth-child(1) {
-			color: rgba(255, 255, 255, 0.6);
-		}
-		td:nth-child(2),
-		td:nth-child(3) {
-			color: rgba(255, 255, 255, 1);
-			overflow: hidden;
-			white-space: nowrap;
-			text-overflow: ellipsis;
-		}
-		td:nth-child(3) {
-			color: #51f0ff;
-		}
+		// td:nth-child(1) {
+		// 	color: rgba(255, 255, 255, 0.6);
+		// }
+		// td:nth-child(2),
+		// td:nth-child(3) {
+		// 	color: rgba(255, 255, 255, 1);
+		// 	overflow: hidden;
+		// 	white-space: nowrap;
+		// 	text-overflow: ellipsis;
+		// }
+		// td:nth-child(3) {
+		// 	color: #51f0ff;
+		// }
+	}
+}
+.ttable {
+	th:nth-child(1) {
+		width: 90px;
+	}
+	th:nth-child(2) {
+		width: 130px;
+	}
+	th:nth-child(3) {
+		width: 80px;
+	}
+	td:nth-child(1) {
+		color: rgba(255, 255, 255, 0.6);
+	}
+	td:nth-child(2),
+	td:nth-child(3) {
+		color: rgba(255, 255, 255, 1);
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+	td:nth-child(3) {
+		color: #51f0ff;
 	}
 }
 .oneTH {

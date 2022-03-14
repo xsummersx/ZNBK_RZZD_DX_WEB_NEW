@@ -18,7 +18,17 @@
 			</div>
 		</div>
 		<div v-show="showList.length > 0 && !showLoading" class="table">
-			<table style="display: inline-block; border: 0; vertical-align: top">
+			<table
+				style="
+					display: inline-block;
+					border-right: 0;
+					border-left: 0;
+					border-top: 0;
+					border-bottom: 0;
+					vertical-align: top;
+				"
+				class="ttable"
+			>
 				<thead
 					style="height: 65px; border-right: solid 1px rgba(225, 225, 225, 0.2)"
 				>
@@ -41,6 +51,7 @@
 				</tbody>
 			</table>
 			<vuescroll
+				class="v-scroll"
 				:ops="ops"
 				style="display: inline-block; width: calc(100% - 231px)"
 			>
@@ -274,6 +285,24 @@ export default {
 .table {
 	height: 400px;
 	margin: 10px 0 20px;
+	.v-scroll {
+		th:nth-child(1) {
+			width: 130px;
+		}
+		td:nth-child(3) {
+			border-left: solid 1px rgba(255, 255, 255, 0.1);
+		}
+		td:nth-child(1) {
+			color: rgba(255, 255, 255, 1);
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+		}
+
+		td:nth-child(1) {
+			color: #51f0ff;
+		}
+	}
 	table {
 		border-collapse: collapse;
 		border: solid 1px rgba(255, 255, 255, 0.2);
@@ -295,18 +324,18 @@ export default {
 			background-color: rgba(126, 172, 255, 0.2);
 			border: solid 1px rgba(255, 255, 255, 0.1);
 		}
-		th:nth-child(1) {
-			width: 90px;
-		}
-		th:nth-child(2) {
-			width: 130px;
-		}
-		th:nth-child(3) {
-			width: 130px;
-		}
-		td:nth-child(5) {
-			border-left: solid 1px rgba(255, 255, 255, 0.1);
-		}
+		// th:nth-child(1) {
+		// 	width: 90px;
+		// }
+		// th:nth-child(2) {
+		// 	width: 130px;
+		// }
+		// th:nth-child(3) {
+		// 	width: 130px;
+		// }
+		// td:nth-child(5) {
+		// 	border-left: solid 1px rgba(255, 255, 255, 0.1);
+		// }
 		.borderTD {
 			border-right: 1px solid rgba(255, 255, 255, 0.1);
 			border-left: 1px solid rgba(255, 255, 255, 0.1);
@@ -325,20 +354,37 @@ export default {
 				width: 120px;
 			}
 		}
-		td:nth-child(1) {
-			color: rgba(255, 255, 255, 0.6);
-		}
-		td:nth-child(2),
-		td:nth-child(3) {
-			color: rgba(255, 255, 255, 1);
-			overflow: hidden;
-			white-space: nowrap;
-			text-overflow: ellipsis;
-		}
+		// td:nth-child(1) {
+		// 	color: rgba(255, 255, 255, 0.6);
+		// }
+		// td:nth-child(2),
+		// td:nth-child(3) {
+		// 	color: rgba(255, 255, 255, 1);
+		// 	overflow: hidden;
+		// 	white-space: nowrap;
+		// 	text-overflow: ellipsis;
+		// }
 
-		td:nth-child(3) {
-			color: #51f0ff;
-		}
+		// td:nth-child(3) {
+		// 	color: #51f0ff;
+		// }
+	}
+}
+.ttable {
+	th:nth-child(1) {
+		width: 90px;
+	}
+	th:nth-child(2) {
+		width: 130px;
+	}
+	td:nth-child(1) {
+		color: rgba(255, 255, 255, 0.6);
+	}
+	td:nth-child(2) {
+		color: rgba(255, 255, 255, 1);
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
 	}
 }
 .oneTH {
