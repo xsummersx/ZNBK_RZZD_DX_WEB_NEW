@@ -118,11 +118,11 @@ export default {
 						colorStops: [
 							{
 								offset: 0,
-								color: "#00f0ff", // 0% 处的颜色
+								color: "#00f0ff", // 100% 处的颜色
 							},
 							{
 								offset: 1,
-								color: "#0036ff", // 100% 处的颜色
+								color: "#0036ff", // 0% 处的颜色
 							},
 						],
 						global: false,
@@ -136,11 +136,11 @@ export default {
 						colorStops: [
 							{
 								offset: 0,
-								color: "#009880", // 0% 处的颜色
+								color: "#37eed6", // 100% 处的颜色
 							},
 							{
 								offset: 1,
-								color: "#37eed6", // 100% 处的颜色
+								color: "#009880", // 0% 处的颜色
 							},
 						],
 						global: false,

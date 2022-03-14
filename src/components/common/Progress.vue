@@ -127,6 +127,7 @@ export default {
 								b: {
 									fontFamily: "Oswald",
 									fontSize: 18,
+									verticalAlign: "bottom",
 								},
 							},
 							color: "rgba(0, 198, 255,1)",
@@ -228,6 +229,7 @@ export default {
 								b: {
 									fontFamily: "Oswald",
 									fontSize: 18,
+									verticalAlign: "bottom",
 								},
 							},
 							color: "rgba(247, 190, 55, 1)",
@@ -333,6 +335,7 @@ export default {
 								b: {
 									fontFamily: "Oswald",
 									fontSize: 18,
+									verticalAlign: "bottom",
 								},
 							},
 							color: "rgba(87, 231, 158,1)",
