@@ -101,7 +101,7 @@ export default {
           },
         },
         {
-          name: "教好学生",
+          name: "较好学生",
           value:
             (this.resInfo.ClassStudyTimes.BetterStuCount /
               (this.resInfo.ClassStudyTimes.ExceStuCount +
@@ -323,7 +323,7 @@ export default {
                   params.seriesName
                 }<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:${
                   params.color
-                };"></span>${this.getCount1(params.seriesName)} (${option.series[
+                };"></span>${this.getCount1(params.seriesName)}h (${option.series[
                   params.seriesIndex
                 ].pieData.value.toFixed(2)}%)`;
               }
