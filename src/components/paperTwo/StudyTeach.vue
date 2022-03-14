@@ -87,7 +87,7 @@ export default {
     optionData1: function () {
       let arr = [
         {
-          name: "优秀学生",
+          name: "学习时长优秀学生",
           value:
             (this.resInfo.ClassStudyTimes.ExceStuCount /
               (this.resInfo.ClassStudyTimes.ExceStuCount +
@@ -101,7 +101,7 @@ export default {
           },
         },
         {
-          name: "较好学生",
+          name: "学习时长较好学生",
           value:
             (this.resInfo.ClassStudyTimes.BetterStuCount /
               (this.resInfo.ClassStudyTimes.ExceStuCount +
@@ -115,7 +115,7 @@ export default {
           },
         },
         {
-          name: "一般学生",
+          name: "学习时长一般学生",
           value:
             (this.resInfo.ClassStudyTimes.NormalStuCount /
               (this.resInfo.ClassStudyTimes.ExceStuCount +
@@ -149,7 +149,7 @@ export default {
     optionData2: function () {
       let arr = [
         {
-          name: "速度较快",
+          name: "知识掌握速度较快",
           value:
             (this.resInfo.ClassStudySpeeds.GoodStuCount /
               (this.resInfo.ClassStudySpeeds.GoodStuCount +
@@ -162,7 +162,7 @@ export default {
           },
         },
         {
-          name: "速度一般",
+          name: "知识掌握速度一般",
           value:
             (this.resInfo.ClassStudySpeeds.NormalStuCount /
               (this.resInfo.ClassStudySpeeds.GoodStuCount +
@@ -175,7 +175,7 @@ export default {
           },
         },
         {
-          name: "速度较差",
+          name: "知识掌握速度较差",
           value:
             (this.resInfo.ClassStudySpeeds.BadStuCount /
               (this.resInfo.ClassStudySpeeds.GoodStuCount +
@@ -323,7 +323,7 @@ export default {
                   params.seriesName
                 }<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:${
                   params.color
-                };"></span>${this.getCount1(params.seriesName)}h (${option.series[
+                };"></span>${this.getCount1(params.seriesName)}人 (${option.series[
                   params.seriesIndex
                 ].pieData.value.toFixed(2)}%)`;
               }
@@ -364,7 +364,7 @@ export default {
                   params.seriesName
                 }<br/><span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:${
                   params.color
-                };"></span>${this.getCount2(params.seriesName)} (${option.series[
+                };"></span>${this.getCount2(params.seriesName)}人 (${option.series[
                   params.seriesIndex
                 ].pieData.value.toFixed(2)}%)`;
               }
