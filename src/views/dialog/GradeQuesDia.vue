@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-12-27 13:55:30
- * @LastEditTime: 2022-03-14 15:25:48
+ * @LastEditTime: 2022-03-14 16:17:40
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\views\dialog\gradeQuesDia.vue
@@ -140,9 +140,9 @@ export default {
     //需要传值的计算
     calcWidth(listNum) {
       if (listNum == 1) {
-        return "856px";
+        return "854px";
       } else if (listNum == 2) {
-        return "428px";
+        return "426px";
       } else {
         return "200px";
       }

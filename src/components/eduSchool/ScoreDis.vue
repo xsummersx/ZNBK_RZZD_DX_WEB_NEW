@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:30:34
- * @LastEditTime: 2022-03-14 14:18:20
+ * @LastEditTime: 2022-03-14 16:00:23
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》认知成绩分布
@@ -263,7 +263,7 @@ export default {
           message: "当前暂无可查看的信息噢~",
           duration: 2000,
         });
-      } else {
+      } else if (this.$route.name == "schoolRZZD" || this.$route.name == "educationRZZD") {
         let typeText = "";
         this.openWinType[0] = this.$route.name;
         if (this.activeSpan == 0) {

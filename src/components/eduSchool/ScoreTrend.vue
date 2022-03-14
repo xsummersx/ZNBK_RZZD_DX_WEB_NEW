@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:31:08
- * @LastEditTime: 2022-03-14 09:07:10
+ * @LastEditTime: 2022-03-14 15:48:45
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》认知成绩走势图，图0，图1
@@ -303,19 +303,19 @@ export default {
             formatter: function (params) {
               let name = params[0].axisValueLabel + "<br />";
               let rate0 =
-                "<img class='imgWi' src=" +
+                "<img class='imgWidth' src=" +
                 blueLine +
                 " />已作答试卷份数（份）<b style='margin-left:10px'>" +
                 params[0].data +
                 "</b><br />";
               let rate1 =
-                "<img class='imgWi' src=" +
+                "<img class='imgWidth' src=" +
                 orangeLine +
                 " />平均得分率（%）<b style='margin-left:41px'>" +
                 params[1].data +
                 "</b><br />";
               let rate2 =
-                "<img class='imgWi' src=" +
+                "<img class='imgWidth' src=" +
                 greenLine +
                 " />高考预估成绩（分）<b style='margin-left:25px'>" +
                 params[2].data +
@@ -775,7 +775,7 @@ export default {
 }
 </style>
 <style>
-.imgWi {
+.imgWidth {
   margin-right: 4px;
   margin-bottom: 3px;
 }
