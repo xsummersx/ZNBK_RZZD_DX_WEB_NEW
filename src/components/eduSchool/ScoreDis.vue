@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:30:34
- * @LastEditTime: 2022-03-11 16:42:28
+ * @LastEditTime: 2022-03-14 14:18:20
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》认知成绩分布
@@ -56,6 +56,8 @@
       <div class="Eline"></div>
       <div
         class="Acont"
+        @click="DisClick('A', List[0].LevelCount)"
+        :class="{ classPoint: $route.name == 'educationRZZD' || $route.name == 'schoolRZZD' }"
         :title="
           '认知平均分区间：' + List[0].DistreIndex + '\n对应预估成绩区间：' + List[0].DistreScore
         "
@@ -81,6 +83,8 @@
       </div>
       <div
         class="Bcont"
+        @click="DisClick('B', List[1].LevelCount)"
+        :class="{ classPoint: $route.name == 'educationRZZD' || $route.name == 'schoolRZZD' }"
         :title="
           '认知平均分区间：' + List[1].DistreIndex + '\n对应预估成绩区间：' + List[1].DistreScore
         "
@@ -106,6 +110,8 @@
       </div>
       <div
         class="Ccont"
+        @click="DisClick('C', List[2].LevelCount)"
+        :class="{ classPoint: $route.name == 'educationRZZD' || $route.name == 'schoolRZZD' }"
         :title="
           '认知平均分区间：' + List[2].DistreIndex + '\n对应预估成绩区间：' + List[2].DistreScore
         "
@@ -131,6 +137,8 @@
       </div>
       <div
         class="Dcont"
+        @click="DisClick('D', List[3].LevelCount)"
+        :class="{ classPoint: $route.name == 'educationRZZD' || $route.name == 'schoolRZZD' }"
         :title="
           '认知平均分区间：' + List[3].DistreIndex + '\n对应预估成绩区间：' + List[3].DistreScore
         "
@@ -156,6 +164,8 @@
       </div>
       <div
         class="Econt"
+        @click="DisClick('E', List[4].LevelCount)"
+        :class="{ classPoint: $route.name == 'educationRZZD' || $route.name == 'schoolRZZD' }"
         :title="
           '认知平均分区间：' + List[4].DistreIndex + '\n对应预估成绩区间：' + List[4].DistreScore
         "
@@ -182,11 +192,24 @@
     </div>
     <EduNoData v-if="false" noDataType="1" style="margin-top: 120px"></EduNoData>
     <Loading v-show="loading" style="margin-top: 50px"></Loading>
+    <el-dialog
+      :title="DisDetailTitle"
+      :visible.sync="DisDetailShow"
+      :close-on-click-modal="false"
+      width="460px"
+      top="0vh"
+      v-if="DisDetailShow"
+    >
+      <div>
+        <DisDetail :params="openWinObject" :openType="openWinType"></DisDetail>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
 import { GetArea, GetAreaSchool, GetAreaGrade, GetAreaTeacher } from "@/api/eduSchool/right.js";
 import EduNoData from "./eduNoData";
+import DisDetail from "./DisDetail";
 import Loading from "../common/Loading";
 import "animate.css"; // npm install animate.css --save安装，再引入
 export default {
@@ -197,6 +220,10 @@ export default {
       List: [],
       showData: true, //是否有数据
       loading: true, //是否加载中
+      DisDetailShow: false,
+      DisDetailTitle: "", //弹窗的标题
+      openWinObject: Object,
+      openWinType: [],
     };
   },
   created() {
@@ -222,11 +249,49 @@ export default {
   components: {
     EduNoData,
     Loading,
+    DisDetail,
   },
   mounted() {
     this.getInfo(this.$route.name, "class");
   },
   methods: {
+    //打开详情弹窗
+    DisClick(type, LeavelNum) {
+      if (LeavelNum == 0) {
+        this.$message({
+          type: "warning",
+          message: "当前暂无可查看的信息噢~",
+          duration: 2000,
+        });
+      } else {
+        let typeText = "";
+        this.openWinType[0] = this.$route.name;
+        if (this.activeSpan == 0) {
+          typeText = "学校";
+          this.openWinType[1] = "school";
+        } else if (this.activeSpan == 1) {
+          typeText = "班级";
+          this.openWinType[1] = "class";
+        } else if (this.activeSpan == 2) {
+          typeText = "学生";
+          this.openWinType[1] = "student";
+        }
+        this.DisDetailTitle = `${type}+的${typeText}`;
+        this.DisDetailShow = true;
+        this.openWinObject = {
+          Token: this.$store.state.token,
+          TID: this.$store.state.TID,
+          ProvinceID: this.$store.state.ProvinceID,
+          CityID: this.$store.state.CityID,
+          CountyID: this.$store.state.CountyID,
+          GlobalGrade: this.$store.state.GlobalGrade,
+          ZsdArea: this.$store.state.ZsdArea,
+          StageNo: this.$store.state.StageNo,
+          SwitchType: type,
+          SchoolID: this.$store.state.SchoolID,
+        };
+      }
+    },
     //切换按钮
     checkButton(n) {
       this.loading = true;
@@ -419,7 +484,6 @@ export default {
   .TextDeng {
     font-size: 20px;
     margin-right: 5px;
-    cursor: default;
   }
   .big {
     font-size: 13px;
@@ -444,34 +508,35 @@ export default {
     position: absolute;
     left: 30px;
     top: 0px;
-    cursor: pointer;
   }
   .Bcont {
     position: absolute;
     right: 23px;
     top: 20px;
     text-align: right;
-    cursor: pointer;
   }
   .Ccont {
     position: absolute;
     left: 25px;
     top: 71px;
-    cursor: pointer;
   }
   .Dcont {
     position: absolute;
     right: 30px;
     top: 93px;
     text-align: right;
-    cursor: pointer;
   }
   .Econt {
     position: absolute;
     right: 33px;
     top: 226px;
     text-align: right;
+  }
+  .classPoint {
     cursor: pointer;
+    &:hover {
+      opacity: 0.8;
+    }
   }
 }
 </style>

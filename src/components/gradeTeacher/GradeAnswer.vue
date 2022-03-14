@@ -1,7 +1,7 @@
 <!--
  * @Author: 柳欢
  * @Date: 2021-12-13 16:15:01
- * @LastEditTime: 2021-12-28 11:12:57
+ * @LastEditTime: 2022-03-14 11:04:31
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\components\gradeTeacher\GradeAnswer.vue
@@ -43,9 +43,7 @@
           >
             <span
               ><span>{{ item.PaperFullScore }}</span
-              ><span style="font-size: 12px; position: relative; top: -2px"
-                >分</span
-              ></span
+              ><span style="font-size: 12px; position: relative; top: -2px">分</span></span
             >
           </div>
         </vuescroll>
@@ -53,15 +51,11 @@
       <div class="float-r">
         <div class="right-btn clearfix">
           <span class="float-l paper-name">{{ PaperName }}</span>
-          <span class="float-r paper-checkBtn" @click="showDialog(3)"
-            >试卷题型得分分析</span
-          >
+          <span class="float-r paper-checkBtn" @click="showDialog(3)">试卷题型得分分析</span>
           <span class="float-r paper-line"></span>
           <span class="float-r paper-checkBtn" @click="showDialog(2)">学生成绩单</span>
           <span class="float-r paper-line"></span>
-          <span class="float-r paper-checkBtn" @click="showDialog(1)"
-            >班级成绩对比分析</span
-          >
+          <span class="float-r paper-checkBtn" @click="showDialog(1)">班级成绩对比分析</span>
         </div>
         <div v-show="noDataShow" class="noData"></div>
         <div v-show="!noDataShow" id="responseCharts"></div>
@@ -70,11 +64,7 @@
     <div class="right-long-box" v-show="timeList.length <= 0 && !showLoading">
       <div class="temNoData">暂无试卷得分人数统计数据噢~</div>
     </div>
-    <Loading
-      v-show="showLoading"
-      style="width: 1270px; height: 250px"
-      backSize="80%"
-    ></Loading>
+    <Loading v-show="showLoading" style="width: 1270px; height: 250px" backSize="80%"></Loading>
     <el-dialog
       :title="dialogTitle"
       :visible.sync="dialogVisible"
@@ -312,7 +302,7 @@ export default {
     text-align: center;
     font-size: 14px;
     font-weight: normal;
-    line-height: 24px;
+    line-height: 28px;
     color: #ffffff;
     cursor: pointer;
     .exportIcon {
@@ -320,8 +310,7 @@ export default {
       height: 14px;
       display: inline-block;
       vertical-align: middle;
-      background: url("../../assets/img/grade/查看试卷对比分析.png") center center
-        no-repeat;
+      background: url("../../assets/img/grade/查看试卷对比分析.png") center center no-repeat;
     }
   }
   .checkPaper:hover {

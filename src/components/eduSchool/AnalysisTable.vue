@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:29:29
- * @LastEditTime: 2022-03-14 09:33:04
+ * @LastEditTime: 2022-03-14 13:56:21
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 学校校长=》认知情况详情，图1
@@ -179,7 +179,6 @@ export default {
     Loading,
   },
   mounted() {
-    console.log(this.$store.state);
     let params = {
       Token: this.$store.state.token,
       TID: this.$store.state.TID,
@@ -310,7 +309,6 @@ export default {
             },
           },
           formatter: function (params) {
-            console.log(params);
             let name = params[0].axisValueLabel + "<br />";
             let zhu0 =
               "<img class='imgWi' src=" +
@@ -470,7 +468,6 @@ export default {
     },
     //搜索内容，发生变化监听，如果变为空则重新获取
     SearChange() {
-      // console.log(this.timer);
       // useDebounce(
       //   this.timer,
       //   () => {
