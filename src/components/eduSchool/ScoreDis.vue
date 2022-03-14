@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:30:34
- * @LastEditTime: 2022-02-09 09:59:18
+ * @LastEditTime: 2022-03-11 16:42:28
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》认知成绩分布
@@ -18,7 +18,7 @@
         v-show="$route.name == 'educationRZZD'"
         :class="{ active: activeSpan == 0 }"
         ><i
-          style="display: block;"
+          style="display: block"
           class="animate__animated"
           :class="{ animate__rubberBand: activeSpan == 0 }"
           >学校</i
@@ -29,7 +29,7 @@
         v-show="$route.name == 'schoolRZZD' || $route.name == 'gradeRZZD'"
         :class="{ active: activeSpan == 1 }"
         ><i
-          style="display: block;"
+          style="display: block"
           class="animate__animated"
           :class="{ animate__rubberBand: activeSpan == 1 }"
           >班级</i
@@ -40,7 +40,7 @@
         @click="checkButton(2)"
         :class="{ active: activeSpan == 2 }"
         ><i
-          style="display: block;"
+          style="display: block"
           class="animate__animated"
           :class="{ animate__rubberBand: activeSpan == 2 }"
           >学生</i
@@ -54,15 +54,14 @@
       <div class="Cline"></div>
       <div class="Dline"></div>
       <div class="Eline"></div>
-      <div class="Acont">
+      <div
+        class="Acont"
+        :title="
+          '认知平均分区间：' + List[0].DistreIndex + '\n对应预估成绩区间：' + List[0].DistreScore
+        "
+      >
         <span class="Text">
-          <span
-            class="TextDeng Acolor"
-            :title="
-              '认知平均分：' + List[0].DistreIndex + '，对应预估成绩区间：' + List[0].DistreScore
-            "
-            >A<sup>+</sup></span
-          >
+          <span class="TextDeng Acolor">A<sup>+</sup></span>
           <span class="Acolor">
             <b class="big">{{ List[0].LevelCount }}</b
             >{{ getText }}</span
@@ -80,15 +79,14 @@
           </span>
         </span>
       </div>
-      <div class="Bcont">
+      <div
+        class="Bcont"
+        :title="
+          '认知平均分区间：' + List[1].DistreIndex + '\n对应预估成绩区间：' + List[1].DistreScore
+        "
+      >
         <span class="Text">
-          <span
-            class="TextDeng Bcolor"
-            :title="
-              '认知平均分：' + List[1].DistreIndex + '，对应预估成绩区间：' + List[1].DistreScore
-            "
-            >B<sup>+</sup></span
-          >
+          <span class="TextDeng Bcolor">B<sup>+</sup></span>
           <span class="Bcolor">
             <b class="big">{{ List[1].LevelCount }}</b
             >{{ getText }}</span
@@ -106,15 +104,14 @@
           </span>
         </span>
       </div>
-      <div class="Ccont">
+      <div
+        class="Ccont"
+        :title="
+          '认知平均分区间：' + List[2].DistreIndex + '\n对应预估成绩区间：' + List[2].DistreScore
+        "
+      >
         <span class="Text">
-          <span
-            class="TextDeng Ccolor"
-            :title="
-              '认知平均分：' + List[2].DistreIndex + '，对应预估成绩区间：' + List[2].DistreScore
-            "
-            >C<sup>+</sup></span
-          >
+          <span class="TextDeng Ccolor">C<sup>+</sup></span>
           <span class="Ccolor">
             <b class="big">{{ List[2].LevelCount }}</b
             >{{ getText }}</span
@@ -132,15 +129,14 @@
           </span>
         </span>
       </div>
-      <div class="Dcont">
+      <div
+        class="Dcont"
+        :title="
+          '认知平均分区间：' + List[3].DistreIndex + '\n对应预估成绩区间：' + List[3].DistreScore
+        "
+      >
         <span class="Text">
-          <span
-            class="TextDeng Dcolor"
-            :title="
-              '认知平均分：' + List[3].DistreIndex + '，对应预估成绩区间：' + List[3].DistreScore
-            "
-            >D<sup>+</sup></span
-          >
+          <span class="TextDeng Dcolor">D<sup>+</sup></span>
           <span class="Dcolor">
             <b class="big">{{ List[3].LevelCount }}</b
             >{{ getText }}</span
@@ -158,15 +154,14 @@
           </span>
         </span>
       </div>
-      <div class="Econt">
+      <div
+        class="Econt"
+        :title="
+          '认知平均分区间：' + List[4].DistreIndex + '\n对应预估成绩区间：' + List[4].DistreScore
+        "
+      >
         <span class="Text">
-          <span
-            class="TextDeng Ecolor"
-            :title="
-              '认知平均分：' + List[4].DistreIndex + '，对应预估成绩区间：' + List[4].DistreScore
-            "
-            >E<sup>+</sup></span
-          >
+          <span class="TextDeng Ecolor">E<sup>+</sup></span>
           <span class="Ecolor">
             <b class="big">{{ List[4].LevelCount }}</b
             >{{ getText }}</span
@@ -185,8 +180,8 @@
         </span>
       </div>
     </div>
-    <EduNoData v-if="false" noDataType="1" style="margin-top: 120px;"></EduNoData>
-    <Loading v-show="loading" style="margin-top: 50px;"></Loading>
+    <EduNoData v-if="false" noDataType="1" style="margin-top: 120px"></EduNoData>
+    <Loading v-show="loading" style="margin-top: 50px"></Loading>
   </div>
 </template>
 <script>
@@ -449,29 +444,34 @@ export default {
     position: absolute;
     left: 30px;
     top: 0px;
+    cursor: pointer;
   }
   .Bcont {
     position: absolute;
     right: 23px;
     top: 20px;
     text-align: right;
+    cursor: pointer;
   }
   .Ccont {
     position: absolute;
     left: 25px;
     top: 71px;
+    cursor: pointer;
   }
   .Dcont {
     position: absolute;
     right: 30px;
     top: 93px;
     text-align: right;
+    cursor: pointer;
   }
   .Econt {
     position: absolute;
     right: 33px;
     top: 226px;
     text-align: right;
+    cursor: pointer;
   }
 }
 </style>

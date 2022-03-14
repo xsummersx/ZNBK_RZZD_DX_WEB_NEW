@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:31:08
- * @LastEditTime: 2022-03-02 16:17:21
+ * @LastEditTime: 2022-03-14 09:07:10
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》认知成绩走势图，图0，图1
@@ -110,6 +110,7 @@
 <script>
 import EduNoData from "./eduNoData";
 import Loading from "../common/Loading";
+//import { greenLine, orangeLine, blueLine } from "@/api/eduSchool/imgPo.js";
 import {
   GetTrend,
   GetTrendSchool,
@@ -280,6 +281,12 @@ export default {
     optInit(optData0, optData1, optData2, xAxisData) {
       let echarts = require("echarts");
       let TreChart = echarts.init(document.getElementById("Tre"));
+      let orangeLine =
+        "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAACCAYAAABhYU3QAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTM4IDc5LjE1OTgyNCwgMjAxNi8wOS8xNC0wMTowOTowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTcgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjc5OEE1REIzNTdGNDExRUNBMjFFRjE5OTBEMUU1RkJCIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjc5OEE1REI0NTdGNDExRUNBMjFFRjE5OTBEMUU1RkJCIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6Nzk4QTVEQjE1N0Y0MTFFQ0EyMUVGMTk5MEQxRTVGQkIiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6Nzk4QTVEQjI1N0Y0MTFFQ0EyMUVGMTk5MEQxRTVGQkIiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5eQAiSAAAAQElEQVR42iSHiRGAIBADNw7DHQId2aNFaV2ePJk8G333+ZDyhRWwirwR3qG0wZWwsdnfgyVBzCzPt1vaLOkXYADStQkEeDUPCQAAAABJRU5ErkJggg==";
+      let blueLine =
+        "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAACCAYAAABhYU3QAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTM4IDc5LjE1OTgyNCwgMjAxNi8wOS8xNC0wMTowOTowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTcgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjc0RUE2MUQwNTdGNDExRUNBRThEQTYxODFDMTYyRUMxIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjc0RUE2MUQxNTdGNDExRUNBRThEQTYxODFDMTYyRUMxIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6NzRFQTYxQ0U1N0Y0MTFFQ0FFOERBNjE4MUMxNjJFQzEiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6NzRFQTYxQ0Y1N0Y0MTFFQ0FFOERBNjE4MUMxNjJFQzEiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5h4FpQAAAAKklEQVR42mJk+PD/MAMDgw0DPsDIcIRF990cMIuB4T+KDATAxBgZAQIMAHKfB3JZe6mSAAAAAElFTkSuQmCC";
+      let greenLine =
+        "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAACCAYAAABhYU3QAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTM4IDc5LjE1OTgyNCwgMjAxNi8wOS8xNC0wMTowOTowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTcgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjdDRjUxQjczNTdGNDExRUNBQjlGRjY1MEMwOUJFRUZDIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjdDRjUxQjc0NTdGNDExRUNBQjlGRjY1MEMwOUJFRUZDIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6N0NGNTFCNzE1N0Y0MTFFQ0FCOUZGNjUwQzA5QkVFRkMiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6N0NGNTFCNzI1N0Y0MTFFQ0FCOUZGNjUwQzA5QkVFRkMiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz6nqdVXAAAAO0lEQVR42mLkXsp+mIWVxYaNlY2BnZ2dgZODg4GDgxOKgWygGBsb2xEmBhD4DyIYIfg/lEYBjIwAAQYADTAFQDZMdP4AAAAASUVORK5CYII=";
       //重新绘制
       TreChart.resize();
       TreChart.setOption(
@@ -292,6 +299,28 @@ export default {
               shadowStyle: {
                 color: "rgba(0,0,0,0.1)",
               },
+            },
+            formatter: function (params) {
+              let name = params[0].axisValueLabel + "<br />";
+              let rate0 =
+                "<img class='imgWi' src=" +
+                blueLine +
+                " />已作答试卷份数（份）<b style='margin-left:10px'>" +
+                params[0].data +
+                "</b><br />";
+              let rate1 =
+                "<img class='imgWi' src=" +
+                orangeLine +
+                " />平均得分率（%）<b style='margin-left:41px'>" +
+                params[1].data +
+                "</b><br />";
+              let rate2 =
+                "<img class='imgWi' src=" +
+                greenLine +
+                " />高考预估成绩（分）<b style='margin-left:25px'>" +
+                params[2].data +
+                "</b>";
+              return name + rate0 + rate1 + rate2;
             },
           },
           grid: {
@@ -743,5 +772,11 @@ export default {
   margin-top: 12px;
   padding-right: 30px;
   font-size: 12px;
+}
+</style>
+<style>
+.imgWi {
+  margin-right: 4px;
+  margin-bottom: 3px;
 }
 </style>
