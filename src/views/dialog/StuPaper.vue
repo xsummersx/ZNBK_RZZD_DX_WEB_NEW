@@ -9,61 +9,27 @@
 <template>
 	<div class="bottom-box">
 		<div style="width: 965px; height: 200px">
-			<table
-				class="customTable"
-				style="height: 100%; display: inline-block"
-			>
+			<table class="customTable" style="height: 100%; display: inline-block">
 				<thead>
 					<tr>
-						<th
-							:style="{
-								width:
-									resInfo.QuesList.length > 9
-										? '100px'
-										: 100 / (resInfo.QuesList.length + 1) + '%',
-							}"
-						>
+						<th style="width: 99px">
 							<span>试题</span>
 						</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td
-							class="TDHead"
-							:style="{
-								width:
-									resInfo.QuesList.length > 9
-										? '100px'
-										: 100 / (resInfo.QuesList.length + 1) + '%',
-							}"
-						>
+						<td class="TDHead" style="width: 99px">
 							<span>得分率</span>
 						</td>
 					</tr>
 					<tr>
-						<td
-							class="TDHead"
-							:style="{
-								width:
-									resInfo.QuesList.length > 9
-										? '100px'
-										: 100 / (resInfo.QuesList.length + 1) + '%',
-							}"
-						>
+						<td class="TDHead" style="width: 99px">
 							<span> 班级排名 </span>
 						</td>
 					</tr>
 					<tr>
-						<td
-							class="TDHead"
-							:style="{
-								width:
-									resInfo.QuesList.length > 9
-										? '100px'
-										: 100 / (resInfo.QuesList.length + 1) + '%',
-							}"
-						>
+						<td class="TDHead" style="width: 99px">
 							<span> 年级排名 </span>
 						</td>
 					</tr>
@@ -94,7 +60,7 @@
 									width:
 										resInfo.QuesList.length > 9
 											? '100px'
-											: 100 / (resInfo.QuesList.length + 1) + '%',
+											: 100 / resInfo.QuesList.length + '%',
 								}"
 								v-for="(item, index) in resInfo.QuesList"
 								:key="index"
@@ -121,7 +87,7 @@
 									width:
 										resInfo.QuesList.length > 9
 											? '100px'
-											: 100 / (resInfo.QuesList.length + 1) + '%',
+											: 100 / resInfo.QuesList.length + '%',
 								}"
 								class="ScoreTD ScoreTD2"
 								:class="
@@ -165,7 +131,7 @@
 									width:
 										resInfo.QuesList.length > 9
 											? '100px'
-											: 100 / (resInfo.QuesList.length + 1) + '%',
+											: 100 / resInfo.QuesList.length + '%',
 								}"
 								v-for="(item, index) in resInfo.QuesList"
 								:key="index"
@@ -208,7 +174,7 @@
 									width:
 										resInfo.QuesList.length > 9
 											? '100px'
-											: 100 / (resInfo.QuesList.length + 1) + '%',
+											: 100 / resInfo.QuesList.length + '%',
 								}"
 								v-for="(item, index) in resInfo.QuesList"
 								:key="index"
