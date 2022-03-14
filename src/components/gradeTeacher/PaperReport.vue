@@ -1,7 +1,7 @@
 <!--
  * @Author: 柳欢
  * @Date: 2021-12-10 15:21:45
- * @LastEditTime: 2022-03-02 14:34:20
+ * @LastEditTime: 2022-03-14 14:53:53
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\components\gradeTeacher\PaperReport.vue
@@ -10,11 +10,7 @@
   <div class="schoolReport">
     <ArrowTitle titleStr="学生认知成绩单">
       <div class="rightOption float-r">
-        <div
-          class="exportScore float-r"
-          style="margin-right: 0px"
-          @click="GetScoreReport()"
-        >
+        <div class="exportScore float-r" style="margin-right: 0px" @click="GetScoreReport()">
           <span class="exportIcon"></span>
           导出成绩单
         </div>
@@ -27,20 +23,12 @@
           v-on:keyup.enter="searchStu()"
           v-on:input="SearChange"
         />
-        <span
-          class="searchIcon"
-          style="right: 146px"
-          @click="searchStu()"
-        ></span>
-        <span v-show="SearchText!=''" @click="handleClear()" class="searchIconClear"></span>
+        <span class="searchIcon" style="right: 146px" @click="searchStu()"></span>
+        <span v-show="SearchText != ''" @click="handleClear()" class="searchIconClear"></span>
       </div>
     </ArrowTitle>
 
-    <el-table
-      :empty-text="emptyText"
-      :data="showList"
-      style="width: 100%; height: 330px"
-    >
+    <el-table :empty-text="emptyText" :data="showList" style="width: 100%; height: 330px">
       <el-table-column prop="Index" label="序号" width="80">
         <template slot-scope="scope">
           <span class="gray">
@@ -52,18 +40,14 @@
         <template slot-scope="scope">
           <div>
             <img class="stuPhoto" :src="scope.row.PhotoPath" alt="" />
-            <span class="stuname" :title="scope.row.StuName">{{
-              scope.row.StuName
-            }}</span>
+            <span class="stuname" :title="scope.row.StuName">{{ scope.row.StuName }}</span>
           </div>
         </template>
       </el-table-column>
       <el-table-column prop="PaperCount" label="累计作答试卷" width="70">
         <template slot-scope="scope">
           <span class="blueText">
-            {{
-              scope.row.PaperCount == "--" ? "--" : scope.row.PaperCount + "份"
-            }}
+            {{ scope.row.PaperCount == "--" ? "--" : scope.row.PaperCount + "份" }}
           </span>
         </template>
       </el-table-column>
@@ -88,7 +72,7 @@
       <el-table-column prop="ClassRank" label="班级排名" width="80">
         <template slot-scope="scope">
           <span
-            class="stu-rank"
+            class="stu-rank noRadius"
             :class="
               scope.row.ClassRank == 1
                 ? 'rank1'
@@ -106,7 +90,7 @@
       <el-table-column prop="GradeRank" label="年级排名" width="80">
         <template slot-scope="scope">
           <span
-            class="stu-rank"
+            class="stu-rank noRadius"
             :class="
               scope.row.ClassRank == 1
                 ? 'rank1'
@@ -255,13 +239,7 @@
         <template slot-scope="scope">
           <span
             class="checkDetail"
-            @click="
-              toStudentRZZD(
-                scope.row.StuID,
-                scope.row.StuName,
-                scope.row.CourseClassID
-              )
-            "
+            @click="toStudentRZZD(scope.row.StuID, scope.row.StuName, scope.row.CourseClassID)"
           >
             {{ scope.row.GenreName || scope.row.TypeName }}
           </span>
@@ -370,12 +348,11 @@ export default {
         window.open(res.Data, "_self");
       });
     },
-    handleClear(){
+    handleClear() {
       this.emptyText = "加载中...";
       this.currentPage = 1;
       this.SearchText = "";
       this.GetClassScoreReport_V3();
-
     },
     // 搜索学生
     searchStu() {
@@ -496,19 +473,16 @@ export default {
   cursor: pointer;
   width: 18px;
   height: 18px;
-  background: url("../../assets/img/teacher/查看_默认.png") center center
-    no-repeat;
+  background: url("../../assets/img/teacher/查看_默认.png") center center no-repeat;
 }
-.searchIconClear{
+.searchIconClear {
   right: 166px;
 }
 .checkDetail:hover {
-  background: url("../../assets/img/teacher/查看_悬停.png") center center
-    no-repeat;
+  background: url("../../assets/img/teacher/查看_悬停.png") center center no-repeat;
 }
 .table-loading-block {
-  background: url("../../assets/img/nodata/reportLoad.png") center center
-    no-repeat;
+  background: url("../../assets/img/nodata/reportLoad.png") center center no-repeat;
   padding-top: 235px;
   animation: turn 1s linear infinite;
 }
@@ -530,13 +504,15 @@ export default {
   }
 }
 .table-empty-block {
-  background: url("../../assets/img/nodata/tableNoData.png") center center
-    no-repeat;
+  background: url("../../assets/img/nodata/tableNoData.png") center center no-repeat;
   padding-top: 130px;
 }
 .paginationBox {
   margin: 10px 0 0;
   height: 28px;
+}
+.noRadius {
+  border-radius: 0px;
 }
 </style>
 <style>
