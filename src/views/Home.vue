@@ -26,6 +26,16 @@
               <span
                 class="allProduct"
                 @click="toHome()"
+                :style="
+                  UserInfo.UserType == 8
+                    ? 'width: 220px;'
+                    : UserInfo.UserType == 7
+                    ? 'width: 200px;'
+                    : $store.state.StageNo == 'C'
+                    ? 'none'
+                    : 'none'
+                  
+                "
               >{{
                 UserInfo.UserType == 8
                     ? '教育局认知质量大数据'
