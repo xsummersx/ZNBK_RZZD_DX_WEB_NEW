@@ -34,7 +34,16 @@
                     : 'middleProduct'
                 "
                 @click="toHome()"
-              ></span>
+              >{{
+                UserInfo.UserType == 8
+                    ? '教育局认知质量大数据'
+                    : UserInfo.UserType == 7
+                    ? '学校认知质量大数据'
+                    : $store.state.StageNo == 'C'
+                    ? 'AI高考英语一体化考试辅导平台'
+                    : 'AI中考英语一体化考试辅导平台'
+                }}
+                </span>
               <span
                 v-if="$route.name == 'educationRZZD' || $route.name == 'schoolRZZD'"
                 class="lineIcon"

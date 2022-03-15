@@ -10,18 +10,17 @@
 	<div class="schoolReportBack">
 		<!-- 头部信息 -->
 		<div class="clearfix" style="height: 60px">
-			<div
-				class="productDia float-l"
-				:class="
+			<div class="productDia float-l">
+				{{
 					resInfo2.UserType == 8
-						? 'eduProduct'
+						? "教育局认知质量大数据"
 						: resInfo2.UserType == 7
-						? 'schoolProduct'
-						: resInfo2.stageNo == 'C'
-						? 'productName'
-						: 'productName2'
-				"
-			></div>
+						? "学校认知质量大数据"
+						: resInfo2.StageNo == "C"
+						? "AI高考英语一体化考试辅导平台"
+						: "AI中考英语一体化考试辅导平台"
+				}}
+			</div>
 			<div class="rightInfo float-r">
 				<!-- <div
           class="float-r"
@@ -134,20 +133,29 @@ export default {
 	margin: 0 auto;
 	.productDia {
 		width: 380px;
-		height: 60px;
+		display: inline-block;
+		height: 52px;
+		background: url("../assets/img/head/logo_左上角.png") 0 center no-repeat;
+		background-size: contain;
+		vertical-align: middle;
+		padding-left: 60px;
+		font-family: "Microsoft YaHei";
+		font-weight: bold;
+		font-size: 20px;
+		line-height: 52px;
 	}
-	.productName{
-		background: url("../assets/img/head/产品名_高考.png") 20px center no-repeat;
-	}
-	.productName2 {
-		background: url("../assets/img/head/产品名_中考.png") 20px center no-repeat;
-	}
-	.schoolProduct {
-		background: url("../assets/img/head/schoolProduct.png") -20px center no-repeat;
-	}
-	.eduProduct {
-		background: url("../assets/img/head/eduProduct.png") -20px center no-repeat;
-	}
+	// .productName{
+	// 	background: url("../assets/img/head/产品名_高考.png") 20px center no-repeat;
+	// }
+	// .productName2 {
+	// 	background: url("../assets/img/head/产品名_中考.png") 20px center no-repeat;
+	// }
+	// .schoolProduct {
+	// 	background: url("../assets/img/head/schoolProduct.png") -20px center no-repeat;
+	// }
+	// .eduProduct {
+	// 	background: url("../assets/img/head/eduProduct.png") -20px center no-repeat;
+	// }
 	.rightInfo {
 		line-height: 52px;
 		span {

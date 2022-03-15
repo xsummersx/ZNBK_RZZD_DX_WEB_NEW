@@ -43,24 +43,31 @@
       .schoolProduct,
       .eduProduct {
         display: inline-block;
-        width: 238px;
         height: 52px;
-        background: url("../img/head/schoolProduct.png") -20px center no-repeat;
+        width: 348px;
+        background: url("../img/head/logo_左上角.png") 0 center no-repeat;
+        background-size: contain;
         vertical-align: middle;
         cursor: pointer;
+        padding-left: 60px;
+        font-family: "Microsoft YaHei";
+        font-weight: bold;
+        font-size: 20px;
+        line-height: 52px;
       }
-      .middleProduct {
-        width: 348px;
-        background: url("../img/head/产品名_中考.png") 0 center no-repeat;
-      }
-      .highProduct {
-        width: 348px;
-        background: url("../img/head/产品名_高考.png") 0 center no-repeat;
-      }
-      .eduProduct {
-        width: 258px;
-        background: url("../img/head/eduProduct.png") -20px center no-repeat;
-      }
+      // .middleProduct {
+      //   width: 348px;
+      //   background: url("../img/head/产品名_中考.png") 0 center no-repeat;
+      // }
+      // .highProduct {
+      //   width: 52px;
+      //   background: url("../img/head/logo_左上角.png") 0 center no-repeat;
+      //   background-size: 100% 100%;
+      // }
+      // .eduProduct {
+      //   width: 258px;
+      //   background: url("../img/head/eduProduct.png") -20px center no-repeat;
+      // }
       .lineIcon {
         display: inline-block;
         width: 3px;
