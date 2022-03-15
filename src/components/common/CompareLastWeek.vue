@@ -2,7 +2,8 @@
 	<!-- 较上周 -->
 	<div class="right">
 		<span class="quantity" :class="status === 'up' ? 'up' : 'down'"
-			>{{ comparedData }}<span class="char">分</span></span
+			>{{ comparedData }}<span v-if="type === '1'" class="char">分</span
+			><span v-else class="char">份</span></span
 		>
 		<span class="cLastWeek">较上周</span>
 	</div>
@@ -14,6 +15,11 @@ export default {
 		ChangeScore: {
 			type: Number,
 			default: 1,
+		},
+		type: {
+			//1:分；2:份
+			type: String,
+			default: "1",
 		},
 	},
 	computed: {

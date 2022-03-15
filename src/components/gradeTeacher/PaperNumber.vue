@@ -17,7 +17,7 @@
 				>
 				<span class="totalNum">总量</span>
 			</div>
-			<CompareLastWeek :ChangeScore="info.ChangePaperCount" />
+			<CompareLastWeek :ChangeScore="info.ChangePaperCount" type="2" />
 		</div>
 		<Top2
 			v-show="!loading"
@@ -202,7 +202,8 @@ export default {
 		align-items: center;
 		width: 128px;
 		height: 122px;
-		background: url(~@/assets/img/teacher/总量表达_iSpt.png) center center no-repeat;
+		background: url(~@/assets/img/teacher/总量表达_iSpt.png) center center
+			no-repeat;
 		.number {
 			font-size: 32px;
 			font-family: Oswald;
