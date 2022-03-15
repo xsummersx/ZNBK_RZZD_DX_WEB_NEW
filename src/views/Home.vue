@@ -125,7 +125,7 @@
                           v-for="(item, i) in resInfo.SwitchInfoList"
                           :key="i"
                         >
-                          <span>{{ item.Name }}</span>
+                          <span style="vertical-align: unset">{{ item.Name }}</span>
                         </li>
                       </vuescroll>
                     </ul>
