@@ -38,10 +38,7 @@
           color: #ffd100;
         }
       }
-      .highProduct,
-      .middleProduct,
-      .schoolProduct,
-      .eduProduct {
+      .allProduct{
         display: inline-block;
         height: 52px;
         width: 348px;
@@ -55,6 +52,23 @@
         font-size: 20px;
         line-height: 52px;
       }
+      // .highProduct,
+      // .middleProduct,
+      // .schoolProduct,
+      // .eduProduct {
+      //   display: inline-block;
+      //   height: 52px;
+      //   width: 348px;
+      //   background: url("../img/head/logo_左上角.png") 0 center no-repeat;
+      //   background-size: contain;
+      //   vertical-align: middle;
+      //   cursor: pointer;
+      //   padding-left: 60px;
+      //   font-family: "Microsoft YaHei";
+      //   font-weight: bold;
+      //   font-size: 20px;
+      //   line-height: 52px;
+      // }
       // .middleProduct {
       //   width: 348px;
       //   background: url("../img/head/产品名_中考.png") 0 center no-repeat;

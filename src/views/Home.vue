@@ -24,15 +24,7 @@
           <div class="float-l leftHead">
             <div>
               <span
-                :class="
-                  UserInfo.UserType == 8
-                    ? 'eduProduct'
-                    : UserInfo.UserType == 7
-                    ? 'schoolProduct'
-                    : $store.state.StageNo == 'C'
-                    ? 'highProduct'
-                    : 'middleProduct'
-                "
+                class="allProduct"
                 @click="toHome()"
               >{{
                 UserInfo.UserType == 8
