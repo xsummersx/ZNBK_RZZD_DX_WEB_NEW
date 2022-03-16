@@ -1,13 +1,15 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-04 10:06:33
- * @LastEditTime: 2022-03-14 11:31:37
+ * @LastEditTime: 2022-03-16 16:34:29
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\components\eduSchool\MapBack.vue
 -->
 <template>
   <div class="Box">
+    <!-- 无数据占位图 -->
+
     <div class="mapBack" v-show="mapImage">
       <img :src="mapImage" class="backImg" />
     </div>
@@ -58,6 +60,7 @@
         </div>
       </div>
     </div>
+    <div class="noData" v-show="!mapImage">暂无地图资源</div>
   </div>
 </template>
 <script>
@@ -110,7 +113,8 @@ export default {
       timer: undefined, //定时器
       activeIndex: 0,
       schoolList: [],
-      mapImage: "",
+      mapImage: "img",
+      lowShow: false, //坐标信息延迟显示
     };
   },
   mounted() {
@@ -169,6 +173,24 @@ export default {
   },
 };
 </script>
+<style scoped>
+.noData {
+  position: absolute;
+  left: 370px;
+  top: 250px;
+  width: 176px;
+  height: 160px;
+  margin: 0 auto;
+  opacity: 0.6;
+  z-index: 5;
+  padding-top: 130px;
+  background: url(~@/assets/img/eduSchool/mapNoData.png) no-repeat top center;
+
+  color: #fff;
+  font-size: 12px;
+  text-align: center;
+}
+</style>
 <style>
 .Box {
   width: 940px;
@@ -449,5 +471,32 @@ export default {
   text-align: right;
   width: 75px;
   float: left;
+}
+
+.pointBox {
+  opacity: 0;
+  animation: showInit 2s ease-in;
+  -ms-animation: showInit 2s ease-in; /* IE 9 */
+  -moz-animation: showInit 2s ease-in; /* Firefox */
+  -webkit-animation: showInit 2s ease-in; /* Safari 和 Chrome */
+  -o-animation: showInit 2s ease-in; /* Opera */
+  animation-delay: 3s;
+  -ms-animation-delay: 3s;
+  -moz-animation-delay: 3s;
+  -webkit-animation-delay: 3s;
+  -o-animation-delay: 3s;
+  animation-fill-mode: forwards;
+  -ms-animation-fill-mode: forwards;
+  -moz-animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
+  -o-animation-fill-mode: forwards;
+}
+@keyframes showInit {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 </style>
