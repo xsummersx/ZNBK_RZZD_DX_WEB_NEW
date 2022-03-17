@@ -30,7 +30,7 @@
             border-right: solid 1px rgba(225, 225, 225, 0.2);
           "
         >
-          <tr v-for="(item, index) in showList" :key="index" style="height: 48px; border-top: 0">
+          <tr v-for="(item, index) in showList" :key="index" style="height: 48px; border-top: 0; line-height: 46px;">
             <td>
               {{ $route.name == "gradeRZZD" ? item.CourseClassName : item.StuName }}
             </td>
