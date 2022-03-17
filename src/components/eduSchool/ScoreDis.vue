@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:30:34
- * @LastEditTime: 2022-03-14 16:00:23
+ * @LastEditTime: 2022-03-16 16:25:55
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教育局、学校校长=》认知成绩分布
@@ -54,141 +54,171 @@
       <div class="Cline"></div>
       <div class="Dline"></div>
       <div class="Eline"></div>
-      <div
-        class="Acont"
-        @click="DisClick('A', List[0].LevelCount)"
-        :class="{ classPoint: $route.name == 'educationRZZD' || $route.name == 'schoolRZZD' }"
-        :title="
+      <el-tooltip
+        class="item"
+        effect="dark"
+        :content="
           '认知平均分区间：' + List[0].DistreIndex + '\n对应预估成绩区间：' + List[0].DistreScore
         "
+        placement="top-start"
       >
-        <span class="Text">
-          <span class="TextDeng Acolor">A<sup>+</sup></span>
-          <span class="Acolor">
-            <b class="big">{{ List[0].LevelCount }}</b
-            >{{ getText }}</span
-          >
-        </span>
-        <span class="Text">
-          <span class="norColor"
-            >占比<b class="big">{{ List[0].LevelRation | toPercent(2) }}</b
-            >%,</span
-          >
-          <span class="Acolor">
-            <span v-if="List[0].TrastRation >= 0">↑</span>
-            <span v-if="List[0].TrastRation < 0">↓</span>
-            {{ List[0].TrastRation | toPercent(0) }}%
+        <div
+          class="Acont"
+          @click="DisClick('A', List[0].LevelCount)"
+          :class="{ classPoint: $route.name == 'educationRZZD' || $route.name == 'schoolRZZD' }"
+        >
+          <span class="Text">
+            <span class="TextDeng Acolor">A<sup>+</sup></span>
+            <span class="Acolor">
+              <b class="big">{{ List[0].LevelCount }}</b
+              >{{ getText }}</span
+            >
           </span>
-        </span>
-      </div>
-      <div
-        class="Bcont"
-        @click="DisClick('B', List[1].LevelCount)"
-        :class="{ classPoint: $route.name == 'educationRZZD' || $route.name == 'schoolRZZD' }"
-        :title="
+          <span class="Text">
+            <span class="norColor"
+              >占比<b class="big">{{ List[0].LevelRation | toPercent(2) }}</b
+              >%,</span
+            >
+            <span class="Acolor">
+              <span v-if="List[0].TrastRation >= 0">↑</span>
+              <span v-if="List[0].TrastRation < 0">↓</span>
+              {{ List[0].TrastRation | toPercent(0) }}%
+            </span>
+          </span>
+        </div>
+      </el-tooltip>
+      <el-tooltip
+        class="item"
+        effect="dark"
+        :content="
           '认知平均分区间：' + List[1].DistreIndex + '\n对应预估成绩区间：' + List[1].DistreScore
         "
+        placement="top-start"
       >
-        <span class="Text">
-          <span class="TextDeng Bcolor">B<sup>+</sup></span>
-          <span class="Bcolor">
-            <b class="big">{{ List[1].LevelCount }}</b
-            >{{ getText }}</span
-          >
-        </span>
-        <span class="Text">
-          <span class="norColor"
-            >占比<b class="big">{{ List[1].LevelRation | toPercent(2) }}</b
-            >%,</span
-          >
-          <span class="Bcolor">
-            <span v-if="List[1].TrastRation >= 0">↑</span>
-            <span v-if="List[1].TrastRation < 0">↓</span>
-            {{ List[1].TrastRation | toPercent(0) }}%
+        <div
+          class="Bcont"
+          @click="DisClick('B', List[1].LevelCount)"
+          :class="{ classPoint: $route.name == 'educationRZZD' || $route.name == 'schoolRZZD' }"
+        >
+          <span class="Text">
+            <span class="TextDeng Bcolor">B<sup>+</sup></span>
+            <span class="Bcolor">
+              <b class="big">{{ List[1].LevelCount }}</b
+              >{{ getText }}</span
+            >
           </span>
-        </span>
-      </div>
-      <div
-        class="Ccont"
-        @click="DisClick('C', List[2].LevelCount)"
-        :class="{ classPoint: $route.name == 'educationRZZD' || $route.name == 'schoolRZZD' }"
-        :title="
+          <span class="Text">
+            <span class="norColor"
+              >占比<b class="big">{{ List[1].LevelRation | toPercent(2) }}</b
+              >%,</span
+            >
+            <span class="Bcolor">
+              <span v-if="List[1].TrastRation >= 0">↑</span>
+              <span v-if="List[1].TrastRation < 0">↓</span>
+              {{ List[1].TrastRation | toPercent(0) }}%
+            </span>
+          </span>
+        </div>
+      </el-tooltip>
+      <el-tooltip
+        class="item"
+        effect="dark"
+        :content="
           '认知平均分区间：' + List[2].DistreIndex + '\n对应预估成绩区间：' + List[2].DistreScore
         "
+        placement="top-start"
       >
-        <span class="Text">
-          <span class="TextDeng Ccolor">C<sup>+</sup></span>
-          <span class="Ccolor">
-            <b class="big">{{ List[2].LevelCount }}</b
-            >{{ getText }}</span
-          >
-        </span>
-        <span class="Text">
-          <span class="norColor"
-            >占比<b class="big">{{ List[2].LevelRation | toPercent(2) }}</b
-            >%,</span
-          >
-          <span class="Ccolor">
-            <span v-if="List[2].TrastRation >= 0">↑</span>
-            <span v-if="List[2].TrastRation < 0">↓</span>
-            {{ List[2].TrastRation | toPercent(0) }}%
+        <div
+          class="Ccont"
+          @click="DisClick('C', List[2].LevelCount)"
+          :class="{ classPoint: $route.name == 'educationRZZD' || $route.name == 'schoolRZZD' }"
+        >
+          <span class="Text">
+            <span class="TextDeng Ccolor">C<sup>+</sup></span>
+            <span class="Ccolor">
+              <b class="big">{{ List[2].LevelCount }}</b
+              >{{ getText }}</span
+            >
           </span>
-        </span>
-      </div>
-      <div
-        class="Dcont"
-        @click="DisClick('D', List[3].LevelCount)"
-        :class="{ classPoint: $route.name == 'educationRZZD' || $route.name == 'schoolRZZD' }"
-        :title="
+          <span class="Text">
+            <span class="norColor"
+              >占比<b class="big">{{ List[2].LevelRation | toPercent(2) }}</b
+              >%,</span
+            >
+            <span class="Ccolor">
+              <span v-if="List[2].TrastRation >= 0">↑</span>
+              <span v-if="List[2].TrastRation < 0">↓</span>
+              {{ List[2].TrastRation | toPercent(0) }}%
+            </span>
+          </span>
+        </div>
+      </el-tooltip>
+      <el-tooltip
+        class="item"
+        effect="dark"
+        :content="
           '认知平均分区间：' + List[3].DistreIndex + '\n对应预估成绩区间：' + List[3].DistreScore
         "
+        placement="top-start"
       >
-        <span class="Text">
-          <span class="TextDeng Dcolor">D<sup>+</sup></span>
-          <span class="Dcolor">
-            <b class="big">{{ List[3].LevelCount }}</b
-            >{{ getText }}</span
-          >
-        </span>
-        <span class="Text">
-          <span class="norColor"
-            >占比<b class="big">{{ List[3].LevelRation | toPercent(2) }}</b
-            >%,</span
-          >
-          <span class="Dcolor">
-            <span v-if="List[3].TrastRation >= 0">↑</span>
-            <span v-if="List[3].TrastRation < 0">↓</span>
-            {{ List[3].TrastRation | toPercent(0) }}%
+        <div
+          class="Dcont"
+          @click="DisClick('D', List[3].LevelCount)"
+          :class="{ classPoint: $route.name == 'educationRZZD' || $route.name == 'schoolRZZD' }"
+        >
+          <span class="Text">
+            <span class="TextDeng Dcolor">D<sup>+</sup></span>
+            <span class="Dcolor">
+              <b class="big">{{ List[3].LevelCount }}</b
+              >{{ getText }}</span
+            >
           </span>
-        </span>
-      </div>
-      <div
-        class="Econt"
-        @click="DisClick('E', List[4].LevelCount)"
-        :class="{ classPoint: $route.name == 'educationRZZD' || $route.name == 'schoolRZZD' }"
-        :title="
+          <span class="Text">
+            <span class="norColor"
+              >占比<b class="big">{{ List[3].LevelRation | toPercent(2) }}</b
+              >%,</span
+            >
+            <span class="Dcolor">
+              <span v-if="List[3].TrastRation >= 0">↑</span>
+              <span v-if="List[3].TrastRation < 0">↓</span>
+              {{ List[3].TrastRation | toPercent(0) }}%
+            </span>
+          </span>
+        </div>
+      </el-tooltip>
+      <el-tooltip
+        class="item"
+        effect="dark"
+        :content="
           '认知平均分区间：' + List[4].DistreIndex + '\n对应预估成绩区间：' + List[4].DistreScore
         "
+        placement="top-start"
       >
-        <span class="Text">
-          <span class="TextDeng Ecolor">E<sup>+</sup></span>
-          <span class="Ecolor">
-            <b class="big">{{ List[4].LevelCount }}</b
-            >{{ getText }}</span
-          >
-        </span>
-        <span class="Text">
-          <span class="norColor"
-            >占比<b class="big">{{ List[4].LevelRation | toPercent(2) }}</b
-            >%,</span
-          >
-          <span class="Ecolor">
-            <span v-if="List[4].TrastRation >= 0">↑</span>
-            <span v-if="List[4].TrastRation < 0">↓</span>
-            {{ List[4].TrastRation | toPercent(0) }}%
+        <div
+          class="Econt"
+          @click="DisClick('E', List[4].LevelCount)"
+          :class="{ classPoint: $route.name == 'educationRZZD' || $route.name == 'schoolRZZD' }"
+        >
+          <span class="Text">
+            <span class="TextDeng Ecolor">E<sup>+</sup></span>
+            <span class="Ecolor">
+              <b class="big">{{ List[4].LevelCount }}</b
+              >{{ getText }}</span
+            >
           </span>
-        </span>
-      </div>
+          <span class="Text">
+            <span class="norColor"
+              >占比<b class="big">{{ List[4].LevelRation | toPercent(2) }}</b
+              >%,</span
+            >
+            <span class="Ecolor">
+              <span v-if="List[4].TrastRation >= 0">↑</span>
+              <span v-if="List[4].TrastRation < 0">↓</span>
+              {{ List[4].TrastRation | toPercent(0) }}%
+            </span>
+          </span>
+        </div>
+      </el-tooltip>
     </div>
     <EduNoData v-if="false" noDataType="1" style="margin-top: 120px"></EduNoData>
     <Loading v-show="loading" style="margin-top: 50px"></Loading>
@@ -538,5 +568,18 @@ export default {
       opacity: 0.8;
     }
   }
+  .classPoint:hover::after {
+    line-height: 80px;
+  }
+}
+.explain {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background: url(~@/assets/img/eduSchool/explain.png) center center no-repeat;
+  position: absolute;
+  right: -14px;
+  opacity: 0.7;
+  top: 8px;
 }
 </style>

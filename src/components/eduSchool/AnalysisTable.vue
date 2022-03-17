@@ -1,7 +1,7 @@
 <!--
  * @Author: 吴涛
  * @Date: 2021-11-30 14:29:29
- * @LastEditTime: 2022-03-14 15:49:37
+ * @LastEditTime: 2022-03-16 16:46:38
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 学校校长=》认知情况详情，图1
@@ -615,15 +615,15 @@ export default {
   .searchIcon {
     left: 215px;
   }
-  .stuInput::-webkit-input-placeholder {
-    color: #6994f0;
-  }
+  // .stuInput::-webkit-input-placeholder {
+  //   color: #6994f0;
+  // }
 }
-.inputBox:hover {
-  .stuInput::-webkit-input-placeholder {
-    color: #fff;
-  }
-}
+// .inputBox:hover {
+//   .stuInput::-webkit-input-placeholder {
+//     color: #fff;
+//   }
+// }
 .btnline {
   width: 1px;
   height: 19px;

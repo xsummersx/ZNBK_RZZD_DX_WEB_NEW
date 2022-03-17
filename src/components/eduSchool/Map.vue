@@ -13,10 +13,6 @@
       alt=""
     /> -->
     <div v-show="showData" style="z-index: 5; position: absolute">
-      <!-- 无数据占位图 -->
-      <div class="noData" v-show="IsHaveSchool == false || IsHaveMap == false">
-        {{ noDataText0 }}
-      </div>
       <!-- 地图 -->
       <!-- <div
         id="mapID"
@@ -126,21 +122,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.noData {
-  position: absolute;
-  left: 370px;
-  top: 250px;
-  width: 176px;
-  height: 160px;
-  margin: 0 auto;
-  z-index: 100;
-  padding-top: 130px;
-  background: url(~@/assets/img/eduSchool/mapNoData.png) no-repeat top center;
-
-  color: #fff;
-  font-size: 12px;
-  text-align: center;
-}
 .map {
   width: 940px;
   height: 636px;

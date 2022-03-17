@@ -1,7 +1,7 @@
 <!--
  * @Author: 主页面
  * @Date: 2021-11-29 09:20:26
- * @LastEditTime: 2022-03-15 09:38:43
+ * @LastEditTime: 2022-03-16 16:45:06
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 主页面，柳欢
@@ -34,18 +34,17 @@
                     : $store.state.StageNo == 'C'
                     ? 'none'
                     : 'none'
-                  
                 "
-              >{{
-                UserInfo.UserType == 8
-                    ? '教育局认知质量大数据'
+                >{{
+                  UserInfo.UserType == 8
+                    ? "教育局认知质量大数据"
                     : UserInfo.UserType == 7
-                    ? '学校认知质量大数据'
-                    : $store.state.StageNo == 'C'
-                    ? 'AI高考英语一体化考试辅导平台'
-                    : 'AI中考英语一体化考试辅导平台'
+                    ? "学校认知质量大数据"
+                    : $store.state.StageNo == "C"
+                    ? "AI高考英语一体化考试辅导平台"
+                    : "AI中考英语一体化考试辅导平台"
                 }}
-                </span>
+              </span>
               <span
                 v-if="$route.name == 'educationRZZD' || $route.name == 'schoolRZZD'"
                 class="lineIcon"
@@ -152,7 +151,12 @@
             <div class="ZsdAreaBox"><i></i>最佳分辨率 1920 * 1080; 按F11键可全屏</div>
           </div>
         </div>
-        <div class="contentBack"></div>
+        <div
+          class="contentBack"
+          :class="{
+            AnimationTop: $route.name == 'educationRZZD' || $route.name == 'schoolRZZD',
+          }"
+        ></div>
         <router-view v-if="openView"></router-view>
       </div>
       <div

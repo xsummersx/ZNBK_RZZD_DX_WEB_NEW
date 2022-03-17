@@ -1,7 +1,7 @@
 <!--
  * @Author: 柳欢
  * @Date: 2021-11-30 14:58:43
- * @LastEditTime: 2022-02-09 15:38:56
+ * @LastEditTime: 2022-03-16 17:00:45
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 年级组长，学习特点
@@ -11,15 +11,11 @@
     <div class="box-title clearfix">
       <span class="float-l title">学习特点对比分析</span>
       <span class="float-r title-text"
-        >年级平均知识掌握速度：<span class="greenText">{{
-          resInfo.GradeAvgSpeed
-        }}</span></span
+        >年级平均知识掌握速度：<span class="greenText">{{ resInfo.GradeAvgSpeed }}</span></span
       >
       <span class="float-r lineIcon"></span>
       <span class="float-r title-text"
-        >年级平均学习时长：<span class="greenText"
-          >{{ resInfo.GradeAvgTime }}h</span
-        ></span
+        >年级平均学习时长：<span class="greenText">{{ resInfo.GradeAvgTime }}h</span></span
       >
     </div>
     <div id="learnCharts"></div>
@@ -72,6 +68,20 @@ export default {
         xAxis: {
           data: xData,
         },
+        tooltip: {
+          formatter: function (params) {
+            let name = params[0].axisValueLabel + "<br />";
+            let rate0 =
+              "<div class='lineBlue'></div>学习时长<b style='margin-left:40px'>" +
+              params[0].data +
+              "</b><br />";
+            let rate1 =
+              "<div class='lineYellow'></div>知识掌握速度<b style='margin-left:12px'>" +
+              params[1].data +
+              "</b><br />";
+            return name + rate0 + rate1;
+          },
+        },
         dataZoom: [
           {
             type: "inside",
@@ -119,5 +129,25 @@ export default {
   height: 20px;
   background: url("../../assets/img/head/lineIcon.png") center center no-repeat;
   vertical-align: middle;
+}
+</style>
+<style>
+.lineBlue {
+  float: left;
+  width: 12px;
+  height: 3px;
+  margin-right: 4px;
+  margin-top: 10px;
+  background-color: #37eed6;
+  border-radius: 4px;
+}
+.lineYellow {
+  float: left;
+  width: 12px;
+  height: 3px;
+  margin-right: 4px;
+  margin-top: 10px;
+  background-color: #e4e23e;
+  border-radius: 3px;
 }
 </style>

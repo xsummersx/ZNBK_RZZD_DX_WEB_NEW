@@ -1,7 +1,7 @@
 <!--
  * @Author: 柳欢
  * @Date: 2021-11-30 14:58:43
- * @LastEditTime: 2022-02-11 09:03:12
+ * @LastEditTime: 2022-03-16 15:56:56
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 教师，学习特点
@@ -17,9 +17,7 @@
           <span>平均学习时长</span>
           <br />
           <span class="count">
-            <span class="number">{{
-              resInfo.ClassStudyTimes.GradeAvgStudyTimes.toFixed(2)
-            }}</span
+            <span class="number">{{ resInfo.ClassStudyTimes.GradeAvgStudyTimes.toFixed(2) }}</span
             >h</span
           >
         </div>
@@ -298,7 +296,7 @@ export default {
           false,
           false,
           k,
-          series[i].pieData.value
+          series[i].pieData.value,
         );
 
         startValue = endValue;
@@ -316,6 +314,7 @@ export default {
       if (internalDiameterRatio == 0) {
         option = {
           tooltip: {
+            borderColor: "#fff",
             trigger: "item",
             formatter: (params) => {
               if (params.seriesName !== "mouseoutSeries") {
@@ -358,6 +357,7 @@ export default {
       } else {
         option = {
           tooltip: {
+            borderColor: "#fff",
             formatter: (params) => {
               if (params.seriesName !== "mouseoutSeries") {
                 return `${
@@ -534,12 +534,10 @@ export default {
     height: 180px;
     line-height: 292px;
     text-align: center;
-    background: url("../../assets/img/nodata/暂无学习时长分布数据.png") center 40px
-      no-repeat;
+    background: url("../../assets/img/nodata/暂无学习时长分布数据.png") center 40px no-repeat;
   }
   .noData2 {
-    background: url("../../assets/img/nodata/暂无知识掌握速度数据.png") center 40px
-      no-repeat;
+    background: url("../../assets/img/nodata/暂无知识掌握速度数据.png") center 40px no-repeat;
   }
 }
 .graImg {
