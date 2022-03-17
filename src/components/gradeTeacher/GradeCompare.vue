@@ -178,7 +178,7 @@ export default {
             },
           },
           formatter: function (params) {
-            console.log(params);
+            // console.log(params);
             let name = params[0].axisValueLabel + "<br />";
             let zhu0 =
               "<img class='imgWi' src=" +

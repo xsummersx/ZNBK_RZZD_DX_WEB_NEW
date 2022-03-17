@@ -87,54 +87,84 @@
 					导出试卷对比分析
 				</div>
 			</div>
-			<div class="table" v-if="showTable">
-				<table>
-					<thead>
-						<tr>
-							<th>序号</th>
-							<th>试卷名称</th>
-							<th>总分</th>
-							<th>年级平均得分</th>
-							<th v-for="item in SubjectiveQTypeList" :key="item.QTypeName">
-								{{ item.QTypeName }}
-							</th>
-							<th v-for="item in ObjectiveQTypeList" :key="item.QTypeName">
-								{{ item.QTypeName }}
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr v-for="item in SelectedPaperList" :key="item.PaperID">
-							<td>{{ item.Index }}</td>
-							<td>{{ item.PaperName }}</td>
-							<td>{{ item.PaperFullScore }}</td>
-							<td>{{ item.PaperAvgScore.toFixed() }}</td>
-							<td
-								v-for="item2 in item.SubjectiveQTypeList"
-								:key="item2.QTypeName"
-							>
-								{{
-									item2.QTypeAvgScore == "/"
-										? "/"
-										: Number(item2.QTypeAvgScore).toFixed(2)
-								}}
-							</td>
-							<td
-								v-for="item2 in item.ObjectiveQTypeList"
-								:key="item2.QTypeName"
-							>
-                <!-- {{
+			<div
+				class="table"
+				:style="{ height: getHeight(SelectedPaperList.length) }"
+				v-if="showTable"
+			>
+				<div
+					class="ttable"
+					style="display: inline-block; border: 0; vertical-align: top"
+				>
+					<table>
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>试卷名称</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="item in SelectedPaperList" :key="item.PaperID">
+								<td>{{ item.Index }}</td>
+								<td>
+									<div :title="item.PaperName">{{ item.PaperName }}</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<vuescroll
+					:ops="ops"
+					style="width: calc(100% - 331px); display: inline-block; height: 100%"
+				>
+					<table class="scrollTable">
+						<thead>
+							<tr>
+								<!-- <th>序号</th>
+							<th>试卷名称</th> -->
+								<th>总分</th>
+								<th>年级平均得分</th>
+								<th v-for="item in SubjectiveQTypeList" :key="item.QTypeName">
+									{{ item.QTypeName }}
+								</th>
+								<th v-for="item in ObjectiveQTypeList" :key="item.QTypeName">
+									{{ item.QTypeName }}
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="item in SelectedPaperList" :key="item.PaperID">
+								<!-- <td>{{ item.Index }}</td>
+							<td>{{ item.PaperName }}</td> -->
+								<td>{{ item.PaperFullScore }}</td>
+								<td>{{ item.PaperAvgScore.toFixed() }}</td>
+								<td
+									v-for="item2 in item.SubjectiveQTypeList"
+									:key="item2.QTypeName"
+								>
+									{{
+										item2.QTypeAvgScore == "/"
+											? "/"
+											: Number(item2.QTypeAvgScore).toFixed(2)
+									}}
+								</td>
+								<td
+									v-for="item2 in item.ObjectiveQTypeList"
+									:key="item2.QTypeName"
+								>
+									<!-- {{
 									item2.QTypeAvgScore 
 								}} -->
-								{{
-									item2.QTypeAvgScore == "/"
-										? "/"
-										: Number(item2.QTypeAvgScore).toFixed(2)
-								}}
-							</td>
-						</tr>
-					</tbody>
-				</table>
+									{{
+										item2.QTypeAvgScore == "/"
+											? "/"
+											: Number(item2.QTypeAvgScore).toFixed(2)
+									}}
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</vuescroll>
 			</div>
 
 			<div class="paginationBox" style="margin-top: 20px" v-if="allCount > 5">
@@ -156,6 +186,7 @@
 <script>
 import { GetGradeReleasedPaperList_V3 } from "@/api/diolog/historyDiolog";
 import { useDebounce } from "@/utils/debounce.js";
+import vuescroll from "vuescroll";
 export default {
 	data() {
 		return {
@@ -180,10 +211,23 @@ export default {
 			ObjectiveQTypeList: [],
 			SubjectiveQTypeList: [],
 			showClear: false,
+			ops: {
+				rail: {
+					background: "#98c8ff",
+					opacity: 0.5,
+				},
+				bar: {
+					keepShow: true,
+					background: "#98c8ff",
+				},
+			},
 		};
 	},
 	mounted() {
 		this.GetGradeReleasedPaperList_V3(-1, -1);
+	},
+	components: {
+		vuescroll,
 	},
 	watch: {
 		PaperSearchText: function () {
@@ -200,6 +244,20 @@ export default {
 		},
 	},
 	methods: {
+		getHeight(n) {
+			switch (n) {
+				case 1:
+					return "119px";
+				case 2:
+					return "168px";
+				case 3:
+					return "217px";
+				case 4:
+					return "266px";
+				default:
+					return "315px";
+			}
+		},
 		// 获取年级历次已发布试卷
 		GetGradeReleasedPaperList_V3(PaperNum, PageSize) {
 			let params = {
@@ -515,8 +573,27 @@ export default {
 	}
 }
 .table {
-	overflow-x: scroll;
+	// display: inline-block;
+	// overflow-x: scroll;
 	margin-top: 10px;
+	// width: calc(100% - 331px);
+	.scrollTable {
+		th:nth-child(1) {
+			width: 80px;
+		}
+		th:nth-child(2) {
+			width: 100px;
+		}
+		td:nth-child(3) {
+			border-left: solid 1px rgba(255, 255, 255, 0.1);
+		}
+		td:nth-child(1) {
+			color: #51f0ff;
+		}
+		td:nth-child(2) {
+			color: #fff600;
+		}
+	}
 	table {
 		border-collapse: collapse;
 		border: solid 1px rgba(255, 255, 255, 0.2);
@@ -539,41 +616,73 @@ export default {
 			background-color: rgba(126, 172, 255, 0.2);
 			border: solid 1px rgba(255, 255, 255, 0.1);
 		}
-		th:nth-child(1) {
-			width: 90px;
-		}
-		th:nth-child(2) {
-			width: 130px;
-		}
-		th:nth-child(3) {
-			width: 80px;
-		}
-		th:nth-child(4) {
-			width: 100px;
-		}
-		td:nth-child(5) {
-			border-left: solid 1px rgba(255, 255, 255, 0.1);
-		}
+		// th:nth-child(1) {
+		// 	width: 90px;
+		// }
+		// th:nth-child(2) {
+		// 	width: 130px;
+		// }
+		// th:nth-child(3) {
+		// 	width: 80px;
+		// }
+		// th:nth-child(4) {
+		// 	width: 100px;
+		// }
+		// td:nth-child(5) {
+		// 	border-left: solid 1px rgba(255, 255, 255, 0.1);
+		// }
 
 		td {
 			width: 100px;
 			color: rgba(255, 255, 255, 0.6);
 		}
-		td:nth-child(1) {
-			color: rgba(255, 255, 255, 0.6);
-		}
-		td:nth-child(2) {
-			color: rgba(255, 255, 255, 1);
+		// td:nth-child(1) {
+		// 	color: rgba(255, 255, 255, 0.6);
+		// }
+		// td:nth-child(2) {
+		// 	color: rgba(255, 255, 255, 1);
+		// 	overflow: hidden;
+		// 	white-space: nowrap;
+		// 	text-overflow: ellipsis;
+		// }
+		// td:nth-child(3) {
+		// 	color: #51f0ff;
+		// }
+		// td:nth-child(4) {
+		// 	color: #fff600;
+		// }
+	}
+}
+.ttable {
+	// display: inline-block;
+	// width: 230px;
+	td {
+		width: 100px;
+		color: rgba(255, 255, 255, 0.6);
+		div {
+			width: 200px;
+			padding-left: 10px;
+			padding-right: 10px;
 			overflow: hidden;
 			white-space: nowrap;
 			text-overflow: ellipsis;
 		}
-		td:nth-child(3) {
-			color: #51f0ff;
-		}
-		td:nth-child(4) {
-			color: #fff600;
-		}
+	}
+	th:nth-child(1) {
+		width: 90px;
+	}
+	th:nth-child(2) {
+		width: 130px;
+	}
+	td:nth-child(1) {
+		color: rgba(255, 255, 255, 0.6);
+	}
+	td:nth-child(2) {
+		color: rgba(255, 255, 255, 1);
+		// height: 49px !important;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
 	}
 }
 </style>

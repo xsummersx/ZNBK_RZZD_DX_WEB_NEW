@@ -170,6 +170,9 @@
     cursor: pointer;
     z-index: 100;
     position: relative;
+    &:hover{
+      color: #00bbff;
+    }
   }
   .active-timeItem {
     position: relative;
@@ -228,6 +231,10 @@
     cursor: pointer;
     color: #0078ff;
     font-size: 16px;
+    &:hover{
+      // opacity: 0.8;
+      background: url("../../assets/img/teacher/试卷_选中.png") center center no-repeat;
+    }
   }
   .active-paperItem {
     background: url("../../assets/img/teacher/试卷_选中.png") center center no-repeat;

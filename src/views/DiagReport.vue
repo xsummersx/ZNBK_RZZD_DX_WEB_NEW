@@ -16,7 +16,7 @@
 						? "教育局认知质量大数据"
 						: resInfo2.UserType == 7
 						? "学校认知质量大数据"
-						: resInfo2.StageNo == "C"
+						: $route.query.stageNo == "C"
 						? "AI高考英语一体化考试辅导平台"
 						: "AI中考英语一体化考试辅导平台"
 				}}
@@ -143,6 +143,7 @@ export default {
 		font-weight: bold;
 		font-size: 20px;
 		line-height: 52px;
+		margin-left: 20px;
 	}
 	// .productName{
 	// 	background: url("../assets/img/head/产品名_高考.png") 20px center no-repeat;

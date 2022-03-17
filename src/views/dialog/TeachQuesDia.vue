@@ -31,7 +31,7 @@
 				导出试卷题型得分分析
 			</div>
 		</div>
-		<div class="table">
+		<div class="table" :style="{ height: getHeight(showList.length) }">
 			<table
 				class="ttable"
 				style="display: inline-block; border: 0; vertical-align: top"
@@ -164,6 +164,20 @@ export default {
 		this.GetClassPaperQTypeReport_V3();
 	},
 	methods: {
+		getHeight(n) {
+			switch (n) {
+				case 1:
+					return "136px";
+				case 2:
+					return "184px";
+				case 3:
+					return "232px";
+				case 4:
+					return "280px";
+				default:
+					return "328px";
+			}
+		},
 		chooseType(i) {
 			this.SortType = i;
 			this.currentPage = 1;

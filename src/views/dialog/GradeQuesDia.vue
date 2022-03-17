@@ -14,7 +14,7 @@
         导出{{ $route.name == "gradeRZZD" ? "班级" : "学生" }}做题特点对比分析
       </div>
     </div>
-    <div class="table">
+    <div class="table" :style="{ height: getHeight(showList.length) }">
       <table class="ttable" style="border: 0; vertical-align: top">
         <thead style="height: 61px">
           <tr>
@@ -42,8 +42,8 @@
         class="v-scroll"
         style="display: inline-block; width: calc(100% - 104px)"
       >
-        <table>
-          <thead>
+        <table style="border-left: 0;">
+          <thead >
             <tr>
               <!-- <th class="firstTH">
                 {{ $route.name == "gradeRZZD" ? "班级" : "学生" }}
@@ -137,6 +137,20 @@ export default {
     }
   },
   methods: {
+    getHeight(n) {
+			switch (n) {
+				case 1:
+					return "136px";
+				case 2:
+					return "184px";
+				case 3:
+					return "232px";
+				case 4:
+					return "280px";
+				default:
+					return "328px";
+			}
+		},
     //需要传值的计算
     calcWidth(listNum) {
       if (listNum == 1) {

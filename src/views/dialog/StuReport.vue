@@ -14,7 +14,11 @@
 				导出学生成绩单
 			</div>
 		</div>
-		<div v-show="showList.length > 0 && !showLoading" class="table">
+		<div
+			v-show="showList.length > 0 && !showLoading"
+			class="table"
+			:style="{ height: getHeight(showList.length) }"
+		>
 			<table
 				class="ttable"
 				style="
@@ -193,6 +197,20 @@ export default {
 	},
 	computed: {},
 	methods: {
+		getHeight(n) {
+			switch (n) {
+				case 1:
+					return "136px";
+				case 2:
+					return "184px";
+				case 3:
+					return "232px";
+				case 4:
+					return "280px";
+				default:
+					return "328px";
+			}
+		},
 		// // 获取年级历次已发布试卷
 		GetGradePaperScoreReport_V3() {
 			let params = {

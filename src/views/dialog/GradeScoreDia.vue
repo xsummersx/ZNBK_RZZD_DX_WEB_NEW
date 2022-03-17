@@ -17,7 +17,11 @@
 				导出班级成绩对比分析
 			</div>
 		</div>
-		<div v-show="showList.length > 0 && !showLoading" class="table">
+		<div
+			v-show="showList.length > 0 && !showLoading"
+			class="table"
+			:style="{ height: getHeight(showList.length) }"
+		>
 			<table
 				style="
 					display: inline-block;
@@ -194,6 +198,26 @@ export default {
 		this.GetGradePaperQtypeClassCompareList_V3();
 	},
 	methods: {
+		getHeight(n) {
+			switch (n) {
+				case 1:
+					return "136px";
+				case 2:
+					return "184px";
+				case 3:
+					return "232px";
+				case 4:
+					return "280px";
+				case 5:
+					return "328px";
+				case 6:
+					return "376px";
+				case 7:
+					return "424px";
+				default:
+					return "472px";
+			}
+		},
 		// // 获取年级试卷题型对比分析
 		GetGradePaperQtypeClassCompareList_V3() {
 			let params = {

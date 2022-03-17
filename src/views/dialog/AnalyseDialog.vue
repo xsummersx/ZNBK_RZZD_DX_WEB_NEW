@@ -15,7 +15,7 @@
       </div>
     </div>
 
-    <div class="table" v-if="StuCount != 0">
+    <div class="table" v-if="StuCount != 0" :style="{ height: getHeight(showList.length) }">
       <div style="height: 100%; display: inline-block; margin: 0; vertical-align: top">
         <table
           style="
@@ -42,7 +42,7 @@
         </table>
       </div>
 
-      <vuescroll :ops="ops" style="width: 600px; display: inline-block">
+      <vuescroll :ops="ops" style="width: calc(100% - 360px); display: inline-block">
         <table style="border: 0; border-bottom: solid 1px rgba(225, 225, 225, 0.2)">
           <thead>
             <tr style="height: 65px">
@@ -135,6 +135,26 @@ export default {
     this.GetGradePaperQTypeReport_V3();
   },
   methods: {
+    getHeight(n) {
+			switch (n) {
+				case 1:
+					return "136px";
+				case 2:
+					return "184px";
+				case 3:
+					return "232px";
+				case 4:
+					return "280px";
+				case 5:
+					return "328px";
+				case 6:
+					return "376px";
+				case 7:
+					return "424px";
+				default:
+					return "472px";
+			}
+		},
     // // 获取年级试卷题型对比分析
     GetGradePaperQTypeReport_V3() {
       let params = {

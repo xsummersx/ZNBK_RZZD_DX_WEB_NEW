@@ -63,7 +63,7 @@ export default {
 	}
 	.down {
 		background: url(~@/assets/img/teacher/降.png) 0px center no-repeat;
-		color: #ff0000;
+		color: #ff8080;
 	}
 	.char {
 		font-size: 12px;

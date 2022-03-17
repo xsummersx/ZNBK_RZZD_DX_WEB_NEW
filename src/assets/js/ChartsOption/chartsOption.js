@@ -65,7 +65,7 @@ var questionOptionTwo = {
     },
     formatter: function (params) {
       const item = params[1]
-      return item.name + ' : ' + item.value + "%";
+      return item.name + ': ' + item.value + "%";
     }
   },
   title: {
@@ -1633,7 +1633,7 @@ var questionDiologOption = {
     trigger: 'item',
     formatter: function (params) {
       console.log(params);
-      return params.name + ' : ' + params.value + "%";
+      return params.name + ': ' + params.value + "%";
     }
   },
   xAxis: {

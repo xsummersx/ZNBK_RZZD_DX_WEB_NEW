@@ -36,8 +36,8 @@ export default {
 					},
 					formatter: (params) => {
 						// console.log(params);
-						return `${params[0].axisValue}<br/>${params[0].marker} ${params[0].seriesName}：<span style="font-weight: bold">${params[0].value}</span>个
-            <br/>${params[1].marker} ${params[1].seriesName}：<span style="font-weight: bold">${params[1].value}</span>%<br/>`;
+						return `${params[0].axisValue}<br/><span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:#2a8dfc;"></span> ${params[0].seriesName}：<span style="font-weight: bold">${params[0].value}</span>个
+            <br/><span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:#40c9ba;"></span> ${params[1].seriesName}：<span style="font-weight: bold">${params[1].value}</span>%<br/>`;
 					},
 				},
 				grid: {
