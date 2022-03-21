@@ -90,7 +90,13 @@
   border-radius: 2px;
   padding: 8px 47px 8px 11px;
   border: transparent;
-  // color: #6994f0;
+  color: #6994f0;
+}
+.stuInput:hover {
+  color: #ffffff;
+}
+.stuInput::-webkit-input-placeholder {
+  color: #6994f0;
 }
 .searchIcon {
   display: inline-block;
@@ -170,7 +176,7 @@
     cursor: pointer;
     z-index: 100;
     position: relative;
-    &:hover{
+    &:hover {
       color: #00bbff;
     }
   }
@@ -231,7 +237,7 @@
     cursor: pointer;
     color: #0078ff;
     font-size: 16px;
-    &:hover{
+    &:hover {
       // opacity: 0.8;
       background: url("../../assets/img/teacher/试卷_选中.png") center center no-repeat;
     }

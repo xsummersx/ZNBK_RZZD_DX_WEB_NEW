@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-04 10:06:33
- * @LastEditTime: 2022-03-18 08:50:45
+ * @LastEditTime: 2022-03-21 17:04:23
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\components\eduSchool\MapBack.vue
@@ -262,31 +262,31 @@ export default {
   color: #ff8080;
 }
 .Ap {
-  background: url(~@/assets/img/newMap/A+悬停.png) center center no-repeat;
+  background: url(~@/assets/img/newMap/A+-默认.png) center center no-repeat;
 }
 .Ap:hover {
   background: url(~@/assets/img/eduSchool/aspt.png) no-repeat center center;
 }
 .Bp {
-  background: url(~@/assets/img/newMap/B+悬停.png) center center no-repeat;
+  background: url(~@/assets/img/newMap/B+-默认.png) center center no-repeat;
 }
 .Bp:hover {
   background: url(~@/assets/img/eduSchool/bspt.png) no-repeat center center;
 }
 .Cp {
-  background: url(~@/assets/img/newMap/C+悬停.png) center center no-repeat;
+  background: url(~@/assets/img/newMap/C+-默认.png) center center no-repeat;
 }
 .Cp:hover {
   background: url(~@/assets/img/eduSchool/cspt.png) no-repeat center center;
 }
 .Dp {
-  background: url(~@/assets/img/newMap/D+悬停.png) center center no-repeat;
+  background: url(~@/assets/img/newMap/D+-默认.png) center center no-repeat;
 }
 .Dp:hover {
   background: url(~@/assets/img/eduSchool/dspt.png) no-repeat center center;
 }
 .Ep {
-  background: url(~@/assets/img/newMap/E+悬停.png) center center no-repeat;
+  background: url(~@/assets/img/newMap/E+-默认.png) center center no-repeat;
 }
 .Ep:hover {
   background: url(~@/assets/img/eduSchool/espt.png) no-repeat center center;
