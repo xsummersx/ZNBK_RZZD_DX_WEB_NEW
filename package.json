@@ -1,0 +1,31 @@
+{
+  "name": "znbk_rzzd_dx_web_new",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@vueuse/core": "^8.0.1",
+    "axios": "^0.26.1",
+    "echarts": "^5.3.1",
+    "element-plus": "^2.1.4",
+    "pinia": "^2.0.12",
+    "vue": "^3.2.25",
+    "vue-echarts": "^6.0.2",
+    "vue-request": "^1.2.4",
+    "vue-router": "^4.0.14"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.2.0",
+    "@vitejs/plugin-vue-jsx": "^1.3.8",
+    "sass": "^1.49.9",
+    "unplugin-auto-import": "^0.6.4",
+    "unplugin-vue-components": "^0.18.0",
+    "vite": "^2.8.0",
+    "vite-plugin-windicss": "^1.8.3",
+    "windicss": "^3.5.1"
+  }
+}
