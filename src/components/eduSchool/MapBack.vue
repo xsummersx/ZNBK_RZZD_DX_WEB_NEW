@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-04 10:06:33
- * @LastEditTime: 2022-03-21 17:04:23
+ * @LastEditTime: 2022-03-22 18:24:40
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\components\eduSchool\MapBack.vue
@@ -13,7 +13,7 @@
     <div class="mapBack" v-show="mapImage">
       <img :src="mapImage" class="backImg" />
     </div>
-    <div class="pointBox">
+    <div class="pointBox" v-show="mapImage">
       <div class="ItemBox">
         <div
           class="Item"

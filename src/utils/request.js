@@ -1,7 +1,7 @@
 /*
  * @Author: 共同负责
  * @Date: 2021-11-29 09:55:06
- * @LastEditTime: 2022-01-20 08:47:52
+ * @LastEditTime: 2022-03-22 18:47:56
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 拦截器
@@ -32,6 +32,7 @@ Axios.interceptors.response.use(
     //token失效
     if (response.data.Code == -7) {
       //跳转到错误页面
+      window.localStorage.setItem("tokenInfo", window.location.hash)
       window.location.replace(window.location.origin + window.location.pathname + "#/error");
     } else if (response.data.Code == -1 || response.data.Code == -2) {
       Vue.prototype.$message({
@@ -40,6 +41,7 @@ Axios.interceptors.response.use(
       });
       console.log("接口出错", response.data.Message, window.location.host + response.config.baseURL + response.config.url);
     } else if (response.data.Code == 10003) {
+      window.localStorage.setItem("tokenInfo", window.location.hash)
       window.location.replace(window.location.origin + window.location.pathname + "#/error");
     }
     return response.data;

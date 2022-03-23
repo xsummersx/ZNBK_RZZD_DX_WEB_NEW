@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-11-24 09:50:11
- * @LastEditTime: 2022-02-15 11:48:10
+ * @LastEditTime: 2022-03-22 16:22:41
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\main.js
@@ -41,7 +41,8 @@ Vue.prototype.$optionObj = optionObj;
 //echarts
 Vue.prototype.$echarts = echarts;
 //token失效后基础平台地址=>>error页面
-Vue.prototype.$baseUrl = "http://172.16.41.237";
+//Vue.prototype.$baseUrl = "http://172.16.41.237";
+Vue.prototype.$baseUrl = "http://lgaikf.com/";
 // 调用本地exe所需
 Vue.prototype.$com = com;
 //使用例子效果
