@@ -92,16 +92,16 @@
           <span
             class="stu-rank noRadius"
             :class="
-              scope.row.ClassRank == 1
+              scope.row.GradeRank == 1
                 ? 'rank1'
-                : scope.row.ClassRank == 2
+                : scope.row.GradeRank == 2
                 ? 'rank2'
-                : scope.row.ClassRank == 3
+                : scope.row.GradeRank == 3
                 ? 'rank3'
                 : ''
             "
           >
-            {{ scope.row.ClassRank > 3 ? scope.row.ClassRank : "--" }}
+            {{ scope.row.GradeRank > 3 ? scope.row.GradeRank : "--" }}
           </span>
         </template>
       </el-table-column>
