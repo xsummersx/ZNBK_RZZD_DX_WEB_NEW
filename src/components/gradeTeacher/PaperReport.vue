@@ -300,6 +300,7 @@ export default {
   methods: {
     // 班级下学生认知成绩单
     GetClassScoreReport_V3() {
+      this.showList = [];
       let params = {
         token: this.$store.state.token,
         TID: this.$store.state.TID,

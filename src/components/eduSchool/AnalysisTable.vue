@@ -128,7 +128,7 @@
             </template>
           </el-table-column>
           <template slot="empty" v-if="emptyText == '加载中...'">
-            <div class="table-loading-block">加载中...</div>
+            <div class="table-loading-block"></div>
           </template>
           <template slot="empty" v-else>
             <div class="table-empty-block">没有找到符合条件的结果噢~</div>
@@ -438,6 +438,7 @@ export default {
     },
     getTable(pageNum, pageSize, searchText) {
       //pageNum页码，pageSize本页显示数量，searchText文本搜索
+      this.showList = [];
       let data = {
         Token: this.$store.state.token,
         TID: this.$store.state.TID,
@@ -650,6 +651,28 @@ export default {
   background-color: #bbb;
 }
 //==》滚动条样式，结束
+.table-loading-block {
+  background: url("../../assets/img/nodata/reportLoad.png") center center no-repeat;
+  padding-top: 235px;
+  animation: turn 1s linear infinite;
+}
+@keyframes turn {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  25% {
+    -webkit-transform: rotate(90deg);
+  }
+  50% {
+    -webkit-transform: rotate(180deg);
+  }
+  75% {
+    -webkit-transform: rotate(270deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
 </style>
 <style>
 .toolImg {
