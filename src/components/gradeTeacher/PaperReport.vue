@@ -444,13 +444,13 @@ export default {
 }
 .stu-rank {
   display: inline-block;
-  width: 20px;
+  width: 59px;
   height: 20px;
   line-height: 20px;
   border-radius: 100%;
   font-size: 12px;
   color: rgba(255, 255, 255, 0.6);
-  margin-right: 5px;
+  /* margin-right: 5px; */
   vertical-align: middle;
 }
 .rank1,
@@ -459,7 +459,7 @@ export default {
   display: inline-block;
   width: 22px;
   height: 29px;
-  margin-right: 5px;
+  /* margin-right: 5px; */
   background: url("~@/assets/img/grade/第一名.png") center center no-repeat;
 }
 .rank2 {
