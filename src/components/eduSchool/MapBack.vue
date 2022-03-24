@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-04 10:06:33
- * @LastEditTime: 2022-03-22 18:24:40
+ * @LastEditTime: 2022-03-24 10:02:17
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\components\eduSchool\MapBack.vue
@@ -78,36 +78,36 @@ export default {
           top: 200,
         },
         {
-          left: 210,
-          top: 120,
+          left: 230,
+          top: 140,
         },
         {
-          left: 370,
-          top: 120,
+          left: 350,
+          top: 140,
         },
         {
-          left: 370,
-          top: 280,
+          left: 350,
+          top: 260,
         },
         {
-          left: 210,
-          top: 280,
+          left: 230,
+          top: 260,
         },
         {
-          left: 150,
+          left: 170,
           top: 80,
         },
         {
-          left: 420,
+          left: 400,
           top: 80,
         },
         {
-          left: 420,
-          top: 320,
+          left: 400,
+          top: 310,
         },
         {
-          left: 150,
-          top: 320,
+          left: 170,
+          top: 310,
         },
       ],
       timer: undefined, //定时器
