@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-22 19:44:50
- * @LastEditTime: 2022-02-23 11:32:07
+ * @LastEditTime: 2022-03-24 13:59:41
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\components\eduSchool\SchoolInfoTable.vue
@@ -73,7 +73,7 @@
         </template>
       </el-table-column>
       <template slot="empty" v-if="emptyText == '加载中...'">
-        <div class="table-loading-block">加载中...</div>
+        <div class="table-loading-block"></div>
       </template>
       <template slot="empty" v-else>
         <div class="table-empty-block">暂无认知情况数据噢~</div>
@@ -99,7 +99,7 @@ import { ExportSchool, AllSchoolInfo } from "@/api/eduSchool/right.js";
 export default {
   data() {
     return {
-      emptyText: "暂无数据",
+      emptyText: "加载中...",
       showList: [],
       //总数
       StuCount: 0,
@@ -117,14 +117,13 @@ export default {
   methods: {
     // 显示第几页
     handleCurrentChange(val) {
-      console.log(val);
       // 改变默认的页数
       this.currentPage = val;
       this.emptyText = "加载中...";
       this.getTable(val, 5, "");
     },
     getTable(nowNum, isAll) {
-      this.showList = this.TabList.slice((nowNum - 1) * isAll, nowNum * isAll);
+      this.showList = this.TabListList.slice((nowNum - 1) * isAll, nowNum * isAll);
     },
     //获取学校表格信息
     getSchoolInfo() {
@@ -142,6 +141,7 @@ export default {
         SearchText: "",
       };
       AllSchoolInfo(params).then((res) => {
+        this.emptyText = "加载中...";
         let List = res.Data.SchoolReportDetailInfoList;
         this.TabListList = List;
         this.showList = List.slice(0, 5);
@@ -175,5 +175,27 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.table-loading-block {
+  background: url("../../assets/img/nodata/reportLoad.png") center center no-repeat;
+  padding-top: 235px;
+  animation: turn 1s linear infinite;
+}
+@keyframes turn {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  25% {
+    -webkit-transform: rotate(90deg);
+  }
+  50% {
+    -webkit-transform: rotate(180deg);
+  }
+  75% {
+    -webkit-transform: rotate(270deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
 }
 </style>
