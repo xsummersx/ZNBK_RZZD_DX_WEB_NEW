@@ -170,7 +170,11 @@
 					</table>
 				</vuescroll>
 			</div>
-			<div class="table-loading-block" v-if="!showTable && tableLoading" style="padding-top: 300px;"></div>
+			<div
+				class="table-loading-block"
+				v-if="!showTable && tableLoading"
+				style="padding-top: 300px"
+			></div>
 			<!-- <div
 				class="table-loading-block"
 				v-if="true"
@@ -272,6 +276,7 @@ export default {
 		// 获取年级历次已发布试卷
 		GetGradeReleasedPaperList_V3(PaperNum, PageSize) {
 			this.showPaperList = [];
+			this.loading = true;
 			let params = {
 				token: this.$store.state.token,
 				TID: this.$store.state.TID,
