@@ -1,6 +1,5 @@
 <script setup>
   import { useUserStore } from '@/store/modules/user';
-  import HelloWorld from '@/components/HelloWorld.vue';
   const store = useUserStore();
   console.log(store.name);
   const setName = () => {
@@ -14,7 +13,7 @@
     <a href="https://github.com/johnsoncodehk/volar" target="_blank">Volar</a>
   </p>
   <HelloWorld msg="message" />
-  <HelloJsx  msg="message" />
+  <HelloJsx msg="message" />
   <button @click="setName">改名字</button>
 </template>
 

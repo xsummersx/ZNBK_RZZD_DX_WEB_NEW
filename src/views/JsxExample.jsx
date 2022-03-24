@@ -1,5 +1,5 @@
 const HelloTest = defineComponent({
-  name: 'jsx',
+  name: 'HelloTestJsx',
   setup() {},
   render() {
     return <div>jsx.jsx</div>;

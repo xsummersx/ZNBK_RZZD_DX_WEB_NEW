@@ -1,6 +1,6 @@
 <script setup>
   defineProps({
-    msg: String,
+    msg: { type: String, default: 'msg' },
   });
 
   const count = ref(0);
