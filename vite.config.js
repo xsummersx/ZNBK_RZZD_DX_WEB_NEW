@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
-import path from 'path';
+import { resolve } from 'path';
 import WindiCSS from 'vite-plugin-windicss';
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
@@ -13,7 +13,7 @@ export default defineConfig({
     alias: [
       {
         find: '@',
-        replacement: path.resolve(__dirname, 'src'),
+        replacement: resolve(__dirname, 'src'),
       },
     ],
   },
@@ -28,6 +28,7 @@ export default defineConfig({
         filepath: './.eslintrc-auto-import.json', // Default `./.eslintrc-auto-import.json`
         globalsPropValue: true, // Default `true`, (true | false | 'readonly' | 'readable' | 'writable' | 'writeable')
       },
+      resolvers: [ElementPlusResolver()],
     }),
     Components({
       extensions: ['vue', 'jsx'],

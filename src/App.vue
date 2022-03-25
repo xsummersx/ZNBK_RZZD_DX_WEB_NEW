@@ -18,13 +18,21 @@
     <button class="btn" @click="toPage('/chart')">to chart</button>
     <el-button class="btn" @click="toPage('/request')">to request</el-button>
     当前路径：{{ $route.path }}
+    <div class="test">111</div>
     <router-view></router-view>
   </div>
 </template>
 
-<style>
+<style lang="scss">
   #app {
     height: 100vh;
     background-color: #ddd;
+  }
+
+  .test {
+    width: 100px;
+    height: 100px;
+    background-color: rgb(0 0 0 / 10%);
+    @apply flex;
   }
 </style>

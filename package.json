@@ -3,9 +3,10 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint:style": "stylelint \"src/**/*.(vue|scss|css)\" --fix"
   },
   "dependencies": {
     "@vueuse/core": "^8.0.1",
@@ -28,8 +29,19 @@
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^8.5.0",
+    "postcss": "^8.4.12",
+    "postcss-html": "^1.3.0",
+    "postcss-scss": "^4.0.3",
     "prettier": "^2.6.0",
     "sass": "^1.49.9",
+    "stylelint": "^13.12.0",
+    "stylelint-config-prettier": "^9.0.3",
+    "stylelint-config-rational-order": "^0.1.2",
+    "stylelint-config-recommended-vue": "^1.4.0",
+    "stylelint-config-standard": "^25.0.0",
+    "stylelint-config-standard-scss": "^3.0.0",
+    "stylelint-order": "^5.0.0",
+    "stylelint-scss": "^4.2.0",
     "unplugin-auto-import": "^0.6.4",
     "unplugin-vue-components": "^0.18.0",
     "vite": "^2.8.0",

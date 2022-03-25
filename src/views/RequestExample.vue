@@ -1,6 +1,6 @@
 <template>
   <div v-loading="load">加载？</div>
-  <div>data: {{ data?.Data }}</div>
+  <div class="div">data: {{ data?.Data }}</div>
   <!-- <button @click="reload">重新加载</button> -->
 </template>
 
@@ -23,4 +23,9 @@
   const { data, loading: load, error } = useRequest(getPromise);
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+  .div {
+    position: relative;
+    height: 10px;
+  }
+</style>
