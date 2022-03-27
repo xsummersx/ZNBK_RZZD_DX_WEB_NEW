@@ -1,12 +1,19 @@
 module.exports = {
   extends: [
     'stylelint-config-standard',
+    'stylelint-config-standard-scss',
     'stylelint-config-rational-order',
-    'stylelint-config-recommended-vue',
+    'stylelint-config-recommended-vue/scss',
     'stylelint-config-prettier',
   ],
   customSyntax: 'postcss-html',
-  plugins: ['stylelint-scss'],
+  plugins: ['stylelint-order'],
+  overrides: [
+    {
+      files: ['**/*.scss'],
+      customSyntax: 'postcss-scss',
+    },
+  ],
   rules: {
     'at-rule-no-unknown': [
       true,

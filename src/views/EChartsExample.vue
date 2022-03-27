@@ -48,5 +48,3 @@
     option.value.title.text = 'bar chart test';
   };
 </script>
-
-<style lang="scss" scoped></style>
