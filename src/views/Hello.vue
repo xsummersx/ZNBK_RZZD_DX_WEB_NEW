@@ -9,12 +9,14 @@
 </script>
 
 <template>
-  <p>
-    <a href="https://github.com/johnsoncodehk/volar" target="_blank">Volar</a>
-  </p>
-  <HelloWorld msg="message" />
-  <HelloJsx msg="message" />
-  <button @click="setName">改名字</button>
+  <div>
+    <p>
+      <a href="https://github.com/johnsoncodehk/volar" target="_blank">Volar</a>
+    </p>
+    <HelloWorld msg="message" />
+    <HelloJsx msg="message" />
+    <button @click="setName">改名字</button>
+  </div>
 </template>
 
 <style scoped>

@@ -1,7 +1,8 @@
 <template>
-  <div v-loading="load">加载？</div>
-  <div class="div">data: {{ data?.Data }}</div>
-  <!-- <button @click="reload">重新加载</button> -->
+  <div>
+    <div v-loading="load">加载？</div>
+    <div class="div">data: {{ data?.Data }}</div>
+  </div>
 </template>
 
 <script setup>

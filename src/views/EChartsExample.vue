@@ -1,6 +1,8 @@
 <template>
-  <VChart class="h-100 w-100" :option="option" :init-options="initOptions" />
-  <button @click="change">改变标题</button>
+  <div>
+    <VChart class="h-100 w-100" :option="option" :init-options="initOptions" />
+    <button @click="change">改变标题</button>
+  </div>
 </template>
 
 <script setup>
