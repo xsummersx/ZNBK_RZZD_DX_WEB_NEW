@@ -10,6 +10,15 @@
 ## IDE
 
 - [VSCode](https://code.visualstudio.com/) + [`Volar`插件](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar) + `Eslint` + `Prettier` + [`Devtools`安装](https://devtools.vuejs.org/)
+- 安装Stylelint插件，在VSCode settings中填下如下设置
+  ```json
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
+  "editor.codeActionsOnSave": {
+      "source.fixAll.stylelint": true
+  },
+  "stylelint.validate": ["css", "postcss", "scss", "vue", "sass"],
 
 ## 部分工具介绍
 
