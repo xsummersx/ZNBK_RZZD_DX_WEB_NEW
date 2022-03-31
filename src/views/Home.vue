@@ -1,7 +1,7 @@
 <!--
  * @Author: 主页面
  * @Date: 2021-11-29 09:20:26
- * @LastEditTime: 2022-03-16 16:45:06
+ * @LastEditTime: 2022-03-31 17:04:59
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: 主页面，柳欢
@@ -458,6 +458,8 @@ export default {
       let GlobalGrade = "";
       if (this.$store.state.GlobalGrade) {
         GlobalGrade = this.$store.state.GlobalGrade;
+      } else if (this.$route.query.GlobalGrade) {
+        GlobalGrade = this.$route.query.GlobalGrade;
       }
       let params = {
         token: this.$route.query.token,

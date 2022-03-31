@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-03-04 10:06:33
- * @LastEditTime: 2022-03-24 10:02:17
+ * @LastEditTime: 2022-03-31 16:54:35
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \znbk_rzzd_zx_web_new\src\components\eduSchool\MapBack.vue
@@ -167,7 +167,9 @@ export default {
         "/Web/index.html#/home/schoolRZZD?token=" +
         window.location.hash.split("?")[1].split("=")[1] +
         "&SchoolID=" +
-        schoolID;
+        schoolID +
+        "&GlobalGrade=" +
+        this.$store.state.GlobalGrade;
       window.open(url);
     },
   },
